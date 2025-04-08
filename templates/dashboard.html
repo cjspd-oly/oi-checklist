@@ -42,6 +42,22 @@
     </table>
     {% endif %}
 
+    <h2>Indian Zonal Computing Olympiad</h2>
+    {% if problems_by_category['ZCO'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['ZCO'].items() %}
+        <tr>
+            <td class="year-cell">ZCO {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
     <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
     {% if problems_by_category['JOISC'] %}
     <table class="problem-table">

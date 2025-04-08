@@ -1,6 +1,16 @@
 # oi-checklist
 A complete checklist for OI problems.
 
+# Is it actually complete?
+
+Here are the olympiads the OI checklist has right now. Open an issue if you want me to add some other OI (or feel free to PR):
+
+- Singapore National Olympiad in Informatics
+- Asia-Pacific Informatics Olympiad
+- Indian National Olympiad in Informatics
+- Indian Zonal Computing Olympiad
+- Japanese Olympiad in Informatics: Spring Camp
+
 # Instructions
 
 First of all, I'm surprised someone who's not me is using this, but okay I guess.

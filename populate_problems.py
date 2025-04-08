@@ -314,7 +314,16 @@ raw_problems = [
     # 2025
     ("Neq Array", 1, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p1---neq-array"),
     ("Error of 2", 2, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p2---error-of-2"),
-    ("Virtual Tree Subsets", 3, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p3---virtual-tree-subsets")
+    ("Virtual Tree Subsets", 3, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p3---virtual-tree-subsets"),
+
+    ## ZCO
+    # 2024
+    ("Vegetables", 1, "ZCO", 2024, "https://codedrills.io/contests/zco-2024-main/problems/zco2024-p1---vegetables"),
+    ("Fruits", 2, "ZCO", 2024, "https://codedrills.io/contests/zco-2024-main/problems/zco2024-p2---fruits"),
+
+    # 2025
+    ("River", 1, "ZCO", 2025, "https://codedrills.io/contests/zco-inoi-past-problems/problems/zco2025-p1---river"),
+    ("Secret", 2, "ZCO", 2025, "https://codedrills.io/contests/zco-inoi-past-problems/problems/zco2025-p2---secret?tab=overview")
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]
