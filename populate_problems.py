@@ -293,7 +293,28 @@ raw_problems = [
     # 2024
     ("September", 1, "APIO", 2024, "https://oj.uz/problem/view/APIO24_september"),
     ("Train", 2, "APIO", 2024, "https://oj.uz/problem/view/APIO24_train"),
-    ("Magic Show", 3, "APIO", 2024, "https://oj.uz/problem/view/APIO24_show")
+    ("Magic Show", 3, "APIO", 2024, "https://oj.uz/problem/view/APIO24_show"),
+
+    ## INOI
+    # 2022
+    ("Posting", 1, "INOI", 2022, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2201"),
+    ("Conquest", 2, "INOI", 2022, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2202"),
+    ("Diocletian", 3, "INOI", 2022, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2203B"),
+
+    # 2023
+    ("Planet", 1, "INOI", 2023, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2301"),
+    ("Pillars", 2, "INOI", 2023, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2302"),
+    ("History", 3, "INOI", 2023, "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2303"),
+
+    # 2024
+    ("Monsters", 1, "INOI", 2024, "https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p1---monsters"),
+    ("Fertilizer", 2, "INOI", 2024, "https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p2---fertilizer"),
+    ("Trees", 3, "INOI", 2024, "https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p3---trees"),
+
+    # 2025
+    ("Neq Array", 1, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p1---neq-array"),
+    ("Error of 2", 2, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p2---error-of-2"),
+    ("Virtual Tree Subsets", 3, "INOI", 2025, "https://icpc.codedrills.io/contests/inoi-2025-main/problems/inoi-2025-p3---virtual-tree-subsets")
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]

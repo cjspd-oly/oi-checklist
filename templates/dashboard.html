@@ -26,6 +26,22 @@
     </table>
     {% endif %}
 
+    <h2>Indian National Olympiad in Informatics</h2>
+    {% if problems_by_category['INOI'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['INOI'].items() %}
+        <tr>
+            <td class="year-cell">INOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
     <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
     {% if problems_by_category['JOISC'] %}
     <table class="problem-table">
