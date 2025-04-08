@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <h1>OI Checklist</h1>
+
+    <h2>Asia-Pacific Informatics Olympiad</h2>
+    {% if problems_by_category['APIO'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['APIO'].items() %}
+        <tr>
+            <td class="year-cell">APIO {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
+    {% if problems_by_category['JOISC'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['JOISC'].items() %}
+        <tr>
+            <td class="year-cell">JOISC {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <h2>Singapore National Olympiad in Informatics: Qualification Round</h2>
+    {% if problems_by_category['NOIQUAL'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['NOIQUAL'].items() %}
+        <tr>
+            <td class="year-cell">NOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <h2>Singapore National Olympiad in Informatics: Preliminary Round</h2>
+    {% if problems_by_category['NOIPRELIM'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['NOIPRELIM'].items() %}
+        <tr>
+            <td class="year-cell">NOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <h2>Singapore National Olympiad in Informatics: Final Round</h2>
+    {% if problems_by_category['NOIFINAL'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['NOIFINAL'].items() %}
+        <tr>
+            <td class="year-cell">NOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+
+</html>

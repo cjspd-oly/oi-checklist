@@ -1,0 +1,67 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.problem {
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.green {
+    background-color: #7dbf7d;
+}
+
+.orange {
+    background-color: #f4a742;
+}
+
+.yellow {
+    background-color: #ffd966;
+    color: black;
+}
+
+.problem-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+
+.problem-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.year-cell {
+    font-weight: bold;
+    color: #007bff;
+    background-color: #eee;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.problem-cell a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
