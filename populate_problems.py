@@ -323,7 +323,157 @@ raw_problems = [
 
     # 2025
     ("River", 1, "ZCO", 2025, "https://codedrills.io/contests/zco-inoi-past-problems/problems/zco2025-p1---river"),
-    ("Secret", 2, "ZCO", 2025, "https://codedrills.io/contests/zco-inoi-past-problems/problems/zco2025-p2---secret?tab=overview")
+    ("Secret", 2, "ZCO", 2025, "https://codedrills.io/contests/zco-inoi-past-problems/problems/zco2025-p2---secret?tab=overview"),
+
+    ## IOI
+
+    # 2024
+    ("Nile", 1, "IOI", 2024, "https://oj.uz/problem/view/IOI24_nile"),
+    ("Message", 2, "IOI", 2024, "https://oj.uz/problem/view/IOI24_message"),
+    ("Tree", 3, "IOI", 2024, "https://oj.uz/problem/view/IOI24_tree"),
+    ("Hieroglyphs", 4, "IOI", 2024, "https://oj.uz/problem/view/IOI24_hieroglyphs"),
+    ("Mosaic", 5, "IOI", 2024, "https://oj.uz/problem/view/IOI24_mosaic"),
+    ("Sphinx", 6, "IOI", 2024, "https://oj.uz/problem/view/IOI24_sphinx"),
+
+    # 2023
+    ("Closing Time", 1, "IOI", 2023, "https://oj.uz/problem/view/IOI23_closing"),
+    ("Longest Trip", 2, "IOI", 2023, "https://oj.uz/problem/view/IOI23_longesttrip"),
+    ("Soccer Stadium", 3, "IOI", 2023, "https://oj.uz/problem/view/IOI23_soccer"),
+    ("Beech Tree", 4, "IOI", 2023, "https://oj.uz/problem/view/IOI23_beechtree"),
+    ("Overtaking", 5, "IOI", 2023, "https://oj.uz/problem/view/IOI23_overtaking"),
+    ("Robot Contest", 6, "IOI", 2023, "https://oj.uz/problem/view/IOI23_robot"),
+
+    # 2022
+    ("Catfish Farm", 1, "IOI", 2022, "https://oj.uz/problem/view/IOI22_fish"),
+    ("Prisoner Challenge", 2, "IOI", 2022, "https://oj.uz/problem/view/IOI22_prison"),
+    ("Radio Towers", 3, "IOI", 2022, "https://oj.uz/problem/view/IOI22_towers"),
+    ("Digital Circuit", 4, "IOI", 2022, "https://oj.uz/problem/view/IOI22_circuit"),
+    ("Rarest Insects", 5, "IOI", 2022, "https://oj.uz/problem/view/IOI22_insects"),
+    ("Thousands Islands", 6, "IOI", 2022, "https://oj.uz/problem/view/IOI22_islands"),
+
+    # 2021
+    ("Distributing Candies", 1, "IOI", 2021, "https://oj.uz/problem/view/IOI21_candies"),
+    ("Keys", 2, "IOI", 2021, "https://oj.uz/problem/view/IOI21_keys"),
+    ("Fountain Parks", 3, "IOI", 2021, "https://oj.uz/problem/view/IOI21_parks"),
+    ("Mutating DNA", 4, "IOI", 2021, "https://oj.uz/problem/view/IOI21_dna"),
+    ("Dungeons Game", 5, "IOI", 2021, "https://oj.uz/problem/view/IOI21_dungeons"),
+    ("Bit Shift Registers", 6, "IOI", 2021, "https://oj.uz/problem/view/IOI21_registers"),
+
+    # 2020
+    ("Comparing Plants", 1, "IOI", 2020, "https://oj.uz/problem/view/IOI20_plants"),
+    ("Connecting Supertrees", 2, "IOI", 2020, "https://oj.uz/problem/view/IOI20_supertrees"),
+    ("Carnival Tickets", 3, "IOI", 2020, "https://oj.uz/problem/view/IOI20_tickets"),
+    ("Packing Biscuits", 4, "IOI", 2020, "https://oj.uz/problem/view/IOI20_biscuits"),
+    ("Counting Mushrooms", 5, "IOI", 2020, "https://oj.uz/problem/view/IOI20_mushrooms"),
+    ("Stations", 6, "IOI", 2020, "https://oj.uz/problem/view/IOI20_stations"),
+
+    # 2019
+    ("Arranging Shoes", 1, "IOI", 2019, "https://oj.uz/problem/view/IOI19_shoes"),
+    ("Split the Attractions", 2, "IOI", 2019, "https://oj.uz/problem/view/IOI19_split"),
+    ("Rectangles", 3, "IOI", 2019, "https://oj.uz/problem/view/IOI19_rect"),
+    ("Broken Line", 4, "IOI", 2019, "https://oj.uz/problem/view/IOI19_line"),
+    ("Vision Program", 5, "IOI", 2019, "https://oj.uz/problem/view/IOI19_vision"),
+    ("Sky Walking", 6, "IOI", 2019, "https://oj.uz/problem/view/IOI19_walk"),
+
+    # 2018
+    ("Combo", 1, "IOI", 2018, "https://oj.uz/problem/view/IOI18_combo"),
+    ("Seats", 2, "IOI", 2018, "https://oj.uz/problem/view/IOI18_seats"),
+    ("Werewolf", 3, "IOI", 2018, "https://oj.uz/problem/view/IOI18_werewolf"),
+    ("Mechanical Doll", 4, "IOI", 2018, "https://oj.uz/problem/view/IOI18_doll"),
+    ("Highway Tolls", 5, "IOI", 2018, "https://oj.uz/problem/view/IOI18_highway"),
+    ("Meetings", 6, "IOI", 2018, "https://oj.uz/problem/view/IOI18_meetings"),
+
+    # 2017
+    ("Nowruz", 1, "IOI", 2017, "https://oj.uz/problem/view/IOI17_nowruz"),
+    ("Wiring", 2, "IOI", 2017, "https://oj.uz/problem/view/IOI17_wiring"),
+    ("Toy Train", 3, "IOI", 2017, "https://oj.uz/problem/view/IOI17_train"),
+    ("The Big Prize", 4, "IOI", 2017, "https://oj.uz/problem/view/IOI17_prize"),
+    ("Simurgh", 5, "IOI", 2017, "https://oj.uz/problem/view/IOI17_simurgh"),
+    ("Ancient Books", 6, "IOI", 2017, "https://oj.uz/problem/view/IOI17_books"),
+
+    # 2016
+    ("Detecting Molecules", 1, "IOI", 2016, "https://oj.uz/problem/view/IOI16_molecules"),
+    ("Roller Coaster Railroad", 2, "IOI", 2016, "https://oj.uz/problem/view/IOI16_railroad"),
+    ("Shortcut", 3, "IOI", 2016, "https://oj.uz/problem/view/IOI16_shortcut"),
+    ("Paint By Numbers", 4, "IOI", 2016, "https://oj.uz/problem/view/IOI16_paint"),
+    ("Unscrambling a Messy Bug", 5, "IOI", 2016, "https://oj.uz/problem/view/IOI16_messy"),
+    ("Aliens", 6, "IOI", 2016, "https://oj.uz/problem/view/IOI16_aliens"),
+
+    # 2015
+    ("Boxes with Souvenirs", 1, "IOI", 2015, "https://oj.uz/problem/view/IOI15_boxes"),
+    ("Scales", 2, "IOI", 2015, "https://oj.uz/problem/view/IOI15_scales"),
+    ("Teams", 3, "IOI", 2015, "https://oj.uz/problem/view/IOI15_teams"),
+    ("Horses", 4, "IOI", 2015, "https://oj.uz/problem/view/IOI15_horses"),
+    ("Sorting", 5, "IOI", 2015, "https://oj.uz/problem/view/IOI15_sorting"),
+    ("Towns", 6, "IOI", 2015, "https://oj.uz/problem/view/IOI15_towns"),
+
+    # 2014
+    ("Rail", 1, "IOI", 2014, "https://oj.uz/problem/view/IOI14_rail"),
+    ("Wall", 2, "IOI", 2014, "https://oj.uz/problem/view/IOI14_wall"),
+    ("Game", 3, "IOI", 2014, "https://oj.uz/problem/view/IOI14_game"),
+    ("Gondola", 4, "IOI", 2014, "https://oj.uz/problem/view/IOI14_gondola"),
+    ("Friend", 5, "IOI", 2014, "https://oj.uz/problem/view/IOI14_friend"),
+    ("Holiday", 6, "IOI", 2014, "https://oj.uz/problem/view/IOI14_holiday"),
+
+    # 2013
+    ("Dreaming", 1, "IOI", 2013, "https://oj.uz/problem/view/IOI13_dreaming"),
+    ("Art Class", 2, "IOI", 2013, "https://oj.uz/problem/view/IOI13_artclass"),
+    ("Wombats", 3, "IOI", 2013, "https://oj.uz/problem/view/IOI13_wombats"),
+    ("Cave", 4, "IOI", 2013, "https://oj.uz/problem/view/IOI13_cave"),
+    ("Robots", 5, "IOI", 2013, "https://oj.uz/problem/view/IOI13_robots"),
+    ("Game", 6, "IOI", 2013, "https://oj.uz/problem/view/IOI13_game"),
+
+    # 2012
+    ("Rings", 2, "IOI", 2012, "https://oj.uz/problem/view/IOI12_rings"),
+    ("Scrivener", 3, "IOI", 2012, "https://oj.uz/problem/view/IOI12_scrivener"),
+    ("City", 4, "IOI", 2012, "https://oj.uz/problem/view/IOI12_city"),
+    ("Supper", 5, "IOI", 2012, "https://oj.uz/problem/view/IOI12_supper"),
+    ("Tournament", 6, "IOI", 2012, "https://oj.uz/problem/view/IOI12_tournament"),
+
+    # 2011
+    ("Garden", 1, "IOI", 2011, "https://oj.uz/problem/view/IOI11_garden"),
+    ("Race", 2, "IOI", 2011, "https://oj.uz/problem/view/IOI11_race"),
+    ("Rice Hub", 3, "IOI", 2011, "https://oj.uz/problem/view/IOI11_ricehub"),
+    ("Crocodile", 4, "IOI", 2011, "https://oj.uz/problem/view/IOI11_crocodile"),
+    ("Elephants", 5, "IOI", 2011, "https://oj.uz/problem/view/IOI11_elephants"),
+    ("Parrots", 6, "IOI", 2011, "https://oj.uz/problem/view/IOI11_parrots"),
+
+    ## Since these have 8 problems, I'm temporarily commenting them out (it makes the table look ugly)
+    # # 2010
+    # ("Cluedo", 1, "IOI", 2010, "https://oj.uz/problem/view/IOI10_cluedo"),
+    # ("Hotter Colder", 2, "IOI", 2010, "https://oj.uz/problem/view/IOI10_hottercolder"),
+    # ("Quality", 3, "IOI", 2010, "https://oj.uz/problem/view/IOI10_quality"),
+    # ("Languages", 4, "IOI", 2010, "https://oj.uz/problem/view/IOI10_languages"),
+    # ("Memory", 5, "IOI", 2010, "https://oj.uz/problem/view/IOI10_memory"),
+    # ("Traffic", 6, "IOI", 2010, "https://oj.uz/problem/view/IOI10_traffic"),
+    # ("Maze", 7, "IOI", 2010, "https://oj.uz/problem/view/IOI10_maze"),
+    # ("Saveit", 8, "IOI", 2010, "https://oj.uz/problem/view/IOI10_saveit"),
+
+    # # 2009
+    # ("Archery", 1, "IOI", 2009, "https://oj.uz/problem/view/IOI09_archery"),
+    # ("Hiring", 2, "IOI", 2009, "https://oj.uz/problem/view/IOI09_hiring"),
+    # ("Poi", 3, "IOI", 2009, "https://oj.uz/problem/view/IOI09_poi"),
+    # ("Raisins", 4, "IOI", 2009, "https://oj.uz/problem/view/IOI09_raisins"),
+    # ("Garage", 5, "IOI", 2009, "https://oj.uz/problem/view/IOI09_garage"),
+    # ("Mecho", 6, "IOI", 2009, "https://oj.uz/problem/view/IOI09_mecho"),
+    # ("Regions", 7, "IOI", 2009, "https://oj.uz/problem/view/IOI09_regions"),
+    # ("Salesman", 8, "IOI", 2009, "https://oj.uz/problem/view/IOI09_salesman"),
+
+    # 2008
+    ("Printer", 1, "IOI", 2008, "https://oj.uz/problem/view/IOI08_printer"),
+    ("Islands", 2, "IOI", 2008, "https://oj.uz/problem/view/IOI08_islands"),
+    ("Fish", 3, "IOI", 2008, "https://oj.uz/problem/view/IOI08_fish"),
+    ("Linear Garden", 4, "IOI", 2008, "https://oj.uz/problem/view/IOI08_linear_garden"),
+    ("Teleporters", 5, "IOI", 2008, "https://oj.uz/problem/view/IOI08_teleporters"),
+    ("Pyramid Base", 6, "IOI", 2008, "https://oj.uz/problem/view/IOI08_pyramid_base"),
+
+    # 2007
+    ("Aliens", 1, "IOI", 2007, "https://oj.uz/problem/view/IOI07_aliens"),
+    ("Flood", 2, "IOI", 2007, "https://oj.uz/problem/view/IOI07_flood"),
+    ("Sails", 3, "IOI", 2007, "https://oj.uz/problem/view/IOI07_sails"),
+    ("Miners", 4, "IOI", 2007, "https://oj.uz/problem/view/IOI07_miners"),
+    ("Pairs", 5, "IOI", 2007, "https://oj.uz/problem/view/IOI07_pairs"),
+    ("Training", 6, "IOI", 2007, "https://oj.uz/problem/view/IOI07_training"),
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]

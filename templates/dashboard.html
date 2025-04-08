@@ -17,7 +17,8 @@
         <tr>
             <td class="year-cell">APIO {{ year }}</td>
             {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -33,7 +34,8 @@
         <tr>
             <td class="year-cell">INOI {{ year }}</td>
             {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -49,7 +51,25 @@
         <tr>
             <td class="year-cell">ZCO {{ year }}</td>
             {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <h2>International Olympiad in Informatics</h2>
+    {% if problems_by_category['IOI'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['IOI'].items() %}
+        <tr>
+            <td class="year-cell">IOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -86,7 +106,8 @@
             {% for i in range(3) %}
             {% set problem = problems_this_day[i] %}
             {% if problem %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% else %}
@@ -123,7 +144,8 @@
             {% for i in range(1, max_number + 1) %}
             {% set problem = plist | selectattr("number", "equalto", i) | list | first %}
             {% if problem %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% else %}

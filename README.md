@@ -7,6 +7,7 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 
 - Singapore National Olympiad in Informatics
 - Asia-Pacific Informatics Olympiad
+- International Olympiad in Informatics
 - Indian National Olympiad in Informatics
 - Indian Zonal Computing Olympiad
 - Japanese Olympiad in Informatics: Spring Camp

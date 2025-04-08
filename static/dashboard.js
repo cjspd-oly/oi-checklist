@@ -6,12 +6,16 @@ const statuses = [
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.problem-cell').forEach(cell => {
-    const link = cell.querySelector('a');
-    const problemId = link?.textContent?.trim();
+    const name = cell.dataset.problemId?.trim();
+    const source = cell.dataset.source?.trim();
+    const year = cell.dataset.year?.trim();
 
-    if (!problemId) return;
+    if (!name || !source || !year) return;
 
-    currentStatus = parseInt(cell.dataset.status || '0');
+    console.log(`Loaded problem: ${name} | ${source} | ${year}`);
+    const uniqueId = `${name}_${source}_${year}`;
+
+    let currentStatus = parseInt(cell.dataset.status || '0');
     cell.style.backgroundColor = statuses[currentStatus].color;
 
     cell.addEventListener('click', e => {
@@ -25,7 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
       fetch('/api/update-problem-status', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({problem_name: problemId, status: nextStatus})
+        body: JSON.stringify({
+          problem_name: name,
+          source: source,
+          year: parseInt(year),
+          status: nextStatus
+        })
       });
     });
   });

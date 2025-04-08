@@ -62,10 +62,13 @@ def dashboard():
 
     # Fetch user progress
     progress_rows = db.execute(
-        'SELECT problem_name, status FROM problem_statuses WHERE user_id = ?',
+        'SELECT problem_name, source, year, status FROM problem_statuses WHERE user_id = ?',
         (user_id,)
     ).fetchall()
-    progress = {row['problem_name']: row['status'] for row in progress_rows}
+    progress = {
+        (row['problem_name'], row['source'], row['year']): row['status']
+        for row in progress_rows
+    }
 
     # Group by category -> year -> problems
     problems_by_category = {}
@@ -73,7 +76,11 @@ def dashboard():
         category = row['source']
         year = row['year']
         problem = dict(row)
-        problem['status'] = progress.get(problem['name'], 0)
+
+        # set status using name+source+year triple
+        problem['status'] = progress.get(
+            (problem['name'], problem['source'], problem['year']), 0
+        )
 
         problems_by_category.setdefault(category, {})
         problems_by_category[category].setdefault(year, [])
@@ -87,16 +94,19 @@ def update_problem_status():
     data = request.get_json()
     user_id = session.get('user_id')
     problem_name = data['problem_name']
+    source = data['source']
+    year = data['year']
     status = data['status']
 
     db = sqlite3.connect('database.db')
     db.execute(
         '''
-        INSERT INTO problem_statuses (user_id, problem_name, status)
-        VALUES (?, ?, ?)
-        ON CONFLICT(user_id, problem_name) DO UPDATE SET status = ?
+        INSERT INTO problem_statuses (user_id, problem_name, source, year, status)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, problem_name, source, year)
+        DO UPDATE SET status = ?
         ''',
-        (user_id, problem_name, status, status)
+        (user_id, problem_name, source, year, status, status)
     )
     db.commit()
     return jsonify(success=True)
