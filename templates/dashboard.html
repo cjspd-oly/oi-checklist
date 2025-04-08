@@ -27,6 +27,23 @@
     </table>
     {% endif %}
 
+    <h2>European Girls' Olympiad in Informatics</h2>
+    {% if problems_by_category['EGOI'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['EGOI'].items() %}
+        <tr>
+            <td class="year-cell">EGOI {{ year }}</td>
+            {% for problem in plist %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
     <h2>Indian National Olympiad in Informatics</h2>
     {% if problems_by_category['INOI'] %}
     <table class="problem-table">

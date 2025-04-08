@@ -474,6 +474,48 @@ raw_problems = [
     ("Miners", 4, "IOI", 2007, "https://oj.uz/problem/view/IOI07_miners"),
     ("Pairs", 5, "IOI", 2007, "https://oj.uz/problem/view/IOI07_pairs"),
     ("Training", 6, "IOI", 2007, "https://oj.uz/problem/view/IOI07_training"),
+
+    ## EGOI
+
+    # 2021
+    ("Zeroes", 1, "EGOI", 2021, "https://codeforces.com/gym/103148/problem/A"),
+    ("Luna Likes Love", 2, "EGOI", 2021, "https://codeforces.com/gym/103148/problem/B"),
+    ("Twin Cookies", 3, "EGOI", 2021, "https://codeforces.com/gym/103148/problem/C"),
+    ("Lanterns", 4, "EGOI", 2021, "https://codeforces.com/gym/103148/problem/D"),
+    ("Shopping Fever", 5, "EGOI", 2021, "https://codeforces.com/gym/103149/problem/A"),
+    ("Railway", 6, "EGOI", 2021, "https://codeforces.com/gym/103149/problem/B"),
+    ("Angry Cows", 7, "EGOI", 2021, "https://codeforces.com/gym/103149/problem/C"),
+    ("Double Move", 8, "EGOI", 2021, "https://codeforces.com/gym/103149/problem/D"),
+
+    # 2022
+    ("SubsetMex", 1, "EGOI", 2022, "https://codeforces.com/gym/104229/problem/A"),
+    ("Lego Wall", 2, "EGOI", 2022, "https://codeforces.com/gym/104229/problem/B"),
+    ("Social Engineering", 3, "EGOI", 2022, "https://codeforces.com/gym/104229/problem/C"),
+    ("Tourists", 4, "EGOI", 2022, "https://codeforces.com/gym/104229/problem/D"),
+    ("Data Centers", 5, "EGOI", 2022, "https://codeforces.com/gym/104230/problem/A"),
+    ("Superpiece", 6, "EGOI", 2022, "https://codeforces.com/gym/104230/problem/B"),
+    ("Toy Design", 7, "EGOI", 2022, "https://codeforces.com/gym/104230/problem/C"),
+    ("Chika Wants to Cheat", 8, "EGOI", 2022, "https://codeforces.com/gym/104230/problem/D"),
+
+    # 2023
+    ("Inflation", 1, "EGOI", 2023, "https://qoj.ac/contest/1354/problem/7154"),
+    ("Padel Prize Pursuit", 2, "EGOI", 2023, "https://qoj.ac/contest/1354/problem/7155"),
+    ("Find the Box", 3, "EGOI", 2023, "https://qoj.ac/contest/1354/problem/7156"),
+    ("Bikes vs Cars", 4, "EGOI", 2023, "https://qoj.ac/contest/1354/problem/7157"),
+    ("Carnival General", 5, "EGOI", 2023, "https://qoj.ac/contest/1355/problem/7158"),
+    ("Candy", 6, "EGOI", 2023, "https://qoj.ac/contest/1355/problem/7159"),
+    ("Sopsug", 7, "EGOI", 2023, "https://qoj.ac/contest/1355/problem/7160"),
+    ("Guessing Game", 8, "EGOI", 2023, "https://qoj.ac/contest/1355/problem/7161"),
+
+    # 2024
+    ("Infinite Race", 1, "EGOI", 2024, "http://oj.uz/problem/view/EGOI24_infiniterace2"),
+    ("Bouquet", 2, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_bouquet"),
+    ("Team Coding", 3, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_teamcoding"),
+    ("Garden Decorations", 4, "EGOI", 2024, "https://qoj.ac/contest/1764/problem/9185"),
+    ("Circle Passing", 5, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_circlepassing"),
+    ("Bikeparking", 6, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_bikeparking"),
+    ("Light Bulbs", 7, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_lightbulbs"),
+    ("Make Them Meet", 8, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_makethemmeet"),
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]

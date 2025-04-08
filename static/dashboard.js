@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!name || !source || !year) return;
 
-    console.log(`Loaded problem: ${name} | ${source} | ${year}`);
-    const uniqueId = `${name}_${source}_${year}`;
-
     let currentStatus = parseInt(cell.dataset.status || '0');
     cell.style.backgroundColor = statuses[currentStatus].color;
 
