@@ -22,7 +22,7 @@ raw_problems = [
     ("Chess Islands", 1, "NOIPRELIM", 2010, "https://codebreaker.xyz/problem/chessislands"),
     ("Triangle Sum", 2, "NOIPRELIM", 2010, "https://codebreaker.xyz/problem/trianglesum"),
     # 2010 Finals
-    ("Card", 3, "NOIFINAL", 2010, "https://codebreaker.xyz/problem/card"),
+    ("Card", 1, "NOIFINAL", 2010, "https://codebreaker.xyz/problem/card"),
     
     # 2011
     ("Change", 1, "NOIFINAL", 2011, "https://codebreaker.xyz/problem/change"),
@@ -160,17 +160,135 @@ raw_problems = [
     ("Two Antennas", 4, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_antennas"),
     ("Two Dishes", 5, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_dishes"),
     ("Two Transportations", 6, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_transportations"),
+    ("Designated Cities", 7, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_designated_cities"),
+    ("Lamps", 8, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_lamps"),
+    ("Bitaro, who Leaps through Time", 9, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_timeleap"),
+    ("Cake 3", 10, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_cake3"),
+    ("Mergers", 11, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_mergers"),
+    ("Minerals", 12, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_minerals"),
+
+    # 2020
+    ("Building 4", 1, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_building4"),
+    ("Hamburg Steak", 2, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_hamburg"),
+    ("Sweeping", 3, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_sweeping"),
+    ("Chameleon's Love", 4, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_chameleon"),
+    ("Making Friends on Joitter is Fun", 5, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_joitter2"),
+    ("Ruins 3", 6, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_ruins3"),
+    ("Constellation 3", 7, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_constellation3"),
+    ("Harvest", 8, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_harvest"),
+    ("Stray Cat", 9, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_stray"),
+    ("Capital City", 10, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_capital_city"),
+    ("Legendary Dango Maker", 11, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_dango2"),
+    ("Treatment Project", 12, "JOISC", 2020, "https://oj.uz/problem/view/JOI20_treatment"),
+
+    # 2021
+    ("Aerobatics", 1, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_aerobatics"),
+    ("IOI Fever", 2, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_fever"),
+    ("Food Court", 3, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_foodcourt"),
+    ("Escape Route", 4, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_escape_route"),
+    ("Road Construction", 5, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_road_construction"),
+    ("Shopping", 6, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_shopping"),
+    ("Ancient Machine", 7, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_ancient_machine"),
+    ("Bodyguard", 8, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_bodyguard"),
+    ("Meetings 2", 9, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_meetings2"),
+    ("Event Hopping 2", 10, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_event2"),
+    ("Navigation 2", 11, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_navigation2"),
+    ("Worst Reporter 4", 12, "JOISC", 2021, "https://oj.uz/problem/view/JOI21_worst_reporter4"),
+
+    # 2022
+    ("Jail", 1, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_jail"),
+    ("Sightseeing in Kyoto", 2, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_kyoto"),
+    ("Misspelling", 3, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_misspelling"),
+    ("Copy and Paste 3", 4, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_copypaste3"),
+    ("Flights", 5, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_flights"),
+    ("Team Contest", 6, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_team"),
+    ("Broken Device 2", 7, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_device2"),
+    ("Sprinkler", 8, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_sprinkler"),
+    ("Ants and Sugar", 9, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_sugar"),
+    ("Super Dango Maker", 10, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_dango3"),
+    ("Fish 2", 11, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_fish2"),
+    ("Reconstruction Project", 12, "JOISC", 2022, "https://oj.uz/problem/view/JOI22_reconstruction"),
+
+    # 2023
+    ("Two Currencies", 1, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_currencies"),
+    ("Festivals in JOI Kingdom 2", 2, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_festival2"),
+    ("Passport", 3, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_passport"),
+    ("Council", 5, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_council"),
+    ("Mizuyokan 2", 6, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_mizuyokan2"),
+    ("Chorus", 7, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_chorus"),
+    ("Cookies", 8, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_cookies"),
+    ("Tourism", 9, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_tourism"),
+    ("Security Guard", 11, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_guard"),
+    ("Bitaro's Travel", 12, "JOISC", 2023, "https://oj.uz/problem/view/JOI23_travel"),
+
+    # 2024
+    ("Fish 3", 1, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_fish3"),
+    ("Ski 2", 2, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_ski2"),
+    ("Spy 3", 3, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_spy3"),
+    ("Board Game", 4, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_boardgame"),
+    ("Tricolor Lights", 5, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_tricolor"),
+    ("Growing Vegetables is Fun 5", 6, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_vegetables5"),
+    ("Card Collection", 7, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_collection"),
+    ("JOI Tour", 8, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_joitour"),
+    ("Tower", 9, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_tower"),
+    ("Escape Route 2", 10, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_escape2"),
+    ("Island Hopping", 11, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_island"),
+    ("Table Tennis", 12, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_tabletennis"),
 
     ## APIO
+    # 2013
+    ("Robots", 1, "APIO", 2013, "https://oj.uz/problem/view/APIO13_robots"),
+    ("Toll", 2, "APIO", 2013, "https://oj.uz/problem/view/APIO13_toll"),
+
     # 2014
     ("Palindrome", 1, "APIO", 2014, "https://oj.uz/problem/view/APIO14_palindrome"),
     ("Sequence", 2, "APIO", 2014, "https://oj.uz/problem/view/APIO14_sequence"),
     ("Beads", 3, "APIO", 2014, "https://oj.uz/problem/view/APIO14_beads"),
 
+    # 2015
+    ("Bali Sculptures", 1, "APIO", 2015, "https://oj.uz/problem/view/APIO15_sculpture"),
+    ("Jakarta Skyscrapers", 2, "APIO", 2015, "https://oj.uz/problem/view/APIO15_skyscraper"),
+    ("Palembang Bridges", 3, "APIO", 2015, "https://oj.uz/problem/view/APIO15_bridge"),
+
+    # 2016
+    ("Boat", 1, "APIO", 2016, "https://oj.uz/problem/view/APIO16_boat"),
+    ("Fireworks", 2, "APIO", 2016, "https://oj.uz/problem/view/APIO16_fireworks"),
+    ("Gap", 3, "APIO", 2016, "https://oj.uz/problem/view/APIO16_gap"),
+
+    # 2017
+    ("Land of the Rainbow Gold", 1, "APIO", 2017, "https://oj.uz/problem/view/APIO17_rainbow"),
+    ("Travelling Merchant", 2, "APIO", 2017, "https://oj.uz/problem/view/APIO17_merchant"),
+    ("Koala Game", 3, "APIO", 2017, "https://oj.uz/problem/view/APIO17_koala"),
+
+    # 2018
+    ("New Home", 1, "APIO", 2018, "https://oj.uz/problem/view/APIO18_new_home"),
+    ("Circle Selection", 2, "APIO", 2018, "https://oj.uz/problem/view/APIO18_circle_selection"),
+    ("Duathlon", 3, "APIO", 2018, "https://oj.uz/problem/view/APIO18_duathlon"),
+
     # 2019
     ("Strange Device", 1, "APIO", 2019, "https://oj.uz/problem/view/APIO19_strange_device"),
     ("Bridges", 2, "APIO", 2019, "https://oj.uz/problem/view/APIO19_bridges"),
     ("Street Lamps", 3, "APIO", 2019, "https://oj.uz/problem/view/APIO19_street_lamps"),
+
+    # 2020
+    ("Painting Walls", 1, "APIO", 2020, "https://oj.uz/problem/view/APIO20_paint"),
+    ("Swapping Cities", 2, "APIO", 2020, "https://oj.uz/problem/view/APIO20_swap"),
+    ("Fun Tour", 3, "APIO", 2020, "https://oj.uz/problem/view/APIO20_fun"),
+
+    # 2021
+    ("Hexagonal Territory", 1, "APIO", 2021, "https://oj.uz/problem/view/APIO21_hexagon"),
+    ("Rainforest Jumps", 2, "APIO", 2021, "https://oj.uz/problem/view/APIO21_jumps"),
+    ("Road Closures", 3, "APIO", 2021, "https://oj.uz/problem/view/APIO21_roads"),
+
+    # 2022
+    ("Mars", 1, "APIO", 2022, "https://oj.uz/problem/view/APIO22_mars"),
+    ("Game", 2, "APIO", 2022, "https://oj.uz/problem/view/APIO22_game"),
+    ("Permutation", 3, "APIO", 2022, "https://oj.uz/problem/view/APIO22_perm"),
+
+    # 2023
+    ("Cyberland", 1, "APIO", 2023, "https://oj.uz/problem/view/APIO23_cyberland"),
+    ("Sequence", 2, "APIO", 2023, "https://oj.uz/problem/view/APIO23_sequence"),
+    ("Alice, Bob, and Circuit", 3, "APIO", 2023, "https://oj.uz/problem/view/APIO23_abc"),
 
     # 2024
     ("September", 1, "APIO", 2024, "https://oj.uz/problem/view/APIO24_september"),

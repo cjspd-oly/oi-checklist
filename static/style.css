@@ -60,8 +60,20 @@ h2 {
     max-width: 150px;
 }
 
+.problem-cell {
+    transition: background-color 0.3s ease;
+}
+
 .problem-cell a {
     text-decoration: none;
     color: #007bff;
     font-weight: 500;
+}
+
+.day-cell {
+    background-color: #f5f5f5;
+    color: #1184ff;
+    padding-left: 8px;
+    width: 80px;
+    white-space: nowrap;
 }

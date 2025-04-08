@@ -43,6 +43,12 @@ def login():
         return "Invalid credentials"
     return render_template("login.html")
 
+def get_all_noi_years(problems_by_category):
+    years = set()
+    for cat in ['NOIQUAL', 'NOIPRELIM', 'NOIFINAL']:
+        years.update(problems_by_category.get(cat, {}).keys())
+    return sorted(years)
+
 @app.route('/dashboard')
 def dashboard():
     user_id = session.get('user_id')
@@ -73,7 +79,8 @@ def dashboard():
         problems_by_category[category].setdefault(year, [])
         problems_by_category[category][year].append(problem)
 
-    return render_template('dashboard.html', problems_by_category=problems_by_category)
+    all_noi_years = get_all_noi_years(problems_by_category)
+    return render_template("dashboard.html", problems_by_category=problems_by_category, all_noi_years=all_noi_years)
 
 @app.route('/api/update-problem-status', methods=['POST'])
 def update_problem_status():

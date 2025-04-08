@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const link = cell.querySelector('a');
     const problemId = link?.textContent?.trim();
 
+    if (!problemId) return;
+
     currentStatus = parseInt(cell.dataset.status || '0');
     cell.style.backgroundColor = statuses[currentStatus].color;
 

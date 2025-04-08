@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Dashboard</title>
+    <title>OI Checklist</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -30,65 +30,80 @@
     {% if problems_by_category['JOISC'] %}
     <table class="problem-table">
         {% for year, plist in problems_by_category['JOISC'].items() %}
+        <!-- Year header -->
         <tr>
             <td class="year-cell">JOISC {{ year }}</td>
-            {% for problem in plist %}
+        </tr>
+
+        {% set problem_map = {} %}
+        {% for problem in plist %}
+        {% set _ = problem_map.update({problem.number: problem}) %}
+        {% endfor %}
+
+        <!-- Loop through 4 potential days -->
+        {% for day in range(4) %}
+        {% set base = day * 3 %}
+        {% set problems_this_day = [
+        problem_map.get(base + 1),
+        problem_map.get(base + 2),
+        problem_map.get(base + 3)
+        ] %}
+        {% if problems_this_day | select | list | length > 0 %}
+        <tr>
+            <td class="day-cell">Day {{ day + 1 }}</td>
+            {% for i in range(3) %}
+            {% set problem = problems_this_day[i] %}
+            {% if problem %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
+            {% else %}
+            <td class="problem-cell empty"></td>
+            {% endif %}
             {% endfor %}
         </tr>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
     </table>
     {% endif %}
 
-    <h2>Singapore National Olympiad in Informatics: Qualification Round</h2>
-    {% if problems_by_category['NOIQUAL'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['NOIQUAL'].items() %}
-        <tr>
-            <td class="year-cell">NOI {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+    <h2>Singapore National Olympiad in Informatics</h2>
+    {% set rounds = [('NOIQUAL', 'Qualification'), ('NOIPRELIM', 'Preliminary'), ('NOIFINAL', 'Final')] %}
 
-    <h2>Singapore National Olympiad in Informatics: Preliminary Round</h2>
-    {% if problems_by_category['NOIPRELIM'] %}
     <table class="problem-table">
-        {% for year, plist in problems_by_category['NOIPRELIM'].items() %}
-        <tr>
-            <td class="year-cell">NOI {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        {% for year in all_noi_years %}
+        {% set qual = problems_by_category.get('NOIQUAL', {}).get(year) %}
+        {% set prelim = problems_by_category.get('NOIPRELIM', {}).get(year) %}
+        {% set final = problems_by_category.get('NOIFINAL', {}).get(year) %}
 
-    <h2>Singapore National Olympiad in Informatics: Final Round</h2>
-    {% if problems_by_category['NOIFINAL'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['NOIFINAL'].items() %}
+        {% if qual or prelim or final %}
         <tr>
             <td class="year-cell">NOI {{ year }}</td>
-            {% for problem in plist %}
+        </tr>
+
+        {% for round_key, round_label in rounds %}
+        {% set plist = problems_by_category.get(round_key, {}).get(year) %}
+        {% if plist %}
+        {% set max_number = plist | map(attribute='number') | max %}
+        <tr>
+            <td class="day-cell">{{ round_label }}</td>
+            {% for i in range(1, max_number + 1) %}
+            {% set problem = plist | selectattr("number", "equalto", i) | list | first %}
+            {% if problem %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
+            {% else %}
+            <td class="problem-cell empty"></td>
+            {% endif %}
             {% endfor %}
         </tr>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
         {% endfor %}
     </table>
-    {% endif %}
 
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>
