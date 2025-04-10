@@ -1,12 +1,17 @@
 from flask import Flask, render_template, request, redirect, session, jsonify
 import sqlite3
 import hashlib
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"
 
 def get_db():
-    conn = sqlite3.connect("database.db")
+    db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -52,8 +57,7 @@ def get_all_noi_years(problems_by_category):
 @app.route('/dashboard')
 def dashboard():
     user_id = session.get('user_id')
-    db = sqlite3.connect('database.db')
-    db.row_factory = sqlite3.Row
+    db = get_db()
 
     # Fetch all problems
     problems_raw = db.execute(
@@ -104,7 +108,7 @@ def update_problem_status():
     year = data['year']
     status = data['status']
 
-    db = sqlite3.connect('database.db')
+    db = get_db()
     db.execute(
         '''
         INSERT INTO problem_statuses (user_id, problem_name, source, year, status)
@@ -127,7 +131,7 @@ def update_problem_score():
     year = data['year']
     score = data['score']
 
-    db = sqlite3.connect('database.db')
+    db = get_db()
     db.execute(
         '''
         INSERT INTO problem_statuses (user_id, problem_name, source, year, score)

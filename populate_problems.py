@@ -1,4 +1,8 @@
 import sqlite3
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 fields = ["name", "number", "source", "year", "link"]
 
@@ -520,7 +524,8 @@ raw_problems = [
 
 problems = [dict(zip(fields, p)) for p in raw_problems]
 
-conn = sqlite3.connect('database.db')
+db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
+conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 
 # Optional: clear existing problems
