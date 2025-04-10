@@ -86,7 +86,7 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
       if (score === 100) {
         currentStatus = 2;  // Solved
         updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
-      } else if (score > 0) {
+      } else if (score > 0 && currentStatus != 3) {
         currentStatus = 1;  // In progress
         updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
       }
