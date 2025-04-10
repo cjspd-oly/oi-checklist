@@ -60,13 +60,16 @@ def dashboard():
         'SELECT * FROM problems ORDER BY year, number'
     ).fetchall()
 
-    # Fetch user progress
+    # Fetch user progress (status and score!)
     progress_rows = db.execute(
-        'SELECT problem_name, source, year, status FROM problem_statuses WHERE user_id = ?',
+        'SELECT problem_name, source, year, status, score FROM problem_statuses WHERE user_id = ?',
         (user_id,)
     ).fetchall()
     progress = {
-        (row['problem_name'], row['source'], row['year']): row['status']
+        (row['problem_name'], row['source'], row['year']): {
+            'status': row['status'],
+            'score': row['score']
+        }
         for row in progress_rows
     }
 
@@ -77,10 +80,13 @@ def dashboard():
         year = row['year']
         problem = dict(row)
 
-        # set status using name+source+year triple
-        problem['status'] = progress.get(
-            (problem['name'], problem['source'], problem['year']), 0
-        )
+        key = (problem['name'], problem['source'], problem['year'])
+        if key in progress:
+            problem['status'] = progress[key]['status']
+            problem['score'] = progress[key]['score']
+        else:
+            problem['status'] = 0
+            problem['score'] = 0
 
         problems_by_category.setdefault(category, {})
         problems_by_category[category].setdefault(year, [])
@@ -109,6 +115,30 @@ def update_problem_status():
         (user_id, problem_name, source, year, status, status)
     )
     db.commit()
+    db.close()
+    return jsonify(success=True)
+
+@app.route('/api/update-problem-score', methods=['POST'])
+def update_problem_score():
+    data = request.get_json()
+    user_id = session.get('user_id')
+    problem_name = data['problem_name']
+    source = data['source']
+    year = data['year']
+    score = data['score']
+
+    db = sqlite3.connect('database.db')
+    db.execute(
+        '''
+        INSERT INTO problem_statuses (user_id, problem_name, source, year, score)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, problem_name, source, year)
+        DO UPDATE SET score = ?
+        ''',
+        (user_id, problem_name, source, year, score, score)
+    )
+    db.commit()
+    db.close()
     return jsonify(success=True)
 
 

@@ -18,7 +18,7 @@
             <td class="year-cell">APIO {{ year }}</td>
             {% for problem in plist %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -35,7 +35,7 @@
             <td class="year-cell">EGOI {{ year }}</td>
             {% for problem in plist %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -52,7 +52,7 @@
             <td class="year-cell">INOI {{ year }}</td>
             {% for problem in plist %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -69,7 +69,7 @@
             <td class="year-cell">ZCO {{ year }}</td>
             {% for problem in plist %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -86,7 +86,7 @@
             <td class="year-cell">IOI {{ year }}</td>
             {% for problem in plist %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% endfor %}
@@ -124,7 +124,7 @@
             {% set problem = problems_this_day[i] %}
             {% if problem %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% else %}
@@ -162,7 +162,7 @@
             {% set problem = plist | selectattr("number", "equalto", i) | list | first %}
             {% if problem %}
             <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}">
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
                 <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
             </td>
             {% else %}
@@ -175,6 +175,13 @@
         {% endif %}
         {% endfor %}
     </table>
+
+    <div id="status-popup" class="hidden">
+        <div id="popup-status">In progress</div>
+        <div class="popup-score">
+            <span id="popup-score" contenteditable="true">2</span><span class="popup-out-of">/100</span>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>

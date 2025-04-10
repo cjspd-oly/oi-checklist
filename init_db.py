@@ -25,6 +25,7 @@ CREATE TABLE problem_statuses (
     source TEXT,
     year INTEGER,
     status INTEGER DEFAULT 0,
+    score INTEGER DEFAULT 0,
     PRIMARY KEY(user_id, problem_name, source, year),
     FOREIGN KEY(user_id) REFERENCES users(id)
 )
