@@ -56,6 +56,8 @@ def get_all_noi_years(problems_by_category):
 
 @app.route('/dashboard')
 def dashboard():
+    if "user_id" not in session:
+        return redirect("/login")
     user_id = session.get('user_id')
     db = get_db()
 
