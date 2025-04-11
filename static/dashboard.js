@@ -89,6 +89,9 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
     popupStatus.onclick = () => {
       currentStatus = (currentStatus + 1) % statuses.length;
       updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
+      if (currentStatus == 2) {
+        triggerFullConfettiFall();
+      }
     };
 
     popupScore.onblur = () => {
