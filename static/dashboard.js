@@ -12,6 +12,23 @@ const popupScore = document.getElementById('popup-score');
 let currentCell = null;
 let currentStatus = 0;
 
+function triggerFullConfettiFall() {
+  const particleBursts = 40;
+  for (let i = 0; i < particleBursts; i++) {
+    confetti({
+      particleCount: 5,
+      angle: 270,
+      spread: 180,
+      startVelocity: 20,
+      gravity: 1.8,
+      ticks: 1000,
+      scalar: 1.5,
+      zIndex: 1000,
+      origin: {x: Math.random(), y: 0},
+    });
+  }
+}
+
 document.querySelectorAll('.problem-cell').forEach(cell => {
   const name = cell.dataset.problemId?.trim();
   const source = cell.dataset.source?.trim();
@@ -80,8 +97,20 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
       if (isNaN(score)) score = 0;
       score = Math.max(0, Math.min(score, 100));
 
+      let scoreChanged =
+          thisCell.dataset.score != score && thisCell.dataset.score != 0;
+
       thisCell.dataset.score = score;
       popupScore.textContent = score;
+
+      if (scoreChanged) {
+        if (score != 100) {
+          popupScore.classList.add('bump');
+          setTimeout(() => popupScore.classList.remove('bump'), 250);
+        } else {
+          triggerFullConfettiFall();
+        }
+      }
 
       if (score === 100) {
         currentStatus = 2;  // Solved
