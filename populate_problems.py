@@ -628,11 +628,11 @@ raw_problems = [
 
     ## JOIFR
     # 2025
-    ("Grid Coloring", 1, "JOIFR", "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_a"),
-    ("Bitaro the Brave 2", 2, "JOIFR", "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_b"),
-    ("Mi Teleférico", 3, "JOIFR", "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_c"),
-    ("Just Long Neckties 2", 4, "JOIFR", "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_d"),
-    ("Post Office", 5, "JOIFR", "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_e"),
+    ("Grid Coloring", 1, "JOIFR", 2025, "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_a"),
+    ("Bitaro the Brave 2", 2, "JOIFR", 2025, "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_b"),
+    ("Mi Teleférico", 3, "JOIFR", 2025, "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_c"),
+    ("Just Long Neckties 2", 4, "JOIFR", 2025, "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_d"),
+    ("Post Office", 5, "JOIFR", 2025, "https://atcoder.jp/contests/joi2025ho/tasks/joi2025ho_e"),
 
     # 2024
     ("Room Temperature", 1, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t1"),
