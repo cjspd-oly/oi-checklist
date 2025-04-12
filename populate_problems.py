@@ -239,6 +239,20 @@ raw_problems = [
     ("Island Hopping", 11, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_island"),
     ("Table Tennis", 12, "JOISC", 2024, "https://oj.uz/problem/view/JOI24_tabletennis"),
 
+    # 2025
+    ("Exhibition 3", 1, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_a"),
+    ("Fortune Telling 3", 2, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_b"),
+    ("Bitaro's Travel 2", 3, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_c"),
+    ("Ambulance", 4, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_d"),
+    ("Collecting Stamps 4", 5, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_e"),
+    ("Space Thief", 6, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_f"),
+    ("Bitaro the Brave 3", 7, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_g"),
+    ("Conference", 8, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_h"),
+    ("Multi Communication", 9, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_i"),
+    ("Circuit 2", 10, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_j"),
+    ("Migration Plan", 11, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_k"),
+    ("Uiro", 12, "JOISC", 2025, "https://atcoder.jp/contests/joisp2025/tasks/joisp2025_l"),
+
     ## APIO
     # 2013
     ("Robots", 1, "APIO", 2013, "https://oj.uz/problem/view/APIO13_robots"),
