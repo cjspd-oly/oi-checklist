@@ -163,3 +163,67 @@ h2 {
 #popup-score.bump {
     animation: bump 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.table-container {
+    max-width: 85%;
+    margin: 0 auto;
+    /* centers it */
+    padding: 0 1rem;
+    /* optional inner spacing */
+}
+
+.navbar {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.navbar::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    /* Center the border to 80% width */
+    width: 80%;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar-content {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.welcome-message {
+    font-size: 1rem;
+    color: #666;
+}
+
+.logout-button {
+    font-size: 1rem;
+    text-decoration: none;
+    color: #555;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #f0f0f0;
+}

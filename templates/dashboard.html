@@ -9,217 +9,240 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title">OI Checklist</div>
+            <div class="navbar-user">
+                <span class="welcome-message">Welcome, {{ username }}</span>
+                <a href="/logout" class="logout-button">Logout</a>
+            </div>
 
-    <h1>OI Checklist</h1>
+        </div>
+    </nav>
 
-    <h2>Asia-Pacific Informatics Olympiad</h2>
-    {% if problems_by_category['APIO'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['APIO'].items() %}
-        <tr>
-            <td class="year-cell">APIO {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
+    <div class="table-container">
+        <h2>Asia-Pacific Informatics Olympiad</h2>
+        {% if problems_by_category['APIO'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['APIO'].items() %}
+            <tr>
+                <td class="year-cell">APIO {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        </table>
+        {% endif %}
+    </div>
 
-    <h2>European Girls' Olympiad in Informatics</h2>
-    {% if problems_by_category['EGOI'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['EGOI'].items() %}
-        <tr>
-            <td class="year-cell">EGOI {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
+    <div class="table-container">
+        <h2>European Girls' Olympiad in Informatics</h2>
+        {% if problems_by_category['EGOI'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['EGOI'].items() %}
+            <tr>
+                <td class="year-cell">EGOI {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        </table>
+        {% endif %}
+    </div>
 
-    <h2>Indian National Olympiad in Informatics</h2>
-    {% if problems_by_category['INOI'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['INOI'].items() %}
-        <tr>
-            <td class="year-cell">INOI {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
+    <div class="table-container">
+        <h2>Indian National Olympiad in Informatics</h2>
+        {% if problems_by_category['INOI'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['INOI'].items() %}
+            <tr>
+                <td class="year-cell">INOI {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        </table>
+        {% endif %}
+    </div>
 
-    <h2>Indian Zonal Computing Olympiad</h2>
-    {% if problems_by_category['ZCO'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['ZCO'].items() %}
-        <tr>
-            <td class="year-cell">ZCO {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
+    <div class="table-container">
+        <h2>Indian Zonal Computing Olympiad</h2>
+        {% if problems_by_category['ZCO'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['ZCO'].items() %}
+            <tr>
+                <td class="year-cell">ZCO {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        </table>
+        {% endif %}
+    </div>
 
-    <h2>International Olympiad in Informatics</h2>
-    {% if problems_by_category['IOI'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['IOI'].items() %}
-        <tr>
-            <td class="year-cell">IOI {{ year }}</td>
-            {% for problem in plist %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
+    <div class="table-container">
+        <h2>International Olympiad in Informatics</h2>
+        {% if problems_by_category['IOI'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['IOI'].items() %}
+            <tr>
+                <td class="year-cell">IOI {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        </table>
+        {% endif %}
+    </div>
 
-    <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
-    {% if problems_by_category['JOISC'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['JOISC'].items() %}
-        <!-- Year header -->
-        <tr>
-            <td class="year-cell">JOISC {{ year }}</td>
-        </tr>
+    <div class="table-container">
+        <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
+        {% if problems_by_category['JOISC'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['JOISC'].items() %}
+            <!-- Year header -->
+            <tr>
+                <td class="year-cell">JOISC {{ year }}</td>
+            </tr>
 
-        {% set problem_map = {} %}
-        {% for problem in plist %}
-        {% set _ = problem_map.update({problem.number: problem}) %}
-        {% endfor %}
+            {% set problem_map = {} %}
+            {% for problem in plist %}
+            {% set _ = problem_map.update({problem.number: problem}) %}
+            {% endfor %}
 
-        <!-- Loop through 4 potential days -->
-        {% for day in range(4) %}
-        {% set base = day * 3 %}
-        {% set problems_this_day = [
-        problem_map.get(base + 1),
-        problem_map.get(base + 2),
-        problem_map.get(base + 3)
-        ] %}
-        {% if problems_this_day | select | list | length > 0 %}
-        <tr>
-            <td class="day-cell">Day {{ day + 1 }}</td>
-            {% for i in range(3) %}
-            {% set problem = problems_this_day[i] %}
-            {% if problem %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
-            {% else %}
-            <td class="problem-cell empty"></td>
+            <!-- Loop through 4 potential days -->
+            {% for day in range(4) %}
+            {% set base = day * 3 %}
+            {% set problems_this_day = [
+            problem_map.get(base + 1),
+            problem_map.get(base + 2),
+            problem_map.get(base + 3)
+            ] %}
+            {% if problems_this_day | select | list | length > 0 %}
+            <tr>
+                <td class="day-cell">Day {{ day + 1 }}</td>
+                {% for i in range(3) %}
+                {% set problem = problems_this_day[i] %}
+                {% if problem %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% else %}
+                <td class="problem-cell empty"></td>
+                {% endif %}
+                {% endfor %}
+            </tr>
             {% endif %}
             {% endfor %}
-        </tr>
+            {% endfor %}
+        </table>
         {% endif %}
-        {% endfor %}
-        {% endfor %}
-    </table>
-    {% endif %}
+    </div>
 
-    <h2>Indian International Olympiad in Informatics: Training Camp</h2>
-    {% if problems_by_category['IOITC'] %}
-    <table class="problem-table">
-        {% for year, plist in problems_by_category['IOITC'].items() %}
-        <!-- Year header -->
-        <tr>
-            <td class="year-cell">IOITC {{ year }}</td>
-        </tr>
+    <div class="table-container">
+        <h2>Indian International Olympiad in Informatics: Training Camp</h2>
+        {% if problems_by_category['IOITC'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['IOITC'].items() %}
+            <!-- Year header -->
+            <tr>
+                <td class="year-cell">IOITC {{ year }}</td>
+            </tr>
 
-        {% set problem_map = {} %}
-        {% for problem in plist %}
-        {% set _ = problem_map.update({problem.number: problem}) %}
-        {% endfor %}
+            {% set problem_map = {} %}
+            {% for problem in plist %}
+            {% set _ = problem_map.update({problem.number: problem}) %}
+            {% endfor %}
 
-        <!-- Loop through 3 potential days -->
-        {% for day in range(3) %}
-        {% set base = day * 3 %}
-        {% set problems_this_day = [
-        problem_map.get(base + 1),
-        problem_map.get(base + 2),
-        problem_map.get(base + 3)
-        ] %}
-        {% if problems_this_day | select | list | length > 0 %}
-        <tr>
-            <td class="day-cell">Day {{ day + 1 }}</td>
-            {% for i in range(3) %}
-            {% set problem = problems_this_day[i] %}
-            {% if problem %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
-            {% else %}
-            <td class="problem-cell empty"></td>
+            <!-- Loop through 3 potential days -->
+            {% for day in range(3) %}
+            {% set base = day * 3 %}
+            {% set problems_this_day = [
+            problem_map.get(base + 1),
+            problem_map.get(base + 2),
+            problem_map.get(base + 3)
+            ] %}
+            {% if problems_this_day | select | list | length > 0 %}
+            <tr>
+                <td class="day-cell">Day {{ day + 1 }}</td>
+                {% for i in range(3) %}
+                {% set problem = problems_this_day[i] %}
+                {% if problem %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% else %}
+                <td class="problem-cell empty"></td>
+                {% endif %}
+                {% endfor %}
+            </tr>
             {% endif %}
             {% endfor %}
-        </tr>
+            {% endfor %}
+        </table>
         {% endif %}
-        {% endfor %}
-        {% endfor %}
-    </table>
-    {% endif %}
+    </div>
 
-    <h2>Singapore National Olympiad in Informatics</h2>
-    {% set rounds = [('NOIQUAL', 'Qualification'), ('NOIPRELIM', 'Preliminary'), ('NOIFINAL', 'Final')] %}
+    <div class="table-container">
+        <h2>Singapore National Olympiad in Informatics</h2>
+        {% set rounds = [('NOIQUAL', 'Qualification'), ('NOIPRELIM', 'Preliminary'), ('NOIFINAL', 'Final')] %}
+        <table class="problem-table">
+            {% for year in all_noi_years %}
+            {% set qual = problems_by_category.get('NOIQUAL', {}).get(year) %}
+            {% set prelim = problems_by_category.get('NOIPRELIM', {}).get(year) %}
+            {% set final = problems_by_category.get('NOIFINAL', {}).get(year) %}
 
-    <table class="problem-table">
-        {% for year in all_noi_years %}
-        {% set qual = problems_by_category.get('NOIQUAL', {}).get(year) %}
-        {% set prelim = problems_by_category.get('NOIPRELIM', {}).get(year) %}
-        {% set final = problems_by_category.get('NOIFINAL', {}).get(year) %}
+            {% if qual or prelim or final %}
+            <tr>
+                <td class="year-cell">NOI {{ year }}</td>
+            </tr>
 
-        {% if qual or prelim or final %}
-        <tr>
-            <td class="year-cell">NOI {{ year }}</td>
-        </tr>
-
-        {% for round_key, round_label in rounds %}
-        {% set plist = problems_by_category.get(round_key, {}).get(year) %}
-        {% if plist %}
-        {% set max_number = plist | map(attribute='number') | max %}
-        <tr>
-            <td class="day-cell">{{ round_label }}</td>
-            {% for i in range(1, max_number + 1) %}
-            {% set problem = plist | selectattr("number", "equalto", i) | list | first %}
-            {% if problem %}
-            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
-                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
-                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
-            </td>
-            {% else %}
-            <td class="problem-cell empty"></td>
+            {% for round_key, round_label in rounds %}
+            {% set plist = problems_by_category.get(round_key, {}).get(year) %}
+            {% if plist %}
+            {% set max_number = plist | map(attribute='number') | max %}
+            <tr>
+                <td class="day-cell">{{ round_label }}</td>
+                {% for i in range(1, max_number + 1) %}
+                {% set problem = plist | selectattr("number", "equalto", i) | list | first %}
+                {% if problem %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% else %}
+                <td class="problem-cell empty"></td>
+                {% endif %}
+                {% endfor %}
+            </tr>
             {% endif %}
             {% endfor %}
-        </tr>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-        {% endfor %}
-    </table>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
 
     <div id="status-popup" class="hidden">
         <div id="popup-status">In progress</div>
