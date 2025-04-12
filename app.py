@@ -89,9 +89,6 @@ def dashboard():
 
     # Group by category -> year -> problems
     problems_by_category = {}
-    status_count = {'unattempted': 0, 'in_progress': 0, 'solved': 0, 'failed': 0}
-    total_problems = 0
-
     for row in problems_raw:
         category = row['source']
         year = row['year']
@@ -101,40 +98,16 @@ def dashboard():
         if key in progress:
             problem['status'] = progress[key]['status']
             problem['score'] = progress[key]['score']
-            # Update status count based on problem status
-            if problem['status'] == 0:
-                status_count['unattempted'] += 1
-            elif problem['status'] == 1:
-                status_count['in_progress'] += 1
-            elif problem['status'] == 2:
-                status_count['solved'] += 1
-            elif problem['status'] == 3:
-                status_count['failed'] += 1
         else:
             problem['status'] = 0
             problem['score'] = 0
-            status_count['unattempted'] += 1
-        
+
         problems_by_category.setdefault(category, {})
         problems_by_category[category].setdefault(year, [])
         problems_by_category[category][year].append(problem)
-        total_problems += 1
-
-    # Calculate the progress percentages
-    unattempted_percentage = (status_count['unattempted'] / total_problems) * 100 if total_problems > 0 else 0
-    in_progress_percentage = (status_count['in_progress'] / total_problems) * 100 if total_problems > 0 else 0
-    solved_percentage = (status_count['solved'] / total_problems) * 100 if total_problems > 0 else 0
-    failed_percentage = (status_count['failed'] / total_problems) * 100 if total_problems > 0 else 0
 
     all_noi_years = get_all_noi_years(problems_by_category)
-    return render_template("dashboard.html", 
-                           problems_by_category=problems_by_category,
-                           all_noi_years=all_noi_years, 
-                           username=username,
-                           unattempted_percentage=unattempted_percentage,
-                           in_progress_percentage=in_progress_percentage,
-                           solved_percentage=solved_percentage,
-                           failed_percentage=failed_percentage)
+    return render_template("dashboard.html", problems_by_category=problems_by_category, all_noi_years=all_noi_years, username=username)
 
 @app.route('/api/update-problem-status', methods=['POST'])
 def update_problem_status():
