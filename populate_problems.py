@@ -625,6 +625,63 @@ raw_problems = [
     ("Graph LIS", 3, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/GraphLIS/statements/EN"),
     ("Subarray Medians", 2, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/SubarrayMedians/statements/EN"),
     ("Convex Hull Count", 1, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/ConvexHullCount/statements/EN"),
+
+    ## JOIFR
+    # 2024
+    ("Room Temperature", 1, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t1"),
+    ("Construction Project 2", 3, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t3"),
+    ("Marathon Race 2", 2, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t2"),
+    ("Gift Exchange", 4, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t4"),
+    ("Road Service 2", 5, "JOIFR", 2024, "https://oj.uz/problem/view/JOI24_ho_t5"),
+
+    # 2023
+    ("Stone Arranging 2", 1, "JOIFR", 2023, "https://oj.uz/problem/view/JOI23_ho_t1"),
+    ("Advertisement 2", 2, "JOIFR", 2023, "https://oj.uz/problem/view/JOI23_ho_t2"),
+    ("Maze", 3, "JOIFR", 2023, "https://oj.uz/problem/view/JOI23_ho_t3"),
+    ("Cat Exercise", 4, "JOIFR", 2023, "https://oj.uz/problem/view/JOI23_ho_t4"),
+    ("Modern Machine", 5, "JOIFR", 2023, "https://oj.uz/problem/view/JOI23_ho_t5"),
+
+    # 2022
+    ("Intercastellar", 1, "JOIFR", 2022, "https://oj.uz/problem/view/JOI22_ho_t1"),
+    ("Self Study", 2, "JOIFR", 2022, "https://oj.uz/problem/view/JOI22_ho_t2"),
+    ("Let's Win the Election", 3, "JOIFR", 2022, "https://oj.uz/problem/view/JOI22_ho_t3"),
+    ("Railway Trip 2", 4, "JOIFR", 2022, "https://oj.uz/problem/view/JOI22_ho_t4"),
+    ("Sandcastle 2", 5, "JOIFR", 2022, "https://oj.uz/problem/view/JOI22_ho_t5"),
+
+    # 2021
+    ("Growing Vegetables is Fun 4", 1, "JOIFR", 2021, "https://oj.uz/problem/view/JOI21_ho_t1"),
+    ("Snowball", 2, "JOIFR", 2021, "https://oj.uz/problem/view/JOI21_ho_t2"),
+    ("Group Photo", 3, "JOIFR", 2021, "https://oj.uz/problem/view/JOI21_ho_t3"),
+    ("Robot", 4, "JOIFR", 2021, "https://oj.uz/problem/view/JOI21_ho_t4"),
+    ("Dungeon 3", 5, "JOIFR", 2021, "https://oj.uz/problem/view/JOI21_ho_t5"),
+
+    # 2020
+    ("Just Long Neckties", 1, "JOIFR", 2020, "https://oj.uz/problem/view/JOI20_ho_t1"),
+    ("JJOOII 2", 2, "JOIFR", 2020, "https://oj.uz/problem/view/JOI20_ho_t2"),
+    ("Collecting Stamps 3", 3, "JOIFR", 2020, "https://oj.uz/problem/view/JOI20_ho_t3"),
+    ("Olympic Bus", 4, "JOIFR", 2020, "https://oj.uz/problem/view/JOI20_ho_t4"),
+    ("Fire", 5, "JOIFR", 2020, "https://oj.uz/problem/view/JOI20_ho_t5"),
+
+    # 2019
+    ("Bitaro the Brave", 1, "JOIFR", 2019, "https://oj.uz/problem/view/JOI19_ho_t1"),
+    ("Exhibition", 2, "JOIFR", 2019, "https://oj.uz/problem/view/JOI19_ho_t2"),
+    ("Growing Vegetable is Fun 3", 3, "JOIFR", 2019, "https://oj.uz/problem/view/JOI19_ho_t3"),
+    ("Coin Collecting", 4, "JOIFR", 2019, "https://oj.uz/problem/view/JOI19_ho_t4"),
+    ("Unique Cities", 5, "JOIFR", 2019, "https://oj.uz/problem/view/JOI19_ho_t5"),
+
+    # 2018
+    ("Stove", 1, "JOIFR", 2018, "https://oj.uz/problem/view/JOI18_stove"),
+    ("Art Exhibition", 2, "JOIFR", 2018, "https://oj.uz/problem/view/JOI18_art"),
+    ("Dango Maker", 3, "JOIFR", 2018, "https://oj.uz/problem/view/JOI18_dango_maker"),
+    ("Commuter Pass", 4, "JOIFR", 2018, "https://oj.uz/problem/view/JOI18_commuter_pass"),
+    ("Snake Escaping", 5, "JOIFR", 2018, "https://oj.uz/problem/view/JOI18_snake_escaping"),
+
+    # 2017
+    ("Foehn Phenomena", 1, "JOIFR", 2017, "https://oj.uz/problem/view/JOI17_foehn_phenomena"),
+    ("Semiexpress", 2, "JOIFR", 2017, "https://oj.uz/problem/view/JOI17_semiexpress"),
+    ("The Kingdom of JOIOI", 3, "JOIFR", 2017, "https://oj.uz/problem/view/JOI17_joioi"),
+    ("Soccer", 4, "JOIFR", 2017, "https://oj.uz/problem/view/JOI17_soccer"),
+    ("Rope", 5, "JOIFR", 2017, "https://oj.uz/problem/view/JOI17_rope"),
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]

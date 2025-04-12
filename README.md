@@ -12,6 +12,7 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 - Indian Zonal Computing Olympiad
 - Indian International Olympiad in Informatics: Training Camp
 - Japanese Olympiad in Informatics: Spring Camp
+- Japanese Olympiad in Informatics: Final Round
 - European Girls' Olympiad in Informatics
 
 # Local Running Instructions

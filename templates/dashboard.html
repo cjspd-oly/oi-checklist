@@ -244,6 +244,25 @@
         </table>
     </div>
 
+    <div class="table-container">
+        <h2>Japanese Olympiad in Informatics: Final Round</h2>
+        {% if problems_by_category['JOIFR'] %}
+        <table class="problem-table">
+            {% for year, plist in problems_by_category['JOIFR'].items() %}
+            <tr>
+                <td class="year-cell">JOI {{ year }}</td>
+                {% for problem in plist %}
+                <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                    data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                    <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
     <div id="status-popup" class="hidden">
         <div id="popup-status">In progress</div>
         <div class="popup-score">
