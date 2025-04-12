@@ -156,6 +156,20 @@ raw_problems = [
     ("Amusement Park", 4, "NOIQUAL", 2024, "https://codebreaker.xyz/problem/park"),
     ("Explosives", 5, "NOIQUAL", 2024, "https://codebreaker.xyz/problem/explosives"),
 
+    # 2025 Finals
+    ("Monsters", 1, "NOIFINAL", 2025, "https://codebreaker.xyz/problem/monsters2"),
+    ("Thumper", 2, "NOIFINAL", 2025, "https://codebreaker.xyz/problem/thumper2"),
+    ("Reachability", 3, "NOIFINAL", 2025, "https://codebreaker.xyz/problem/reachability2"),
+    ("Robots", 4, "NOIFINAL", 2025, "https://codebreaker.xyz/problem/robots2"),
+    ("Flooding", 5, "NOIFINAL", 2025, "https://codebreaker.xyz/problem/flooding2"),
+
+    # 2025 Qualification
+    ("Train Or Bus", 1, "NOIQUAL", 2025, "https://codebreaker.xyz/problem/trainorbus"),
+    ("Ducks And Buttons", 2, "NOIQUAL", 2025, "https://codebreaker.xyz/problem/duckbuttons"),
+    ("Snacks", 3, "NOIQUAL", 2025, "https://codebreaker.xyz/problem/snacks"),
+    ("Itinerary", 4, "NOIQUAL", 2025, "https://codebreaker.xyz/problem/itinerary"),
+    ("Lasers 2", 5, "NOIQUAL", 2025, "https://codebreaker.xyz/problem/lasers2"),
+
     ## JOISC
     # 2019
     ("Examination", 1, "JOISC", 2019, "https://oj.uz/problem/view/JOI19_examination"),
@@ -619,7 +633,7 @@ db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db"
 conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 
-# Optional: clear existing problems
+# Clear existing problems
 cur.execute("DELETE FROM problems")
 
 for p in problems:

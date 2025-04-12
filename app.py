@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, jsonify
 import sqlite3
 import hashlib
 import os
+import populate_problems
 from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env
