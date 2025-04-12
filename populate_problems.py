@@ -577,14 +577,15 @@ raw_problems = [
     ("Make Acyclic", 1, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/MakeAcyclic/statements/EN"),
 
     # 2018
-    ("Offices", 9, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/Offices/statements/EN"),
-    ("SpirallingPassages", 8, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/SpirallingPassages/statements/EN"),
-    ("StainedSheets", 7, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/StainedSheets/statements/EN"),
-    ("Special Sequences", 6, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/SpecialSequences/statements/EN"),
-    ("Flashing Fluorescents", 5, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/FlashingFluorescents/statements/EN"),
-    ("Prefix Free Code", 4, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/PrefixFreeCode/statements/EN"),
-    ("Lost Graph", 3, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/LostGraph/statements/EN"),
-    ("Nice Subsegments", 2, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/NiceSubsegments/statements/EN"),
+    ("Increasing Means", 9, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/IncreasingMeans/statements/EN"),
+    ("TwoGoodWalks", 8, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/TwoGoodWalks/statements/EN"),
+    ("Add Rotate XOR", 7, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/AddRotateXOR/statements/EN"),
+    ("Changing Numbers", 6, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/ChangingNumbers/statements/EN"),
+    ("Coin Denominations", 5, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/CoinDenominations/statements/EN"),
+    ("Exact Walks", 4, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/ExactWalks/statements/EN"),
+    ("Cycles And Colorings", 3, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/CyclesAndColorings/statements/EN"),
+    ("K Perfect Matchings", 2, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/KPerfectMatchings/statements/EN"),
+    ("Circular Intervals", 1, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/CircularIntervals/statements/EN"),
 
     # 2017
     ("Smoothness", 9, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/Smoothness/statements/EN"),
