@@ -520,6 +520,82 @@ raw_problems = [
     ("Bikeparking", 6, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_bikeparking"),
     ("Light Bulbs", 7, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_lightbulbs"),
     ("Make Them Meet", 8, "EGOI", 2024, "https://oj.uz/problem/view/EGOI24_makethemmeet"),
+
+    ## IOITC
+    # 2023
+    ("Grid Construction", 1, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/GridConstruction/statements/EN"),
+    ("Colorful Cycles", 2, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/ColorfulCycles/statements/EN"),
+    ("LIS", 3, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/LIS/statements/EN"),
+    ("Reversed Inversions", 4, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/ReversedInversions/statements/EN"),
+    ("Sole Occupancy", 5, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/SoleOccupancy/statements/EN"),
+    ("Tournament", 6, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/Tournament/statements/EN"),
+    ("Yet Another Tree Problem", 7, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/YetAnotherTreeProblem/statements/EN"),
+    ("Cookies", 8, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/Cookies/statements/EN"),
+    ("Tree Matching", 9, "IOITC", 2023, "http://cms.iarcs.org.in:8888/tasks/TreeMatching/statements/EN"),
+
+    # 2022
+    ("Median Communication", 9, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/MedianCommunication/statements/EN"),
+    ("Add Subtract Equalize", 8, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/AddSubtractEqualize/statements/EN"),
+    ("Tree Interval Queries", 7, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/TreeIntervalQueries/statements/EN"),
+    ("Inversions", 6, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/Inversions/statements/EN"),
+    ("Tree Coverage", 5, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/TreeCoverage/statements/EN"),
+    ("Array Splitting", 4, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/ArraySplitting/statements/EN"),
+    ("Manhattan Matching", 3, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/ManhattanMatching/statements/EN"),
+    ("Isolable Queries", 2, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/IsolableQueries/statements/EN"),
+    ("Binary String Happiness", 1, "IOITC", 2022, "http://cms.iarcs.org.in:8888/tasks/BinaryStringHappiness/statements/EN"),
+
+    # 2021
+    ("Edge Subsets", 9, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/EdgeSubsets/statements/EN"),
+    ("Graph Count", 8, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/GraphCount/statements/EN"),
+    ("Hidden Cell", 7, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/HiddenCell/statements/EN"),
+    ("Crew Reunion", 6, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/CrewReunion/statements/EN"),
+    ("Interactive MST", 5, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/InteractiveMST/statements/EN"),
+    ("Similar Arrays", 4, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/SimilarArrays/statements/EN"),
+    ("Island Hopping", 3, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/IslandHopping/statements/EN"),
+    ("Odd Sum Partition", 2, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/OddSumPartition/statements/EN"),
+    ("Tokens On A Tree", 1, "IOITC", 2021, "http://cms.iarcs.org.in:8888/tasks/TokensOnATree/statements/EN"),
+
+    # 2020
+    ("Beautiful Trees", 9, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/BeautifulTrees/statements/EN"),
+    ("The Social Gathering", 8, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/TheSocialGathering/statements/EN"),
+    ("Hidden Vertex", 7, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/HiddenVertex/statements/EN"),
+    ("Almost Shortest Paths", 6, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/AlmostShortestPaths/statements/EN"),
+    ("Buildings", 5, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/Buildings/statements/EN"),
+    ("Pairing Trees", 4, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/PairingTrees/statements/EN"),
+    ("Counting Intervals", 3, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/CountingIntervals/statements/EN"),
+    ("Paint It Black", 2, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/PaintItBlack/statements/EN"),
+    ("Removing Leaves", 1, "IOITC", 2020, "http://cms.iarcs.org.in:8888/tasks/RemovingLeaves/statements/EN"),
+
+    # 2019
+    ("Breaking Trees", 8, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/BreakingTrees/statements/EN"),
+    ("Labelled Tree", 7, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/LabelledTree/statements/EN"),
+    ("Equal Length Paths", 6, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/EqualLengthPaths/statements/EN"),
+    ("Increasing Chains", 5, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/IncreasingChains/statements/EN"),
+    ("Tree Profit", 4, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/TreeProfit/statements/EN"),
+    ("Diverse Subarrays", 3, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/DiverseSubarrays/statements/EN"),
+    ("Figure 8", 2, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/Figure8/statements/EN"),
+    ("Make Acyclic", 1, "IOITC", 2019, "http://cms.iarcs.org.in:8888/tasks/MakeAcyclic/statements/EN"),
+
+    # 2018
+    ("Offices", 9, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/Offices/statements/EN"),
+    ("SpirallingPassages", 8, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/SpirallingPassages/statements/EN"),
+    ("StainedSheets", 7, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/StainedSheets/statements/EN"),
+    ("Special Sequences", 6, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/SpecialSequences/statements/EN"),
+    ("Flashing Fluorescents", 5, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/FlashingFluorescents/statements/EN"),
+    ("Prefix Free Code", 4, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/PrefixFreeCode/statements/EN"),
+    ("Lost Graph", 3, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/LostGraph/statements/EN"),
+    ("Nice Subsegments", 2, "IOITC", 2018, "http://cms.iarcs.org.in:8888/tasks/NiceSubsegments/statements/EN"),
+
+    # 2017
+    ("Smoothness", 9, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/Smoothness/statements/EN"),
+    ("Walled Inversions", 8, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/WalledInversions/statements/EN"),
+    ("Painting Tree", 7, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/PaintingTree/statements/EN"),
+    ("Evolutionary Trees", 6, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/EvolutionaryTrees/statements/EN"),
+    ("Collecting Coins", 5, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/CollectingCoins/statements/EN"),
+    ("Check SCC", 4, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/CheckSCC/statements/EN"),
+    ("Graph LIS", 3, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/GraphLIS/statements/EN"),
+    ("Subarray Medians", 2, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/SubarrayMedians/statements/EN"),
+    ("Convex Hull Count", 1, "IOITC", 2017, "http://cms.iarcs.org.in:8888/tasks/ConvexHullCount/statements/EN"),
 ]
 
 problems = [dict(zip(fields, p)) for p in raw_problems]

@@ -140,6 +140,49 @@
     </table>
     {% endif %}
 
+    <h2>Indian International Olympiad in Informatics: Training Camp</h2>
+    {% if problems_by_category['IOITC'] %}
+    <table class="problem-table">
+        {% for year, plist in problems_by_category['IOITC'].items() %}
+        <!-- Year header -->
+        <tr>
+            <td class="year-cell">IOITC {{ year }}</td>
+        </tr>
+
+        {% set problem_map = {} %}
+        {% for problem in plist %}
+        {% set _ = problem_map.update({problem.number: problem}) %}
+        {% endfor %}
+
+        <!-- Loop through 3 potential days -->
+        {% for day in range(3) %}
+        {% set base = day * 3 %}
+        {% set problems_this_day = [
+        problem_map.get(base + 1),
+        problem_map.get(base + 2),
+        problem_map.get(base + 3)
+        ] %}
+        {% if problems_this_day | select | list | length > 0 %}
+        <tr>
+            <td class="day-cell">Day {{ day + 1 }}</td>
+            {% for i in range(3) %}
+            {% set problem = problems_this_day[i] %}
+            {% if problem %}
+            <td class="problem-cell" data-status="{{ problem.status }}" data-problem-id="{{ problem.name }}"
+                data-source="{{ problem.source }}" data-year="{{ problem.year }}" data-score="{{ problem.score }}">
+                <a href="{{ problem.link }}" target="_blank">{{ problem.name }}</a>
+            </td>
+            {% else %}
+            <td class="problem-cell empty"></td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
     <h2>Singapore National Olympiad in Informatics</h2>
     {% set rounds = [('NOIQUAL', 'Qualification'), ('NOIPRELIM', 'Preliminary'), ('NOIFINAL', 'Final')] %}
 
