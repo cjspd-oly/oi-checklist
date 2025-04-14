@@ -5,8 +5,7 @@ import os
 import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
-
-import time
+from datetime import timedelta
 
 load_dotenv()  # Load environment variables from .env
 
@@ -16,6 +15,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv("FLASK_ENV") == "pro
 app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
 CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "https://avighnac.github.io"])
 app.secret_key = "your-secret-key"
+app.permanent_session_lifetime = timedelta(days=1)
 
 def get_db():
     db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
@@ -56,6 +56,7 @@ def api_login():
     if user:
         session["user_id"] = user["id"]
         session["username"] = user["username"]
+        session.permanent = True
         return jsonify({"success": True})
     return jsonify({"success": False, "error": "Invalid credentials"}), 401
 
@@ -67,7 +68,6 @@ def get():
 
 @app.route('/api/problems')
 def get_problems():
-    time.sleep(1)
     from_names = request.args.get('names')
     if not from_names:
         return jsonify({"error": "Missing 'names' query parameter"}), 400
