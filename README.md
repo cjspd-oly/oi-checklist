@@ -14,6 +14,7 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 - Japanese Olympiad in Informatics: Spring Camp
 - Japanese Olympiad in Informatics: Final Round
 - European Girls' Olympiad in Informatics
+- Polish Olympiad in Informatics
 
 # Local Running Instructions
 
