@@ -316,3 +316,24 @@ h2 {
         padding: 20px;
     }
 }
+
+/* Skeleton loading animation for problem cells */
+.problem-cell.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
+    color: transparent;
+    height: 20px;
+    padding: 12px;
+}
+
+/* Shimmer animation for skeleton rows */
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}

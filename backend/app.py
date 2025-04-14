@@ -6,6 +6,8 @@ import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
 
+import time
+
 load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
@@ -65,6 +67,7 @@ def get():
 
 @app.route('/api/problems')
 def get_problems():
+    time.sleep(1)
     from_names = request.args.get('names')
     if not from_names:
         return jsonify({"error": "Missing 'names' query parameter"}), 400

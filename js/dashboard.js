@@ -1,6 +1,3 @@
-const apiUrl = 'https://avighna.pythonanywhere.com';
-// const apiUrl = 'http://127.0.0.1:5000';
-
 const statuses = [
   {label: 'Unattempted', color: '', value: 0},
   {label: 'In progress', color: '#ffd966', value: 1},
@@ -327,6 +324,7 @@ window.onload = async () => {
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL'
   ];
+
   // Display username
   let res = await fetch(
       apiUrl + `/api/whoami`, {method: 'GET', credentials: 'include'});
@@ -339,15 +337,33 @@ window.onload = async () => {
     return;
   }
 
+  // Show skeleton loading for all Olympiads
+  sources.forEach(source => {
+    const container =
+        document.getElementById(`${source.toLowerCase()}-container`);
+    const table = container.querySelector('table');
+    table.innerHTML = generateSkeletonRows(10);
+  });
+
+  // Fetch problems data
   res = await fetch(
       apiUrl + `/api/problems?names=${sources.join(',')}`,
       {method: 'GET', credentials: 'include'});
-  if (res.status != 200) {
+  if (res.status !== 200) {
     window.location.href = 'login.html';
     return;
   }
+
   cachedProblemsData = await res.json();
+
+  // Clear skeleton
   sources.forEach(source => {
+    const container =
+        document.getElementById(`${source.toLowerCase()}-container`);
+    const table = container.querySelector('table');
+    table.innerHTML = '';  // Clear skeleton rows
+
+    // Load actual problems
     if (source === 'JOISC') {
       loadProblemsWithDay('JOISC', 4);
     } else if (source === 'IOITC') {
@@ -357,6 +373,21 @@ window.onload = async () => {
     }
   });
 };
+
+function generateSkeletonRows(numRows) {
+  let skeletonHTML = '';
+  for (let i = 0; i < numRows; i++) {
+    skeletonHTML += `
+      <tr class="skeleton-row">
+        <td class="year-cell skeleton"></td>
+        <td class="problem-cell skeleton"></td>
+        <td class="problem-cell skeleton"></td>
+        <td class="problem-cell skeleton"></td>
+      </tr>
+    `;
+  }
+  return skeletonHTML;
+}
 
 document.getElementById('logout-button')
     .addEventListener('click', async (event) => {
