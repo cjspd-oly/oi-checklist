@@ -370,7 +370,7 @@ document.getElementById('logout-button')
       if (res.status === 200) {
         // Successfully logged out, you can redirect the user or update the UI
         window.location.href =
-            '/login.html';  // Redirect to login page after logout
+            'login.html';  // Redirect to login page after logout
       } else {
         // Handle error if something goes wrong
         console.error('Logout failed');
