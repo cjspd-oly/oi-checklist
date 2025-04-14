@@ -6,11 +6,12 @@ import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-
 load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
 # Allow cookies to be sent from frontend
+app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv("FLASK_ENV") == "production" else 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
 CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "https://avighnac.github.io"])
 app.secret_key = "your-secret-key"
 
