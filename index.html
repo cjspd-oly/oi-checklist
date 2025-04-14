@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OI Checklist</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- For the confetti animation -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title">OI Checklist</div>
+            <div class="navbar-user">
+                <span class="welcome-message" id="welcome-message">Welcome, {{ username }}</span>
+                <a href="#" class="logout-button" id="logout-button">Logout</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="table-container" id="apio-container">
+        <h2>Asia-Pacific Informatics Olympiad</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="egoi-container">
+        <h2>European Girls' Olympiad in Informatics</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="inoi-container">
+        <h2>Indian National Olympiad in Informatics</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="zco-container">
+        <h2>Indian Zonal Computing Olympiad</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="ioi-container">
+        <h2>International Olympiad in Informatics</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="joisc-container">
+        <h2>Japanese Olympiad in Informatics: Spring Camp</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="ioitc-container">
+        <h2>Indian International Olympiad in Informatics: Training Camp</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="noiprelim-container">
+        <h2>Singapore National Olympiad in Informatics: Preliminary Round</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="noiqual-container">
+        <h2>Singapore National Olympiad in Informatics: Qualification Round</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="noifinal-container">
+        <h2>Singapore National Olympiad in Informatics: Final Round</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div class="table-container" id="joifr-container">
+        <h2>Japanese Olympiad in Informatics: Final Round</h2>
+        <table class="problem-table"></table>
+    </div>
+
+    <div id="status-popup" class="hidden">
+        <div id="popup-status">In progress</div>
+        <div class="popup-score">
+            <span id="popup-score" contenteditable="true">2</span><span class="popup-out-of">/100</span>
+        </div>
+    </div>
+
+    <script src='js/dashboard.js'></script>
+</body>
+
+</html>
