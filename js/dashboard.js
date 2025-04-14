@@ -115,21 +115,23 @@ function handleCellClick(cell, name, source, year, e) {
       updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
     }
 
-    const sessionToken = localStorage.getItem('sessionToken');
-    fetch(apiUrl + '/api/update-problem-score', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionToken}`
-      },
-      body: JSON.stringify({
-        problem_name: thisName,
-        source: thisSource,
-        year: thisYear,
-        score: score
-      })
-    });
+    if (scoreChanged) {
+      const sessionToken = localStorage.getItem('sessionToken');
+      fetch(apiUrl + '/api/update-problem-score', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify({
+          problem_name: thisName,
+          source: thisSource,
+          year: thisYear,
+          score: score
+        })
+      });
+    }
   };
 
   popupScore.addEventListener('keypress', (e) => {
