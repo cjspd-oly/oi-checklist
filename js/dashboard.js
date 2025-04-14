@@ -187,9 +187,12 @@ function handlePopupClose(cell) {
 
   if (status === 2 || status === 0) {
     const finalScore = status === 2 ? 100 : 0;
+    if (cell.dataset.score == finalScore) {
+      return;
+    }
     cell.dataset.score = finalScore;
     popupScore.textContent = finalScore;
-
+    const sessionToken = localStorage.getItem('sessionToken');
     fetch(apiUrl + '/api/update-problem-score', {
       method: 'POST',
       credentials: 'include',
