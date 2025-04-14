@@ -33,7 +33,6 @@ function triggerFullConfettiFall() {
 
 function handleCellClick(cell, name, source, year, e) {
   if (e.target.tagName.toLowerCase() === 'a') return;
-  const sessionToken = localStorage.getItem('sessionToken');
 
   // If clicking the same cell, close the popup
   if (currentCell === cell && popup.classList.contains('show')) {
@@ -116,6 +115,7 @@ function handleCellClick(cell, name, source, year, e) {
       updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
     }
 
+    const sessionToken = localStorage.getItem('sessionToken');
     fetch(apiUrl + '/api/update-problem-score', {
       method: 'POST',
       credentials: 'include',
