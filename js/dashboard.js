@@ -325,6 +325,14 @@ window.onload = async () => {
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL'
   ];
 
+  // Show skeleton loading for all Olympiads
+  sources.forEach(source => {
+    const container =
+        document.getElementById(`${source.toLowerCase()}-container`);
+    const table = container.querySelector('table');
+    table.innerHTML = generateSkeletonRows(10);
+  });
+
   // Display username
   let res = await fetch(
       apiUrl + `/api/whoami`, {method: 'GET', credentials: 'include'});
@@ -336,14 +344,6 @@ window.onload = async () => {
     window.location.href = 'login.html';
     return;
   }
-
-  // Show skeleton loading for all Olympiads
-  sources.forEach(source => {
-    const container =
-        document.getElementById(`${source.toLowerCase()}-container`);
-    const table = container.querySelector('table');
-    table.innerHTML = generateSkeletonRows(10);
-  });
 
   // Fetch problems data
   res = await fetch(
