@@ -26,7 +26,7 @@ Install all requirements from `backend/requirements.txt`.
 3. To run the back-end server, run app.py. 
 4. Then use something like live server to run the front-end. You'll need to run it in root directory of this repo (so the directory with index.html).
 
-**Note**: you'll need to change the `apiUrl` variable all `.js` files to whatever URL the flask server ends up running on as well. (I am too lazy to do `.env` stuff)
+**Note**: you'll need to change the `apiUrl` variable in all `.js` files to whatever URL the flask server ends up running on as well. (I am too lazy to do `.env` stuff)
 
 # Public
 
