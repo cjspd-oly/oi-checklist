@@ -274,7 +274,7 @@ raw_problems = [
 
     # 2014
     ("Palindrome", 1, "APIO", 2014, "https://oj.uz/problem/view/APIO14_palindrome"),
-    ("Sequence", 2, "APIO", 2014, "https://oj.uz/problem/view/APIO14_sequence"),
+    ("Split the Sequence", 2, "APIO", 2014, "https://oj.uz/problem/view/APIO14_sequence"),
     ("Beads", 3, "APIO", 2014, "https://oj.uz/problem/view/APIO14_beads"),
 
     # 2015
