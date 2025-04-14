@@ -92,13 +92,13 @@ function handleCellClick(cell, name, source, year, e) {
     if (isNaN(score)) score = 0;
     score = Math.max(0, Math.min(score, 100));
 
-    let scoreChanged =
-        thisCell.dataset.score != score && thisCell.dataset.score != 0;
+    let prevScore = thisCell.dataset.score;
+    let scoreChanged = prevScore != score;
 
     thisCell.dataset.score = score;
     popupScore.textContent = score;
 
-    if (scoreChanged) {
+    if (scoreChanged && prevScore != 0) {
       if (score != 100) {
         popupScore.classList.add('bump');
         setTimeout(() => popupScore.classList.remove('bump'), 250);
