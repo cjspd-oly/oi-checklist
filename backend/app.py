@@ -159,6 +159,62 @@ def get_problems():
 
     return jsonify(problems_by_category)
 
+@app.route('/api/update-problem-status', methods=['POST'])
+@token_required
+def update_problem_status():
+    data = request.get_json()
+    user_id = request.user_id
+
+    problem_name = data.get('problem_name')
+    source = data.get('source')
+    year = data.get('year')
+    status = data.get('status')
+
+    if not all([problem_name, source, year, status is not None]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    db = get_db()
+    db.execute(
+        '''
+        INSERT INTO problem_statuses (user_id, problem_name, source, year, status)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, problem_name, source, year)
+        DO UPDATE SET status = ?
+        ''',
+        (user_id, problem_name, source, year, status, status)
+    )
+    db.commit()
+    db.close()
+    return jsonify(success=True)
+
+@app.route('/api/update-problem-score', methods=['POST'])
+@token_required
+def update_problem_score():
+    data = request.get_json()
+    user_id = request.user_id  
+
+    problem_name = data.get('problem_name')
+    source = data.get('source')
+    year = data.get('year')
+    score = data.get('score')
+
+    if not all([problem_name, source, year, score is not None]):
+        return jsonify({"error": "Missing required fields"}), 400
+
+    db = get_db()
+    db.execute(
+        '''
+        INSERT INTO problem_statuses (user_id, problem_name, source, year, score)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(user_id, problem_name, source, year)
+        DO UPDATE SET score = ?
+        ''',
+        (user_id, problem_name, source, year, score, score)
+    )
+    db.commit()
+    db.close()
+    return jsonify(success=True)
+
 @app.route('/api/logout', methods=["POST"])
 def api_logout():
     return jsonify({"success": True, "message": "JWTs are stateless, no need to logout explicitly."})
