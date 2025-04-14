@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, redirect, session, jsonify
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 import hashlib
 import os
 import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
-from datetime import timedelta
+from datetime import timedelta, datetime
+import jwt  # Import PyJWT
+from functools import wraps
 
 load_dotenv()  # Load environment variables from .env
 
@@ -17,11 +19,35 @@ CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "https://
 app.secret_key = "your-secret-key"
 app.permanent_session_lifetime = timedelta(days=1)
 
+# JWT Secret key
+JWT_SECRET_KEY = "your-jwt-secret-key"  # Change this in production
+
 def get_db():
     db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
+
+# JWT token required decorator
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.headers.get("Authorization")
+        if not token:
+            return jsonify({"error": "Token is missing"}), 403
+
+        try:
+            token = token.split(" ")[1]  # Extract the token from "Bearer <token>"
+            decoded_token = jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
+            request.user_id = decoded_token["user_id"]
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token has expired"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token"}), 401
+
+        return f(*args, **kwargs)
+
+    return decorated_function
 
 @app.route("/api/register", methods=["POST"])
 def api_register():
@@ -53,20 +79,29 @@ def api_login():
     password = hashlib.sha256(data.get("password", "").encode()).hexdigest()
     db = get_db()
     user = db.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)).fetchone()
+    
     if user:
-        session["user_id"] = user["id"]
-        session["username"] = user["username"]
-        session.permanent = True
-        return jsonify({"success": True})
+        # Generate JWT token
+        token = jwt.encode(
+            {"user_id": user["id"], "exp": datetime.utcnow() + timedelta(days=1)}, 
+            JWT_SECRET_KEY, 
+            algorithm="HS256"
+        )
+        return jsonify({"success": True, "token": token})
     return jsonify({"success": False, "error": "Invalid credentials"}), 401
 
-@app.route('/api/whoami')
-def get():
-    if not session.get('user_id'):
-        return jsonify({'error': 'Not logged in'}), 401
-    return jsonify({'username': session['username']})
+@app.route('/api/whoami', methods=["GET"])
+@token_required
+def whoami():
+    db = get_db()
+    user = db.execute("SELECT username FROM users WHERE id=?", (request.user_id,)).fetchone()
+    
+    if user:
+        return jsonify({'username': user['username']})
+    return jsonify({'error': 'User not found'}), 404
 
-@app.route('/api/problems')
+@app.route('/api/problems', methods=["GET"])
+@token_required
 def get_problems():
     from_names = request.args.get('names')
     if not from_names:
@@ -75,10 +110,7 @@ def get_problems():
     # Split the names by comma and strip any leading/trailing whitespace
     from_names = [name.strip() for name in from_names.split(',')]
 
-    user_id = session.get("user_id")
-    if not user_id:
-        return jsonify({"error": "Not logged in"}), 401
-
+    user_id = request.user_id  # Get user ID from JWT token
     db = get_db()
 
     # Prepare the query for fetching problems for multiple sources
@@ -127,57 +159,9 @@ def get_problems():
 
     return jsonify(problems_by_category)
 
-@app.route('/api/update-problem-status', methods=['POST'])
-def update_problem_status():
-    data = request.get_json()
-    user_id = session.get('user_id')
-    problem_name = data['problem_name']
-    source = data['source']
-    year = data['year']
-    status = data['status']
-
-    db = get_db()
-    db.execute(
-        '''
-        INSERT INTO problem_statuses (user_id, problem_name, source, year, status)
-        VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(user_id, problem_name, source, year)
-        DO UPDATE SET status = ?
-        ''',
-        (user_id, problem_name, source, year, status, status)
-    )
-    db.commit()
-    db.close()
-    return jsonify(success=True)
-
-@app.route('/api/update-problem-score', methods=['POST'])
-def update_problem_score():
-    data = request.get_json()
-    user_id = session.get('user_id')
-    problem_name = data['problem_name']
-    source = data['source']
-    year = data['year']
-    score = data['score']
-
-    db = get_db()
-    db.execute(
-        '''
-        INSERT INTO problem_statuses (user_id, problem_name, source, year, score)
-        VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(user_id, problem_name, source, year)
-        DO UPDATE SET score = ?
-        ''',
-        (user_id, problem_name, source, year, score, score)
-    )
-    db.commit()
-    db.close()
-    return jsonify(success=True)
-
-
 @app.route('/api/logout', methods=["POST"])
 def api_logout():
-    session.clear()  # Clears all session data
-    return jsonify({"success": True})
+    return jsonify({"success": True, "message": "JWTs are stateless, no need to logout explicitly."})
 
 if __name__ == "__main__":
     app.run(debug=True)

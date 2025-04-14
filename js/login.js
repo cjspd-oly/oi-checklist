@@ -5,10 +5,11 @@ document.getElementById('login-form')
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
+      const errorBox = document.getElementById('error-message');
+
       try {
         const response = await fetch(`${apiUrl}/api/login`, {
           method: 'POST',
-          credentials: 'include',  // Allows cookies/session to persist
           headers: {
             'Content-Type': 'application/json',
           },
@@ -17,9 +18,11 @@ document.getElementById('login-form')
 
         const data = await response.json();
 
-        const errorBox = document.getElementById('error-message');
-
         if (response.ok && data.success) {
+          const sessionToken = data.token;
+          console.log('JWT Token: ' + sessionToken);
+          localStorage.setItem('sessionToken', sessionToken);
+
           window.location.href = 'index.html';
         } else {
           errorBox.style.display = 'block';

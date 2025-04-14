@@ -33,6 +33,7 @@ function triggerFullConfettiFall() {
 
 function handleCellClick(cell, name, source, year, e) {
   if (e.target.tagName.toLowerCase() === 'a') return;
+  const sessionToken = localStorage.getItem('sessionToken');
 
   // If clicking the same cell, close the popup
   if (currentCell === cell && popup.classList.contains('show')) {
@@ -118,7 +119,10 @@ function handleCellClick(cell, name, source, year, e) {
     fetch(apiUrl + '/api/update-problem-score', {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
+      },
       body: JSON.stringify({
         problem_name: thisName,
         source: thisSource,
@@ -155,6 +159,7 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
 });
 
 function updateStatus(status, cell, name, source, year) {
+  const sessionToken = localStorage.getItem('sessionToken');
   cell.dataset.status = status;
   cell.style.backgroundColor = statuses[status].color;
   popupStatus.textContent = statuses[status].label;
@@ -164,7 +169,10 @@ function updateStatus(status, cell, name, source, year) {
   fetch(apiUrl + '/api/update-problem-status', {
     method: 'POST',
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionToken}`
+    },
     body: JSON.stringify(
         {problem_name: name, source: source, year: year, status: status})
   });
@@ -185,7 +193,10 @@ function handlePopupClose(cell) {
     fetch(apiUrl + '/api/update-problem-score', {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
+      },
       body: JSON.stringify(
           {problem_name: name, source: source, year: year, score: finalScore})
     });
@@ -320,6 +331,7 @@ function loadProblemsWithDay(source, numDays) {
 }
 
 window.onload = async () => {
+  const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL'
@@ -334,8 +346,11 @@ window.onload = async () => {
   });
 
   // Display username
-  let res = await fetch(
-      apiUrl + `/api/whoami`, {method: 'GET', credentials: 'include'});
+  let res = await fetch(apiUrl + `/api/whoami`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {'Authorization': `Bearer ${sessionToken}`}
+  });
   if (res.ok) {
     const data = await res.json();
     document.getElementById('welcome-message').textContent =
@@ -346,9 +361,11 @@ window.onload = async () => {
   }
 
   // Fetch problems data
-  res = await fetch(
-      apiUrl + `/api/problems?names=${sources.join(',')}`,
-      {method: 'GET', credentials: 'include'});
+  res = await fetch(apiUrl + `/api/problems?names=${sources.join(',')}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {'Authorization': `Bearer ${sessionToken}`}
+  });
   if (res.status !== 200) {
     window.location.href = 'login.html';
     return;
@@ -391,11 +408,13 @@ function generateSkeletonRows(numRows) {
 
 document.getElementById('logout-button')
     .addEventListener('click', async (event) => {
+      const sessionToken = localStorage.getItem('sessionToken');
       event.preventDefault();  // Prevents the default behavior of the <a> tag
 
       const res = await fetch(apiUrl + '/api/logout', {
         method: 'POST',
-        credentials: 'include',  // Ensures the session is cleared
+        credentials: 'include',
+        headers: {'Authorization': `Bearer ${sessionToken}`}
       });
 
       if (res.status === 200) {

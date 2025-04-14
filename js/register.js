@@ -6,11 +6,15 @@ document.getElementById('register-form')
       const password = document.getElementById('password').value;
       const errorBox = document.getElementById('error-message');
 
+      const sessionToken = localStorage.getItem('sessionToken');
       try {
         const res = await fetch(apiUrl + '/api/register', {
           method: 'POST',
           credentials: 'include',
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
           body: JSON.stringify({username, password})
         });
 
