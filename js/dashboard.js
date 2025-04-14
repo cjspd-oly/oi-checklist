@@ -337,7 +337,7 @@ window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL'
+    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI'
   ];
 
   // Show skeleton loading for all Olympiads
