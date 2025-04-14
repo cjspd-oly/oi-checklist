@@ -335,7 +335,7 @@ window.onload = async () => {
     document.getElementById('welcome-message').textContent =
         `Welcome, ${data.username}`;
   } else {
-    window.location.href = '/login.html';
+    window.location.href = 'login.html';
     return;
   }
 
@@ -343,7 +343,7 @@ window.onload = async () => {
       apiUrl + `/api/problems?names=${sources.join(',')}`,
       {method: 'GET', credentials: 'include'});
   if (res.status != 200) {
-    window.location.href = '/login.html';
+    window.location.href = 'login.html';
     return;
   }
   cachedProblemsData = await res.json();

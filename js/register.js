@@ -20,7 +20,7 @@ document.getElementById('register-form')
         const result = await res.json();
 
         if (res.ok) {
-          window.location.href = '/login.html';
+          window.location.href = 'login.html';
         } else {
           errorBox.style.display = 'block';
           errorBox.innerText = result.error || 'Registration failed';

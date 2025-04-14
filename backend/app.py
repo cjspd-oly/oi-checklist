@@ -11,7 +11,7 @@ load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
 # Allow cookies to be sent from frontend
-CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5501", "https://avighnac.github.io/oi-checklist"])
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "https://avighnac.github.io"])
 app.secret_key = "your-secret-key"
 
 def get_db():

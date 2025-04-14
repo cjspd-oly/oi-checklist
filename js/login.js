@@ -20,15 +20,17 @@ document.getElementById('login-form')
 
         const data = await response.json();
 
+        const errorBox = document.getElementById('error-message');
+
         if (response.ok && data.success) {
-          window.location.href = '/';
+          window.location.href = 'index.html';
         } else {
-          document.getElementById('error-message').innerText =
-              data.error || 'Login failed';
+          errorBox.style.display = 'block';
+          errorBox.innerText = data.error || 'Login failed';
         }
       } catch (error) {
+        errorBox.style.display = 'block';
         console.error('Error during login:', error);
-        document.getElementById('error-message').innerText =
-            'An error occurred. Please try again later.';
+        errorBox.innerText = 'An error occurred. Please try again later.';
       }
     });
