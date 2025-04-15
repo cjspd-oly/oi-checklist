@@ -1,8 +1,8 @@
 const statuses = [
-  {label: 'Unattempted', color: '', value: 0},
-  {label: 'In progress', color: '#ffd966', value: 1},
-  {label: 'Solved', color: '#7dbf7d', value: 2},
-  {label: 'Failed', color: '#f47174', value: 3}
+  {label: 'Unattempted', className: 'white', value: 0},
+  {label: 'In progress', className: 'yellow', value: 1},
+  {label: 'Solved', className: 'green', value: 2},
+  {label: 'Failed', className: 'red', value: 3}
 ];
 
 const next = [1, 3, 0, 2];
@@ -53,7 +53,10 @@ function handleCellClick(cell, name, source, year, e) {
 
   popupStatus.textContent = statuses[currentStatus].label;
   popupStatus.dataset.status = statuses[currentStatus].label;
-  popupStatus.style.backgroundColor = statuses[currentStatus].color;
+  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
+  if (statuses[currentStatus].className != 'white') {
+    popupStatus.classList.add(statuses[currentStatus].className);
+  }
 
   popupScore.textContent = cell.dataset.score || '0';
 
@@ -151,20 +154,34 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
 
   const statusIndex = parseInt(cell.dataset.status || '0');
   const statusObj = statuses[statusIndex];
-  if (statusObj && statusObj.color) {
-    cell.style.backgroundColor = statusObj.color;
+  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
+  if (statusObj?.className) {
+    cell.classList.add(statusObj.className);
   }
+
   cell.addEventListener(
       'click', (e) => handleCellClick(cell, name, source, year, e));
 });
 
+
 function updateStatus(status, cell, name, source, year) {
   const sessionToken = localStorage.getItem('sessionToken');
+  const statusObj = statuses[status];
+
   cell.dataset.status = status;
-  cell.style.backgroundColor = statuses[status].color;
-  popupStatus.textContent = statuses[status].label;
-  popupStatus.style.backgroundColor = statuses[status].color;
-  popupStatus.dataset.status = statuses[status].label;
+
+  // Remove previous status color classes
+  cell.classList.remove('green', 'yellow', 'red', 'white');
+  if (statusObj.className) {
+    cell.classList.add(statusObj.className);
+  }
+  popupStatus.textContent = statusObj.label;
+  popupStatus.dataset.status = statusObj.label;
+
+  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
+  if (statusObj.className) {
+    popupStatus.classList.add(statusObj.className);
+  }
 
   fetch(apiUrl + '/api/update-problem-status', {
     method: 'POST',
@@ -221,10 +238,11 @@ async function loadProblems(from) {
     const yearCell = document.createElement('td');
     yearCell.className = 'year-cell';
     let prefix = from;
-    if (prefix == 'JOIFR') {
+    if (prefix === 'JOIFR') {
       prefix = 'JOI';
     } else if (
-        prefix == 'NOIPRELIM' || prefix == 'NOIQUAL' || prefix == 'NOIFINAL') {
+        prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
+        prefix === 'NOIFINAL') {
       prefix = 'NOI';
     }
     yearCell.textContent = `${prefix} ${year}`;
@@ -233,15 +251,16 @@ async function loadProblems(from) {
     for (const problem of problems) {
       const cell = document.createElement('td');
       const status = statuses.find(s => s.value === problem.status);
-      if (status && status.color) {
-        cell.style.backgroundColor = status.color;
-      }
       cell.className = 'problem-cell';
       cell.dataset.status = problem.status;
       cell.dataset.problemId = problem.name;
       cell.dataset.source = problem.source;
       cell.dataset.year = problem.year;
       cell.dataset.score = problem.score;
+
+      if (status?.className) {
+        cell.classList.add(status.className);
+      }
 
       const link = document.createElement('a');
       link.href = problem.link;
@@ -295,8 +314,8 @@ function loadProblemsWithDay(source, numDays) {
 
         if (problem) {
           const status = statuses.find(s => s.value === problem.status);
-          if (status && status.color) {
-            cell.style.backgroundColor = status.color;
+          if (status?.className) {
+            cell.classList.add(status.className);
           }
 
           cell.dataset.status = problem.status;
@@ -323,7 +342,8 @@ function loadProblemsWithDay(source, numDays) {
       }
 
       const hasProblem = [...dayRow.children].some(
-          td => td.className === 'problem-cell' && td.children.length > 0);
+          td =>
+              td.classList.contains('problem-cell') && td.children.length > 0);
       if (hasProblem) {
         tbody.appendChild(dayRow);
       }
@@ -429,3 +449,26 @@ document.getElementById('logout-button')
         console.error('Logout failed');
       }
     });
+
+// Dark mode
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleSwitch = document.getElementById('dark-mode-switch');
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme) {
+    if (currentTheme === 'dark-mode') {
+      document.body.classList.add(currentTheme);
+      toggleSwitch.checked = true;
+    }
+  } else {
+    currentTheme = 'light-mode';
+  }
+  toggleSwitch.addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light-mode');
+    }
+  });
+});
