@@ -461,6 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   } else {
     currentTheme = 'light-mode';
+          localStorage.setItem('theme', 'light-mode');
   }
   toggleSwitch.addEventListener('change', function(e) {
     if (e.target.checked) {
