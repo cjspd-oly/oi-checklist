@@ -391,7 +391,7 @@ input:not(:checked)+.slider {
 }
 
 .dark-mode .year-cell,
-.day-cell {
+.dark-mode .day-cell {
     background-color: #1b1b1b;
 }
 
