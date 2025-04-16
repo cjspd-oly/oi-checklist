@@ -453,7 +453,7 @@ document.getElementById('logout-button')
 // Dark mode
 document.addEventListener('DOMContentLoaded', function() {
   const toggleSwitch = document.getElementById('dark-mode-switch');
-  const currentTheme = localStorage.getItem('theme');
+  let currentTheme = localStorage.getItem('theme');
   if (currentTheme) {
     if (currentTheme === 'dark-mode') {
       document.body.classList.add(currentTheme);
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   } else {
     currentTheme = 'light-mode';
-          localStorage.setItem('theme', 'light-mode');
+    localStorage.setItem('theme', 'light-mode');
   }
   toggleSwitch.addEventListener('change', function(e) {
     if (e.target.checked) {
