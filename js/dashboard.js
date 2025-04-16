@@ -155,7 +155,7 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
   const statusIndex = parseInt(cell.dataset.status || '0');
   const statusObj = statuses[statusIndex];
   popupStatus.classList.remove('green', 'yellow', 'red', 'white');
-  if (statusObj?.className) {
+  if (statusObj?.className && statusObj.className != 'white') {
     cell.classList.add(statusObj.className);
   }
 
@@ -179,7 +179,7 @@ function updateStatus(status, cell, name, source, year) {
   popupStatus.dataset.status = statusObj.label;
 
   popupStatus.classList.remove('green', 'yellow', 'red', 'white');
-  if (statusObj.className) {
+  if (statusObj.className != 'white') {
     popupStatus.classList.add(statusObj.className);
   }
 
