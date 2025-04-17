@@ -11,6 +11,28 @@ const popup = document.getElementById('status-popup');
 const popupStatus = document.getElementById('popup-status');
 const popupScore = document.getElementById('popup-score');
 
+const count = {
+  counts: {red: 0, yellow: 0, green: 0, white: 0},
+  update(key, diff) {
+    if (key in this.counts) {
+      this.counts[key] += diff;
+      const el = document.getElementById(`${key}-count`);
+      if (el)
+        el.textContent = this.counts[key];
+      let total = 0;
+      for (const color in this.counts) {
+        total += this.counts[color];
+      }
+      for (const color in this.counts) {
+        const el = document.querySelector(`.progress-segment.${color}`);
+        if (el) {
+          el.style.width = `${(this.counts[color] / total) * 100}%`;
+        }
+      }
+    }
+  }
+};
+
 let currentCell = null;
 let currentStatus = 0;
 
@@ -155,6 +177,7 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
   const statusIndex = parseInt(cell.dataset.status || '0');
   const statusObj = statuses[statusIndex];
   popupStatus.classList.remove('green', 'yellow', 'red', 'white');
+  count.update(statusObj.className, 1);
   if (statusObj?.className && statusObj.className != 'white') {
     cell.classList.add(statusObj.className);
   }
@@ -168,12 +191,17 @@ function updateStatus(status, cell, name, source, year) {
   const sessionToken = localStorage.getItem('sessionToken');
   const statusObj = statuses[status];
 
+  const oldStatus = statuses[parseInt(cell.dataset.status || '0')];
+  if (oldStatus)
+    count.update(oldStatus.className, -1);
+
   cell.dataset.status = status;
 
   // Remove previous status color classes
   cell.classList.remove('green', 'yellow', 'red', 'white');
   if (statusObj.className) {
     cell.classList.add(statusObj.className);
+    count.update(statusObj.className, 1);
   }
   popupStatus.textContent = statusObj.label;
   popupStatus.dataset.status = statusObj.label;
@@ -260,6 +288,7 @@ async function loadProblems(from) {
 
       if (status?.className) {
         cell.classList.add(status.className);
+        count.update(status.className, 1);
       }
 
       const link = document.createElement('a');
@@ -316,6 +345,7 @@ function loadProblemsWithDay(source, numDays) {
           const status = statuses.find(s => s.value === problem.status);
           if (status?.className) {
             cell.classList.add(status.className);
+            count.update(status.className, 1);
           }
 
           cell.dataset.status = problem.status;
