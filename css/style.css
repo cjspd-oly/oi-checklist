@@ -417,3 +417,46 @@ input:not(:checked)+.slider {
 .dark-mode .red {
     background-color: #f44336;
 }
+
+/* Solve Count */
+#solve-count-container {
+    border-bottom: 1px solid #ddd;
+    width: 80%;
+    margin: 0 auto;
+}
+
+#solve-count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.solve-count-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+}
+
+#progress-bar {
+    display: flex;
+    height: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-segment.white {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.dark-mode .progress-segment.white {
+    background-color: rgba(255, 255, 255, 0.1);
+}
