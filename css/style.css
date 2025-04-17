@@ -436,7 +436,6 @@ input:not(:checked)+.slider {
     height: 20px;
     display: inline-block;
     margin-right: 5px;
-    border-radius: 4px;
 }
 
 .solve-count-item {
@@ -451,7 +450,6 @@ input:not(:checked)+.slider {
     height: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
-    border-radius: 5px;
     overflow: hidden;
 }
 
