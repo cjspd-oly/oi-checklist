@@ -101,13 +101,12 @@ function handleCellClick(cell, name, source, year, e) {
     thisCell.dataset.score = score;
     popupScore.textContent = score;
 
-    if (scoreChanged && prevScore != 0) {
-      if (score != 100) {
-        popupScore.classList.add('bump');
-        setTimeout(() => popupScore.classList.remove('bump'), 250);
-      } else {
-        triggerFullConfettiFall();
-      }
+    if (scoreChanged && score == 100) {
+      triggerFullConfettiFall();
+    }
+    if (scoreChanged && score != 100 && prevScore != 0) {
+      popupScore.classList.add('bump');
+      setTimeout(() => popupScore.classList.remove('bump'), 250);
     }
 
     if (score === 100) {
