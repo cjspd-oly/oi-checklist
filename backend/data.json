@@ -4639,5 +4639,656 @@
         "source": "NOISEL",
         "year": 2020,
         "link": "https://codebreaker.xyz/problem/reflection"
+    },
+    {
+        "name": "Queue",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/CEOI06_queue"
+    },
+    {
+        "name": "Walk",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/CEOI06_walk"
+    },
+    {
+        "name": "Connect",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/CEOI06_connect"
+    },
+    {
+        "name": "Link",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/CEOI06_link"
+    },
+    {
+        "name": "Meandian",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/CEOI06_meandian"
+    },
+    {
+        "name": "Dominance",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2008,
+        "link": "https://oj.uz/problem/view/CEOI08_dominance"
+    },
+    {
+        "name": "Information",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2008,
+        "link": "https://oj.uz/problem/view/CEOI08_information"
+    },
+    {
+        "name": "Snake",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2008,
+        "link": "https://oj.uz/problem/view/CEOI08_snake"
+    },
+    {
+        "name": "Fence",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2008,
+        "link": "https://oj.uz/problem/view/CEOI08_fence"
+    },
+    {
+        "name": "Harbingers",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2009,
+        "link": "https://oj.uz/problem/view/CEOI09_harbingers"
+    },
+    {
+        "name": "Tri",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2009,
+        "link": "https://oj.uz/problem/view/CEOI09_tri"
+    },
+    {
+        "name": "Bodyguards",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2010,
+        "link": "https://oj.uz/problem/view/CEOI10_bodyguards"
+    },
+    {
+        "name": "MP3 Player",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2010,
+        "link": "https://oj.uz/problem/view/CEOI10_mp3player"
+    },
+    {
+        "name": "PIN",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2010,
+        "link": "https://oj.uz/problem/view/CEOI10_pin"
+    },
+    {
+        "name": "A Huge Tower",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2010,
+        "link": "https://oj.uz/problem/view/CEOI10_tower"
+    },
+    {
+        "name": "Balloons",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_bal"
+    },
+    {
+        "name": "Matching",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_mat"
+    },
+    {
+        "name": "Treasure Hunt",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_tre"
+    },
+    {
+        "name": "Hotel",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_hot"
+    },
+    {
+        "name": "Teams",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_tea"
+    },
+    {
+        "name": "Traffic",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/CEOI11_tra"
+    },
+    {
+        "name": "Job Scheduling",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2012,
+        "link": "https://oj.uz/problem/view/CEOI12_jobs"
+    },
+    {
+        "name": "Printed Circuit Board",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2012,
+        "link": "https://oj.uz/problem/view/CEOI12_circuit"
+    },
+    {
+        "name": "Sailing Race",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2012,
+        "link": "https://oj.uz/problem/view/CEOI12_race"
+    },
+    {
+        "name": "Highway Design",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2012,
+        "link": "https://oj.uz/problem/view/CEOI12_highway"
+    },
+    {
+        "name": "Treasure",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/CEOI13_treasure2"
+    },
+    {
+        "name": "Tram",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/CEOI13_tram"
+    },
+    {
+        "name": "Board",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/CEOI13_board"
+    },
+    {
+        "name": "Adriatic",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/CEOI13_adriatic"
+    },
+    {
+        "name": "Carnival",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_carnival"
+    },
+    {
+        "name": "The Forest of Fangorn",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_fangorn"
+    },
+    {
+        "name": "Question",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_question_grader"
+    },
+    {
+        "name": "007",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_007"
+    },
+    {
+        "name": "Cake",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_cake"
+    },
+    {
+        "name": "Wall",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/CEOI14_wall"
+    },
+    {
+        "name": "Potemkin Cycle",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_indcyc"
+    },
+    {
+        "name": "Calvinball Championship",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_teams"
+    },
+    {
+        "name": "Pipes",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_pipes"
+    },
+    {
+        "name": "Ice Hockey World Championship",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_bobek"
+    },
+    {
+        "name": "Nuclearia",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_nuclearia"
+    },
+    {
+        "name": "Calvinball Championship, again",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/CEOI15_calvinball"
+    },
+    {
+        "name": "ICC",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/CEOI16_icc"
+    },
+    {
+        "name": "Kangaroo",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/CEOI16_kangaroo"
+    },
+    {
+        "name": "Match",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/CEOI16_match"
+    },
+    {
+        "name": "Popeala",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/CEOI16_popeala"
+    },
+    {
+        "name": "Router",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/CEOI16_router"
+    },
+    {
+        "name": "One-Way Streets",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_oneway"
+    },
+    {
+        "name": "Sure Bet",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_sure"
+    },
+    {
+        "name": "Mousetrap",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_mousetrap"
+    },
+    {
+        "name": "Building Bridges",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_building"
+    },
+    {
+        "name": "Palindromic Partitions",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_palindromic"
+    },
+    {
+        "name": "Chase",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/CEOI17_chase"
+    },
+    {
+        "name": "Cloud Computing",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_clo"
+    },
+    {
+        "name": "Global Warming",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_glo"
+    },
+    {
+        "name": "Lottery",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_lot"
+    },
+    {
+        "name": "Fibonacci Representations",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_fib"
+    },
+    {
+        "name": "Toys",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_toy"
+    },
+    {
+        "name": "Triangles",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/CEOI18_tri"
+    },
+    {
+        "name": "Building Skyscrapers",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_skyscrapers"
+    },
+    {
+        "name": "Cubeword",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_cubeword"
+    },
+    {
+        "name": "Dynamic Diameter",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_diameter"
+    },
+    {
+        "name": "Amusement Park",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_amusementpark"
+    },
+    {
+        "name": "Magic Tree",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_magictree"
+    },
+    {
+        "name": "Scissors and Tape",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/CEOI19_scissors"
+    },
+    {
+        "name": "Fancy Fence",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_fancyfence"
+    },
+    {
+        "name": "Roads",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_roads"
+    },
+    {
+        "name": "Star Trek",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_startrek"
+    },
+    {
+        "name": "The Potion of Great Power",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_potion"
+    },
+    {
+        "name": "Spring Cleaning",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_cleaning"
+    },
+    {
+        "name": "Chess Rush",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/CEOI20_chessrush"
+    },
+    {
+        "name": "Diversity",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/CEOI21_diversity"
+    },
+    {
+        "name": "L-triominoes",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/CEOI21_ltriominoes"
+    },
+    {
+        "name": "Newspapers",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/CEOI21_newspapers"
+    },
+    {
+        "name": "Tortoise",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/CEOI21_tortoise"
+    },
+    {
+        "name": "Wells",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/CEOI21_wells"
+    },
+    {
+        "name": "Abracadabra",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_abracadabra"
+    },
+    {
+        "name": "Homework",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_homework"
+    },
+    {
+        "name": "Prize",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_prize"
+    },
+    {
+        "name": "Drawing",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_drawing"
+    },
+    {
+        "name": "Measures",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_measures"
+    },
+    {
+        "name": "Parking",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/CEOI22_parking"
+    },
+    {
+        "name": "A Light Inconvenience",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_light"
+    },
+    {
+        "name": "Bring Down the Grading Server",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_gradingserver"
+    },
+    {
+        "name": "Brought Down the Grading Server?",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_balance"
+    },
+    {
+        "name": "Tricks of the Trade",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_trade"
+    },
+    {
+        "name": "The Ties That Guide Us",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_incursion"
+    },
+    {
+        "name": "How to Avoid Disqualification in 75 Easy Steps",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/CEOI23_avoid"
+    },
+    {
+        "name": "Naval Battle",
+        "number": 1,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_battle"
+    },
+    {
+        "name": "COVID Tests",
+        "number": 2,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_covid"
+    },
+    {
+        "name": "Text Editor",
+        "number": 3,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_editor"
+    },
+    {
+        "name": "Toy",
+        "number": 4,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_toy"
+    },
+    {
+        "name": "Petrol Stations",
+        "number": 5,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_stations"
+    },
+    {
+        "name": "Sprinklers",
+        "number": 6,
+        "source": "CEOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/CEOI24_sprinklers"
     }
 ]
