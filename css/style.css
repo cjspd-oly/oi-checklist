@@ -175,6 +175,24 @@ h2 {
     /* optional inner spacing */
 }
 
+.table-container table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+    white-space: normal;
+    overflow-wrap: break-word;
+    /* tries to break between words */
+    word-break: break-word;
+    /* but allows breaking long single words only if needed */
+    hyphens: auto;
+    /* gives cleaner breaks if browser supports hyphenation */
+    text-align: center;
+}
+
 .navbar {
     padding: 1rem 2rem;
     display: flex;

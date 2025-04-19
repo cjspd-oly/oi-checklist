@@ -17,8 +17,7 @@ const count = {
     if (key in this.counts) {
       this.counts[key] += diff;
       const el = document.getElementById(`${key}-count`);
-      if (el)
-        el.textContent = this.counts[key];
+      if (el) el.textContent = this.counts[key];
       let total = 0;
       for (const color in this.counts) {
         total += this.counts[color];
@@ -191,8 +190,7 @@ function updateStatus(status, cell, name, source, year) {
   const statusObj = statuses[status];
 
   const oldStatus = statuses[parseInt(cell.dataset.status || '0')];
-  if (oldStatus)
-    count.update(oldStatus.className, -1);
+  if (oldStatus) count.update(oldStatus.className, -1);
 
   cell.dataset.status = status;
 
@@ -269,7 +267,7 @@ async function loadProblems(from) {
       prefix = 'JOI';
     } else if (
         prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
-        prefix === 'NOIFINAL') {
+        prefix === 'NOIFINAL' || prefix == 'NOISEL') {
       prefix = 'NOI';
     }
     yearCell.textContent = `${prefix} ${year}`;
@@ -386,7 +384,7 @@ window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI'
+    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL'
   ];
 
   // Show skeleton loading for all Olympiads
