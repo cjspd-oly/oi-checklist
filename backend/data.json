@@ -5290,5 +5290,474 @@
         "source": "CEOI",
         "year": 2024,
         "link": "https://oj.uz/problem/view/CEOI24_sprinklers"
+    },
+    {
+        "name": "Dijamant",
+        "number": 1,
+        "source": "COI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/COI16_dijament"
+    },
+    {
+        "name": "Palinilap",
+        "number": 2,
+        "source": "COI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/COI16_palinilap"
+    },
+    {
+        "name": "Relay",
+        "number": 3,
+        "source": "COI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/COI16_relay"
+    },
+    {
+        "name": "Torrent",
+        "number": 4,
+        "source": "COI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/COI16_torrent"
+    },
+    {
+        "name": "Ili",
+        "number": 1,
+        "source": "COI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/COI17_ili"
+    },
+    {
+        "name": "Raspad",
+        "number": 2,
+        "source": "COI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/COI17_raspad"
+    },
+    {
+        "name": "Trapezi",
+        "number": 3,
+        "source": "COI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/COI17_trapezi"
+    },
+    {
+        "name": "Zagrade",
+        "number": 4,
+        "source": "COI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/COI17_zagrade"
+    },
+    {
+        "name": "Paprike",
+        "number": 1,
+        "source": "COI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/COI18_paprike"
+    },
+    {
+        "name": "Pick",
+        "number": 2,
+        "source": "COI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/COI18_pick"
+    },
+    {
+        "name": "Svjetlost",
+        "number": 3,
+        "source": "COI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/COI18_svjetlost"
+    },
+    {
+        "name": "Zagonetka",
+        "number": 4,
+        "source": "COI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/COI18_zagonetka"
+    },
+    {
+        "name": "Izlet",
+        "number": 1,
+        "source": "COI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/COI19_izlet"
+    },
+    {
+        "name": "Ljetopica",
+        "number": 2,
+        "source": "COI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/COI19_ljetopica"
+    },
+    {
+        "name": "Segway",
+        "number": 3,
+        "source": "COI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/COI19_segway"
+    },
+    {
+        "name": "Tenis",
+        "number": 4,
+        "source": "COI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/COI19_tenis"
+    },
+    {
+        "name": "Paint",
+        "number": 1,
+        "source": "COI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/COI20_paint"
+    },
+    {
+        "name": "Pastiri",
+        "number": 2,
+        "source": "COI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/COI20_pastiri"
+    },
+    {
+        "name": "Semafor",
+        "number": 3,
+        "source": "COI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/COI20_semafor"
+    },
+    {
+        "name": "Zagrade",
+        "number": 4,
+        "source": "COI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/COI20_zagrade"
+    },
+    {
+        "name": "Autobahn",
+        "number": 1,
+        "source": "COI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/COI21_autobahn"
+    },
+    {
+        "name": "Cigle",
+        "number": 2,
+        "source": "COI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/COI21_cigle"
+    },
+    {
+        "name": "Izvanzemaljci",
+        "number": 3,
+        "source": "COI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/COI21_izvanzemaljci"
+    },
+    {
+        "name": "MalnaRISC",
+        "number": 4,
+        "source": "COI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/COI21_malnarisc"
+    },
+    {
+        "name": "Ma\u0111ioni\u010dar",
+        "number": 1,
+        "source": "COI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/COI22_madionicar"
+    },
+    {
+        "name": "Mensza",
+        "number": 2,
+        "source": "COI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/COI22_mensza"
+    },
+    {
+        "name": "Povjerenstvo",
+        "number": 3,
+        "source": "COI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/COI22_povjerenstvo"
+    },
+    {
+        "name": "Vinjete",
+        "number": 4,
+        "source": "COI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/COI22_vinjete"
+    },
+    {
+        "name": "Bliskost",
+        "number": 1,
+        "source": "COI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/COI23_bliskost"
+    },
+    {
+        "name": "Nestabilnost",
+        "number": 2,
+        "source": "COI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/COI23_nestabilnost"
+    },
+    {
+        "name": "Netrpeljivost",
+        "number": 3,
+        "source": "COI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/COI23_netrpeljivost"
+    },
+    {
+        "name": "Sli\u010dnost",
+        "number": 4,
+        "source": "COI",
+        "year": 2023,
+        "link": "https://oj.uz/problem/view/COI23_slicnost"
+    },
+    {
+        "name": "Patrik",
+        "number": 1,
+        "source": "COI",
+        "year": 2007,
+        "link": "https://dmoj.ca/problem/coi06p1"
+    },
+    {
+        "name": "Policija",
+        "number": 2,
+        "source": "COI",
+        "year": 2007,
+        "link": "https://dmoj.ca/problem/coi06p2"
+    },
+    {
+        "name": "Sabor",
+        "number": 3,
+        "source": "COI",
+        "year": 2007,
+        "link": "https://dmoj.ca/problem/coi06p3"
+    },
+    {
+        "name": "Glasnici",
+        "number": 1,
+        "source": "COI",
+        "year": 2008,
+        "link": "https://dmoj.ca/problem/coi07p1"
+    },
+    {
+        "name": "Kolekcija",
+        "number": 2,
+        "source": "COI",
+        "year": 2008,
+        "link": "https://dmoj.ca/problem/coi07p2"
+    },
+    {
+        "name": "Tamnica",
+        "number": 3,
+        "source": "COI",
+        "year": 2008,
+        "link": "https://dmoj.ca/problem/coi07p3"
+    },
+    {
+        "name": "Umno\u017eak",
+        "number": 4,
+        "source": "COI",
+        "year": 2008,
+        "link": "https://dmoj.ca/problem/coi07p4"
+    },
+    {
+        "name": "Izbori",
+        "number": 1,
+        "source": "COI",
+        "year": 2009,
+        "link": "https://dmoj.ca/problem/coi08p1"
+    },
+    {
+        "name": "Otoci",
+        "number": 2,
+        "source": "COI",
+        "year": 2009,
+        "link": "https://dmoj.ca/problem/coi08p2"
+    },
+    {
+        "name": "Plahte",
+        "number": 3,
+        "source": "COI",
+        "year": 2009,
+        "link": "https://dmoj.ca/problem/coi08p3"
+    },
+    {
+        "name": "Hrastovi",
+        "number": 1,
+        "source": "COI",
+        "year": 2010,
+        "link": "https://dmoj.ca/problem/coi09p1"
+    },
+    {
+        "name": "Kolo",
+        "number": 2,
+        "source": "COI",
+        "year": 2010,
+        "link": "https://dmoj.ca/problem/coi09p2"
+    },
+    {
+        "name": "Loza",
+        "number": 3,
+        "source": "COI",
+        "year": 2010,
+        "link": "https://dmoj.ca/problem/coi09p3"
+    },
+    {
+        "name": "Roboti",
+        "number": 4,
+        "source": "COI",
+        "year": 2010,
+        "link": "https://dmoj.ca/problem/coi09p4"
+    },
+    {
+        "name": "Sort",
+        "number": 1,
+        "source": "COI",
+        "year": 2011,
+        "link": "https://dmoj.ca/problem/coi10p1"
+    },
+    {
+        "name": "Telka",
+        "number": 2,
+        "source": "COI",
+        "year": 2011,
+        "link": "https://dmoj.ca/problem/coi10p2"
+    },
+    {
+        "name": "Rijeka",
+        "number": 3,
+        "source": "COI",
+        "year": 2011,
+        "link": "https://dmoj.ca/problem/coi10p3"
+    },
+    {
+        "name": "Kamion",
+        "number": 4,
+        "source": "COI",
+        "year": 2011,
+        "link": "https://dmoj.ca/problem/coi10p4"
+    },
+    {
+        "name": "Lovci",
+        "number": 5,
+        "source": "COI",
+        "year": 2011,
+        "link": "https://dmoj.ca/problem/coi10p5"
+    },
+    {
+        "name": "Kampanja",
+        "number": 1,
+        "source": "COI",
+        "year": 2012,
+        "link": "https://dmoj.ca/problem/coi11p1"
+    },
+    {
+        "name": "Mjesec",
+        "number": 2,
+        "source": "COI",
+        "year": 2012,
+        "link": "https://dmoj.ca/problem/coi11p2"
+    },
+    {
+        "name": "Setnja",
+        "number": 3,
+        "source": "COI",
+        "year": 2012,
+        "link": "https://dmoj.ca/problem/coi11p3"
+    },
+    {
+        "name": "Trampolin",
+        "number": 4,
+        "source": "COI",
+        "year": 2012,
+        "link": "https://dmoj.ca/problem/coi11p4"
+    },
+    {
+        "name": "Hiperprostor",
+        "number": 1,
+        "source": "COI",
+        "year": 2013,
+        "link": "https://dmoj.ca/problem/coi12p1"
+    },
+    {
+        "name": "Rotacije",
+        "number": 2,
+        "source": "COI",
+        "year": 2013,
+        "link": "https://dmoj.ca/problem/coi12p2"
+    },
+    {
+        "name": "Snjeguljica",
+        "number": 3,
+        "source": "COI",
+        "year": 2013,
+        "link": "https://dmoj.ca/problem/coi12p3"
+    },
+    {
+        "name": "Spijuni",
+        "number": 4,
+        "source": "COI",
+        "year": 2013,
+        "link": "https://dmoj.ca/problem/coi12p4"
+    },
+    {
+        "name": "CSS",
+        "number": 1,
+        "source": "COI",
+        "year": 2014,
+        "link": "https://dmoj.ca/problem/coi13p1"
+    },
+    {
+        "name": "Histogrami",
+        "number": 2,
+        "source": "COI",
+        "year": 2014,
+        "link": "https://dmoj.ca/problem/coi13p2"
+    },
+    {
+        "name": "Mostovi",
+        "number": 3,
+        "source": "COI",
+        "year": 2014,
+        "link": "https://dmoj.ca/problem/coi13p3"
+    },
+    {
+        "name": "Nizovi",
+        "number": 4,
+        "source": "COI",
+        "year": 2014,
+        "link": "https://dmoj.ca/problem/coi13p4"
+    },
+    {
+        "name": "\u010cvenk",
+        "number": 1,
+        "source": "COI",
+        "year": 2015,
+        "link": "https://dmoj.ca/problem/coi14p1"
+    },
+    {
+        "name": "Kovanice",
+        "number": 2,
+        "source": "COI",
+        "year": 2015,
+        "link": "https://dmoj.ca/problem/coi14p2"
+    },
+    {
+        "name": "Ogledala",
+        "number": 3,
+        "source": "COI",
+        "year": 2015,
+        "link": "https://dmoj.ca/problem/coi14p3"
+    },
+    {
+        "name": "Sir",
+        "number": 4,
+        "source": "COI",
+        "year": 2015,
+        "link": "https://dmoj.ca/problem/coi14p4"
     }
 ]
