@@ -5759,5 +5759,544 @@
         "source": "COI",
         "year": 2015,
         "link": "https://dmoj.ca/problem/coi14p4"
+    },
+    {
+        "name": "Bitwise",
+        "number": 1,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_bitwise"
+    },
+    {
+        "name": "Coins",
+        "number": 2,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_coins"
+    },
+    {
+        "name": "Countries",
+        "number": 3,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_countries"
+    },
+    {
+        "name": "City",
+        "number": 4,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_city"
+    },
+    {
+        "name": "RLE",
+        "number": 5,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_rle"
+    },
+    {
+        "name": "Jump",
+        "number": 6,
+        "source": "BOI",
+        "year": 2006,
+        "link": "https://oj.uz/problem/view/BOI06_jump"
+    },
+    {
+        "name": "Growing Trees",
+        "number": 1,
+        "source": "BOI",
+        "year": 2011,
+        "link": "https://oj.uz/problem/view/BOI11_grow"
+    },
+    {
+        "name": "Ball Machine",
+        "number": 1,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_ballmachine"
+    },
+    {
+        "name": "Palindrome-Free Numbers",
+        "number": 2,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_numbers"
+    },
+    {
+        "name": "Pipes",
+        "number": 3,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_pipes"
+    },
+    {
+        "name": "Brunhilda\u2019s Birthday",
+        "number": 4,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_brunhilda"
+    },
+    {
+        "name": "Tracks in the Snow",
+        "number": 5,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_tracks"
+    },
+    {
+        "name": "Vim",
+        "number": 6,
+        "source": "BOI",
+        "year": 2013,
+        "link": "https://oj.uz/problem/view/BOI13_vim"
+    },
+    {
+        "name": "Cop and Robber",
+        "number": 1,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_coprobber"
+    },
+    {
+        "name": "Three Friends",
+        "number": 2,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_friends"
+    },
+    {
+        "name": "Sequence",
+        "number": 3,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_sequence"
+    },
+    {
+        "name": "Demarcation",
+        "number": 4,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_demarcation"
+    },
+    {
+        "name": "Portals",
+        "number": 5,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_portals"
+    },
+    {
+        "name": "Senior Postmen",
+        "number": 6,
+        "source": "BOI",
+        "year": 2014,
+        "link": "https://oj.uz/problem/view/BOI14_postmen"
+    },
+    {
+        "name": "Bowling",
+        "number": 1,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_bow"
+    },
+    {
+        "name": "Editor",
+        "number": 2,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_edi"
+    },
+    {
+        "name": "Network",
+        "number": 3,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_net"
+    },
+    {
+        "name": "File Paths",
+        "number": 4,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_fil"
+    },
+    {
+        "name": "Hacker",
+        "number": 5,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_hac"
+    },
+    {
+        "name": "Tug of War",
+        "number": 6,
+        "source": "BOI",
+        "year": 2015,
+        "link": "https://oj.uz/problem/view/BOI15_tug"
+    },
+    {
+        "name": "Bosses",
+        "number": 1,
+        "source": "BOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/BOI16_bosses"
+    },
+    {
+        "name": "Park",
+        "number": 2,
+        "source": "BOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/BOI16_park"
+    },
+    {
+        "name": "Spiral",
+        "number": 3,
+        "source": "BOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/BOI16_spiral"
+    },
+    {
+        "name": "Cities",
+        "number": 4,
+        "source": "BOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/BOI16_cities"
+    },
+    {
+        "name": "Swap",
+        "number": 5,
+        "source": "BOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/BOI16_swap"
+    },
+    {
+        "name": "Political Development",
+        "number": 1,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_politicaldevelopment"
+    },
+    {
+        "name": "Railway",
+        "number": 2,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_railway"
+    },
+    {
+        "name": "Toll",
+        "number": 3,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_toll"
+    },
+    {
+        "name": "Cat in a tree",
+        "number": 4,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_catinatree"
+    },
+    {
+        "name": "Friends",
+        "number": 5,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_friends"
+    },
+    {
+        "name": "Plus Minus",
+        "number": 6,
+        "source": "BOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/BOI17_plusminus"
+    },
+    {
+        "name": "Love Polygon",
+        "number": 1,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_polygon"
+    },
+    {
+        "name": "Martian DNA",
+        "number": 2,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_dna"
+    },
+    {
+        "name": "Worm Worries",
+        "number": 3,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_worm"
+    },
+    {
+        "name": "Alternating Current",
+        "number": 4,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_alternating"
+    },
+    {
+        "name": "Genetics",
+        "number": 5,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_genetics"
+    },
+    {
+        "name": "Paths",
+        "number": 6,
+        "source": "BOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/BOI18_paths"
+    },
+    {
+        "name": "Nautilus",
+        "number": 1,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/BOI19_nautilus"
+    },
+    {
+        "name": "Valley",
+        "number": 2,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/BOI19_valley"
+    },
+    {
+        "name": "Kitchen",
+        "number": 4,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/BOI19_kitchen"
+    },
+    {
+        "name": "Necklace",
+        "number": 5,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/BOI19_necklace4"
+    },
+    {
+        "name": "Olympiads",
+        "number": 6,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://oj.uz/problem/view/BOI19_olympiads"
+    },
+    {
+        "name": "Colors",
+        "number": 1,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_colors"
+    },
+    {
+        "name": "Mixture",
+        "number": 2,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_mixture"
+    },
+    {
+        "name": "Joker",
+        "number": 3,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_joker"
+    },
+    {
+        "name": "Graph",
+        "number": 4,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_graph"
+    },
+    {
+        "name": "Village",
+        "number": 5,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_village"
+    },
+    {
+        "name": "Viruses",
+        "number": 6,
+        "source": "BOI",
+        "year": 2020,
+        "link": "https://oj.uz/problem/view/BOI20_viruses"
+    },
+    {
+        "name": "A Difficult(y) Choice",
+        "number": 1,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_books"
+    },
+    {
+        "name": "Inside information",
+        "number": 2,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_servers"
+    },
+    {
+        "name": "From Hacks to Snitches",
+        "number": 3,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_watchmen"
+    },
+    {
+        "name": "The short shank; Redemption",
+        "number": 4,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_prison"
+    },
+    {
+        "name": "The Collection Game",
+        "number": 5,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_swaps"
+    },
+    {
+        "name": "The Xana coup",
+        "number": 6,
+        "source": "BOI",
+        "year": 2021,
+        "link": "https://oj.uz/problem/view/BOI21_xanadu"
+    },
+    {
+        "name": "Art Collections",
+        "number": 1,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_art"
+    },
+    {
+        "name": "Event Hopping",
+        "number": 2,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_events"
+    },
+    {
+        "name": "Uplifting Excursion",
+        "number": 3,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_vault"
+    },
+    {
+        "name": "Flight to the Ford",
+        "number": 4,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_communication"
+    },
+    {
+        "name": "Stranded Far From Home",
+        "number": 5,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_island"
+    },
+    {
+        "name": "Astronomer",
+        "number": 1,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/astronomer"
+    },
+    {
+        "name": "Minequake",
+        "number": 2,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/boi23.minequake"
+    },
+    {
+        "name": "Mineral Deposits",
+        "number": 3,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/boi23.mineraldeposits"
+    },
+    {
+        "name": "Sequence",
+        "number": 4,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/boi23.sequence"
+    },
+    {
+        "name": "Staring Contest",
+        "number": 5,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/boi23.staringcontest"
+    },
+    {
+        "name": "Tycho",
+        "number": 6,
+        "source": "BOI",
+        "year": 2023,
+        "link": "https://open.kattis.com/problems/boi23.tycho"
+    },
+    {
+        "name": "Boarding Passes",
+        "number": 6,
+        "source": "BOI",
+        "year": 2022,
+        "link": "https://oj.uz/problem/view/BOI22_passes"
+    },
+    {
+        "name": "Jobs",
+        "number": 1,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_jobs"
+    },
+    {
+        "name": "Portal",
+        "number": 2,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_portal"
+    },
+    {
+        "name": "Trains",
+        "number": 3,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_trains"
+    },
+    {
+        "name": "Fire",
+        "number": 4,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_fire"
+    },
+    {
+        "name": "Tiles",
+        "number": 5,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_tiles"
+    },
+    {
+        "name": "Flooding Wall",
+        "number": 6,
+        "source": "BOI",
+        "year": 2024,
+        "link": "https://oj.uz/problem/view/BOI24_wall"
     }
 ]
