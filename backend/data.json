@@ -6298,5 +6298,47 @@
         "source": "BOI",
         "year": 2024,
         "link": "https://oj.uz/problem/view/BOI24_wall"
+    },
+    {
+        "name": "Acronym",
+        "number": 1,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
+    },
+    {
+        "name": "Tour",
+        "number": 2,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
+    },
+    {
+        "name": "Tower",
+        "number": 3,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
+    },
+    {
+        "name": "Developer",
+        "number": 4,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
+    },
+    {
+        "name": "Exponents",
+        "number": 5,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
+    },
+    {
+        "name": "Gingerbread",
+        "number": 6,
+        "source": "BOI",
+        "year": 2025,
+        "link": ""
     }
 ]
