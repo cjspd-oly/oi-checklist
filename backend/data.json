@@ -6304,7 +6304,7 @@
         "number": 1,
         "source": "BOI",
         "year": 2025,
-        "link": ""
+        "link": "https://codeforces.com/gym/607790/problem/A"
     },
     {
         "name": "Tour",
@@ -6325,7 +6325,7 @@
         "number": 4,
         "source": "BOI",
         "year": 2025,
-        "link": ""
+        "link": "https://codeforces.com/gym/607790/problem/D"
     },
     {
         "name": "Exponents",
@@ -6339,6 +6339,6 @@
         "number": 6,
         "source": "BOI",
         "year": 2025,
-        "link": ""
+        "link": "https://codeforces.com/gym/607790/problem/F"
     }
 ]
