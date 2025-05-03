@@ -395,6 +395,12 @@ function loadProblemsWithDay(source, numDays) {
 }
 
 window.onload = async () => {
+  // Initialize counts by setting diff to 0
+  count.update('red', 0);
+  count.update('yellow', 0);
+  count.update('green', 0);
+  count.update('white', 0);
+
   const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
