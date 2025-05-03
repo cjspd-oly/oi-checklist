@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="navbar-content">
-            <div class="navbar-title">OI Checklist</div>
+            <div class="navbar-title" id="page-title">OI Checklist</div>
             <div class="navbar-user">
                 <span class="welcome-message" id="welcome-message"></span>
                 <a href="#" class="logout-button" id="logout-button">Logout</a>
@@ -20,6 +20,22 @@
                         <input type="checkbox" id="dark-mode-switch">
                         <span class="slider round"></span>
                     </label>
+                </div>
+                <div class="settings-container" id="settings-container">
+                    <button id="settings-button" aria-haspopup="menu" aria-expanded="false" class="settings-button">
+                        <svg class="settings-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="5" width="18" height="2" rx="1" fill="currentColor" />
+                            <rect x="3" y="11" width="18" height="2" rx="1" fill="currentColor" />
+                            <rect x="3" y="17" width="18" height="2" rx="1" fill="currentColor" />
+                        </svg>
+                    </button>
+                    <div id="settings-dropdown" class="settings-dropdown">
+                        <div id="checklist-visibility-item" class="settings-item" data-state="private" role="button"
+                            tabindex="0" aria-live="polite">
+                            <span class="settings-label">Checklist Visibility: Private</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

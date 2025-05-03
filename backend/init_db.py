@@ -36,5 +36,13 @@ CREATE TABLE problem_statuses (
 )
 ''')
 
+c.execute('''
+CREATE TABLE user_settings (
+    user_id INTEGER PRIMARY KEY,
+    checklist_public BOOLEAN NOT NULL DEFAULT 0,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+)
+''')
+
 conn.commit()
 conn.close()

@@ -52,10 +52,11 @@ function triggerFullConfettiFall() {
   }
 }
 
+let isProfileMode = false;
+
 function handleCellClick(cell, name, source, year, e) {
   if (e.target.tagName.toLowerCase() === 'a') return;
 
-  // If clicking the same cell, close the popup
   if (currentCell === cell && popup.classList.contains('show')) {
     handlePopupClose(currentCell);
     popup.classList.remove('show');
@@ -63,7 +64,6 @@ function handleCellClick(cell, name, source, year, e) {
     return;
   }
 
-  // If switching cells, commit previous popup changes
   if (popup.classList.contains('show')) {
     handlePopupClose(currentCell);
     popup.classList.remove('show');
@@ -85,7 +85,6 @@ function handleCellClick(cell, name, source, year, e) {
   popup.style.top = `${window.scrollY + rect.bottom + 5}px`;
   popup.style.left = `${window.scrollX + rect.left + (rect.width / 2) - 60}px`;
 
-  // Animate open
   popup.classList.remove('hidden');
   setTimeout(() => popup.classList.add('show'), 10);
 
@@ -103,6 +102,7 @@ function handleCellClick(cell, name, source, year, e) {
   const thisYear = parseInt(year);
 
   popupStatus.onclick = () => {
+    if (isProfileMode) return;
     currentStatus = next[currentStatus];
     updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
     if (currentStatus == 2) {
@@ -111,6 +111,8 @@ function handleCellClick(cell, name, source, year, e) {
   };
 
   popupScore.onblur = () => {
+    if (isProfileMode) return;
+
     let raw = popupScore.textContent.trim();
     let score = parseInt(raw);
     if (isNaN(score)) score = 0;
@@ -131,10 +133,10 @@ function handleCellClick(cell, name, source, year, e) {
     }
 
     if (score === 100) {
-      currentStatus = 2;  // Solved
+      currentStatus = 2;
       updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
     } else if (score > 0 && scoreChanged) {
-      currentStatus = 1;  // In progress
+      currentStatus = 1;
       updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
     }
 
@@ -156,6 +158,10 @@ function handleCellClick(cell, name, source, year, e) {
   };
 
   popupScore.addEventListener('keypress', (e) => {
+    if (isProfileMode) {
+      e.preventDefault();
+      return;
+    }
     if (!/[0-9]/.test(e.key) && e.key !== 'Enter') {
       e.preventDefault();
     }
@@ -181,9 +187,8 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
   }
 
   cell.addEventListener(
-      'click', (e) => handleCellClick(cell, name, source, year, e));
+    'click', (e) => handleCellClick(cell, name, source, year, e));
 });
-
 
 function updateStatus(status, cell, name, source, year) {
   const sessionToken = localStorage.getItem('sessionToken');
@@ -194,7 +199,6 @@ function updateStatus(status, cell, name, source, year) {
 
   cell.dataset.status = status;
 
-  // Remove previous status color classes
   cell.classList.remove('green', 'yellow', 'red', 'white');
   if (statusObj.className) {
     cell.classList.add(statusObj.className);
@@ -215,12 +219,18 @@ function updateStatus(status, cell, name, source, year) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionToken}`
     },
-    body: JSON.stringify(
-        {problem_name: name, source: source, year: year, status: status})
+    body: JSON.stringify({
+      problem_name: name,
+      source: source,
+      year: year,
+      status: status
+    })
   });
 }
 
 function handlePopupClose(cell) {
+  if (isProfileMode) return;
+
   const score = parseInt(cell.dataset.score || '0');
   const status = parseInt(cell.dataset.status || '0');
   const name = cell.dataset.problemId;
@@ -242,8 +252,12 @@ function handlePopupClose(cell) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionToken}`
       },
-      body: JSON.stringify(
-          {problem_name: name, source: source, year: year, score: finalScore})
+      body: JSON.stringify({
+        problem_name: name,
+        source: source,
+        year: year,
+        score: finalScore
+      })
     });
   }
 }
@@ -387,58 +401,100 @@ window.onload = async () => {
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI'
   ];
 
-  // Show skeleton loading for all Olympiads
-  sources.forEach(source => {
-    const container =
-        document.getElementById(`${source.toLowerCase()}-container`);
-    const table = container.querySelector('table');
-    table.innerHTML = generateSkeletonRows(10);
+  const hash = window.location.hash;
+  const isProfilePage = hash.startsWith('#profile/');
+
+  // Show loading skeletons first
+  sources.forEach(src => {
+    const tbl = document
+      .getElementById(`${src.toLowerCase()}-container`)
+      .querySelector('table');
+    tbl.innerHTML = generateSkeletonRows(10);
   });
 
-  // Display username
-  let res = await fetch(apiUrl + `/api/whoami`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {'Authorization': `Bearer ${sessionToken}`}
-  });
-  if (res.ok) {
-    const data = await res.json();
-    document.getElementById('welcome-message').textContent =
-        `Welcome, ${data.username}`;
-  } else {
-    window.location.href = 'login.html';
-    return;
-  }
+  if (isProfilePage) {
+    document.getElementById('welcome-message').style.display = 'none';
+    document.getElementById('logout-button').style.display = 'none';
+    document.getElementById('settings-container').style.display = 'none';
+    const username = hash.split('/')[1];
+    const namesParam = sources.join(',');
 
-  // Fetch problems data
-  res = await fetch(apiUrl + `/api/problems?names=${sources.join(',')}`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {'Authorization': `Bearer ${sessionToken}`}
-  });
-  if (res.status !== 200) {
-    window.location.href = 'login.html';
-    return;
-  }
+    const res = await fetch(
+      `${apiUrl}/api/user?username=${username}&problems=${namesParam}`,
+      { method: 'GET', credentials: 'include' }
+    );
 
-  cachedProblemsData = await res.json();
-
-  // Clear skeleton
-  sources.forEach(source => {
-    const container =
-        document.getElementById(`${source.toLowerCase()}-container`);
-    const table = container.querySelector('table');
-    table.innerHTML = '';  // Clear skeleton rows
-
-    // Load actual problems
-    if (source === 'JOISC') {
-      loadProblemsWithDay('JOISC', 4);
-    } else if (source === 'IOITC') {
-      loadProblemsWithDay('IOITC', 3);
-    } else {
-      loadProblems(source);
+    if (res.status === 404) {
+      document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
+        Error: user “${username}” does not exist.
+      </h2>`;
+      return;
     }
-  });
+    if (res.status === 403) {
+      document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
+        ${username}'s checklist is private.
+      </h2>`;
+      return;
+    }
+    if (!res.ok) {
+      document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
+        Unexpected error (${res.status})
+      </h2>`;
+      return;
+    }
+
+    const profileData = await res.json();
+    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
+
+    isProfileMode = true; // global flag your renderers can use
+    cachedProblemsData = profileData.problems;
+
+    sources.forEach(src => {
+      const tbl = document
+        .getElementById(`${src.toLowerCase()}-container`)
+        .querySelector('table');
+      tbl.innerHTML = '';
+
+      if (src === 'JOISC') loadProblemsWithDay('JOISC', 4);
+      else if (src === 'IOITC') loadProblemsWithDay('IOITC', 3);
+      else loadProblems(src);
+    });
+
+  } else {
+    // "own" view — authenticated user
+    let res = await fetch(`${apiUrl}/api/whoami`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
+    });
+
+    if (!res.ok) return window.location.href = 'login.html';
+
+    const { username } = await res.json();
+    document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
+
+    res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
+    });
+
+    if (res.status !== 200) return window.location.href = 'login.html';
+
+    cachedProblemsData = await res.json();
+    document.getElementById('page-title').textContent = `OI Checklist`;
+
+    sources.forEach(src => {
+      const tbl = document
+        .getElementById(`${src.toLowerCase()}-container`)
+        .querySelector('table');
+      tbl.innerHTML = '';
+
+      if (src === 'JOISC') loadProblemsWithDay('JOISC', 4);
+      else if (src === 'IOITC') loadProblemsWithDay('IOITC', 3);
+      else loadProblems(src);
+    });
+  }
 };
 
 function generateSkeletonRows(numRows) {
@@ -500,4 +556,157 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('theme', 'light-mode');
     }
   });
+});
+
+const settingsButton = document.getElementById('settings-button');
+const dropdown = document.getElementById('settings-dropdown');
+const settingsContainer =
+    settingsButton
+        .parentElement;  // Get the parent container (.settings-container)
+// Correctly reference the visibility item div by its new ID
+const checklistVisibilityItem =
+    document.getElementById('checklist-visibility-item');
+
+// Helper: Update the text content, data-state, and color classes of the
+// visibility item
+function updateVisibilityUI(itemElement, isPublic) {
+  // Find the label span within the item element
+  const labelSpan = itemElement.querySelector('.settings-label');
+  if (labelSpan) {
+    // Update the text content of the span
+    labelSpan.textContent =
+        `Checklist Visibility: ${isPublic ? 'Public' : 'Private'}`;
+  }
+
+  // Set the data-state attribute on the item element itself
+  itemElement.setAttribute('data-state', isPublic ? 'public' : 'private');
+
+  // Remove existing color classes and add the new one
+  // Include any color classes you might use for items here
+  itemElement.classList.remove('red', 'green', 'yellow', 'white');
+  if (isPublic) {
+    itemElement.classList.add('green');  // Add 'green' class for public state
+  } else {
+    itemElement.classList.add('red');  // Add 'red' class for private state
+  }
+  // If you have other states/colors for items, add logic here
+}
+
+// Outside click handler - Simplified permanent listener
+function handleOutsideClick(e) {
+  // If the click target is NOT inside the settings container
+  if (!settingsContainer.contains(e.target)) {
+    // Only close if the dropdown is currently active to avoid unnecessary calls
+    if (settingsContainer.classList.contains('active')) {
+      settingsContainer.classList.remove('active');
+      settingsButton.setAttribute('aria-expanded', 'false');
+    }
+  }
+}
+
+// Attach the outside click handler once to the document
+document.addEventListener('click', handleOutsideClick);
+
+
+// Settings button click
+settingsButton.addEventListener('click', async (event) => {
+  event.stopPropagation();  // Prevent click from bubbling up to document
+                            // listener
+
+  const isActive = settingsContainer.classList.contains('active');
+  // Toggle the active state of the container
+  settingsContainer.classList.toggle('active', !isActive);
+  // Update aria-expanded state for accessibility
+  settingsButton.setAttribute('aria-expanded', !isActive);
+
+  // If we are opening the dropdown, fetch the current setting
+  if (!isActive) {
+    try {
+      const sessionToken = localStorage.getItem('sessionToken');
+      const response = await fetch(`${apiUrl}/api/settings`, {
+        method: 'GET',
+        credentials: 'include',  // Include cookies if necessary
+        headers: {'Authorization': `Bearer ${sessionToken}`}
+      });
+
+      if (!response.ok) {
+        // Handle HTTP errors (e.g., 401, 404, 500)
+        console.error(
+            'Error fetching settings:', response.status, response.statusText);
+        // Optional: Close dropdown and revert button state on fetch failure
+        settingsContainer.classList.remove('active');
+        settingsButton.setAttribute('aria-expanded', 'false');
+        // Optional: Show an error state or message in the UI (e.g., on the
+        // settings button or item)
+        return;  // Stop execution
+      }
+
+      const data = await response.json();
+      // Update the UI based on the fetched state (using the
+      // checklistVisibilityItem element)
+      updateVisibilityUI(checklistVisibilityItem, data.checklist_public);
+
+    } catch (err) {
+      // Handle network errors or errors parsing JSON
+      console.error('Error fetching settings:', err);
+      // Optional: Close dropdown and revert button state on fetch failure
+      settingsContainer.classList.remove('active');
+      settingsButton.setAttribute('aria-expanded', 'false');
+      // Optional: Show an error state or message in the UI
+    }
+  }
+  // If we are closing the dropdown, no extra action is needed here
+});
+
+
+// Toggle checklist visibility on item click
+// Listen for clicks on the entire checklistVisibilityItem div
+checklistVisibilityItem.addEventListener('click', async () => {
+  // Get the current state from the data attribute on the item div
+  const currentState = checklistVisibilityItem.getAttribute('data-state');
+  // Determine the new state (invert the current state)
+  const newStateIsPublic = currentState ===
+      'private';  // If currently private, the new state is public
+
+  // Optimistically update the UI immediately (pass the item element)
+  updateVisibilityUI(checklistVisibilityItem, newStateIsPublic);
+
+  try {
+    const sessionToken = localStorage.getItem('sessionToken');
+    const response = await fetch(`${apiUrl}/api/settings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`  // Correctly adding the token
+      },
+      // Send the new boolean state in the request body
+      body: JSON.stringify({checklist_public: newStateIsPublic})
+    });
+
+    if (!response.ok) {
+      console.error(
+          'Error updating settings:', response.status, response.statusText);
+      // Revert the UI state if the save failed (pass the item element)
+      updateVisibilityUI(
+          checklistVisibilityItem,
+          !newStateIsPublic);  // Go back to the previous state
+      // Optional: Show a temporary error message next to the item
+      return;  // Stop execution
+    }
+    // Optional: Add visual feedback for successful save (e.g., brief background
+    // flash, checkmark icon)
+    console.log(
+        'Settings updated successfully:',
+        newStateIsPublic ? 'Public' : 'Private');
+
+  } catch (err) {
+    console.error('Error updating settings:', err);
+    // Revert the UI state if the save failed due to network error etc. (pass
+    // the item element)
+    updateVisibilityUI(
+        checklistVisibilityItem,
+        !newStateIsPublic);  // Go back to the previous state
+                             // Optional: Show a temporary error message next to
+                             // the item
+  }
 });

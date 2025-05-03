@@ -100,6 +100,45 @@ def whoami():
         return jsonify({'username': user['username']})
     return jsonify({'error': 'User not found'}), 404
 
+@app.route('/api/settings', methods=["GET"])
+@token_required
+def get_user_settings():
+    user_id = request.user_id
+    db = get_db()
+
+    row = db.execute(
+        'SELECT checklist_public FROM user_settings WHERE user_id = ?',
+        (user_id,)
+    ).fetchone()
+
+    # If no row yet, assume default (private)
+    checklist_public = bool(row['checklist_public']) if row else False
+
+    return jsonify({
+        "checklist_public": checklist_public
+    })
+
+@app.route('/api/settings', methods=["POST"])
+@token_required
+def update_user_settings():
+    user_id = request.user_id
+    db = get_db()
+
+    data = request.get_json()
+    if 'checklist_public' not in data:
+        return jsonify({"error": "Missing 'checklist_public' in request body"}), 400
+
+    checklist_public = int(bool(data['checklist_public']))  # sanitize to 0/1
+
+    db.execute('''
+        INSERT INTO user_settings (user_id, checklist_public)
+        VALUES (?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET checklist_public = excluded.checklist_public
+    ''', (user_id, checklist_public))
+    db.commit()
+
+    return jsonify({"success": True})
+
 @app.route('/api/problems', methods=["GET"])
 @token_required
 def get_problems():
@@ -158,6 +197,81 @@ def get_problems():
         problems_by_category[source].setdefault(year, []).append(problem)
 
     return jsonify(problems_by_category)
+
+@app.route('/api/user', methods=["GET"])
+def get_user():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Missing 'username' query parameter"}), 400
+
+    problems = request.args.get('problems', '')
+    problems_list = [p.strip() for p in problems.split(',')] if problems else []
+
+    db = get_db()
+
+    user = db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()
+    if not user:
+        return jsonify({"error": f"User {username} not found"}), 404
+
+    user_id = user['id']
+
+    checklist_public_row = db.execute("SELECT checklist_public FROM user_settings WHERE user_id = ?", (user_id,)).fetchone()
+    checklist_public = checklist_public_row['checklist_public'] if checklist_public_row else 0
+
+    if checklist_public == 0:
+        return jsonify({"error": f"{username}'s checklist is private."}), 403
+
+    problems_by_category = {}
+    if problems_list:
+        placeholders = ', '.join(['?'] * len(problems_list))
+
+        # Get all problems for the selected sources
+        problems_raw = db.execute(
+            f'SELECT * FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
+            tuple(problems_list)
+        ).fetchall()
+
+        # Get the user's status and score for these problems
+        progress_rows = db.execute(
+            f'''
+            SELECT problem_name, source, year, status, score
+            FROM problem_statuses
+            WHERE user_id = ? AND source IN ({placeholders})
+            ''',
+            (user_id, *problems_list)
+        ).fetchall()
+
+        progress = {
+            (row['problem_name'], row['source'], row['year']): {
+                'status': row['status'],
+                'score': row['score']
+            }
+            for row in progress_rows
+        }
+
+        for row in problems_raw:
+            source = row['source']
+            year = row['year']
+            problem = dict(row)
+            problem.pop("id", None)
+
+            key = (problem['name'], problem['source'], problem['year'])
+            if key in progress:
+                problem['status'] = progress[key]['status']
+                problem['score'] = progress[key]['score']
+            else:
+                problem['status'] = 0
+                problem['score'] = 0
+
+            if source not in problems_by_category:
+                problems_by_category[source] = {}
+            problems_by_category[source].setdefault(year, []).append(problem)
+
+    return jsonify({
+        "username": username,
+        "checklist_public": checklist_public,
+        "problems": problems_by_category
+    })
 
 @app.route('/api/update-problem-status', methods=['POST'])
 @token_required
