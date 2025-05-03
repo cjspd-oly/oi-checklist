@@ -395,12 +395,6 @@ function loadProblemsWithDay(source, numDays) {
 }
 
 window.onload = async () => {
-  // Initialize counts by setting diff to 0
-  count.update('red', 0);
-  count.update('yellow', 0);
-  count.update('green', 0);
-  count.update('white', 0);
-
   const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
@@ -451,6 +445,11 @@ window.onload = async () => {
 
     const profileData = await res.json();
     document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
+    // Initialize counts by setting diff to 0
+    count.update('red', 0);
+    count.update('yellow', 0);
+    count.update('green', 0);
+    count.update('white', 0);
 
     isProfileMode = true; // global flag your renderers can use
     cachedProblemsData = profileData.problems;
@@ -478,6 +477,11 @@ window.onload = async () => {
 
     const { username } = await res.json();
     document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
+    // Initialize counts by setting diff to 0
+    count.update('red', 0);
+    count.update('yellow', 0);
+    count.update('green', 0);
+    count.update('white', 0);
 
     res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
       method: 'GET',
