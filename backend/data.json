@@ -6340,5 +6340,229 @@
         "source": "BOI",
         "year": 2025,
         "link": "https://codeforces.com/gym/607790/problem/F"
+    },
+    {
+        "name": "Matryoshka",
+        "number": 1,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_matryoshka"
+    },
+    {
+        "name": "Memory 2",
+        "number": 2,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_memory2"
+    },
+    {
+        "name": "Solitaire",
+        "number": 3,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_solitaire"
+    },
+    {
+        "name": "Employment",
+        "number": 4,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_employment"
+    },
+    {
+        "name": "Sandwich",
+        "number": 5,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_sandwich"
+    },
+    {
+        "name": "Toilets",
+        "number": 6,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_toilets"
+    },
+    {
+        "name": "Dungeon 2",
+        "number": 7,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_dungeon2"
+    },
+    {
+        "name": "Sushi",
+        "number": 8,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_sushi"
+    },
+    {
+        "name": "Telegraph",
+        "number": 9,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_telegraph"
+    },
+    {
+        "name": "Dangerous Skating",
+        "number": 10,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_skating"
+    },
+    {
+        "name": "Snowy Roads",
+        "number": 11,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_snowy"
+    },
+    {
+        "name": "Worst Reporter 2",
+        "number": 12,
+        "source": "JOI",
+        "year": 2016,
+        "link": "https://oj.uz/problem/view/JOI16_worst_reporter2"
+    },
+    {
+        "name": "Cultivation",
+        "number": 1,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_cultivation"
+    },
+    {
+        "name": "Port Facility",
+        "number": 2,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_port_facility"
+    },
+    {
+        "name": "Sparklers",
+        "number": 3,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_sparklers"
+    },
+    {
+        "name": "Arranging Tickets",
+        "number": 4,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_arranging_tickets"
+    },
+    {
+        "name": "Broken Device",
+        "number": 5,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_broken_device"
+    },
+    {
+        "name": "Railway Trip",
+        "number": 6,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_railway_trip"
+    },
+    {
+        "name": "Long Distance Coach",
+        "number": 7,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_coach"
+    },
+    {
+        "name": "Long Mansion",
+        "number": 8,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_long_mansion"
+    },
+    {
+        "name": "Park",
+        "number": 9,
+        "source": "JOI",
+        "year": 2017,
+        "link": "https://oj.uz/problem/view/JOI17_park"
+    },
+    {
+        "name": "Construction of Highway",
+        "number": 1,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_construction"
+    },
+    {
+        "name": "Fences",
+        "number": 2,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_fences"
+    },
+    {
+        "name": "Tents",
+        "number": 3,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_tents"
+    },
+    {
+        "name": "Asceticism",
+        "number": 4,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_asceticism"
+    },
+    {
+        "name": "Worst Reporter 3",
+        "number": 5,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_worst_reporter3"
+    },
+    {
+        "name": "Airline Route Map",
+        "number": 7,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_airline"
+    },
+    {
+        "name": "Bitaro\u2019s Party",
+        "number": 8,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_bitaro"
+    },
+    {
+        "name": "Security Gate",
+        "number": 9,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_security_gate"
+    },
+    {
+        "name": "Candies",
+        "number": 10,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_candies"
+    },
+    {
+        "name": "Library",
+        "number": 11,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_library"
+    },
+    {
+        "name": "Wild Boar",
+        "number": 12,
+        "source": "JOI",
+        "year": 2018,
+        "link": "https://oj.uz/problem/view/JOI18_wild_boar"
     }
 ]
