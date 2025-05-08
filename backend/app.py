@@ -449,6 +449,9 @@ def update_ojuz_scores():
         key = (problem['name'], problem['source'], problem['year'])
         old = progress.get(key, {'status': 0, 'score': 0})
 
+        # Set new score to max(new score, old score)
+        new_score = max(new_score, old['score'])
+
         # Determine the new status based on the new score
         if new_score == 100:
             new_status = 2  # solved
