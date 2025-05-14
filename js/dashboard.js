@@ -401,8 +401,12 @@ window.onload = async () => {
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI'
   ];
 
-  const hash = window.location.hash;
-  const isProfilePage = hash.startsWith('#profile/');
+  const fullPath = window.location.pathname;
+  const basePath = document.querySelector('base')?.getAttribute('href') || '/';
+  const relativePath = fullPath.startsWith(basePath) ? fullPath.slice(basePath.length) : fullPath;
+
+  const hash = relativePath;
+  const isProfilePage = hash.startsWith('profile/');
 
   // Show loading skeletons first
   sources.forEach(src => {

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script>
-      window.location.replace('/index.html' + location.search + location.hash);
-    </script>
-  </head>
-  <body>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <script>
+    fetch('./index.html')
+      .then(response => response.text())
+      .then(html => {
+        document.open();
+        document.write(html);
+        document.close();
+      });
+  </script>
+</head>
+
 </html>
