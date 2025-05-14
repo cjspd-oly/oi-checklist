@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <script>
-    fetch('./index.html')
-      .then(response => response.text())
-      .then(html => {
-        document.open();
-        document.write(html);
-        document.close();
-      });
+    const newUrl = window.location.origin + '/' + location.search + location.hash;
+    window.location.replace(newUrl);
   </script>
 </head>
+
+<body>
+</body>
 
 </html>
