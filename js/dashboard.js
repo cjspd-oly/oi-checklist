@@ -408,6 +408,11 @@ window.onload = async () => {
   const hash = relativePath;
   const isProfilePage = hash.startsWith('profile/');
 
+  if (isProfilePage) {
+    const username = hash.split('/')[1];
+    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
+  }
+
   // Show loading skeletons first
   sources.forEach(src => {
     const tbl = document
@@ -448,7 +453,6 @@ window.onload = async () => {
     }
 
     const profileData = await res.json();
-    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
     // Initialize counts by setting diff to 0
     count.update('red', 0);
     count.update('yellow', 0);
