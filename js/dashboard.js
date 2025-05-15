@@ -187,7 +187,7 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
   }
 
   cell.addEventListener(
-    'click', (e) => handleCellClick(cell, name, source, year, e));
+      'click', (e) => handleCellClick(cell, name, source, year, e));
 });
 
 function updateStatus(status, cell, name, source, year) {
@@ -219,12 +219,8 @@ function updateStatus(status, cell, name, source, year) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${sessionToken}`
     },
-    body: JSON.stringify({
-      problem_name: name,
-      source: source,
-      year: year,
-      status: status
-    })
+    body: JSON.stringify(
+        {problem_name: name, source: source, year: year, status: status})
   });
 }
 
@@ -252,12 +248,8 @@ function handlePopupClose(cell) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionToken}`
       },
-      body: JSON.stringify({
-        problem_name: name,
-        source: source,
-        year: year,
-        score: finalScore
-      })
+      body: JSON.stringify(
+          {problem_name: name, source: source, year: year, score: finalScore})
     });
   }
 }
@@ -272,49 +264,126 @@ async function loadProblems(from) {
   const tbody = document.createElement('tbody');
 
   for (const [year, problems] of Object.entries(yearMap)) {
-    const row = document.createElement('tr');
-
-    const yearCell = document.createElement('td');
-    yearCell.className = 'year-cell';
     let prefix = from;
     if (prefix === 'JOIFR') {
       prefix = 'JOI';
     } else if (
-        prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
-        prefix === 'NOIFINAL' || prefix == 'NOISEL') {
+      prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
+      prefix === 'NOIFINAL' || prefix === 'NOISEL'
+    ) {
       prefix = 'NOI';
     }
-    yearCell.textContent = `${prefix} ${year}`;
-    row.appendChild(yearCell);
 
-    for (const problem of problems) {
-      const cell = document.createElement('td');
-      const status = statuses.find(s => s.value === problem.status);
-      cell.className = 'problem-cell';
-      cell.dataset.status = problem.status;
-      cell.dataset.problemId = problem.name;
-      cell.dataset.source = problem.source;
-      cell.dataset.year = problem.year;
-      cell.dataset.score = problem.score;
+    if (prefix === 'GKS') {
+      // --- Year header row ---
+      const yearRow = document.createElement('tr');
+      const yearCell = document.createElement('td');
+      yearCell.className = 'year-cell';
+      yearCell.textContent = `${prefix} ${year}`;
+      yearRow.appendChild(yearCell);
+      tbody.appendChild(yearRow);
 
-      if (status?.className) {
-        cell.classList.add(status.className);
-        count.update(status.className, 1);
+      // --- Group by `extra` ---
+      const extraMap = {};
+      for (const problem of problems) {
+        const key = problem.extra || 'No Extra';
+        if (!extraMap[key]) extraMap[key] = [];
+        extraMap[key].push(problem);
       }
 
-      const link = document.createElement('a');
-      link.href = problem.link;
-      link.target = '_blank';
-      link.textContent = problem.name;
+      // --- Sort extras lexically ---
+      const sortedExtras = Object.keys(extraMap).sort();
 
-      cell.appendChild(link);
-      cell.addEventListener(
+      // --- One row per extra category ---
+      for (const extra of sortedExtras) {
+        const extraRow = document.createElement('tr');
+
+        // extra label cell (reusing 'day-cell' class)
+        const extraCell = document.createElement('td');
+        extraCell.className = 'day-cell';
+        extraCell.textContent = extra;
+        extraRow.appendChild(extraCell);
+
+        // problem cells, as many as there are in this extra group
+        for (const problem of extraMap[extra]) {
+          const cell = document.createElement('td');
+          cell.className = 'problem-cell';
+
+          // apply status class & count
+          const status = statuses.find(s => s.value === problem.status);
+          if (status?.className) {
+            cell.classList.add(status.className);
+            count.update(status.className, 1);
+          }
+
+          // data attributes
+          cell.dataset.status = problem.status;
+          cell.dataset.problemId = problem.name;
+          cell.dataset.source = problem.source;
+          cell.dataset.year = problem.year;
+          cell.dataset.score = problem.score;
+
+          // link
+          const link = document.createElement('a');
+          link.href = problem.link;
+          link.target = '_blank';
+          link.textContent = problem.name;
+          cell.appendChild(link);
+
+          // click handler
+          cell.addEventListener(
+            'click',
+            e => handleCellClick(cell, problem.name, from, problem.year, e)
+          );
+
+          extraRow.appendChild(cell);
+        }
+
+        tbody.appendChild(extraRow);
+      }
+
+    } else {
+      // --- Original logic for other prefixes ---
+      const row = document.createElement('tr');
+      const yearCell = document.createElement('td');
+      yearCell.className = 'year-cell';
+      yearCell.textContent = `${prefix} ${year}`;
+      row.appendChild(yearCell);
+
+      for (const problem of problems) {
+        const cell = document.createElement('td');
+        cell.className = 'problem-cell';
+
+        const status = statuses.find(s => s.value === problem.status);
+        if (status?.className) {
+          cell.classList.add(status.className);
+          count.update(status.className, 1);
+        }
+
+        cell.dataset.status = problem.status;
+        cell.dataset.problemId = problem.name;
+        cell.dataset.source = problem.source;
+        cell.dataset.year = problem.year;
+        cell.dataset.score = problem.score;
+
+        const link = document.createElement('a');
+        link.href = problem.link;
+        link.target = '_blank';
+        link.textContent = problem.name;
+        cell.appendChild(link);
+
+        cell.addEventListener(
           'click',
-          (e) => handleCellClick(cell, problem.name, from, problem.year, e));
-      row.appendChild(cell);
+          e => handleCellClick(cell, problem.name, from, problem.year, e)
+        );
+
+        row.appendChild(cell);
+      }
+
+      tbody.appendChild(row);
     }
-    tbody.appendChild(row);
   }
+
   table.appendChild(tbody);
 }
 
@@ -398,26 +467,29 @@ window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   const sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI'
+    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI',
+    'GKS'
   ];
 
   const fullPath = window.location.pathname;
   const basePath = document.querySelector('base')?.getAttribute('href') || '/';
-  const relativePath = fullPath.startsWith(basePath) ? fullPath.slice(basePath.length) : fullPath;
+  const relativePath = fullPath.startsWith(basePath) ?
+      fullPath.slice(basePath.length) :
+      fullPath;
 
   const hash = relativePath;
   const isProfilePage = hash.startsWith('profile/');
 
   if (isProfilePage) {
     const username = hash.split('/')[1];
-    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
+    document.getElementById('page-title').textContent =
+        `${username}'s OI Checklist`;
   }
 
   // Show loading skeletons first
   sources.forEach(src => {
-    const tbl = document
-      .getElementById(`${src.toLowerCase()}-container`)
-      .querySelector('table');
+    const tbl = document.getElementById(`${src.toLowerCase()}-container`)
+                    .querySelector('table');
     tbl.innerHTML = generateSkeletonRows(10);
   });
 
@@ -429,9 +501,8 @@ window.onload = async () => {
     const namesParam = sources.join(',');
 
     const res = await fetch(
-      `${apiUrl}/api/user?username=${username}&problems=${namesParam}`,
-      { method: 'GET', credentials: 'include' }
-    );
+        `${apiUrl}/api/user?username=${username}&problems=${namesParam}`,
+        {method: 'GET', credentials: 'include'});
 
     if (res.status === 404) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
@@ -459,18 +530,20 @@ window.onload = async () => {
     count.update('green', 0);
     count.update('white', 0);
 
-    isProfileMode = true; // global flag your renderers can use
+    isProfileMode = true;  // global flag your renderers can use
     cachedProblemsData = profileData.problems;
 
     sources.forEach(src => {
-      const tbl = document
-        .getElementById(`${src.toLowerCase()}-container`)
-        .querySelector('table');
+      const tbl = document.getElementById(`${src.toLowerCase()}-container`)
+                      .querySelector('table');
       tbl.innerHTML = '';
 
-      if (src === 'JOISC') loadProblemsWithDay('JOISC', 4);
-      else if (src === 'IOITC') loadProblemsWithDay('IOITC', 3);
-      else loadProblems(src);
+      if (src === 'JOISC')
+        loadProblemsWithDay('JOISC', 4);
+      else if (src === 'IOITC')
+        loadProblemsWithDay('IOITC', 3);
+      else
+        loadProblems(src);
     });
 
   } else {
@@ -478,13 +551,14 @@ window.onload = async () => {
     let res = await fetch(`${apiUrl}/api/whoami`, {
       method: 'GET',
       credentials: 'include',
-      headers: { 'Authorization': `Bearer ${sessionToken}` }
+      headers: {'Authorization': `Bearer ${sessionToken}`}
     });
 
     if (!res.ok) return window.location.href = 'login.html';
 
-    const { username } = await res.json();
-    document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
+    const {username} = await res.json();
+    document.getElementById('welcome-message').textContent =
+        `Welcome, ${username}`;
     // Initialize counts by setting diff to 0
     count.update('red', 0);
     count.update('yellow', 0);
@@ -494,7 +568,7 @@ window.onload = async () => {
     res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
       method: 'GET',
       credentials: 'include',
-      headers: { 'Authorization': `Bearer ${sessionToken}` }
+      headers: {'Authorization': `Bearer ${sessionToken}`}
     });
 
     if (res.status !== 200) return window.location.href = 'login.html';
@@ -503,14 +577,16 @@ window.onload = async () => {
     document.getElementById('page-title').textContent = `OI Checklist`;
 
     sources.forEach(src => {
-      const tbl = document
-        .getElementById(`${src.toLowerCase()}-container`)
-        .querySelector('table');
+      const tbl = document.getElementById(`${src.toLowerCase()}-container`)
+                      .querySelector('table');
       tbl.innerHTML = '';
 
-      if (src === 'JOISC') loadProblemsWithDay('JOISC', 4);
-      else if (src === 'IOITC') loadProblemsWithDay('IOITC', 3);
-      else loadProblems(src);
+      if (src === 'JOISC')
+        loadProblemsWithDay('JOISC', 4);
+      else if (src === 'IOITC')
+        loadProblemsWithDay('IOITC', 3);
+      else
+        loadProblems(src);
     });
   }
 };

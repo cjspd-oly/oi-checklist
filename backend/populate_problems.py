@@ -20,10 +20,16 @@ cur = conn.cursor()
 cur.execute("DELETE FROM problems")
 
 for p in problems:
-    cur.execute('''
-        INSERT INTO problems (name, number, source, year, link)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (p["name"], p["number"], p["source"], p["year"], p["link"]))
+    if 'extra' in p:
+        cur.execute('''
+            INSERT INTO problems (name, number, source, year, link, extra)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (p["name"], p["number"], p["source"], p["year"], p["link"], p["extra"]))
+    else:
+        cur.execute('''
+            INSERT INTO problems (name, number, source, year, link)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (p["name"], p["number"], p["source"], p["year"], p["link"]))
 
 conn.commit()
 conn.close()

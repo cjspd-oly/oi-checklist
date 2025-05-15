@@ -5,6 +5,8 @@ A complete checklist for OI problems.
 
 Here are the olympiads the OI checklist has right now. Open an issue if you want me to add some other OI (or feel free to PR):
 
+## Olympiads
+
 - Singapore National Olympiad in Informatics
 - Asia-Pacific Informatics Olympiad
 - Central European Olympiad in Informatics
@@ -18,6 +20,10 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 - European Girls' Olympiad in Informatics
 - Polish Olympiad in Informatics
 - Baltic Olympiad in Informatics
+
+## Miscellaneous Competitions
+
+- Google Kick Start
 
 # Local Running Instructions
 

@@ -188,6 +188,10 @@ def get_problems():
         problem = dict(row)
         problem.pop("id", None)  # Remove the ID, assuming it's not needed in the response
 
+        # Include 'extra' only if it exists and is not None
+        if 'extra' in row.keys() and row['extra'] is not None:
+            problem['extra'] = row['extra']
+
         key = (problem['name'], problem['source'], problem['year'])
         if key in progress:
             problem['status'] = progress[key]['status']
@@ -485,4 +489,4 @@ def api_logout():
     return jsonify({"success": True, "message": "JWTs are stateless, no need to logout explicitly."})
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5001)

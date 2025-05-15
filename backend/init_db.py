@@ -20,7 +20,8 @@ c.execute('''CREATE TABLE problems (
     number INTEGER,
     source TEXT,
     year INTEGER,
-    link TEXT
+    link TEXT,
+    extra TEXT,
 )''')
 
 c.execute('''
