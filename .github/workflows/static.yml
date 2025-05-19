@@ -33,6 +33,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Copy index.html to 404.html
         run: cp index.html 404.html
+      - name: Minify HTML
+        run: |
+          npm install -g html-minifier-terser
+          find . -name '*.html' -exec html-minifier-terser --collapse-whitespace --remove-comments --minify-css true --minify-js true -o {} {} \;
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
