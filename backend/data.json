@@ -8372,5 +8372,26 @@
         "year": 2022,
         "link": "https://www.acmicpc.net/problem/26439",
         "extra": "Round H"
+    },
+    {
+        "name": "Hack!",
+        "number": 1,
+        "source": "APIO",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2031/problem/9205"
+    },
+    {
+        "name": "Permutation Game",
+        "number": 2,
+        "source": "APIO",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2031/problem/9206"
+    },
+    {
+        "name": "Rotating Lines",
+        "number": 3,
+        "source": "APIO",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2031/problem/9207"
     }
 ]
