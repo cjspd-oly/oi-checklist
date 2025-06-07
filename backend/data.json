@@ -2891,7 +2891,7 @@
         "link": "http://cms.iarcs.org.in:8888/tasks/IncreasingMeans/statements/EN"
     },
     {
-        "name": "TwoGoodWalks",
+        "name": "Two Good Walks",
         "number": 8,
         "source": "IOITC",
         "year": 2018,
@@ -2909,7 +2909,7 @@
         "number": 6,
         "source": "IOITC",
         "year": 2018,
-        "link": "http://cms.iarcs.org.in:8888/tasks/ChangingNumbers/statements/EN"
+        "link": "http://cms.iarcs.org.in:8888/tasks/Changing_Numbers/statements/EN"
     },
     {
         "name": "Coin Denominations",
@@ -3008,6 +3008,69 @@
         "source": "IOITC",
         "year": 2017,
         "link": "http://cms.iarcs.org.in:8888/tasks/ConvexHullCount/statements/EN"
+    },
+    {
+        "name": "Arrow Game",
+        "number": 1,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Arrow_Game/statements/EN"
+    },
+    {
+        "name": "String Conversion",
+        "number": 2,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/String_Conversion/statements/EN"
+    },
+    {
+        "name": "Graph Subsets",
+        "number": 3,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Graph_Subsets/statements/EN"
+    },
+    {
+        "name": "Bricks",
+        "number": 4,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Bricks/statements/EN"
+    },
+    {
+        "name": "Mirror Grid",
+        "number": 5,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Mirror_Grid/statements/EN"
+    },
+    {
+        "name": "Bus Travel Cards",
+        "number": 6,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Bus_Travel_Cards/statements/EN"
+    },
+    {
+        "name": "Array Sum Approximation",
+        "number": 7,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Array_Sum_Approximation/statements/EN"
+    },
+    {
+        "name": "Graph Passage",
+        "number": 8,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Graph_Passage/statements/EN"
+    },
+    {
+        "name": "Tree Vertex Ordering",
+        "number": 9,
+        "source": "IOITC",
+        "year": 2024,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Tree_Vertex_Ordering/statements/EN"
     },
     {
         "name": "Grid Coloring",
