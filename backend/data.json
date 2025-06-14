@@ -3073,6 +3073,69 @@
         "link": "http://cms.iarcs.org.in:8888/tasks/Tree_Vertex_Ordering/statements/EN"
     },
     {
+        "name": "Speedrunning",
+        "number": 1,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/Speedrunning/statements/EN"
+    },
+    {
+        "name": "Tournament Construction",
+        "number": 2,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/TournamentConstruction/statements/EN"
+    },
+    {
+        "name": "Interactive MST 2",
+        "number": 3,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/InteractiveMST2/statements/EN"
+    },
+    {
+        "name": "Polygon Construction",
+        "number": 4,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/PolygonConstruction/statements/EN"
+    },
+    {
+        "name": "Mex Tree",
+        "number": 5,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/MexTree/statements/EN"
+    },
+    {
+        "name": "Distance Multiplier",
+        "number": 6,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/DistanceMultiplier/statements/EN"
+    },
+    {
+        "name": "Grid Shuffle",
+        "number": 7,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/GridShuffle/statements/EN"
+    },
+    {
+        "name": "Shop Game",
+        "number": 8,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/ShopGame/statements/EN"
+    },
+    {
+        "name": "Grid Path",
+        "number": 9,
+        "source": "IOITC",
+        "year": 2025,
+        "link": "http://cms.iarcs.org.in:8888/tasks/GridPath/statements/EN"
+    },
+    {
         "name": "Grid Coloring",
         "number": 1,
         "source": "JOIFR",
