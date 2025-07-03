@@ -465,11 +465,31 @@ function loadProblemsWithDay(source, numDays) {
 
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
-  const sources = [
+
+  // Default order fallback
+  let sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI',
     'GKS'
   ];
+
+  // Fetch saved user order
+  try {
+    const orderResponse = await fetch(`${apiUrl}/api/get-olympiad-order`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
+    });
+
+    if (orderResponse.ok) {
+      const { olympiad_order } = await orderResponse.json();
+      if (Array.isArray(olympiad_order) && olympiad_order.length > 0) {
+        sources = olympiad_order.map(id => id.toUpperCase());
+      }
+    }
+  } catch (err) {
+    console.error('Failed to fetch olympiad order:', err);
+  }
 
   const fullPath = window.location.pathname;
   const basePath = document.querySelector('base')?.getAttribute('href') || '/';
@@ -477,32 +497,39 @@ window.onload = async () => {
       fullPath.slice(basePath.length) :
       fullPath;
 
-  const hash = relativePath;
-  const isProfilePage = hash.startsWith('profile/');
+  const isProfilePage = relativePath.startsWith('profile/');
+  const olympiadList = document.getElementById('olympiad-list');
 
+  // Reorder containers and show skeletons
+  olympiadList.classList.add('olympiad-hidden');
+  sources.forEach(src => {
+    const container = document.getElementById(`${src.toLowerCase()}-container`);
+    if (container) {
+      olympiadList.appendChild(container);
+      container.querySelector('table').innerHTML = generateSkeletonRows(10);
+    }
+  });
+
+  // Set title if profile view
   if (isProfilePage) {
-    const username = hash.split('/')[1];
+    const username = relativePath.split('/')[1];
     document.getElementById('page-title').textContent =
         `${username}'s OI Checklist`;
+  } else {
+    document.getElementById('page-title').textContent = `OI Checklist`;
   }
-
-  // Show loading skeletons first
-  sources.forEach(src => {
-    const tbl = document.getElementById(`${src.toLowerCase()}-container`)
-                    .querySelector('table');
-    tbl.innerHTML = generateSkeletonRows(10);
-  });
 
   if (isProfilePage) {
     document.getElementById('welcome-message').style.display = 'none';
     document.getElementById('logout-button').style.display = 'none';
     document.getElementById('settings-container').style.display = 'none';
-    const username = hash.split('/')[1];
+
+    const username = relativePath.split('/')[1];
     const namesParam = sources.join(',');
 
     const res = await fetch(
         `${apiUrl}/api/user?username=${username}&problems=${namesParam}`,
-        {method: 'GET', credentials: 'include'});
+        { method: 'GET', credentials: 'include' });
 
     if (res.status === 404) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
@@ -524,13 +551,12 @@ window.onload = async () => {
     }
 
     const profileData = await res.json();
-    // Initialize counts by setting diff to 0
     count.update('red', 0);
     count.update('yellow', 0);
     count.update('green', 0);
     count.update('white', 0);
 
-    isProfileMode = true;  // global flag your renderers can use
+    isProfileMode = true;
     cachedProblemsData = profileData.problems;
 
     sources.forEach(src => {
@@ -547,34 +573,32 @@ window.onload = async () => {
     });
 
   } else {
-    // "own" view — authenticated user
-    let res = await fetch(`${apiUrl}/api/whoami`, {
+    const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
       method: 'GET',
       credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
 
-    if (!res.ok) return window.location.href = 'login.html';
+    if (!whoamiRes.ok) return window.location.href = 'login.html';
 
-    const {username} = await res.json();
+    const { username } = await whoamiRes.json();
     document.getElementById('welcome-message').textContent =
         `Welcome, ${username}`;
-    // Initialize counts by setting diff to 0
+
     count.update('red', 0);
     count.update('yellow', 0);
     count.update('green', 0);
     count.update('white', 0);
 
-    res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
+    const res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
       method: 'GET',
       credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
 
-    if (res.status !== 200) return window.location.href = 'login.html';
+    if (!res.ok) return window.location.href = 'login.html';
 
     cachedProblemsData = await res.json();
-    document.getElementById('page-title').textContent = `OI Checklist`;
 
     sources.forEach(src => {
       const tbl = document.getElementById(`${src.toLowerCase()}-container`)
@@ -589,7 +613,46 @@ window.onload = async () => {
         loadProblems(src);
     });
   }
+
+  // Unhide section headers after everything loads
+  document.querySelectorAll('#olympiad-list h2').forEach(h2 => {
+    h2.style.visibility = 'visible';
+  });
+
+  olympiadList.classList.remove('olympiad-hidden');
 };
+
+function applyOlympiadContainerOrder(order) {
+  const container = document.getElementById('olympiad-list');
+  const allSections = Array.from(container.children);
+  const sectionMap = new Map();
+
+  // Map normalized ID → DOM element
+  allSections.forEach(section => {
+    const id = section.id.replace('-container', '').toLowerCase();
+    sectionMap.set(id, section);
+  });
+
+  // Clear container and append based on order
+  container.innerHTML = '';
+
+  const seen = new Set();
+
+  for (const id of order) {
+    const section = sectionMap.get(id.toLowerCase());
+    if (section) {
+      container.appendChild(section);
+      seen.add(id.toLowerCase());
+    }
+  }
+
+  // Append leftover sections not in order
+  for (const [id, section] of sectionMap.entries()) {
+    if (!seen.has(id)) {
+      container.appendChild(section);
+    }
+  }
+}
 
 function generateSkeletonRows(numRows) {
   let skeletonHTML = '';
@@ -626,31 +689,6 @@ document.getElementById('logout-button')
         console.error('Logout failed');
       }
     });
-
-// Dark mode
-document.addEventListener('DOMContentLoaded', function() {
-  const toggleSwitch = document.getElementById('dark-mode-switch');
-  if (!toggleSwitch) {
-    console.error('Dark mode toggle switch not found.');
-    return;
-  }
-
-  let currentTheme = localStorage.getItem('theme') || 'light-mode';
-  if (currentTheme === 'dark-mode') {
-    document.body.classList.add('dark-mode');
-    toggleSwitch.checked = true;
-  }
-
-  toggleSwitch.addEventListener('change', function(e) {
-    if (e.target.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light-mode');
-    }
-  });
-});
 
 const settingsButton = document.getElementById('settings-button');
 const dropdown = document.getElementById('settings-dropdown');

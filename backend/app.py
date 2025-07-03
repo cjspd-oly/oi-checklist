@@ -13,6 +13,7 @@ from flask_cors import CORS
 from datetime import timedelta, datetime
 import jwt  # Import PyJWT
 from functools import wraps
+import json
 
 load_dotenv()  # Load environment variables from .env
 
@@ -20,7 +21,7 @@ app = Flask(__name__)
 # Allow cookies to be sent from frontend
 app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv("FLASK_ENV") == "production" else 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
-CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "https://avighnac.github.io"])
+CORS(app, supports_credentials=True, origins=["http://localhost:5501", "https://avighnac.github.io"])
 app.secret_key = "your-secret-key"
 app.permanent_session_lifetime = timedelta(days=1)
 
@@ -484,9 +485,58 @@ def update_ojuz_scores():
     db.close()
     return jsonify({'updated': updated, 'total_checked': len(results)}), 200
 
+@app.route('/api/update-olympiad-order', methods=['POST'])
+@token_required
+def update_olympiad_order():
+    data = request.get_json()
+    user_id = request.user_id
+
+    olympiad_order = data.get('olympiad_order')
+    if not isinstance(olympiad_order, list):
+        return jsonify({"error": "Invalid or missing olympiad_order"}), 400
+
+    db = get_db()
+    db.execute(
+        '''
+        UPDATE user_settings
+        SET olympiad_order = ?
+        WHERE user_id = ?
+        ''',
+        (json.dumps(olympiad_order), user_id)
+    )
+    db.commit()
+    db.close()
+
+    return jsonify(success=True)
+
+@app.route('/api/get-olympiad-order', methods=['GET'])
+@token_required
+def get_olympiad_order():
+    user_id = request.user_id
+    db = get_db()
+
+    row = db.execute(
+        '''
+        SELECT olympiad_order FROM user_settings
+        WHERE user_id = ?
+        ''',
+        (user_id,)
+    ).fetchone()
+
+    db.close()
+
+    if row and row['olympiad_order']:
+        try:
+            order = json.loads(row['olympiad_order'])
+            return jsonify(olympiad_order=order)
+        except Exception:
+            return jsonify({"error": "Failed to parse olympiad_order"}), 500
+    else:
+        return jsonify(olympiad_order=None)
+
 @app.route('/api/logout', methods=["POST"])
 def api_logout():
     return jsonify({"success": True, "message": "JWTs are stateless, no need to logout explicitly."})
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5001)

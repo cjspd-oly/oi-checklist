@@ -38,6 +38,8 @@ Install all requirements from `backend/requirements.txt`.
 
 **Note**: You'll also need to change the `apiUrl` variable in the `config.js` file to whatever URL the flask server ends up running on.
 
+Once you've done all of this once, you can use `checklist.sh` to run the front-end and back-end servers automatically and seamlessly. You'll obviously have to modify the relative directories here too.
+
 # Public
 
 Visit [this website](https://avighnac.github.io/oi-checklist) to use the OI checklist!
