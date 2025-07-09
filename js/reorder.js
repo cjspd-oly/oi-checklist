@@ -69,6 +69,10 @@ function saveOlympiadOrder() {
     .map(card => card.dataset.id);
 
   const sessionToken = localStorage.getItem('sessionToken');
+  const messageBox = document.getElementById('popup-message-oly-save');
+  messageBox.style.display = 'block';
+  let currentTheme = localStorage.getItem('theme') || 'light-mode';
+  messageBox.color = currentTheme == 'light-mode' ? 'black' : 'white';
 
   fetch(apiUrl + '/api/update-olympiad-order', {
     method: 'POST',
@@ -84,13 +88,16 @@ function saveOlympiadOrder() {
   .then(response => response.json())
   .then(result => {
     if (result.success) {
-      alert('Olympiad order saved!');
+      messageBox.textContent = 'Olympiad order saved!';
+      messageBox.style.color = 'green';
     } else {
-      alert(`Error saving order: ${result.error || 'unknown error'}`);
+      messageBox.textContent = `Error saving order: ${result.error || 'unknown error'}`;
+      messageBox.style.color = 'red';
     }
   })
   .catch(err => {
     console.error('Save failed:', err);
-    alert('Failed to save Olympiad order.');
+    messageBox.textContent = `Error saving order: ${result.error || 'unknown error'}`;
+    messageBox.style.color = 'red';
   });
 }
