@@ -14,7 +14,7 @@ window.onload = async () => {
   document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
 
   // Load user's olympiad order
-  const orderRes = await fetch(`${apiUrl}/api/get-olympiad-order`, {
+  const orderRes = await fetch(`${apiUrl}/api/get-olympiad-order?username=${username}`, {
     method: 'GET',
     credentials: 'include',
     headers: { 'Authorization': `Bearer ${sessionToken}` }

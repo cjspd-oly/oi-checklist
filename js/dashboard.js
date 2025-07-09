@@ -465,7 +465,12 @@ function loadProblemsWithDay(source, numDays) {
 
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
+  const fullPath = window.location.pathname;
+  const basePath = document.querySelector('base')?.getAttribute('href') || '/';
+  const relativePath = fullPath.startsWith(basePath) ? fullPath.slice(basePath.length) : fullPath;
 
+  const isProfilePage = relativePath.startsWith('profile/');
+  
   // Default order fallback
   let sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
@@ -473,9 +478,32 @@ window.onload = async () => {
     'GKS'
   ];
 
+  const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Authorization': `Bearer ${sessionToken}` }
+  });
+
+  let username = ''
+  if (whoamiRes.ok) {
+    const { username: uname } = await whoamiRes.json();
+    username = uname
+  }
+
+  if (!isProfilePage && !whoamiRes.ok) {
+    return window.location.href = 'login.html';
+  }
+
   // Fetch saved user order
   try {
-    const orderResponse = await fetch(`${apiUrl}/api/get-olympiad-order`, {
+    let req = `${apiUrl}/api/get-olympiad-order`;
+    if (isProfilePage) {
+      const uname = relativePath.split('/')[1];
+      req += `?username=${uname}`;
+    } else {
+      req += `?username=${username}`;
+    }
+    const orderResponse = await fetch(req, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Authorization': `Bearer ${sessionToken}` }
@@ -491,16 +519,8 @@ window.onload = async () => {
     console.error('Failed to fetch olympiad order:', err);
   }
 
-  const fullPath = window.location.pathname;
-  const basePath = document.querySelector('base')?.getAttribute('href') || '/';
-  const relativePath = fullPath.startsWith(basePath) ?
-      fullPath.slice(basePath.length) :
-      fullPath;
-
-  const isProfilePage = relativePath.startsWith('profile/');
-  const olympiadList = document.getElementById('olympiad-list');
-
   // Reorder containers and show skeletons
+  const olympiadList = document.getElementById('olympiad-list');
   olympiadList.classList.add('olympiad-hidden');
   sources.forEach(src => {
     const container = document.getElementById(`${src.toLowerCase()}-container`);
@@ -513,8 +533,7 @@ window.onload = async () => {
   // Set title if profile view
   if (isProfilePage) {
     const username = relativePath.split('/')[1];
-    document.getElementById('page-title').textContent =
-        `${username}'s OI Checklist`;
+    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
   } else {
     document.getElementById('page-title').textContent = `OI Checklist`;
   }
@@ -573,17 +592,7 @@ window.onload = async () => {
     });
 
   } else {
-    const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Authorization': `Bearer ${sessionToken}` }
-    });
-
-    if (!whoamiRes.ok) return window.location.href = 'login.html';
-
-    const { username } = await whoamiRes.json();
-    document.getElementById('welcome-message').textContent =
-        `Welcome, ${username}`;
+    document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
 
     count.update('red', 0);
     count.update('yellow', 0);

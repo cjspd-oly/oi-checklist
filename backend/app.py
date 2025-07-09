@@ -510,11 +510,27 @@ def update_olympiad_order():
     return jsonify(success=True)
 
 @app.route('/api/get-olympiad-order', methods=['GET'])
-@token_required
 def get_olympiad_order():
-    user_id = request.user_id
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Missing 'username' query parameter"}), 400
+
     db = get_db()
 
+    # Get user ID from username
+    user = db.execute(
+        "SELECT id FROM users WHERE username = ?",
+        (username,)
+    ).fetchone()
+
+    if not user:
+        db.close()
+        return jsonify({"error": f"User '{username}' not found"}), 404
+
+    user_id = user['id']
+    print(f"user id: {user_id}")
+
+    # Fetch olympiad order
     row = db.execute(
         '''
         SELECT olympiad_order FROM user_settings
