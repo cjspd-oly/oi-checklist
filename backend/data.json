@@ -8519,5 +8519,47 @@
         "source": "APIO",
         "year": 2025,
         "link": "https://oj.uz/problem/view/APIO25_rotate"
+    },
+    {
+        "name": "Brackets",
+        "number": 1,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://www.acmicpc.net/problem/3345"
+    },
+    {
+        "name": "Mobile",
+        "number": 2,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://oj.uz/problem/view/BOI12_mobile"
+    },
+    {
+        "name": "Peaks",
+        "number": 3,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://www.acmicpc.net/problem/3347"
+    },
+    {
+        "name": "Fireworks in RightAngleles",
+        "number": 4,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://www.acmicpc.net/problem/3348"
+    },
+    {
+        "name": "Melody",
+        "number": 5,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://www.acmicpc.net/problem/3349"
+    },
+    {
+        "name": "Tiny",
+        "number": 6,
+        "source": "BOI",
+        "year": 2012,
+        "link": "https://www.acmicpc.net/problem/22205"
     }
 ]
