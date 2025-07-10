@@ -23,7 +23,7 @@ document.getElementById('login-form')
           console.log('JWT Token: ' + sessionToken);
           localStorage.setItem('sessionToken', sessionToken);
 
-          window.location.href = 'index.html';
+          window.location.href = '/';
         } else {
           errorBox.style.display = 'block';
           errorBox.innerText = data.error || 'Login failed';
