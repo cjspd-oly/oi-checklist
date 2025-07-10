@@ -21,7 +21,7 @@ app = Flask(__name__)
 # Allow cookies to be sent from frontend
 app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv("FLASK_ENV") == "production" else 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
-CORS(app, supports_credentials=True, origins=["http://localhost:5501", "https://avighnac.github.io"])
+CORS(app, supports_credentials=True, origins=["https://checklist.spoi.org.in"])
 app.secret_key = "your-secret-key"
 app.permanent_session_lifetime = timedelta(days=1)
 
