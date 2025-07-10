@@ -515,7 +515,6 @@ window.onload = async () => {
     const orderResponse = await fetch(req, {
       method: 'GET',
       credentials: 'include',
-      headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
 
     if (orderResponse.ok) {
