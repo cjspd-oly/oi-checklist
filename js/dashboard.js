@@ -471,38 +471,47 @@ window.onload = async () => {
 
   const isProfilePage = relativePath.startsWith('profile/');
   
-  // Default order fallback
+  // Default order
   let sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI',
     'GKS'
   ];
 
+  // Render containers immediately with skeletons and hidden <h2>s
+  const olympiadList = document.getElementById('olympiad-list');
+  sources.forEach(src => {
+    const container = document.getElementById(`${src.toLowerCase()}-container`);
+    if (container) {
+      container.querySelector('h2').style.visibility = 'hidden';
+      container.querySelector('table').innerHTML = generateSkeletonRows(10);
+      olympiadList.appendChild(container);
+    }
+  });
+
+  // Fetch user info
   const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
     method: 'GET',
     credentials: 'include',
     headers: { 'Authorization': `Bearer ${sessionToken}` }
   });
 
-  let username = ''
+  let username = '';
   if (whoamiRes.ok) {
     const { username: uname } = await whoamiRes.json();
-    username = uname
+    username = uname;
   }
 
   if (!isProfilePage && !whoamiRes.ok) {
     return window.location.href = 'login.html';
   }
 
-  // Fetch saved user order
+  // Attempt to fetch saved order
   try {
     let req = `${apiUrl}/api/get-olympiad-order`;
-    if (isProfilePage) {
-      const uname = relativePath.split('/')[1];
-      req += `?username=${uname}`;
-    } else {
-      req += `?username=${username}`;
-    }
+    const uname = isProfilePage ? relativePath.split('/')[1] : username;
+    req += `?username=${uname}`;
+
     const orderResponse = await fetch(req, {
       method: 'GET',
       credentials: 'include',
@@ -513,52 +522,47 @@ window.onload = async () => {
       const { olympiad_order } = await orderResponse.json();
       if (Array.isArray(olympiad_order) && olympiad_order.length > 0) {
         sources = olympiad_order.map(id => id.toUpperCase());
+        // Reorder existing DOM nodes
+        sources.forEach(src => {
+          const container = document.getElementById(`${src.toLowerCase()}-container`);
+          if (container) olympiadList.appendChild(container);
+        });
       }
     }
   } catch (err) {
     console.error('Failed to fetch olympiad order:', err);
   }
 
-  // Reorder containers and show skeletons
-  const olympiadList = document.getElementById('olympiad-list');
-  olympiadList.classList.add('olympiad-hidden');
-  sources.forEach(src => {
-    const container = document.getElementById(`${src.toLowerCase()}-container`);
-    if (container) {
-      olympiadList.appendChild(container);
-      container.querySelector('table').innerHTML = generateSkeletonRows(10);
-    }
-  });
-
-  // Set title if profile view
+  // Set title
   if (isProfilePage) {
-    const username = relativePath.split('/')[1];
-    document.getElementById('page-title').textContent = `${username}'s OI Checklist`;
+    const uname = relativePath.split('/')[1];
+    document.getElementById('page-title').textContent = `${uname}'s OI Checklist`;
   } else {
     document.getElementById('page-title').textContent = `OI Checklist`;
   }
 
+  // Fetch and render actual data
   if (isProfilePage) {
     document.getElementById('welcome-message').style.display = 'none';
     document.getElementById('logout-button').style.display = 'none';
     document.getElementById('settings-container').style.display = 'none';
 
-    const username = relativePath.split('/')[1];
+    const uname = relativePath.split('/')[1];
     const namesParam = sources.join(',');
 
     const res = await fetch(
-        `${apiUrl}/api/user?username=${username}&problems=${namesParam}`,
-        { method: 'GET', credentials: 'include' });
+      `${apiUrl}/api/user?username=${uname}&problems=${namesParam}`,
+      { method: 'GET', credentials: 'include' });
 
     if (res.status === 404) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
-        Error: user “${username}” does not exist.
+        Error: user “${uname}” does not exist.
       </h2>`;
       return;
     }
     if (res.status === 403) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
-        ${username}'s checklist is private.
+        ${uname}'s checklist is private.
       </h2>`;
       return;
     }
@@ -582,7 +586,6 @@ window.onload = async () => {
       const tbl = document.getElementById(`${src.toLowerCase()}-container`)
                       .querySelector('table');
       tbl.innerHTML = '';
-
       if (src === 'JOISC')
         loadProblemsWithDay('JOISC', 4);
       else if (src === 'IOITC')
@@ -593,7 +596,6 @@ window.onload = async () => {
 
   } else {
     document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
-
     count.update('red', 0);
     count.update('yellow', 0);
     count.update('green', 0);
@@ -613,7 +615,6 @@ window.onload = async () => {
       const tbl = document.getElementById(`${src.toLowerCase()}-container`)
                       .querySelector('table');
       tbl.innerHTML = '';
-
       if (src === 'JOISC')
         loadProblemsWithDay('JOISC', 4);
       else if (src === 'IOITC')
@@ -623,13 +624,34 @@ window.onload = async () => {
     });
   }
 
-  // Unhide section headers after everything loads
+  // Reveal headers now that loading is done
   document.querySelectorAll('#olympiad-list h2').forEach(h2 => {
     h2.style.visibility = 'visible';
   });
-
-  olympiadList.classList.remove('olympiad-hidden');
 };
+
+function getFullOlympiadName(id) {
+  const names = {
+    APIO: 'Asia-Pacific Informatics Olympiad',
+    EGOI: 'European Girls\' Olympiad in Informatics',
+    INOI: 'Indian National Olympiad in Informatics',
+    ZCO: 'Indian Zonal Computing Olympiad',
+    IOI: 'International Olympiad in Informatics',
+    JOIFR: 'Japanese Olympiad in Informatics: Final Round',
+    JOISC: 'Japanese Olympiad in Informatics: Spring Camp',
+    IOITC: 'Indian International Olympiad in Informatics: Training Camp',
+    NOIPRELIM: 'Singapore NOI: Preliminary Round',
+    NOIQUAL: 'Singapore NOI: Qualification Round',
+    NOIFINAL: 'Singapore NOI: Final Round',
+    POI: 'Polish Olympiad in Informatics',
+    NOISEL: 'Singapore NOI: Selection Test',
+    CEOI: 'Central European Olympiad in Informatics',
+    COI: 'Croatian Olympiad in Informatics',
+    BOI: 'Baltic Olympiad in Informatics',
+    GKS: 'Google Kick Start'
+  };
+  return names[id] || id;
+}
 
 function applyOlympiadContainerOrder(order) {
   const container = document.getElementById('olympiad-list');

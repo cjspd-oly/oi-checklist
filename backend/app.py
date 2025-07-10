@@ -55,6 +55,10 @@ def token_required(f):
 
     return decorated_function
 
+# @app.before_request
+# def simulate_network_lag():
+#     time.sleep(0.2)
+
 @app.route("/api/register", methods=["POST"])
 def api_register():
     data = request.get_json()
