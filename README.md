@@ -42,4 +42,4 @@ Once you've done all of this once, you can use `checklist.sh` to run the front-e
 
 # Public
 
-Visit [this website](https://avighnac.github.io/oi-checklist) to use the OI checklist!
+Visit [this website](https://checklist.spoi.org.in/) to use the OI checklist!
