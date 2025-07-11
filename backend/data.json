@@ -8771,5 +8771,145 @@
         "source": "ZCO",
         "year": 2023,
         "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO23002"
+    },
+    {
+        "name": "Triathlon",
+        "number": 1,
+        "source": "INOI",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1201"
+    },
+    {
+        "name": "Table Sum",
+        "number": 2,
+        "source": "INOI",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1202"
+    },
+    {
+        "name": "Calvin's Game",
+        "number": 1,
+        "source": "INOI",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1301"
+    },
+    {
+        "name": "Sequence Land",
+        "number": 2,
+        "source": "INOI",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1302"
+    },
+    {
+        "name": "Highway Bypass",
+        "number": 1,
+        "source": "INOI",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1401"
+    },
+    {
+        "name": "Free Ticket",
+        "number": 2,
+        "source": "INOI",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1402"
+    },
+    {
+        "name": "Special Sums",
+        "number": 1,
+        "source": "INOI",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1501"
+    },
+    {
+        "name": "Periodic Strings",
+        "number": 2,
+        "source": "INOI",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1502"
+    },
+    {
+        "name": "Wealth Disparity",
+        "number": 1,
+        "source": "INOI",
+        "year": 2016,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1601"
+    },
+    {
+        "name": "Brackets",
+        "number": 2,
+        "source": "INOI",
+        "year": 2016,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1602"
+    },
+    {
+        "name": "Training",
+        "number": 1,
+        "source": "INOI",
+        "year": 2017,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TINOI17B"
+    },
+    {
+        "name": "Road Trip and Museums",
+        "number": 1,
+        "source": "INOI",
+        "year": 2018,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/ROADTRIP"
+    },
+    {
+        "name": "Two Paths",
+        "number": 2,
+        "source": "INOI",
+        "year": 2018,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TWOPATHS"
+    },
+    {
+        "name": "Processor Scheduling",
+        "number": 1,
+        "source": "INOI",
+        "year": 2019,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1901"
+    },
+    {
+        "name": "Interesting Sequences",
+        "number": 2,
+        "source": "INOI",
+        "year": 2019,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1902"
+    },
+    {
+        "name": "Fence",
+        "number": 3,
+        "source": "INOI",
+        "year": 2019,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TINOI17A"
+    },
+    {
+        "name": "Department Strengths",
+        "number": 1,
+        "source": "INOI",
+        "year": 2020,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2001"
+    },
+    {
+        "name": "3xN Tiling",
+        "number": 2,
+        "source": "INOI",
+        "year": 2020,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI2002"
+    },
+    {
+        "name": "Break the String",
+        "number": 1,
+        "source": "INOI",
+        "year": 2021,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/BREAKSTR"
+    },
+    {
+        "name": "Among Us",
+        "number": 2,
+        "source": "INOI",
+        "year": 2021,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/AMONGUS2"
     }
 ]
