@@ -8561,5 +8561,215 @@
         "source": "BOI",
         "year": 2012,
         "link": "https://www.acmicpc.net/problem/22205"
+    },
+    {
+        "name": "Video Game",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO14001"
+    },
+    {
+        "name": "Smart Phone",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO14003"
+    },
+  {
+        "name": "Matched Brackets",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO12001"
+    },
+    {
+        "name": "Wormholes",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO12002"
+    },
+    {
+        "name": "Matched Brackets 2",
+        "number": 3,
+        "source": "ZCO",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO12003"
+    },
+    {
+        "name": "Round Table",
+        "number": 4,
+        "source": "ZCO",
+        "year": 2012,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO12004"
+    },
+    {
+        "name": "Tournament",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO13001"
+    },
+    {
+        "name": "Little Red Riding Hood",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO13002"
+    },
+    {
+        "name": "Chewing",
+        "number": 3,
+        "source": "ZCO",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO13003"
+    },
+    {
+        "name": "Save Spaceman Spiff",
+        "number": 4,
+        "source": "ZCO",
+        "year": 2013,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO13004"
+    },
+    {
+        "name": "SUPW",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO14002"
+    },
+    {
+        "name": "IPL",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2014,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO14004"
+    },
+    {
+        "name": "Break Up",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO15001"
+    },
+    {
+        "name": "Variation",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO15002"
+    },
+    {
+        "name": "Covering",
+        "number": 3,
+        "source": "ZCO",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO15003"
+    },
+    {
+        "name": "Rectangle",
+        "number": 4,
+        "source": "ZCO",
+        "year": 2015,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO15004"
+    },
+    {
+        "name": "Bookshelves",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2016,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO16001"
+    },
+    {
+        "name": "Bamboo Art",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2016,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO16002"
+    },
+    {
+        "name": "Four Sum",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2017,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO17001"
+    },
+    {
+        "name": "Rays",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2017,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO17002"
+    },
+    {
+        "name": "Moving Intervals",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2018,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/MOVINTRL"
+    },
+    {
+        "name": "Substring Importance",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2018,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/STRIMPOR"
+    },
+    {
+        "name": "Singing Tournament",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2019,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/SINGTOUR"
+    },
+    {
+        "name": "2 UpDown Sequences",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2019,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/UPDOWSEQ"
+    },
+    {
+        "name": "Weird Ordering",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2020,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO20001"
+    },
+    {
+        "name": "Interleavings and Blocks",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2020,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO20002"
+    },
+    {
+        "name": "Vacation",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2022,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO22001"
+    },
+    {
+        "name": "Messages",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2022,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO22002"
+    },
+    {
+        "name": "Parchment",
+        "number": 1,
+        "source": "ZCO",
+        "year": 2023,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO23001"
+    },
+    {
+        "name": "Weightage",
+        "number": 2,
+        "source": "ZCO",
+        "year": 2023,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/ZCOPRAC/problems/ZCO23002"
     }
 ]
