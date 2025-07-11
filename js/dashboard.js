@@ -451,8 +451,7 @@ function loadProblemsWithDay(source, numDays) {
         dayRow.appendChild(cell);
       }
 
-      const hasProblem = [...dayRow.children].some(
-          td =>
+      const hasProblem = [...dayRow.children].some(td =>
               td.classList.contains('problem-cell') && td.children.length > 0);
       if (hasProblem) {
         tbody.appendChild(dayRow);

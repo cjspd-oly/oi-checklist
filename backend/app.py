@@ -502,11 +502,11 @@ def update_olympiad_order():
     db = get_db()
     db.execute(
         '''
-        UPDATE user_settings
-        SET olympiad_order = ?
-        WHERE user_id = ?
+        INSERT INTO user_settings (user_id, olympiad_order)
+        VALUES (?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET olympiad_order = excluded.olympiad_order
         ''',
-        (json.dumps(olympiad_order), user_id)
+        (user_id, json.dumps(olympiad_order))
     )
     db.commit()
     db.close()
@@ -532,7 +532,6 @@ def get_olympiad_order():
         return jsonify({"error": f"User '{username}' not found"}), 404
 
     user_id = user['id']
-    print(f"user id: {user_id}")
 
     # Fetch olympiad order
     row = db.execute(
