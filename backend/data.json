@@ -8843,8 +8843,15 @@
         "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1602"
     },
     {
-        "name": "Training",
+        "name": "Fence",
         "number": 1,
+        "source": "INOI",
+        "year": 2017,
+        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TINOI17A"
+    },
+    {
+        "name": "Training",
+        "number": 2,
         "source": "INOI",
         "year": 2017,
         "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TINOI17B"
@@ -8876,13 +8883,6 @@
         "source": "INOI",
         "year": 2019,
         "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/INOI1902"
-    },
-    {
-        "name": "Fence",
-        "number": 3,
-        "source": "INOI",
-        "year": 2019,
-        "link": "https://www.codechef.com/practice/course/zco-inoi-problems/INOIPRAC/problems/TINOI17A"
     },
     {
         "name": "Department Strengths",
