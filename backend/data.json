@@ -6181,21 +6181,28 @@
         "link": "https://oj.uz/problem/view/BOI18_paths"
     },
     {
-        "name": "Nautilus",
+        "name": "Flash Memory",
         "number": 1,
+        "source": "BOI",
+        "year": 2019,
+        "link": "https://qoj.ac/contest/2089/problem/11444"
+    },
+    {
+        "name": "Nautilus",
+        "number": 2,
         "source": "BOI",
         "year": 2019,
         "link": "https://oj.uz/problem/view/BOI19_nautilus"
     },
     {
-        "name": "Valley",
-        "number": 2,
+        "name": "Alpine Valley",
+        "number": 3,
         "source": "BOI",
         "year": 2019,
         "link": "https://oj.uz/problem/view/BOI19_valley"
     },
     {
-        "name": "Kitchen",
+        "name": "Tom's Kitchen",
         "number": 4,
         "source": "BOI",
         "year": 2019,
