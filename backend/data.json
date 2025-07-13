@@ -51,14 +51,14 @@
     {
         "name": "Chess Islands",
         "number": 1,
-        "source": "NOIPRELIM",
+        "source": "NOISEL",
         "year": 2010,
         "link": "https://codebreaker.xyz/problem/chessislands"
     },
     {
         "name": "Triangle Sum",
         "number": 2,
-        "source": "NOIPRELIM",
+        "source": "NOISEL",
         "year": 2010,
         "link": "https://codebreaker.xyz/problem/trianglesum"
     },
