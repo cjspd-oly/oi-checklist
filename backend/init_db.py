@@ -21,7 +21,7 @@ c.execute('''CREATE TABLE problems (
     source TEXT,
     year INTEGER,
     link TEXT,
-    extra TEXT,
+    extra TEXT
 )''')
 
 c.execute('''
