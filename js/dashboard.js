@@ -170,6 +170,20 @@ function handleCellClick(cell, name, source, year, e) {
       popupScore.blur();
     }
   });
+  document.addEventListener('click', (e) => {
+  const isInsidePopup = popup.contains(e.target);
+  const isSameCell = currentCell && currentCell.contains(e.target);
+  const isProblemCell = e.target.closest('.problem-cell');
+
+  if (!isInsidePopup && !isSameCell && popup.classList.contains('show')) {
+    popup.classList.remove('show');
+    popup.classList.add('hidden');
+    if (currentCell) {
+      handlePopupClose(currentCell);
+      currentCell = null;
+    }
+  }
+});
 }
 
 document.querySelectorAll('.problem-cell').forEach(cell => {
