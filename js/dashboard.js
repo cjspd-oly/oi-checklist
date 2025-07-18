@@ -581,6 +581,12 @@ window.onload = async () => {
     document.getElementById('settings-container').style.display = 'none';
 
     const uname = relativePath.split('/')[1];
+    sources = sources.flatMap(src => {
+      if (src === 'USACO') {
+        return ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'];
+      }
+      return src;
+    });
     const namesParam = sources.join(',');
 
     const res = await fetch(
@@ -626,7 +632,6 @@ window.onload = async () => {
       else
         loadProblems(src);
     });
-
   } else {
     document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
     count.update('red', 0);
@@ -666,6 +671,10 @@ window.onload = async () => {
   // Reveal headers now that loading is done
   document.querySelectorAll('#olympiad-list h2').forEach(h2 => {
     h2.style.visibility = 'visible';
+  });
+  // Reveal USACO tab buttons
+  document.querySelectorAll('.usaco-tab-buttons').forEach(el => {
+    el.style.display = 'flex';
   });
 };
 

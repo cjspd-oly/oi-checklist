@@ -993,8 +993,9 @@ body.dark-mode .submit-cookie-button:hover {
 
 /* Prevent tab buttons from shrinking awkwardly on wrap */
 .usaco-tab-buttons {
-  display: flex;
+  display: none; /* this will be changed in the js to 'flex' */
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-top: 1.3rem;
 }
+
