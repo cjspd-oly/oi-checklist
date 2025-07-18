@@ -13,6 +13,11 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 - International Olympiad in Informatics
 - Indian National Olympiad in Informatics
 - Indian Zonal Computing Olympiad
+- USA Computing Olympiad:
+  - Bronze
+  - Silver
+  - Gold
+  - Platinum
 - Croatian Olympiad in Informatics
 - Indian International Olympiad in Informatics: Training Camp
 - Japanese Olympiad in Informatics: Spring Camp
@@ -26,8 +31,6 @@ Here are the olympiads the OI checklist has right now. Open an issue if you want
 - Google Kick Start
 
 # Local Running Instructions
-
-First of all, I'm surprised someone who's not me is using this, but okay I guess.
 
 Install all requirements from `backend/requirements.txt`.
 

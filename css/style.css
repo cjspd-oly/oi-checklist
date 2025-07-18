@@ -951,3 +951,50 @@ body.dark-mode .submit-cookie-button:hover {
 #olympiad-reorder-list h3 {
     visibility: hidden;
 }
+
+.usaco-tab-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.usaco-tab {
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 0;
+  color: white;
+}
+
+.usaco-tab-content.hidden {
+  display: none;
+}
+
+/* Light Mode Colors */
+.platinum { background-color: #b0b0b0; }
+.gold     { background-color: #e6b800; }
+.silver   { background-color: #c0c0c0; }
+.bronze   { background-color: #cd7f32; }
+
+/* Dark Mode Overrides */
+.dark-mode .usaco-tab.platinum { background-color: #d0d0d0; color: #1a1a1a; } 
+.dark-mode .usaco-tab.gold     { background-color: #ffd700; color: #333300; } 
+.dark-mode .usaco-tab.silver   { background-color: #e0e0e0; color: #222222; } 
+.dark-mode .usaco-tab.bronze   { background-color: #de985c; color: #3a1f0f; } 
+
+.usaco-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* Prevent tab buttons from shrinking awkwardly on wrap */
+.usaco-tab-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.3rem;
+}

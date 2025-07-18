@@ -277,6 +277,14 @@ async function loadProblems(from) {
 
   const tbody = document.createElement('tbody');
 
+  const monthOrder = {
+    January: 1, February: 2, March: 3, April: 4,
+    May: 5, June: 6, July: 7, August: 8,
+    September: 9, October: 10, November: 11, December: 12,
+    "First Contest": 13, "Second Contest": 14, "Third Contest": 15,
+    Open: 16
+  };
+
   for (const [year, problems] of Object.entries(yearMap)) {
     let prefix = from;
     if (prefix === 'JOIFR') {
@@ -288,7 +296,21 @@ async function loadProblems(from) {
       prefix = 'NOI';
     }
 
-    if (prefix === 'GKS') {
+    const isUsaco = prefix.startsWith('USACO');
+    if (isUsaco) {
+      if (prefix === 'USACOGOLD') {
+        prefix = 'Gold';
+      } else if (prefix === 'USACOSILVER') {
+        prefix = 'Silver';
+      } else if (prefix === 'USACOBRONZE') {
+        prefix = 'Bronze';
+      } else {
+        prefix = 'Platinum';
+      }
+    }
+    const isGroupedByExtra = prefix === 'GKS' || isUsaco;
+
+    if (isGroupedByExtra) {
       // --- Year header row ---
       const yearRow = document.createElement('tr');
       const yearCell = document.createElement('td');
@@ -305,46 +327,43 @@ async function loadProblems(from) {
         extraMap[key].push(problem);
       }
 
-      // --- Sort extras lexically ---
-      const sortedExtras = Object.keys(extraMap).sort();
+      // --- Sort extras ---
+      const sortedExtras = Object.keys(extraMap).sort((a, b) => {
+        const orderA = monthOrder[a] || 99;
+        const orderB = monthOrder[b] || 99;
+        return orderA - orderB;
+      });
 
-      // --- One row per extra category ---
       for (const extra of sortedExtras) {
         const extraRow = document.createElement('tr');
 
-        // extra label cell (reusing 'day-cell' class)
         const extraCell = document.createElement('td');
         extraCell.className = 'day-cell';
         extraCell.textContent = extra;
         extraRow.appendChild(extraCell);
 
-        // problem cells, as many as there are in this extra group
         for (const problem of extraMap[extra]) {
           const cell = document.createElement('td');
           cell.className = 'problem-cell';
 
-          // apply status class & count
           const status = statuses.find(s => s.value === problem.status);
           if (status?.className) {
             cell.classList.add(status.className);
             count.update(status.className, 1);
           }
 
-          // data attributes
           cell.dataset.status = problem.status;
           cell.dataset.problemId = problem.name;
           cell.dataset.source = problem.source;
           cell.dataset.year = problem.year;
           cell.dataset.score = problem.score;
 
-          // link
           const link = document.createElement('a');
           link.href = problem.link;
           link.target = '_blank';
           link.textContent = problem.name;
           cell.appendChild(link);
 
-          // click handler
           cell.addEventListener(
             'click',
             e => handleCellClick(cell, problem.name, from, problem.year, e)
@@ -488,17 +507,19 @@ window.onload = async () => {
   let sources = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI',
-    'GKS'
+    'GKS', 'USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'
   ];
 
   // Render containers immediately with skeletons and hidden <h2>s
   const olympiadList = document.getElementById('olympiad-list');
   sources.forEach(src => {
-    const container = document.getElementById(`${src.toLowerCase()}-container`);
-    if (container) {
-      container.querySelector('h2').style.visibility = 'hidden';
-      container.querySelector('table').innerHTML = generateSkeletonRows(10);
-      olympiadList.appendChild(container);
+    if (!src.startsWith('USACO')) {
+      const container = document.getElementById(`${src.toLowerCase()}-container`);
+      if (container) {
+        container.querySelector('h2').style.visibility = 'hidden';
+        container.querySelector('table').innerHTML = generateSkeletonRows(10);
+        olympiadList.appendChild(container);
+      }
     }
   });
 
@@ -613,6 +634,12 @@ window.onload = async () => {
     count.update('green', 0);
     count.update('white', 0);
 
+    sources = sources.flatMap(src => {
+      if (src === 'USACO') {
+        return ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'];
+      }
+      return src;
+    });
     const res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
       method: 'GET',
       credentials: 'include',
@@ -660,7 +687,8 @@ function getFullOlympiadName(id) {
     CEOI: 'Central European Olympiad in Informatics',
     COI: 'Croatian Olympiad in Informatics',
     BOI: 'Baltic Olympiad in Informatics',
-    GKS: 'Google Kick Start'
+    GKS: 'Google Kick Start',
+    USACO: 'USA Computing Olympiad'
   };
   return names[id] || id;
 }
@@ -884,4 +912,18 @@ checklistVisibilityItem.addEventListener('click', async () => {
                              // Optional: Show a temporary error message next to
                              // the item
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.usaco-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+
+      document.querySelectorAll('.usaco-tab-content').forEach(el => {
+        el.classList.add('hidden');
+      });
+
+      document.getElementById(`${tab}-container`).classList.remove('hidden');
+    });
+  });
 });
