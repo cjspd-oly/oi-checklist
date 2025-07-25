@@ -14382,5 +14382,61 @@
         "year": 2025,
         "link": "https://usaco.org/index.php?page=viewproblem2&cpid=1517",
         "extra": "Open"
+    },
+    {
+        "name": "Gift Boxes",
+        "number": 1,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2343/problem/13165"
+    },
+    {
+        "name": "Dark Ride",
+        "number": 2,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2343/problem/13166"
+    },
+    {
+        "name": "Monster-Go",
+        "number": 3,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2343/problem/13167"
+    },
+    {
+        "name": "Wind Turbines",
+        "number": 4,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2343/problem/13168"
+    },
+    {
+        "name": "A String Problem",
+        "number": 5,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2344/problem/13169"
+    },
+    {
+        "name": "Currents",
+        "number": 6,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2344/problem/13170"
+    },
+    {
+        "name": "IMO",
+        "number": 7,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2344/problem/13171"
+    },
+    {
+        "name": "Laser Strike",
+        "number": 8,
+        "source": "EGOI",
+        "year": 2025,
+        "link": "https://qoj.ac/contest/2344/problem/13172"
     }
 ]
