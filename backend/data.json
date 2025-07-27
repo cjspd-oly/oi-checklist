@@ -1114,7 +1114,7 @@
     },
     {
         "name": "Belt Conveyor",
-        "number": 5,
+        "number": 4,
         "source": "JOISC",
         "year": 2023,
         "link": "https://qoj.ac/contest/1209/problem/6335"
