@@ -1113,6 +1113,13 @@
         "link": "https://oj.uz/problem/view/JOI23_passport"
     },
     {
+        "name": "Belt Conveyor",
+        "number": 5,
+        "source": "JOISC",
+        "year": 2023,
+        "link": "https://qoj.ac/contest/1209/problem/6335"
+    },
+    {
         "name": "Council",
         "number": 5,
         "source": "JOISC",
@@ -1146,6 +1153,13 @@
         "source": "JOISC",
         "year": 2023,
         "link": "https://oj.uz/problem/view/JOI23_tourism"
+    },
+    {
+        "name": "The Last Battle",
+        "number": 10,
+        "source": "JOISC",
+        "year": 2023,
+        "link": "https://qoj.ac/contest/1211/problem/6341"
     },
     {
         "name": "Security Guard",
@@ -1342,6 +1356,13 @@
         "source": "APIO",
         "year": 2013,
         "link": "https://oj.uz/problem/view/APIO13_toll"
+    },
+    {
+        "name": "Tasks Author",
+        "number": 3,
+        "source": "APIO",
+        "year": 2013,
+        "link": "https://qoj.ac/contest/262/problem/1068"
     },
     {
         "name": "Palindrome",
@@ -6648,6 +6669,13 @@
         "source": "JOISC",
         "year": 2018,
         "link": "https://oj.uz/problem/view/JOI18_asceticism"
+    },
+    {
+        "name": "Road Service",
+        "number": 5,
+        "source": "JOISC",
+        "year": 2018,
+        "link": "https://qoj.ac/contest/363/problem/118"
     },
     {
         "name": "Worst Reporter 3",
