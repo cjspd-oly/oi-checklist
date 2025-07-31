@@ -14466,5 +14466,26 @@
         "source": "EGOI",
         "year": 2025,
         "link": "https://qoj.ac/contest/2344/problem/13172"
+    },
+    {
+        "name": "Souvenirs",
+        "number": 1,
+        "source": "IOI",
+        "year": 2025,
+        "link": "https://oj.uz/problem/view/IOI25_souvenirs"
+    },
+    {
+        "name": "Triple Peaks",
+        "number": 2,
+        "source": "IOI",
+        "year": 2025,
+        "link": "https://oj.uz/problem/view/IOI25_triples"
+    },
+    {
+        "name": "World Map",
+        "number": 3,
+        "source": "IOI",
+        "year": 2025,
+        "link": "https://oj.uz/problem/view/IOI25_worldmap"
     }
 ]
