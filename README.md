@@ -59,17 +59,17 @@ OI Checklist includes problems from a wide range of Olympiads. If you’d like t
 
 2. Initialize the database:
    ```bash
-   python backend/init_db.py
+   python3 backend/init_db.py
    ```
 
 3. Populate problems:
    ```bash
-   python populate_problems.py
+   python3 backend/populate_problems.py
    ```
 
 4. Start the Flask backend:
    ```bash
-   python backend/app.py
+   python3 backend/app.py
    ```
 
 5. Use a tool like Live Server to launch the frontend from the root directory (where `index.html` lives).
