@@ -3,10 +3,16 @@
 A modern, full-featured checklist for tracking progress across major Olympiads in Informatics.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4dd874d2-b6c8-4188-b01b-65e1070fc668" alt="Dark Mode Preview" width="80%">
+  <img src="https://github.com/user-attachments/assets/4dd874d2-b6c8-4188-b01b-65e1070fc668" alt="Landing Page (Dark Mode)" width="80%">
 </p>
 
-<p align="center"><i>Dark mode interface: clean, responsive</i></p>
+<p align="center"><i>Dark mode landing page – clean, responsive</i></p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f2ad6ffc-0ab8-44dd-a30e-beee810cda7a" alt="Dashboard View (Logged In)" width="80%">
+</p>
+
+<p align="center"><i>Dashboard after logging in – track scores, status, and more</i></p>
 
 ---
 
@@ -74,7 +80,7 @@ Once setup is complete, you can use the `checklist.sh` script to start both fron
 
 ---
 
-## 🌐 Public Deployment
+## Public Deployment
 
 You can try the live version [here](https://checklist.spoi.org.in/)!
 
