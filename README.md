@@ -1,48 +1,91 @@
 # oi-checklist
-A complete checklist for OI problems.
 
-# Is it actually complete?
+A modern, full-featured checklist for tracking progress across major Olympiads in Informatics.
 
-Here are the olympiads the OI checklist has right now. Open an issue if you want me to add some other OI (or feel free to PR):
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4dd874d2-b6c8-4188-b01b-65e1070fc668" alt="Dark Mode Preview" width="80%">
+</p>
 
-## Olympiads
+<p align="center"><i>Dark mode interface: clean, responsive</i></p>
 
-- Singapore National Olympiad in Informatics
-- Asia-Pacific Informatics Olympiad
-- Central European Olympiad in Informatics
-- International Olympiad in Informatics
-- Indian National Olympiad in Informatics
-- Indian Zonal Computing Olympiad
-- USA Computing Olympiad:
+---
+
+## Supported Olympiads
+
+OI Checklist includes problems from a wide range of Olympiads. If you’d like to see another one added, feel free to open an issue or a pull request.
+
+### Core Olympiads
+
+- Singapore National Olympiad in Informatics (NOI)
+- Asia-Pacific Informatics Olympiad (APIO)
+- Central European Olympiad in Informatics (CEOI)
+- International Olympiad in Informatics (IOI)
+- Indian National Olympiad in Informatics (INOI)
+- Indian Zonal Computing Olympiad (ZCO)
+- USA Computing Olympiad (USACO):
   - Bronze
   - Silver
   - Gold
   - Platinum
-- Croatian Olympiad in Informatics
-- Indian International Olympiad in Informatics: Training Camp
-- Japanese Olympiad in Informatics: Spring Camp
-- Japanese Olympiad in Informatics: Final Round
-- European Girls' Olympiad in Informatics
-- Polish Olympiad in Informatics
-- Baltic Olympiad in Informatics
+- Croatian Olympiad in Informatics (COI)
+- Indian IOI Training Camp (IOITC)
+- Japanese Olympiad in Informatics:
+  - Spring Camp
+  - Final Round
+- European Girls' Olympiad in Informatics (EGOI)
+- Polish Olympiad in Informatics (POI)
+- Baltic Olympiad in Informatics (BOI)
 
-## Miscellaneous Competitions
+### Miscellaneous
 
 - Google Kick Start
 
-# Local Running Instructions
+---
 
-Install all requirements from `backend/requirements.txt`.
+## Local Development Instructions
 
-1. Run init_db.py (in the backend directory) to initialize the SQL database.
-2. Run populate_problems.py to add the OI problems to the database. You will only need to run steps 1 and 2 once.
-3. To run the back-end server, run app.py. 
-4. Then use something like live server to run the front-end. You'll need to run it in root directory of this repo (so the directory with index.html).
+> Requires Python 3 and Node.js installed locally.
 
-**Note**: You'll also need to change the `apiUrl` variable in the `config.js` file to whatever URL the flask server ends up running on.
+1. Install all Python dependencies from:
+   ```
+   backend/requirements.txt
+   ```
 
-Once you've done all of this once, you can use `checklist.sh` to run the front-end and back-end servers automatically and seamlessly. You'll obviously have to modify the relative directories here too.
+2. Initialize the database:
+   ```bash
+   python backend/init_db.py
+   ```
 
-# Public
+3. Populate problems:
+   ```bash
+   python populate_problems.py
+   ```
 
-Visit [this website](https://checklist.spoi.org.in/) to use the OI checklist!
+4. Start the Flask backend:
+   ```bash
+   python backend/app.py
+   ```
+
+5. Use a tool like Live Server to launch the frontend from the root directory (where `index.html` lives).
+
+> 💡 Make sure to update the `apiUrl` in `config.js` to match your Flask server’s URL.
+
+Once setup is complete, you can use the `checklist.sh` script to start both frontend and backend together. Modify directory paths inside it as needed.
+
+---
+
+## 🌐 Public Deployment
+
+You can try the live version [here](https://checklist.spoi.org.in/)!
+
+---
+
+## Contributing
+
+Bug reports, feature requests, and PRs are welcome. Feel free to file an issue or submit a fix.
+
+---
+
+## License
+
+This project is released under the MIT License.
