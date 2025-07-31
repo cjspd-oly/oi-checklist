@@ -999,3 +999,95 @@ body.dark-mode .submit-cookie-button:hover {
   margin-top: 1.3rem;
 }
 
+body.home .navbar .navbar-content {
+    justify-content: center;
+}
+
+body.home .navbar-user {
+    position: absolute;
+    right: 12rem;
+}
+
+body.home .navbar-title {
+    display: none;
+}
+
+.center-header {
+    text-align: center;
+    margin: 2rem 1rem;
+}
+
+.auth-buttons {
+    display: inline-flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.auth-buttons a {
+    padding: 0.75rem 1.5rem;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-buttons a:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.features {
+    max-width: 1000px;
+    margin: 0 auto 4rem;
+    padding: 0 1rem;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.feature-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.feature-card {
+    background-color: var(--card-bg);
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.feature-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+body,
+.navbar,
+.features,
+.auth-buttons a {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
