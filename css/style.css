@@ -1035,7 +1035,7 @@ body.home .navbar-user {
     right: 12rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     body.home .navbar-user {
         right: 1rem;
     }
