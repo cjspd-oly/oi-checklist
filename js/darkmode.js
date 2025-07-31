@@ -2,7 +2,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   const toggleSwitch = document.getElementById('dark-mode-switch');
   if (!toggleSwitch) {
-    console.error('Dark mode toggle switch not found.');
+    let currentTheme = localStorage.getItem('theme') || 'light-mode';
+    if (currentTheme === 'dark-mode') {
+      document.body.classList.add('dark-mode');
+    }
     return;
   }
 
