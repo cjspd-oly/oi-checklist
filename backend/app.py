@@ -11,9 +11,9 @@ import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
 from datetime import timedelta, datetime
-import jwt  # Import PyJWT
 from functools import wraps
 import json
+import uuid
 
 load_dotenv()  # Load environment variables from .env
 
@@ -25,39 +25,26 @@ CORS(app, supports_credentials=True, origins=["https://checklist.spoi.org.in"])
 app.secret_key = "your-secret-key"
 app.permanent_session_lifetime = timedelta(days=1)
 
-# JWT Secret key
-JWT_SECRET_KEY = "your-jwt-secret-key"  # Change this in production
-
 def get_db():
     db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
-# JWT token required decorator
-def token_required(f):
+def session_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        token = request.headers.get("Authorization")
-        if not token:
+        auth = request.headers.get("Authorization")
+        if not auth or not auth.startswith("Bearer "):
             return jsonify({"error": "Token is missing"}), 403
-
-        try:
-            token = token.split(" ")[1]  # Extract the token from "Bearer <token>"
-            decoded_token = jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
-            request.user_id = decoded_token["user_id"]
-        except jwt.ExpiredSignatureError:
-            return jsonify({"error": "Token has expired"}), 401
-        except jwt.InvalidTokenError:
-            return jsonify({"error": "Invalid token"}), 401
-
+        session_id = auth.split(" ")[1]
+        db = get_db()
+        row = db.execute("SELECT user_id FROM sessions WHERE session_id = ?", (session_id,)).fetchone()
+        if not row:
+            return jsonify({"error": "Invalid or expired session"}), 401
+        request.user_id = row["user_id"]
         return f(*args, **kwargs)
-
     return decorated_function
-
-# @app.before_request
-# def simulate_network_lag():
-#     time.sleep(0.2)
 
 @app.route("/api/register", methods=["POST"])
 def api_register():
@@ -91,17 +78,14 @@ def api_login():
     user = db.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)).fetchone()
     
     if user:
-        # Generate JWT token
-        token = jwt.encode(
-            {"user_id": user["id"], "exp": datetime.utcnow() + timedelta(days=1)}, 
-            JWT_SECRET_KEY, 
-            algorithm="HS256"
-        )
-        return jsonify({"success": True, "token": token})
+        session_id = str(uuid.uuid4())
+        db.execute("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", (session_id, user["id"]))
+        db.commit()
+        return jsonify({"success": True, "token": session_id})
     return jsonify({"success": False, "error": "Invalid credentials"}), 401
 
 @app.route('/api/whoami', methods=["GET"])
-@token_required
+@session_required
 def whoami():
     db = get_db()
     user = db.execute("SELECT username FROM users WHERE id=?", (request.user_id,)).fetchone()
@@ -111,7 +95,7 @@ def whoami():
     return jsonify({'error': 'User not found'}), 404
 
 @app.route('/api/settings', methods=["GET"])
-@token_required
+@session_required
 def get_user_settings():
     user_id = request.user_id
     db = get_db()
@@ -129,7 +113,7 @@ def get_user_settings():
     })
 
 @app.route('/api/settings', methods=["POST"])
-@token_required
+@session_required
 def update_user_settings():
     user_id = request.user_id
     db = get_db()
@@ -150,7 +134,7 @@ def update_user_settings():
     return jsonify({"success": True})
 
 @app.route('/api/problems', methods=["GET"])
-@token_required
+@session_required
 def get_problems():
     from_names = request.args.get('names')
     if not from_names:
@@ -288,7 +272,7 @@ def get_user():
     })
 
 @app.route('/api/update-problem-status', methods=['POST'])
-@token_required
+@session_required
 def update_problem_status():
     data = request.get_json()
     user_id = request.user_id
@@ -316,7 +300,7 @@ def update_problem_status():
     return jsonify(success=True)
 
 @app.route('/api/update-problem-score', methods=['POST'])
-@token_required
+@session_required
 def update_problem_score():
     data = request.get_json()
     user_id = request.user_id  
@@ -344,7 +328,7 @@ def update_problem_score():
     return jsonify(success=True)
 
 @app.route('/api/verify-ojuz', methods=['POST'])
-@token_required
+@session_required
 def verify_ojuz():
     data = request.get_json()
     oidc_auth_cookie = data.get('cookie')
@@ -374,7 +358,7 @@ def verify_ojuz():
         return jsonify({"error": f"Error fetching homepage: {str(e)}"}), 500
 
 @app.route('/api/update-ojuz', methods=['POST'])
-@token_required
+@session_required
 def update_ojuz_scores():
     data = request.get_json()
     oidc_auth = data.get('cookie')
@@ -490,7 +474,7 @@ def update_ojuz_scores():
     return jsonify({'updated': updated, 'total_checked': len(results)}), 200
 
 @app.route('/api/update-olympiad-order', methods=['POST'])
-@token_required
+@session_required
 def update_olympiad_order():
     data = request.get_json()
     user_id = request.user_id
@@ -554,8 +538,13 @@ def get_olympiad_order():
         return jsonify(olympiad_order=None)
 
 @app.route('/api/logout', methods=["POST"])
+@session_required
 def api_logout():
-    return jsonify({"success": True, "message": "JWTs are stateless, no need to logout explicitly."})
+    session_id = request.headers.get("Authorization").split(" ")[1]
+    db = get_db()
+    db.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
+    db.commit()
+    return jsonify({"success": True, "message": "Logged out successfully."})
 
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0', port=5001)

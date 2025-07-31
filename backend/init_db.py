@@ -46,5 +46,13 @@ CREATE TABLE user_settings (
 )
 ''')
 
+c.execute('''
+CREATE TABLE sessions (
+    session_id TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+)''')
+
 conn.commit()
 conn.close()
