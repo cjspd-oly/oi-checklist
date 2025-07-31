@@ -338,6 +338,54 @@ h2 {
     }
 }
 
+/* Dark mode styles for login page: */
+.dark-mode .login-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .login-container h2 {
+    color: #ffffff;
+}
+
+.dark-mode .input-field {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #f0f0f0;
+}
+
+.dark-mode .input-field:focus {
+    border-color: #888;
+}
+
+.dark-mode .error-message {
+    color: #ff6b6b;
+}
+
+.dark-mode .btn-login {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #f0f0f0;
+}
+
+.dark-mode .btn-login:hover {
+    background-color: #555;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.dark-mode .footer {
+    color: #aaa;
+}
+
+.dark-mode .footer a {
+    color: #bbb;
+}
+
+.dark-mode .footer a:hover {
+    color: #fff;
+}
+
 /* Skeleton loading animation for problem cells */
 .problem-cell.skeleton {
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 37%, #f0f0f0 63%);
