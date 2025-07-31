@@ -8,7 +8,7 @@ window.onload = async () => {
     headers: { 'Authorization': `Bearer ${sessionToken}` }
   });
 
-  if (!res.ok) return window.location.href = 'login.html';
+  if (!res.ok) return window.location.href = 'home';
 
   const { username } = await res.json();
   document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
