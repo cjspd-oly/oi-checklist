@@ -537,7 +537,7 @@ window.onload = async () => {
   }
 
   if (!isProfilePage && !whoamiRes.ok) {
-    return window.location.href = 'login.html';
+    return window.location.href = 'home.html';
   }
 
   // Attempt to fetch saved order
@@ -651,7 +651,7 @@ window.onload = async () => {
       headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
 
-    if (!res.ok) return window.location.href = 'login.html';
+    if (!res.ok) return window.location.href = 'home.html';
 
     cachedProblemsData = await res.json();
 
@@ -763,7 +763,7 @@ document.getElementById('logout-button')
       if (res.status === 200) {
         // Successfully logged out, you can redirect the user or update the UI
         window.location.href =
-            'login.html';  // Redirect to login page after logout
+            'home.html';  // Redirect to home page after logout
       } else {
         // Handle error if something goes wrong
         console.error('Logout failed');
