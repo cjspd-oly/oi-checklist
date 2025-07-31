@@ -2212,35 +2212,42 @@
         "link": "https://oj.uz/problem/view/IOI13_game"
     },
     {
-        "name": "Rings",
+        "name": "Pebbling Odometer",
+        "number": 1,
+        "source": "IOI",
+        "year": 2012,
+        "link": "https://qoj.ac/contest/284/problem/1501"
+    },
+    {
+        "name": "Parachute Rings",
         "number": 2,
         "source": "IOI",
         "year": 2012,
         "link": "https://oj.uz/problem/view/IOI12_rings"
     },
     {
-        "name": "Scrivener",
+        "name": "Crayfish Scrivener",
         "number": 3,
         "source": "IOI",
         "year": 2012,
         "link": "https://oj.uz/problem/view/IOI12_scrivener"
     },
     {
-        "name": "City",
+        "name": "Ideal City",
         "number": 4,
         "source": "IOI",
         "year": 2012,
         "link": "https://oj.uz/problem/view/IOI12_city"
     },
     {
-        "name": "Supper",
+        "name": "Last Supper",
         "number": 5,
         "source": "IOI",
         "year": 2012,
         "link": "https://oj.uz/problem/view/IOI12_supper"
     },
     {
-        "name": "Tournament",
+        "name": "Jousting Tournament",
         "number": 6,
         "source": "IOI",
         "year": 2012,
