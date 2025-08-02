@@ -7,7 +7,6 @@ from flask import Flask, render_template, request, jsonify, redirect, abort
 import sqlite3
 import hashlib
 import os
-import populate_problems
 from dotenv import load_dotenv
 from flask_cors import CORS
 from datetime import timedelta, datetime
@@ -15,6 +14,9 @@ from functools import wraps
 import json
 import uuid
 from requests_oauthlib import OAuth2Session
+
+# this is probably really bad but the website doesn't work without it
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 load_dotenv()  # Load environment variables from .env
 
