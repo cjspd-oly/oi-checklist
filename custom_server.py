@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def send_head(self):
         # Decode URL path
-        url_path = urllib.parse.unquote(self.path)
+        url_path = urllib.parse.unquote(self.path.split('?')[0])
 
         # 0) root: serve index.html
         if url_path in ('/', ''):

@@ -3,7 +3,7 @@ import time
 import random
 import requests
 from concurrent.futures import ThreadPoolExecutor
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, abort
 import sqlite3
 import hashlib
 import os
@@ -14,6 +14,7 @@ from datetime import timedelta, datetime
 from functools import wraps
 import json
 import uuid
+from requests_oauthlib import OAuth2Session
 
 load_dotenv()  # Load environment variables from .env
 
@@ -46,25 +47,180 @@ def session_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# GitHub OAuth config from .env
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+GITHUB_CALLBACK_URL = os.getenv("BACKEND_URL") + "/auth/github/callback"
+GITHUB_AUTH_URL = 'https://github.com/login/oauth/authorize'
+GITHUB_TOKEN_URL = 'https://github.com/login/oauth/access_token'
+GITHUB_USER_API = 'https://api.github.com/user'
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+@app.route("/auth/github/start")
+def github_start():
+    github = OAuth2Session(GITHUB_CLIENT_ID, redirect_uri=GITHUB_CALLBACK_URL)
+    auth_url, _ = github.authorization_url(GITHUB_AUTH_URL)
+    return redirect(auth_url)
+
+@app.route("/auth/github/link")
+def github_link():
+    state = request.args.get("state")
+    session_token = request.args.get("session_id")
+    redirect_to = request.args.get("redirect_to", "/")  # default to home if not specified
+
+    if not state or not session_token:
+        return jsonify({"error": "Missing OAuth state or session token"}), 400
+
+    db = get_db()
+    session = db.execute("SELECT user_id FROM sessions WHERE session_id = ?", (session_token,)).fetchone()
+    if not session:
+        return jsonify({"error": "Invalid or expired session"}), 401
+
+    user_id = session["user_id"]
+    github = OAuth2Session(GITHUB_CLIENT_ID, redirect_uri=GITHUB_CALLBACK_URL)
+    auth_url, new_state = github.authorization_url(
+        GITHUB_AUTH_URL, state=state
+    )
+
+    if not hasattr(app, 'oauth_state_map'):
+        app.oauth_state_map = {}
+    app.oauth_state_map[state] = {
+        "user_id": user_id,
+        "redirect_to": redirect_to
+    }
+
+    return redirect(auth_url)
+
+@app.route("/auth/github/callback")
+def github_callback():
+    github = OAuth2Session(GITHUB_CLIENT_ID, redirect_uri=GITHUB_CALLBACK_URL)
+    try:
+        token = github.fetch_token(
+            GITHUB_TOKEN_URL,
+            client_secret=GITHUB_CLIENT_SECRET,
+            authorization_response=request.url
+        )
+    except Exception as e:
+        return jsonify({"error": "OAuth token exchange failed", "details": str(e)}), 400
+
+    # Get user info from GitHub
+    resp = github.get(GITHUB_USER_API)
+    if not resp.ok:
+        return jsonify({"error": "Failed to fetch user info from GitHub"}), 400
+
+    github_info = resp.json()
+    github_id = str(github_info.get("id"))
+    github_username = github_info.get("login")
+
+    db = get_db()
+
+    # Check if this GitHub account is already linked
+    identity = db.execute(
+        "SELECT user_id FROM auth_identities WHERE provider = ? AND provider_user_id = ?",
+        ("github", github_id)
+    ).fetchone()
+
+    # Load any pending link request
+    linking_data = None
+    state = request.args.get("state")
+    if state and hasattr(app, "oauth_state_map"):
+        linking_data = app.oauth_state_map.pop(state, None)
+
+    if identity:
+        user_id = identity["user_id"]
+    elif linking_data:
+        user_id = linking_data["user_id"]
+        db.execute(
+            "INSERT INTO auth_identities (user_id, provider, provider_user_id, display_name) VALUES (?, ?, ?, ?)",
+            (user_id, "github", github_id, github_username)
+        )
+        db.commit()
+    else:
+        # Create a new user
+        base_username = github_username
+        attempt = 0
+        while True:
+            candidate = f"{base_username}" if attempt == 0 else f"{base_username}-{attempt}"
+            taken = db.execute("SELECT 1 FROM users WHERE username = ?", (candidate,)).fetchone()
+            if not taken:
+                github_username = candidate
+                break
+            attempt += 1
+
+        db.execute("INSERT INTO users (username) VALUES (?)", (github_username,))
+        user_id = db.execute("SELECT id FROM users WHERE username = ?", (github_username,)).fetchone()["id"]
+        db.execute(
+            "INSERT INTO auth_identities (user_id, provider, provider_user_id, display_name) VALUES (?, ?, ?, ?)",
+            (user_id, "github", github_id, github_username)
+        )
+        db.commit()
+
+    # Create new session
+    session_id = str(uuid.uuid4())
+    db.execute("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", (session_id, user_id))
+    db.commit()
+
+    # Redirect back to frontend
+    redirect_to = linking_data["redirect_to"] if linking_data and "redirect_to" in linking_data else "/"
+    return redirect(f"{FRONTEND_URL}/github-auth-success.html?token={session_id}&redirect_to={redirect_to}")
+
+@app.route("/api/github/status")
+@session_required
+def github_status():
+    db = get_db()
+    identity = db.execute(
+        "SELECT display_name FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("github", request.user_id)
+    ).fetchone()
+
+    if identity:
+        return jsonify({"github_username": identity["display_name"]}), 200
+    else:
+        return jsonify({"error": "GitHub not linked"}), 404
+
+
+@app.route("/api/github/unlink", methods=["POST"])
+@session_required
+def github_unlink():
+    db = get_db()
+    identity = db.execute(
+        "SELECT id FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("github", request.user_id)
+    ).fetchone()
+    if not identity:
+        return jsonify({"error": "No linked GitHub account"}), 400
+    linked_count = db.execute(
+        """
+        SELECT 
+            (SELECT COUNT(*) FROM auth_identities WHERE user_id = ?) +
+            (SELECT CASE WHEN password IS NOT NULL THEN 1 ELSE 0 END FROM users WHERE id = ?)
+        """,
+        (request.user_id, request.user_id)
+    ).fetchone()[0]
+    if linked_count <= 1:
+        return jsonify({"error": "You cannot unlink GitHub as it's your only login method!"}), 400
+    db.execute(
+        "DELETE FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("github", request.user_id)
+    )
+    db.commit()
+    return jsonify({"success": True, "message": "GitHub unlinked successfully."})
+
 @app.route("/api/register", methods=["POST"])
 def api_register():
     data = request.get_json()
     username = data.get("username")
     password_raw = data.get("password")
-
     if not username or not password_raw:
         return jsonify({"error": "Missing username or password"}), 400
-
     password = hashlib.sha256(password_raw.encode()).hexdigest()
     db = get_db()
-
     cursor = db.cursor()
     cursor.execute("SELECT 1 FROM users WHERE username = ?", (username,))
     existing_user = cursor.fetchone()
-
     if existing_user:
         return jsonify({"error": "Username taken"}), 409
-
     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
     db.commit()
     return jsonify({"message": "User registered successfully"}), 201
@@ -76,7 +232,6 @@ def api_login():
     password = hashlib.sha256(data.get("password", "").encode()).hexdigest()
     db = get_db()
     user = db.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)).fetchone()
-    
     if user:
         session_id = str(uuid.uuid4())
         db.execute("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", (session_id, user["id"]))
@@ -89,7 +244,6 @@ def api_login():
 def whoami():
     db = get_db()
     user = db.execute("SELECT username FROM users WHERE id=?", (request.user_id,)).fetchone()
-    
     if user:
         return jsonify({'username': user['username']})
     return jsonify({'error': 'User not found'}), 404

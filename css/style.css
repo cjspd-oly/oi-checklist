@@ -908,17 +908,16 @@ body.dark-mode .connect-button:hover {
     margin-bottom: 1rem;
 }
 
-.submit-cookie-button {
+.primary-button {
     background-color: #0077cc;
     color: #fff;
     border: none;
     padding: 0.6rem 1rem;
     font-size: 1rem;
     cursor: pointer;
-    border-radius: 4px;
 }
 
-.submit-cookie-button:hover {
+.primary-button:hover {
     background-color: #005fa3;
 }
 
@@ -1171,4 +1170,76 @@ body,
 .features,
 .auth-buttons a {
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #24292e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+}
+
+.btn-github:hover {
+    background-color: #333;
+}
+
+.github-logo {
+    width: 20px;
+    height: 20px;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid #ccc;
+}
+
+.separator span {
+    margin: 0 12px;
+    padding: 2px 10px;
+    font-size: 14px;
+    color: #666;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.dark-mode .separator::before,
+.dark-mode .separator::after {
+    border-top-color: #444;
+}
+
+.dark-mode .separator span {
+    background-color: #1e1e1e;
+    color: #aaa;
+}
+
+.popup-body a {
+    color: #4ea1f3;
+    /* soft blue that fits dark backgrounds */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.popup-body a:hover {
+    text-decoration: underline;
+    color: #82c6ff;
+    /* lighter blue on hover */
 }

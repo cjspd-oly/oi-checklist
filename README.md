@@ -3,13 +3,13 @@
 A modern, full-featured checklist for tracking progress across major Olympiads in Informatics.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f2ad6ffc-0ab8-44dd-a30e-beee810cda7a" alt="Dashboard View (Logged In)" width="80%">
+  <img src="https://github.com/user-attachments/assets/f2ad6ffc-0ab8-44dd-a30e-beee810cda7a" alt="Dashboard view (logged in, dark mode)" width="80%">
 </p>
 
 <p align="center"><i>Dashboard after logging in – track scores, status, and more</i></p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4dd874d2-b6c8-4188-b01b-65e1070fc668" alt="Landing Page (Dark Mode)" width="80%">
+  <img src="https://github.com/user-attachments/assets/4dd874d2-b6c8-4188-b01b-65e1070fc668" alt="Landing page (dark mode)" width="80%">
 </p>
 
 <p align="center"><i>Dark mode landing page – clean, responsive</i></p>
@@ -52,31 +52,64 @@ OI Checklist includes problems from a wide range of Olympiads. If you’d like t
 
 > Requires Python 3 and Node.js installed locally.
 
-1. Install all Python dependencies from:
-   ```
-   backend/requirements.txt
-   ```
+### 0. Create a `.env` file
 
-2. Initialize the database:
-   ```bash
-   python3 backend/init_db.py
-   ```
+In the `backend/` directory, create a `.env` file with the following values:
 
-3. Populate problems:
-   ```bash
-   python3 backend/populate_problems.py
-   ```
+| Variable              | Description |
+|-----------------------|-------------|
+| `FLASK_ENV`           | Set to `local` for local development |
+| `DATABASE_PATH`       | Path to your SQLite database (e.g., `database.db`) |
+| `BACKEND_DIR`         | Absolute path to the `backend/` folder |
+| `FRONTEND_URL`        | URL where the frontend runs (e.g., `http://localhost:5501`) |
+| `BACKEND_URL`         | URL where the Flask backend runs (e.g., `http://localhost:5001`) |
+| `GITHUB_CLIENT_ID`    | GitHub OAuth client ID |
+| `GITHUB_CLIENT_SECRET`| GitHub OAuth client secret |
 
-4. Start the Flask backend:
-   ```bash
-   python3 backend/app.py
-   ```
+> ⚠️ Mostly just don't mess with the GitHub login stuff unless you know what you're doing — it's primarily meant for production and you'd end up creating a duplicate OAuth app on GitHub that doesn’t really do anything.  
+>  
+> But *if* you really want to test GitHub login locally:
+> - Go to [https://github.com/settings/developers](https://github.com/settings/developers)  
+> - Register a new OAuth App with the following:
+>   - **Authorization callback URL**: `your_backend_url_here/auth/github/callback`
+>   - **Homepage URL**: `your_frontend_url_here`
+> - Copy the **Client ID** and **Client Secret** into your `.env` file as `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`.
 
-5. Use a tool like Live Server to launch the frontend from the root directory (where `index.html` lives).
+---
 
-> 💡 Make sure to update the `apiUrl` in `config.js` to match your Flask server’s URL.
+### 1. Install Python dependencies
 
-Once setup is complete, you can use the `checklist.sh` script to start both frontend and backend together. Modify directory paths inside it as needed.
+```bash
+pip install -r backend/requirements.txt
+````
+
+### 2. Initialize the database
+
+```bash
+python3 backend/init_db.py
+```
+
+### 3. Populate Olympiad problems
+
+```bash
+python3 backend/populate_problems.py
+```
+
+### 4. Start the Flask backend
+
+```bash
+python3 backend/app.py
+```
+
+### 5. Launch the frontend
+
+Use Live Server (or a simple HTTP server) from the root directory (where `index.html` is located).
+
+> 💡 Make sure to update the `apiUrl` in `frontend/js/config.js` to match your Flask server’s URL if it differs.
+
+---
+
+Once everything is working, you can use the `checklist.sh` script to start both the frontend and backend together. Modify the paths in it as needed.
 
 ---
 

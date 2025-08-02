@@ -34,3 +34,7 @@ document.getElementById('login-form')
         errorBox.innerText = 'An error occurred. Please try again later.';
       }
     });
+
+document.getElementById('github-continue').addEventListener('click', () => {
+  window.location.href = `${apiUrl}/auth/github/start`;
+});

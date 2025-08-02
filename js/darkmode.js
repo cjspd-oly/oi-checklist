@@ -24,9 +24,4 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('theme', 'light-mode');
     }
   });
-
-  const connectButtons = document.querySelectorAll('.connect-button');
-  connectButtons.forEach(button => {
-    button.addEventListener('click', openPopup);
-  });
 });

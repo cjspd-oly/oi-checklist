@@ -25,45 +25,40 @@
 
     <main class="general-page">
         <div class="connections-grid">
-            <!-- Example card for oj.uz -->
+            <!-- oj.uz card -->
             <div class="connection-card">
                 <img src="images/ojuz-logo.ico" alt="oj.uz logo" class="connection-logo">
                 <h3 class="connection-name">oj.uz</h3>
                 <button class="connect-button">
                     Connect
-                    <!-- simple link icon -->
                     <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill="currentColor" d="M3 12l18-12v24z"></path>
                     </svg>
                 </button>
             </div>
-            <!-- add more cards here for codebreaker, qoj.ac, etc. -->
+
+            <!-- GitHub card -->
+            <div class="connection-card">
+                <img src="images/github-logo.png" alt="GitHub logo" class="connection-logo">
+                <h3 class="connection-name">GitHub</h3>
+                <button class="connect-button" id="github-connect-button">
+                    Link
+                    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor" d="M3 12l18-12v24z"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </main>
 
-    <div class="popup-overlay" id="connect-popup" style="display: none;">
+    <div class="popup-overlay" id="provider-popup" style="display: none;">
         <div class="popup">
             <div class="popup-header">
-                <h2>Connect to oj.uz</h2>
-                <button class="popup-close" onclick="closePopup()">&times;</button>
+                <h2 id="popup-title">Connect</h2>
+                <button class="popup-close" onclick="closeProviderPopup()">&times;</button>
             </div>
-            <div class="popup-body">
-                <p>
-                    Connect your <strong>oj.uz</strong> account to automatically update your OI checklist.
-                </p>
-                <p>
-                    This performs a <strong>one-time fetch</strong> of your solved problems to sync them with your
-                    checklist.
-                </p>
-                <p>
-                    Please log in to oj.uz in your browser, and paste the following cookie value here:
-                </p>
-                <div class="cookie-instruction">
-                    <code>Type: COOKIE &nbsp;&nbsp; Domain: oj.uz &nbsp;&nbsp; Name: oidc-auth</code>
-                </div>
-                <input type="text" class="cookie-input" id="oidc-input" placeholder="Paste your 'oidc-auth' cookie value here" required>
-                <div id="popup-message"></div>
-                <button class="submit-cookie-button" id="submit-cookie-button">Submit</button>
+            <div class="popup-body" id="provider-popup-body">
+                <!-- Content is injected dynamically -->
             </div>
         </div>
     </div>

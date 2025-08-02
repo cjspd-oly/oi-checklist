@@ -11,8 +11,22 @@ c = conn.cursor()
 c.execute('''CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    password TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )''')
+
+c.execute('''
+CREATE TABLE auth_identities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    provider TEXT NOT NULL,
+    provider_user_id TEXT,
+    display_name TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(provider, provider_user_id),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+''')
 
 c.execute('''CREATE TABLE problems (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

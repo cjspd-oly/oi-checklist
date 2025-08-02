@@ -21,7 +21,7 @@ document.getElementById('register-form')
         const result = await res.json();
 
         if (res.ok) {
-          window.location.href = 'login.html';
+          window.location.href = 'login';
         } else {
           errorBox.style.display = 'block';
           errorBox.innerText = result.error || 'Registration failed';
@@ -31,3 +31,7 @@ document.getElementById('register-form')
         errorBox.innerText = 'An unexpected error occurred';
       }
     });
+
+document.getElementById('github-continue').addEventListener('click', () => {
+  window.location.href = `${apiUrl}/auth/github/start`;
+});

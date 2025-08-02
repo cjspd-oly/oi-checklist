@@ -13,104 +13,168 @@ window.onload = async () => {
       `Welcome, ${username}`;
 };
 
-// Dark mode
 document.addEventListener('DOMContentLoaded', function() {
-  const toggleSwitch = document.getElementById('dark-mode-switch');
-  if (!toggleSwitch) {
-    console.error('Dark mode toggle switch not found.');
+  const connectButtons = document.querySelectorAll('.connect-button');
+  connectButtons.forEach(button => {
+    const card = button.closest('.connection-card');
+    const providerName = card?.querySelector('.connection-name')
+                             ?.textContent?.trim()
+                             ?.toLowerCase();
+
+    if (providerName === 'github') {
+      button.addEventListener('click', () => handleGithubClick());
+    } else if (providerName === 'oj.uz') {
+      button.addEventListener('click', () => showOjuzPopup());
+    }
+  });
+
+  document.getElementById('submit-cookie-button')
+      ?.addEventListener('click', onSubmitOjuzCookie);
+});
+
+function closeProviderPopup() {
+  const popup = document.getElementById('provider-popup');
+  popup.classList.remove('active');
+  popup.addEventListener('transitionend', function() {
+    if (!popup.classList.contains('active')) {
+      popup.style.display = 'none';
+    }
+  }, {once: true});
+}
+
+function showProviderPopup(title, contentHTML) {
+  const popup = document.getElementById('provider-popup');
+  const body = document.getElementById('provider-popup-body');
+  const titleElem = document.getElementById('popup-title');
+
+  titleElem.textContent = title;
+  body.innerHTML = contentHTML;
+
+  popup.style.display = 'flex';
+  setTimeout(() => popup.classList.add('active'), 10);
+}
+
+function showOjuzPopup() {
+  showProviderPopup('Connect to oj.uz', `
+      <p>
+        Connect your <strong>oj.uz</strong> account to automatically update your OI checklist.
+      </p>
+      <p>
+        This performs a <strong>one-time fetch</strong> of your solved problems to sync them with your checklist.
+      </p>
+      <p>
+        Please log in to oj.uz in your browser, and paste the following cookie value here:
+      </p>
+      <div class="cookie-instruction">
+        <code>Type: COOKIE &nbsp;&nbsp; Domain: oj.uz &nbsp;&nbsp; Name: oidc-auth</code>
+      </div>
+      <input type="text" class="cookie-input" id="oidc-input"
+        placeholder="Paste your 'oidc-auth' cookie value here" required>
+      <div id="popup-message"></div>
+      <button class="primary-button" id="submit-cookie-button">Submit</button>
+    `);
+
+  document.getElementById('submit-cookie-button')
+      .addEventListener('click', onSubmitOjuzCookie);
+}
+
+async function handleGithubClick() {
+  const token = localStorage.getItem('sessionToken');
+  if (!token) {
+    showGithubError('You are not logged in.');
     return;
   }
 
-  let currentTheme = localStorage.getItem('theme') || 'light-mode';
-  if (currentTheme === 'dark-mode') {
-    document.body.classList.add('dark-mode');
-    toggleSwitch.checked = true;
-  }
+  try {
+    const res = await fetch(
+        `${apiUrl}/api/github/status`,
+        {headers: {'Authorization': `Bearer ${token}`}});
 
-  toggleSwitch.addEventListener('change', function(e) {
-    if (e.target.checked) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('theme', 'dark-mode');
+    if (res.status === 200) {
+      const {github_username} = await res.json();
+      showProviderPopup(
+          'GitHub Connection',
+          `
+    <p>
+      GitHub is currently linked to
+      <strong><a href="https://github.com/${
+              github_username}" target="_blank" rel="noopener noreferrer">@${
+              github_username}</a></strong>.
+    </p>
+    <div id="popup-message"></div>
+    <button class="primary-button" id="unlink-github-button">Unlink</button>
+  `);
+      document.getElementById('unlink-github-button').onclick = async () => {
+        const messageBox = document.getElementById('popup-message');
+        messageBox.style.display = 'block';
+        try {
+          const unlinkRes = await fetch(
+              `${apiUrl}/api/github/unlink`,
+              {method: 'POST', headers: {'Authorization': `Bearer ${token}`}});
+
+          const resBody = await unlinkRes.json();
+
+          if (unlinkRes.ok) {
+            messageBox.textContent =
+                resBody.message || 'GitHub unlinked successfully.';
+            messageBox.style.color = 'green';
+            setTimeout(closeProviderPopup, 1000);
+          } else {
+            messageBox.textContent =
+                resBody.error || 'Failed to unlink GitHub.';
+            messageBox.style.color = 'red';
+          }
+        } catch (err) {
+          console.error(err);
+          messageBox.textContent = 'Unexpected error occurred.';
+          messageBox.style.color = 'red';
+        }
+      };
     } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light-mode');
+      showProviderPopup('Link GitHub', `
+          <p>You have not linked your GitHub account yet.</p>
+          <div id="popup-message"></div>
+          <button class="primary-button" id="link-github-button">Link GitHub</button>
+        `);
+      document.getElementById('link-github-button').onclick = () => {
+        const state = crypto.randomUUID();
+        localStorage.setItem('oauth_github_state', state);
+        const sessionToken = localStorage.getItem('sessionToken');
+        const currentPage = encodeURIComponent(
+            window.location.pathname);
+        window.location.href = `${apiUrl}/auth/github/link?state=${
+            state}&session_id=${sessionToken}&redirect_to=${currentPage}`;
+      };
     }
-  });
 
-  const connectButtons = document.querySelectorAll('.connect-button');
-  connectButtons.forEach(button => {
-    button.addEventListener('click', openPopup);
-  });
-});
-
-// Showing/closing the popup
-function openPopup() {
-  const popupOverlay = document.getElementById('connect-popup');
-  // Set display to flex first so transitions can apply
-  popupOverlay.style.display = 'flex';
-  // Use a small timeout to allow the display change to register before adding
-  // the active class This is sometimes necessary in browsers for the transition
-  // to trigger correctly.
-  setTimeout(() => {
-    popupOverlay.classList.add('active');
-  }, 10);  // A small delay like 10ms is usually sufficient
+  } catch (err) {
+    console.error('Error checking GitHub status:', err);
+    showGithubError('Error checking GitHub status.');
+  }
 }
 
-function closePopup() {
-  const popupOverlay = document.getElementById('connect-popup');
-  popupOverlay.classList.remove('active');
-
-  // Wait for the transition to finish before setting display back to none
-  popupOverlay.addEventListener('transitionend', function() {
-    // Check if the popup still doesn't have the active class (handles rapid
-    // closing)
-    if (!popupOverlay.classList.contains('active')) {
-      popupOverlay.style.display = 'none';
-    }
-  }, {
-    once: true
-  });  // Use { once: true } to automatically remove the event listener after it
-       // fires
+function showGithubError(message) {
+  const messageBox = document.getElementById('popup-message');
+  if (!messageBox) return;
+  messageBox.style.display = 'block';
+  messageBox.textContent = message;
+  messageBox.style.color =
+      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+      'black' :
+      'white';
 }
 
-// logout
-document.getElementById('logout-button')
-    .addEventListener('click', async (event) => {
-      const sessionToken = localStorage.getItem('sessionToken');
-      event.preventDefault();  // Prevents the default behavior of the <a> tag
-
-      const res = await fetch(apiUrl + '/api/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {'Authorization': `Bearer ${sessionToken}`}
-      });
-
-      if (res.status === 200) {
-        // Successfully logged out, you can redirect the user or update the UI
-        window.location.href = 'home';  // Redirect to home page after logout
-      } else {
-        // Handle error if something goes wrong
-        console.error('Logout failed');
-      }
-    });
-
-// submit cookie and update problems
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('submit-cookie-button')
-      .addEventListener('click', onSubmitCookie);
-});
-
-async function onSubmitCookie(e) {
+async function onSubmitOjuzCookie(e) {
   e.preventDefault();
 
   const oidcAuth = document.getElementById('oidc-input').value.trim();
-  const messageBox = document.getElementById(
-      'popup-message');  // Assuming there's an element to show messages
-  messageBox.style.display =
-      'block';  // Make sure the message box is visible during the process
+  const messageBox = document.getElementById('popup-message');
+  messageBox.style.display = 'block';
   messageBox.textContent = 'Validating cookie...';
-  let currentTheme = localStorage.getItem('theme') || 'light-mode';
-  messageBox.color = currentTheme == 'light-mode' ? 'black' : 'white';
+  messageBox.style.color =
+      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+      'black' :
+      'white';
 
   if (!oidcAuth) {
     messageBox.textContent = 'Please paste your oidc-auth cookie value.';
@@ -126,7 +190,6 @@ async function onSubmitCookie(e) {
   }
 
   try {
-    // First, verify the cookie by calling /api/verify-ojuz
     const verifyRes = await fetch(`${apiUrl}/api/verify-ojuz`, {
       method: 'POST',
       credentials: 'include',
@@ -146,13 +209,10 @@ async function onSubmitCookie(e) {
 
     const verifyResult = await verifyRes.json();
     if (verifyResult.valid) {
-      // If the cookie is valid
       messageBox.textContent = `Cookie is valid. Username: ${
           verifyResult.username}. Your problems will be updated shortly.`;
       messageBox.style.color = 'green';
 
-      // Proceed to update problems in the background without waiting for a
-      // response
       fetch(`${apiUrl}/api/update-ojuz`, {
         method: 'POST',
         credentials: 'include',
@@ -170,7 +230,6 @@ async function onSubmitCookie(e) {
             console.error('Error updating problems in the background:', err);
           });
     } else {
-      // If the cookie is invalid
       messageBox.textContent = `Invalid cookie. Please check and try again.`;
       messageBox.style.color = 'red';
     }
@@ -181,3 +240,21 @@ async function onSubmitCookie(e) {
     messageBox.style.color = 'red';
   }
 }
+
+// logout
+document.getElementById('logout-button')
+    .addEventListener('click', async (event) => {
+      const sessionToken = localStorage.getItem('sessionToken');
+      event.preventDefault();
+      const res = await fetch(apiUrl + '/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {'Authorization': `Bearer ${sessionToken}`}
+      });
+
+      if (res.status === 200) {
+        window.location.href = 'home';
+      } else {
+        console.error('Logout failed');
+      }
+    });
