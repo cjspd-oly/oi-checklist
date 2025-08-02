@@ -105,7 +105,7 @@ python3 backend/app.py
 
 Use Live Server (or a simple HTTP server) from the root directory (where `index.html` is located).
 
-> 💡 Make sure to update the `apiUrl` in `frontend/js/config.js` to match your Flask server’s URL if it differs.
+> 💡 Make sure to update the `apiUrl` in `js/config.js` to match your Flask server’s URL if it differs.
 
 ---
 
