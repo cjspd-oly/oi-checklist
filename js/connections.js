@@ -85,43 +85,56 @@ async function handleGithubClick() {
     return;
   }
 
-  try {
-    const res = await fetch(
-        `${apiUrl}/api/github/status`,
-        {headers: {'Authorization': `Bearer ${token}`}});
-
-    if (res.status === 200) {
-      const {github_username} = await res.json();
-      showProviderPopup(
-          'GitHub Connection',
-          `
+  // Immediately show popup with loading spinner
+  showProviderPopup(
+    'GitHub Connection',
+    `
     <p>
       GitHub is currently linked to
-      <strong><a href="https://github.com/${
-              github_username}" target="_blank" rel="noopener noreferrer">@${
-              github_username}</a></strong>.
+      <strong>
+        <a id="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer">
+          <span id="github-placeholder">@<span class="spinner"></span></span>
+        </a>
+      </strong>.
     </p>
     <div id="popup-message"></div>
     <button class="primary-button" id="unlink-github-button">Unlink</button>
-  `);
+  `
+  );
+
+  try {
+    const res = await fetch(`${apiUrl}/api/github/status`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (res.status === 200) {
+      const { github_username } = await res.json();
+      const linkEl = document.getElementById('github-link');
+      const placeholderEl = document.getElementById('github-placeholder');
+      if (linkEl && placeholderEl) {
+        linkEl.href = `https://github.com/${github_username}`;
+        placeholderEl.textContent = `@${github_username}`;
+      }
+
       document.getElementById('unlink-github-button').onclick = async () => {
         const messageBox = document.getElementById('popup-message');
         messageBox.style.display = 'block';
         try {
-          const unlinkRes = await fetch(
-              `${apiUrl}/api/github/unlink`,
-              {method: 'POST', headers: {'Authorization': `Bearer ${token}`}});
+          const unlinkRes = await fetch(`${apiUrl}/api/github/unlink`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
 
           const resBody = await unlinkRes.json();
 
           if (unlinkRes.ok) {
             messageBox.textContent =
-                resBody.message || 'GitHub unlinked successfully.';
+              resBody.message || 'GitHub unlinked successfully.';
             messageBox.style.color = 'green';
             setTimeout(closeProviderPopup, 1000);
           } else {
             messageBox.textContent =
-                resBody.error || 'Failed to unlink GitHub.';
+              resBody.error || 'Failed to unlink GitHub.';
             messageBox.style.color = 'red';
           }
         } catch (err) {
@@ -131,22 +144,23 @@ async function handleGithubClick() {
         }
       };
     } else {
-      showProviderPopup('Link GitHub', `
-          <p>You have not linked your GitHub account yet.</p>
-          <div id="popup-message"></div>
-          <button class="primary-button" id="link-github-button">Link GitHub</button>
-        `);
+      showProviderPopup(
+        'Link GitHub',
+        `
+        <p>You have not linked your GitHub account yet.</p>
+        <div id="popup-message"></div>
+        <button class="primary-button" id="link-github-button">Link GitHub</button>
+      `
+      );
+
       document.getElementById('link-github-button').onclick = () => {
         const state = crypto.randomUUID();
         localStorage.setItem('oauth_github_state', state);
         const sessionToken = localStorage.getItem('sessionToken');
-        const currentPage = encodeURIComponent(
-            window.location.pathname);
-        window.location.href = `${apiUrl}/auth/github/link?state=${
-            state}&session_id=${sessionToken}&redirect_to=${currentPage}`;
+        const currentPage = encodeURIComponent(window.location.pathname);
+        window.location.href = `${apiUrl}/auth/github/link?state=${state}&session_id=${sessionToken}&redirect_to=${currentPage}`;
       };
     }
-
   } catch (err) {
     console.error('Error checking GitHub status:', err);
     showGithubError('Error checking GitHub status.');
