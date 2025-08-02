@@ -85,14 +85,13 @@ async function handleGithubClick() {
     return;
   }
 
-  // Immediately show popup with loading spinner
   showProviderPopup(
       'GitHub Connection',
       `
 <p>
-  GitHub is currently linked to<strong><a href="https://github.com/${
+  GitHub is currently linked to <strong><a href="https://github.com/${
           github_username}" target="_blank" rel="noopener noreferrer">@${
-          github_username}</a></strong>.
+          github_username}</a>.</strong>
 </p>
 <div id="popup-message"></div>
 <button class="primary-button" id="unlink-github-button">Unlink</button>
