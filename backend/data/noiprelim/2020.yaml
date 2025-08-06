@@ -1,0 +1,9 @@
+- name: Mountains
+  number: 1
+  link: https://oj.uz/problem/view/NOI20_mountains
+- name: Visiting Singapore
+  number: 2
+  link: https://oj.uz/problem/view/NOI20_visitingsingapore
+- name: Solar Storm
+  number: 3
+  link: https://oj.uz/problem/view/NOI20_solarstorm

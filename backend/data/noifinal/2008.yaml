@@ -1,0 +1,15 @@
+- name: Prime
+  number: 1
+  link: https://codebreaker.xyz/problem/nprime
+- name: LVM
+  number: 2
+  link: https://codebreaker.xyz/problem/lvm
+- name: Gecko
+  number: 3
+  link: https://codebreaker.xyz/problem/gecko
+- name: 4sum
+  number: 4
+  link: https://codebreaker.xyz/problem/4sum
+- name: Rank
+  number: 5
+  link: https://codebreaker.xyz/problem/rank

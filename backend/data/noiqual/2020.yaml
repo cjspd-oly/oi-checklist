@@ -1,0 +1,12 @@
+- name: Cryptography
+  number: 1
+  link: https://oj.uz/problem/view/NOI20_crypto
+- name: Fuel Station
+  number: 2
+  link: https://oj.uz/problem/view/NOI20_fuelstation
+- name: Relay Marathon
+  number: 3
+  link: https://oj.uz/problem/view/NOI20_relaymarathon
+- name: Firefighting
+  number: 4
+  link: https://oj.uz/problem/view/NOI20_firefighting

@@ -1,0 +1,36 @@
+- name: Building 4
+  number: 1
+  link: https://oj.uz/problem/view/JOI20_building4
+- name: Hamburg Steak
+  number: 2
+  link: https://oj.uz/problem/view/JOI20_hamburg
+- name: Sweeping
+  number: 3
+  link: https://oj.uz/problem/view/JOI20_sweeping
+- name: Chameleon's Love
+  number: 4
+  link: https://oj.uz/problem/view/JOI20_chameleon
+- name: Making Friends on Joitter is Fun
+  number: 5
+  link: https://oj.uz/problem/view/JOI20_joitter2
+- name: Ruins 3
+  number: 6
+  link: https://oj.uz/problem/view/JOI20_ruins3
+- name: Constellation 3
+  number: 7
+  link: https://oj.uz/problem/view/JOI20_constellation3
+- name: Harvest
+  number: 8
+  link: https://oj.uz/problem/view/JOI20_harvest
+- name: Stray Cat
+  number: 9
+  link: https://oj.uz/problem/view/JOI20_stray
+- name: Capital City
+  number: 10
+  link: https://oj.uz/problem/view/JOI20_capital_city
+- name: Legendary Dango Maker
+  number: 11
+  link: https://oj.uz/problem/view/JOI20_dango2
+- name: Treatment Project
+  number: 12
+  link: https://oj.uz/problem/view/JOI20_treatment

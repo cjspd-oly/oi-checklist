@@ -1,0 +1,18 @@
+- name: Fancy Fence
+  number: 1
+  link: https://oj.uz/problem/view/CEOI20_fancyfence
+- name: Roads
+  number: 2
+  link: https://oj.uz/problem/view/CEOI20_roads
+- name: Star Trek
+  number: 3
+  link: https://oj.uz/problem/view/CEOI20_startrek
+- name: The Potion of Great Power
+  number: 4
+  link: https://oj.uz/problem/view/CEOI20_potion
+- name: Spring Cleaning
+  number: 5
+  link: https://oj.uz/problem/view/CEOI20_cleaning
+- name: Chess Rush
+  number: 6
+  link: https://oj.uz/problem/view/CEOI20_chessrush

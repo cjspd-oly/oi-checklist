@@ -1,0 +1,9 @@
+- name: Mars
+  number: 1
+  link: https://oj.uz/problem/view/APIO22_mars
+- name: Game
+  number: 2
+  link: https://oj.uz/problem/view/APIO22_game
+- name: Permutation
+  number: 3
+  link: https://oj.uz/problem/view/APIO22_perm

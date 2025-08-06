@@ -1,0 +1,9 @@
+- name: Rest Stops
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=810
+- name: Snow Boots
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=811
+- name: Teleportation
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=812

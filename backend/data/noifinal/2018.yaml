@@ -1,0 +1,15 @@
+- name: Collecting Mushrooms
+  number: 1
+  link: https://oj.uz/problem/view/NOI18_collectmushrooms
+- name: Journey
+  number: 2
+  link: https://oj.uz/problem/view/NOI18_journey
+- name: Lightning Rod
+  number: 3
+  link: https://oj.uz/problem/view/NOI18_lightningrod
+- name: City Mapping
+  number: 4
+  link: https://oj.uz/problem/view/NOI18_citymapping
+- name: Safety
+  number: 5
+  link: https://oj.uz/problem/view/NOI18_safety

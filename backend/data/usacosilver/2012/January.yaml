@@ -1,0 +1,9 @@
+- name: Delivery Route
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=106
+- name: Bale Share
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=107
+- name: Mountain Climbing
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=108

@@ -1,0 +1,9 @@
+- name: Palindrome
+  number: 1
+  link: https://oj.uz/problem/view/APIO14_palindrome
+- name: Split the Sequence
+  number: 2
+  link: https://oj.uz/problem/view/APIO14_sequence
+- name: Beads
+  number: 3
+  link: https://oj.uz/problem/view/APIO14_beads

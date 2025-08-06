@@ -1,0 +1,9 @@
+- name: Mirrors
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=223
+- name: Painting the Fence
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=224
+- name: Liars and Truth Tellers
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=225

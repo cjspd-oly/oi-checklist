@@ -1,0 +1,12 @@
+- name: Increasing Substring
+  number: 5
+  link: https://www.acmicpc.net/problem/23003
+- name: Longest Progression
+  number: 6
+  link: https://www.acmicpc.net/problem/23004
+- name: Consecutive Primes
+  number: 7
+  link: https://www.acmicpc.net/problem/23005
+- name: Truck Delivery
+  number: 8
+  link: https://www.acmicpc.net/problem/23006

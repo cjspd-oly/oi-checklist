@@ -1,0 +1,9 @@
+- name: MooBuzz
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=966
+- name: Meetings
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=967
+- name: Milk Visits
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=968

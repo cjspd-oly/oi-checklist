@@ -105,6 +105,18 @@ h2 {
     border-radius: 0;
 }
 
+#popup-status.yellow {
+    color: #000000;
+}
+
+#popup-status.green {
+    color: #ffffff;
+}
+
+#popup-status.red {
+    color: #ffffff;
+}
+
 #popup-score {
     display: inline-block;
     min-width: 20px;
@@ -491,6 +503,40 @@ input:not(:checked)+.slider {
     color: transparent;
     height: 20px;
     padding: 12px;
+}
+
+.dark-mode #status-popup {
+    background: #2a2a2a;
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+.dark-mode #popup-status {
+    color: #f0f0f0;
+}
+
+.dark-mode #popup-status.yellow {
+    color: #000000;
+}
+
+.dark-mode #popup-status.green {
+    color: #ffffff;
+}
+
+.dark-mode #popup-status.red {
+    color: #ffffff;
+}
+
+.dark-mode #popup-score {
+    color: #4ea1f3;
+}
+
+.dark-mode .popup-out-of {
+    color: #4ea1f3;
+}
+
+.dark-mode .popup-score span:focus {
+    background-color: #3a3a3a;
 }
 
 /* Solve Count */

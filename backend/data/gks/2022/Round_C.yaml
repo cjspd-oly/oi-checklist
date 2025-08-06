@@ -1,0 +1,12 @@
+- name: New Password
+  number: 9
+  link: https://www.acmicpc.net/problem/26416
+- name: Range Partition
+  number: 10
+  link: https://www.acmicpc.net/problem/26417
+- name: Ants on a Stick
+  number: 11
+  link: https://www.acmicpc.net/problem/26418
+- name: Palindromic Deletions
+  number: 12
+  link: https://www.acmicpc.net/problem/26419

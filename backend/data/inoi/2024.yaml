@@ -1,0 +1,9 @@
+- name: Monsters
+  number: 1
+  link: https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p1---monsters
+- name: Fertilizer
+  number: 2
+  link: https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p2---fertilizer
+- name: Trees
+  number: 3
+  link: https://codedrills.io/contests/inoi-2024-final/problems/inoi2024-p3---trees

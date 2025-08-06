@@ -1,0 +1,27 @@
+- name: Smoothness
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/Smoothness/statements/EN
+- name: Walled Inversions
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/WalledInversions/statements/EN
+- name: Painting Tree
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/PaintingTree/statements/EN
+- name: Evolutionary Trees
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/EvolutionaryTrees/statements/EN
+- name: Collecting Coins
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/CollectingCoins/statements/EN
+- name: Check SCC
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/CheckSCC/statements/EN
+- name: Graph LIS
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/GraphLIS/statements/EN
+- name: Subarray Medians
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/SubarrayMedians/statements/EN
+- name: Convex Hull Count
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/ConvexHullCount/statements/EN

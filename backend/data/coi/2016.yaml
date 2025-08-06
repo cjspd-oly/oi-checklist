@@ -1,0 +1,12 @@
+- name: Dijamant
+  number: 1
+  link: https://oj.uz/problem/view/COI16_dijament
+- name: Palinilap
+  number: 2
+  link: https://oj.uz/problem/view/COI16_palinilap
+- name: Relay
+  number: 3
+  link: https://oj.uz/problem/view/COI16_relay
+- name: Torrent
+  number: 4
+  link: https://oj.uz/problem/view/COI16_torrent

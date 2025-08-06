@@ -1,0 +1,15 @@
+- name: Monsters
+  number: 1
+  link: https://codebreaker.xyz/problem/monsters2
+- name: Thumper
+  number: 2
+  link: https://codebreaker.xyz/problem/thumper2
+- name: Reachability
+  number: 3
+  link: https://codebreaker.xyz/problem/reachability2
+- name: Robots
+  number: 4
+  link: https://codebreaker.xyz/problem/robots2
+- name: Flooding
+  number: 5
+  link: https://codebreaker.xyz/problem/flooding2

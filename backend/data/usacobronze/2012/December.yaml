@@ -1,0 +1,9 @@
+- name: Meet and Greet
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=205
+- name: Scrambled Letters
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=206
+- name: Crazy Fences
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=207

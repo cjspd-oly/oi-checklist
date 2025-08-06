@@ -1,0 +1,9 @@
+- name: Candies
+  number: 10
+  link: https://www.acmicpc.net/problem/23962
+- name: Paragliding
+  number: 11
+  link: https://www.acmicpc.net/problem/23963
+- name: Funniest Word Search
+  number: 12
+  link: https://www.acmicpc.net/problem/23964

@@ -1,0 +1,27 @@
+- name: Increasing Means
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/IncreasingMeans/statements/EN
+- name: Two Good Walks
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/TwoGoodWalks/statements/EN
+- name: Add Rotate XOR
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/AddRotateXOR/statements/EN
+- name: Changing Numbers
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/Changing_Numbers/statements/EN
+- name: Coin Denominations
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/CoinDenominations/statements/EN
+- name: Exact Walks
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/ExactWalks/statements/EN
+- name: Cycles And Colorings
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/CyclesAndColorings/statements/EN
+- name: K Perfect Matchings
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/KPerfectMatchings/statements/EN
+- name: Circular Intervals
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/CircularIntervals/statements/EN

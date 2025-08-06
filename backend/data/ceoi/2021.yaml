@@ -1,0 +1,15 @@
+- name: Diversity
+  number: 1
+  link: https://oj.uz/problem/view/CEOI21_diversity
+- name: L-triominoes
+  number: 2
+  link: https://oj.uz/problem/view/CEOI21_ltriominoes
+- name: Newspapers
+  number: 3
+  link: https://oj.uz/problem/view/CEOI21_newspapers
+- name: Tortoise
+  number: 4
+  link: https://oj.uz/problem/view/CEOI21_tortoise
+- name: Wells
+  number: 5
+  link: https://oj.uz/problem/view/CEOI21_wells

@@ -1,0 +1,9 @@
+- name: Competition
+  number: 1
+  link: https://codebreaker.xyz/problem/competition
+- name: Departure
+  number: 2
+  link: https://codebreaker.xyz/problem/departure
+- name: Truck
+  number: 3
+  link: https://codebreaker.xyz/problem/truck

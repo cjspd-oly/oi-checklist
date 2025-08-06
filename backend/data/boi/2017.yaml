@@ -1,0 +1,18 @@
+- name: Political Development
+  number: 1
+  link: https://oj.uz/problem/view/BOI17_politicaldevelopment
+- name: Railway
+  number: 2
+  link: https://oj.uz/problem/view/BOI17_railway
+- name: Toll
+  number: 3
+  link: https://oj.uz/problem/view/BOI17_toll
+- name: Cat in a tree
+  number: 4
+  link: https://oj.uz/problem/view/BOI17_catinatree
+- name: Friends
+  number: 5
+  link: https://oj.uz/problem/view/BOI17_friends
+- name: Plus Minus
+  number: 6
+  link: https://oj.uz/problem/view/BOI17_plusminus

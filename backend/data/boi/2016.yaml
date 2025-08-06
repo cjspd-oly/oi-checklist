@@ -1,0 +1,15 @@
+- name: Bosses
+  number: 1
+  link: https://oj.uz/problem/view/BOI16_bosses
+- name: Park
+  number: 2
+  link: https://oj.uz/problem/view/BOI16_park
+- name: Spiral
+  number: 3
+  link: https://oj.uz/problem/view/BOI16_spiral
+- name: Cities
+  number: 4
+  link: https://oj.uz/problem/view/BOI16_cities
+- name: Swap
+  number: 5
+  link: https://oj.uz/problem/view/BOI16_swap

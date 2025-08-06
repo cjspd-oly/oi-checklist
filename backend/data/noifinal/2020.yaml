@@ -1,0 +1,15 @@
+- name: Labels
+  number: 1
+  link: https://oj.uz/problem/view/NOI20_labels
+- name: Discharging
+  number: 2
+  link: https://oj.uz/problem/view/NOI20_discharging
+- name: Progression
+  number: 3
+  link: https://oj.uz/problem/view/NOI20_progression
+- name: Arcade
+  number: 4
+  link: https://oj.uz/problem/view/NOI20_arcade
+- name: Aesthetic
+  number: 5
+  link: https://oj.uz/problem/view/NOI20_aesthetic

@@ -1,0 +1,9 @@
+- name: Visits
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1230
+- name: Subset Equality
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1231
+- name: COW Operations
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1232

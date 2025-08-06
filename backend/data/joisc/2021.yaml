@@ -1,0 +1,36 @@
+- name: Aerobatics
+  number: 1
+  link: https://oj.uz/problem/view/JOI21_aerobatics
+- name: IOI Fever
+  number: 2
+  link: https://oj.uz/problem/view/JOI21_fever
+- name: Food Court
+  number: 3
+  link: https://oj.uz/problem/view/JOI21_foodcourt
+- name: Escape Route
+  number: 4
+  link: https://oj.uz/problem/view/JOI21_escape_route
+- name: Road Construction
+  number: 5
+  link: https://oj.uz/problem/view/JOI21_road_construction
+- name: Shopping
+  number: 6
+  link: https://oj.uz/problem/view/JOI21_shopping
+- name: Ancient Machine
+  number: 7
+  link: https://oj.uz/problem/view/JOI21_ancient_machine
+- name: Bodyguard
+  number: 8
+  link: https://oj.uz/problem/view/JOI21_bodyguard
+- name: Meetings 2
+  number: 9
+  link: https://oj.uz/problem/view/JOI21_meetings2
+- name: Event Hopping 2
+  number: 10
+  link: https://oj.uz/problem/view/JOI21_event2
+- name: Navigation 2
+  number: 11
+  link: https://oj.uz/problem/view/JOI21_navigation2
+- name: Worst Reporter 4
+  number: 12
+  link: https://oj.uz/problem/view/JOI21_worst_reporter4

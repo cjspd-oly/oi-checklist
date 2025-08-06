@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Virtual Contest History - OI Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style_vc.css">
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title" id="page-title">Virtual Contest History</div>
+            <div class="navbar-user">
+                <span class="welcome-message" id="welcome-message"></span>
+                <a href="#" class="logout-button" id="logout-button">Logout</a>
+                <div class="dark-mode-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="dark-mode-switch">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="vc-history-container">
+        <div class="vc-history-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-contests">0</div>
+                <div class="stat-label">Total Contests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-time">0h</div>
+                <div class="stat-label">Total Time</div>
+            </div>
+        </div>
+
+        <div class="vc-history-list" id="vc-history-list">
+            <!-- Contest items will be populated here -->
+        </div>
+
+        <div class="vc-history-empty" id="vc-history-empty" style="display: none;">
+            <div class="empty-text">No virtual contests yet</div>
+            <div class="empty-subtext">Start your first virtual contest to see your history here.</div>
+            <a href="virtual" class="vc-button start-btn-small">Start Contest</a>
+        </div>
+    </div>
+
+    <script src='js/darkmode.js'></script>
+    <script src='js/utils.js'></script>
+    <script src='js/virtual-history.js'></script>
+</body>
+
+</html>

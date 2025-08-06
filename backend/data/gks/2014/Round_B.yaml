@@ -1,0 +1,12 @@
+- name: Password Attacker
+  number: 5
+  link: https://www.acmicpc.net/problem/12199
+- name: New Years Eve
+  number: 6
+  link: https://www.acmicpc.net/problem/12201
+- name: Card Game
+  number: 7
+  link: https://www.acmicpc.net/problem/12203
+- name: Parentheses Order
+  number: 8
+  link: https://www.acmicpc.net/problem/12205

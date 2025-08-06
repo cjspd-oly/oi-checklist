@@ -1,0 +1,12 @@
+- name: Paprike
+  number: 1
+  link: https://oj.uz/problem/view/COI18_paprike
+- name: Pick
+  number: 2
+  link: https://oj.uz/problem/view/COI18_pick
+- name: Svjetlost
+  number: 3
+  link: https://oj.uz/problem/view/COI18_svjetlost
+- name: Zagonetka
+  number: 4
+  link: https://oj.uz/problem/view/COI18_zagonetka

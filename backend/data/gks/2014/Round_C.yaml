@@ -1,0 +1,12 @@
+- name: Minesweeper
+  number: 9
+  link: https://www.acmicpc.net/problem/12191
+- name: Taking Metro
+  number: 10
+  link: https://www.acmicpc.net/problem/12193
+- name: Broken Calculator
+  number: 11
+  link: https://www.acmicpc.net/problem/12195
+- name: Tetris
+  number: 12
+  link: https://www.acmicpc.net/problem/12197

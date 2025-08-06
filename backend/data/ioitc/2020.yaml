@@ -1,0 +1,27 @@
+- name: Beautiful Trees
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/BeautifulTrees/statements/EN
+- name: The Social Gathering
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/TheSocialGathering/statements/EN
+- name: Hidden Vertex
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/HiddenVertex/statements/EN
+- name: Almost Shortest Paths
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/AlmostShortestPaths/statements/EN
+- name: Buildings
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/Buildings/statements/EN
+- name: Pairing Trees
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/PairingTrees/statements/EN
+- name: Counting Intervals
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/CountingIntervals/statements/EN
+- name: Paint It Black
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/PaintItBlack/statements/EN
+- name: Removing Leaves
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/RemovingLeaves/statements/EN

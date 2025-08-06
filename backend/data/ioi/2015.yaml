@@ -1,0 +1,18 @@
+- name: Boxes with Souvenirs
+  number: 1
+  link: https://oj.uz/problem/view/IOI15_boxes
+- name: Scales
+  number: 2
+  link: https://oj.uz/problem/view/IOI15_scales
+- name: Teams
+  number: 3
+  link: https://oj.uz/problem/view/IOI15_teams
+- name: Horses
+  number: 4
+  link: https://oj.uz/problem/view/IOI15_horses
+- name: Sorting
+  number: 5
+  link: https://oj.uz/problem/view/IOI15_sorting
+- name: Towns
+  number: 6
+  link: https://oj.uz/problem/view/IOI15_towns

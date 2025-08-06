@@ -1,6 +1,8 @@
 # oi-checklist
 
-A modern, full-featured checklist for tracking progress across major Olympiads in Informatics.
+A modern, full-featured checklist for tracking progress across major Olympiads in InformaUse Live Server (or a simple HTTP server) from the root directory (where `index.html` is located).
+
+> 💡 Make sure to update the `apiUrl` in `js/utils.js` to match your Flask server's URL if it differs.s.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f2ad6ffc-0ab8-44dd-a30e-beee810cda7a" alt="Dashboard view (logged in, dark mode)" width="80%">
@@ -89,10 +91,11 @@ pip install -r backend/requirements.txt
 python3 backend/init_db.py
 ```
 
-### 3. Populate Olympiad problems
+### 3. Populate Olympiad problems and contests
 
 ```bash
 python3 backend/populate_problems.py
+python3 backend/populate_contests.py
 ```
 
 ### 4. Start the Flask backend

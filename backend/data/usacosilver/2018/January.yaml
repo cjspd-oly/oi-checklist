@@ -1,0 +1,9 @@
+- name: Lifeguards
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=786
+- name: Rental Service
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=787
+- name: MooTube
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=788

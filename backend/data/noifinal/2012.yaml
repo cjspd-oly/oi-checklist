@@ -1,0 +1,12 @@
+- name: Mod Sum
+  number: 1
+  link: https://oj.uz/problem/view/NOI12_modsum
+- name: Pancake
+  number: 2
+  link: https://oj.uz/problem/view/NOI12_pancake
+- name: Forensic
+  number: 3
+  link: https://oj.uz/problem/view/NOI12_forensic
+- name: Walking
+  number: 4
+  link: https://oj.uz/problem/view/NOI12_walking

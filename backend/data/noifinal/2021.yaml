@@ -1,0 +1,15 @@
+- name: Fraud
+  number: 1
+  link: https://codebreaker.xyz/problem/fraud
+- name: Archaeologist
+  number: 2
+  link: https://codebreaker.xyz/problem/archaeologist
+- name: Password
+  number: 3
+  link: https://codebreaker.xyz/problem/password
+- name: Tiles
+  number: 4
+  link: https://codebreaker.xyz/problem/tiles
+- name: Pond
+  number: 5
+  link: https://codebreaker.xyz/problem/pond

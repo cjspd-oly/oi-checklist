@@ -1,0 +1,9 @@
+- name: Boat
+  number: 1
+  link: https://oj.uz/problem/view/APIO16_boat
+- name: Fireworks
+  number: 2
+  link: https://oj.uz/problem/view/APIO16_fireworks
+- name: Gap
+  number: 3
+  link: https://oj.uz/problem/view/APIO16_gap

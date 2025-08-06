@@ -1,0 +1,9 @@
+- name: Find the Cow!
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=187
+- name: Typo
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=188
+- name: Horseshoes
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=189

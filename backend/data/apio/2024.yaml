@@ -1,0 +1,9 @@
+- name: September
+  number: 1
+  link: https://oj.uz/problem/view/APIO24_september
+- name: Train
+  number: 2
+  link: https://oj.uz/problem/view/APIO24_train
+- name: Magic Show
+  number: 3
+  link: https://oj.uz/problem/view/APIO24_show

@@ -1,0 +1,18 @@
+- name: Souvenirs
+  number: 1
+  link: https://oj.uz/problem/view/IOI25_souvenirs
+- name: Triple Peaks
+  number: 2
+  link: https://oj.uz/problem/view/IOI25_triples
+- name: World Map
+  number: 3
+  link: https://oj.uz/problem/view/IOI25_worldmap
+- name: Festival
+  number: 4
+  link: https://oj.uz/problem/view/IOI25_festival
+- name: Migrations
+  number: 5
+  link: https://oj.uz/problem/view/IOI25_migrations
+- name: Obstacles for a Llama
+  number: 6
+  link: https://oj.uz/problem/view/IOI25_obstacles

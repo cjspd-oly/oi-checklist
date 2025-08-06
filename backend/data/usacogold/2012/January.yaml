@@ -1,0 +1,9 @@
+- name: Video Game
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=109
+- name: Cow Run
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=110
+- name: Bovine Alliance
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=111

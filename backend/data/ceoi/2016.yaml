@@ -1,0 +1,15 @@
+- name: ICC
+  number: 1
+  link: https://oj.uz/problem/view/CEOI16_icc
+- name: Kangaroo
+  number: 2
+  link: https://oj.uz/problem/view/CEOI16_kangaroo
+- name: Match
+  number: 4
+  link: https://oj.uz/problem/view/CEOI16_match
+- name: Popeala
+  number: 5
+  link: https://oj.uz/problem/view/CEOI16_popeala
+- name: Router
+  number: 6
+  link: https://oj.uz/problem/view/CEOI16_router

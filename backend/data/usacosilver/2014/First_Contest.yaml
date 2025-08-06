@@ -1,0 +1,9 @@
+- name: Piggyback
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=491
+- name: Marathon
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=492
+- name: Cow Jog
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=493

@@ -1,0 +1,27 @@
+- name: Cultivation
+  number: 1
+  link: https://oj.uz/problem/view/JOI17_cultivation
+- name: Port Facility
+  number: 2
+  link: https://oj.uz/problem/view/JOI17_port_facility
+- name: Sparklers
+  number: 3
+  link: https://oj.uz/problem/view/JOI17_sparklers
+- name: Arranging Tickets
+  number: 4
+  link: https://oj.uz/problem/view/JOI17_arranging_tickets
+- name: Broken Device
+  number: 5
+  link: https://oj.uz/problem/view/JOI17_broken_device
+- name: Railway Trip
+  number: 6
+  link: https://oj.uz/problem/view/JOI17_railway_trip
+- name: Long Distance Coach
+  number: 7
+  link: https://oj.uz/problem/view/JOI17_coach
+- name: Long Mansion
+  number: 8
+  link: https://oj.uz/problem/view/JOI17_long_mansion
+- name: Park
+  number: 9
+  link: https://oj.uz/problem/view/JOI17_park

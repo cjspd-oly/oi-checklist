@@ -1,0 +1,15 @@
+- name: Train Or Bus
+  number: 1
+  link: https://codebreaker.xyz/problem/trainorbus
+- name: Ducks And Buttons
+  number: 2
+  link: https://codebreaker.xyz/problem/duckbuttons
+- name: Snacks
+  number: 3
+  link: https://codebreaker.xyz/problem/snacks
+- name: Itinerary
+  number: 4
+  link: https://codebreaker.xyz/problem/itinerary
+- name: Lasers 2
+  number: 5
+  link: https://codebreaker.xyz/problem/lasers2

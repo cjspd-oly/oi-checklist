@@ -1,0 +1,18 @@
+- name: Garden
+  number: 1
+  link: https://oj.uz/problem/view/IOI11_garden
+- name: Race
+  number: 2
+  link: https://oj.uz/problem/view/IOI11_race
+- name: Rice Hub
+  number: 3
+  link: https://oj.uz/problem/view/IOI11_ricehub
+- name: Crocodile
+  number: 4
+  link: https://oj.uz/problem/view/IOI11_crocodile
+- name: Elephants
+  number: 5
+  link: https://oj.uz/problem/view/IOI11_elephants
+- name: Parrots
+  number: 6
+  link: https://oj.uz/problem/view/IOI11_parrots

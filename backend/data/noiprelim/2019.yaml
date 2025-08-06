@@ -1,0 +1,12 @@
+- name: Palindromic FizzBuzz
+  number: 1
+  link: https://oj.uz/problem/view/NOI19_palindrome
+- name: Lost Array
+  number: 2
+  link: https://oj.uz/problem/view/NOI19_lostarray
+- name: Experimental Charges
+  number: 3
+  link: https://oj.uz/problem/view/NOI19_charges
+- name: Square or Rectangle?
+  number: 4
+  link: https://oj.uz/problem/view/NOI19_squarerect

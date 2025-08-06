@@ -1,0 +1,27 @@
+- name: Edge Subsets
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/EdgeSubsets/statements/EN
+- name: Graph Count
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/GraphCount/statements/EN
+- name: Hidden Cell
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/HiddenCell/statements/EN
+- name: Crew Reunion
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/CrewReunion/statements/EN
+- name: Interactive MST
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/InteractiveMST/statements/EN
+- name: Similar Arrays
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/SimilarArrays/statements/EN
+- name: Island Hopping
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/IslandHopping/statements/EN
+- name: Odd Sum Partition
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/OddSumPartition/statements/EN
+- name: Tokens On A Tree
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/TokensOnATree/statements/EN

@@ -1,0 +1,9 @@
+- name: Cow Coupons
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=118
+- name: Symmetry
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=119
+- name: Nearby Cows
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=120

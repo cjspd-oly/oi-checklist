@@ -1,0 +1,24 @@
+- name: Breaking Trees
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/BreakingTrees/statements/EN
+- name: Labelled Tree
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/LabelledTree/statements/EN
+- name: Equal Length Paths
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/EqualLengthPaths/statements/EN
+- name: Increasing Chains
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/IncreasingChains/statements/EN
+- name: Tree Profit
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/TreeProfit/statements/EN
+- name: Diverse Subarrays
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/DiverseSubarrays/statements/EN
+- name: Figure 8
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/Figure8/statements/EN
+- name: Make Acyclic
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/MakeAcyclic/statements/EN

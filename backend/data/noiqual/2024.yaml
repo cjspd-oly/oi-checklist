@@ -1,0 +1,15 @@
+- name: Tourist
+  number: 1
+  link: https://codebreaker.xyz/problem/tourist_noi
+- name: Party
+  number: 2
+  link: https://codebreaker.xyz/problem/party_noi
+- name: School Photo
+  number: 3
+  link: https://codebreaker.xyz/problem/photo
+- name: Amusement Park
+  number: 4
+  link: https://codebreaker.xyz/problem/park
+- name: Explosives
+  number: 5
+  link: https://codebreaker.xyz/problem/explosives

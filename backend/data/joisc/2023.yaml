@@ -1,0 +1,36 @@
+- name: Two Currencies
+  number: 1
+  link: https://oj.uz/problem/view/JOI23_currencies
+- name: Festivals in JOI Kingdom 2
+  number: 2
+  link: https://oj.uz/problem/view/JOI23_festival2
+- name: Passport
+  number: 3
+  link: https://oj.uz/problem/view/JOI23_passport
+- name: Belt Conveyor
+  number: 4
+  link: https://qoj.ac/contest/1209/problem/6335
+- name: Council
+  number: 5
+  link: https://oj.uz/problem/view/JOI23_council
+- name: Mizuyokan 2
+  number: 6
+  link: https://oj.uz/problem/view/JOI23_mizuyokan2
+- name: Chorus
+  number: 7
+  link: https://oj.uz/problem/view/JOI23_chorus
+- name: Cookies
+  number: 8
+  link: https://oj.uz/problem/view/JOI23_cookies
+- name: Tourism
+  number: 9
+  link: https://oj.uz/problem/view/JOI23_tourism
+- name: The Last Battle
+  number: 10
+  link: https://qoj.ac/contest/1211/problem/6341
+- name: Security Guard
+  number: 11
+  link: https://oj.uz/problem/view/JOI23_guard
+- name: Bitaro's Travel
+  number: 12
+  link: https://oj.uz/problem/view/JOI23_travel

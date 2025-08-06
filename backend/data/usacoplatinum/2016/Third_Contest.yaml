@@ -1,0 +1,9 @@
+- name: Load Balancing
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=624
+- name: Fenced In
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=625
+- name: Circular Barn
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=626

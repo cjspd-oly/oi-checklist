@@ -1,0 +1,15 @@
+- name: Sort
+  number: 1
+  link: https://dmoj.ca/problem/coi10p1
+- name: Telka
+  number: 2
+  link: https://dmoj.ca/problem/coi10p2
+- name: Rijeka
+  number: 3
+  link: https://dmoj.ca/problem/coi10p3
+- name: Kamion
+  number: 4
+  link: https://dmoj.ca/problem/coi10p4
+- name: Lovci
+  number: 5
+  link: https://dmoj.ca/problem/coi10p5

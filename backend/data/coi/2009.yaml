@@ -1,0 +1,9 @@
+- name: Izbori
+  number: 1
+  link: https://dmoj.ca/problem/coi08p1
+- name: Otoci
+  number: 2
+  link: https://dmoj.ca/problem/coi08p2
+- name: Plahte
+  number: 3
+  link: https://dmoj.ca/problem/coi08p3

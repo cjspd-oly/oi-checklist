@@ -1,0 +1,15 @@
+- name: Area
+  number: 1
+  link: https://codebreaker.xyz/problem/area_noi
+- name: Swords
+  number: 2
+  link: https://codebreaker.xyz/problem/swords
+- name: Dolls
+  number: 3
+  link: https://codebreaker.xyz/problem/doll_noi
+- name: Burgers
+  number: 4
+  link: https://codebreaker.xyz/problem/burgers
+- name: Network
+  number: 5
+  link: https://codebreaker.xyz/problem/network

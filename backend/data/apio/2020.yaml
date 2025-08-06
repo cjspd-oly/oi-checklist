@@ -1,0 +1,9 @@
+- name: Painting Walls
+  number: 1
+  link: https://oj.uz/problem/view/APIO20_paint
+- name: Swapping Cities
+  number: 2
+  link: https://oj.uz/problem/view/APIO20_swap
+- name: Fun Tour
+  number: 3
+  link: https://oj.uz/problem/view/APIO20_fun

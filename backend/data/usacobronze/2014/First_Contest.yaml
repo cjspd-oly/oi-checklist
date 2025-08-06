@@ -1,0 +1,12 @@
+- name: Marathon
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=487
+- name: Crosswords
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=488
+- name: Cow Jog
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=489
+- name: Learning by Example
+  number: 4
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=490

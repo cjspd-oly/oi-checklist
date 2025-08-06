@@ -1,16 +1,4 @@
-const statuses = [
-  {label: 'Unattempted', className: 'white', value: 0},
-  {label: 'In progress', className: 'yellow', value: 1},
-  {label: 'Solved', className: 'green', value: 2},
-  {label: 'Failed', className: 'red', value: 3}
-];
-
-const next = [1, 3, 0, 2];
-
-const popup = document.getElementById('status-popup');
-const popupStatus = document.getElementById('popup-status');
-const popupScore = document.getElementById('popup-score');
-
+// Count tracking for dashboard
 const count = {
   counts: {red: 0, yellow: 0, green: 0, white: 0},
   update(key, diff) {
@@ -32,160 +20,6 @@ const count = {
   }
 };
 
-let currentCell = null;
-let currentStatus = 0;
-
-function triggerFullConfettiFall() {
-  const particleBursts = 40;
-  for (let i = 0; i < particleBursts; i++) {
-    confetti({
-      particleCount: 5,
-      angle: 270,
-      spread: 180,
-      startVelocity: 20,
-      gravity: 1.8,
-      ticks: 1000,
-      scalar: 1.5,
-      zIndex: 1000,
-      origin: {x: Math.random(), y: 0},
-    });
-  }
-}
-
-let isProfileMode = false;
-
-function handleCellClick(cell, name, source, year, e) {
-  if (e.target.tagName.toLowerCase() === 'a') return;
-
-  if (currentCell === cell && popup.classList.contains('show')) {
-    handlePopupClose(currentCell);
-    popup.classList.remove('show');
-    currentCell = null;
-    return;
-  }
-
-  if (popup.classList.contains('show')) {
-    handlePopupClose(currentCell);
-    popup.classList.remove('show');
-  }
-
-  currentCell = cell;
-  currentStatus = parseInt(cell.dataset.status || '0');
-
-  popupStatus.textContent = statuses[currentStatus].label;
-  popupStatus.dataset.status = statuses[currentStatus].label;
-  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
-  if (statuses[currentStatus].className != 'white') {
-    popupStatus.classList.add(statuses[currentStatus].className);
-  }
-
-  popupScore.textContent = cell.dataset.score || '0';
-
-  const rect = cell.getBoundingClientRect();
-  popup.style.top = `${window.scrollY + rect.bottom + 5}px`;
-  popup.style.left = `${window.scrollX + rect.left + (rect.width / 2) - 60}px`;
-
-  popup.classList.remove('hidden');
-  setTimeout(() => popup.classList.add('show'), 10);
-
-  popupScore.focus();
-  const range = document.createRange();
-  range.selectNodeContents(popupScore);
-  range.collapse(false);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-
-  const thisCell = cell;
-  const thisName = name;
-  const thisSource = source;
-  const thisYear = parseInt(year);
-
-  popupStatus.onclick = () => {
-    if (isProfileMode) return;
-    currentStatus = next[currentStatus];
-    updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
-    if (currentStatus == 2) {
-      triggerFullConfettiFall();
-    }
-  };
-
-  popupScore.onblur = () => {
-    if (isProfileMode) return;
-
-    let raw = popupScore.textContent.trim();
-    let score = parseInt(raw);
-    if (isNaN(score)) score = 0;
-    score = Math.max(0, Math.min(score, 100));
-
-    let prevScore = thisCell.dataset.score;
-    let scoreChanged = prevScore != score;
-
-    thisCell.dataset.score = score;
-    popupScore.textContent = score;
-
-    if (scoreChanged && score == 100) {
-      triggerFullConfettiFall();
-    }
-    if (scoreChanged && score != 100 && prevScore != 0) {
-      popupScore.classList.add('bump');
-      setTimeout(() => popupScore.classList.remove('bump'), 250);
-    }
-
-    if (score === 100) {
-      currentStatus = 2;
-      updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
-    } else if (score > 0 && scoreChanged) {
-      currentStatus = 1;
-      updateStatus(currentStatus, thisCell, thisName, thisSource, thisYear);
-    }
-
-    const sessionToken = localStorage.getItem('sessionToken');
-    fetch(apiUrl + '/api/update-problem-score', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionToken}`
-      },
-      body: JSON.stringify({
-        problem_name: thisName,
-        source: thisSource,
-        year: thisYear,
-        score: score
-      })
-    });
-  };
-
-  popupScore.addEventListener('keypress', (e) => {
-    if (isProfileMode) {
-      e.preventDefault();
-      return;
-    }
-    if (!/[0-9]/.test(e.key) && e.key !== 'Enter') {
-      e.preventDefault();
-    }
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      popupScore.blur();
-    }
-  });
-  document.addEventListener('click', (e) => {
-  const isInsidePopup = popup.contains(e.target);
-  const isSameCell = currentCell && currentCell.contains(e.target);
-  const isProblemCell = e.target.closest('.problem-cell');
-
-  if (!isInsidePopup && !isSameCell && popup.classList.contains('show')) {
-    popup.classList.remove('show');
-    popup.classList.add('hidden');
-    if (currentCell) {
-      handlePopupClose(currentCell);
-      currentCell = null;
-    }
-  }
-});
-}
-
 document.querySelectorAll('.problem-cell').forEach(cell => {
   const name = cell.dataset.problemId?.trim();
   const source = cell.dataset.source?.trim();
@@ -194,7 +28,6 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
 
   const statusIndex = parseInt(cell.dataset.status || '0');
   const statusObj = statuses[statusIndex];
-  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
   count.update(statusObj.className, 1);
   if (statusObj?.className && statusObj.className != 'white') {
     cell.classList.add(statusObj.className);
@@ -204,27 +37,18 @@ document.querySelectorAll('.problem-cell').forEach(cell => {
       'click', (e) => handleCellClick(cell, name, source, year, e));
 });
 
-function updateStatus(status, cell, name, source, year) {
+function updateStatusWithCount(status, cell, name, source, year) {
   const sessionToken = localStorage.getItem('sessionToken');
   const statusObj = statuses[status];
 
   const oldStatus = statuses[parseInt(cell.dataset.status || '0')];
   if (oldStatus) count.update(oldStatus.className, -1);
 
-  cell.dataset.status = status;
-
-  cell.classList.remove('green', 'yellow', 'red', 'white');
-  if (statusObj.className) {
-    cell.classList.add(statusObj.className);
-    count.update(statusObj.className, 1);
-  }
-  popupStatus.textContent = statusObj.label;
-  popupStatus.dataset.status = statusObj.label;
-
-  popupStatus.classList.remove('green', 'yellow', 'red', 'white');
-  if (statusObj.className != 'white') {
-    popupStatus.classList.add(statusObj.className);
-  }
+  // Use the shared updateStatus function
+  updateStatus(status, cell, name, source, year);
+  
+  // Update count for dashboard
+  count.update(statusObj.className, 1);
 
   fetch(apiUrl + '/api/update-problem-status', {
     method: 'POST',
@@ -238,7 +62,7 @@ function updateStatus(status, cell, name, source, year) {
   });
 }
 
-function handlePopupClose(cell) {
+function handlePopupCloseWithServer(cell) {
   if (isProfileMode) return;
 
   const score = parseInt(cell.dataset.score || '0');
@@ -247,13 +71,15 @@ function handlePopupClose(cell) {
   const source = cell.dataset.source;
   const year = parseInt(cell.dataset.year);
 
+  // Use the shared handlePopupClose function
+  handlePopupClose(cell);
+
   if (status === 2 || status === 0) {
     const finalScore = status === 2 ? 100 : 0;
     if (cell.dataset.score == finalScore) {
       return;
     }
-    cell.dataset.score = finalScore;
-    popupScore.textContent = finalScore;
+    
     const sessionToken = localStorage.getItem('sessionToken');
     fetch(apiUrl + '/api/update-problem-score', {
       method: 'POST',

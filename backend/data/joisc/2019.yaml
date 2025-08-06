@@ -1,0 +1,36 @@
+- name: Examination
+  number: 1
+  link: https://oj.uz/problem/view/JOI19_examination
+- name: Naan
+  number: 2
+  link: https://oj.uz/problem/view/JOI19_naan
+- name: Meetings
+  number: 3
+  link: https://oj.uz/problem/view/JOI19_meetings
+- name: Two Antennas
+  number: 4
+  link: https://oj.uz/problem/view/JOI19_antennas
+- name: Two Dishes
+  number: 5
+  link: https://oj.uz/problem/view/JOI19_dishes
+- name: Two Transportations
+  number: 6
+  link: https://oj.uz/problem/view/JOI19_transportations
+- name: Designated Cities
+  number: 7
+  link: https://oj.uz/problem/view/JOI19_designated_cities
+- name: Lamps
+  number: 8
+  link: https://oj.uz/problem/view/JOI19_lamps
+- name: Bitaro, who Leaps through Time
+  number: 9
+  link: https://oj.uz/problem/view/JOI19_timeleap
+- name: Cake 3
+  number: 10
+  link: https://oj.uz/problem/view/JOI19_cake3
+- name: Mergers
+  number: 11
+  link: https://oj.uz/problem/view/JOI19_mergers
+- name: Minerals
+  number: 12
+  link: https://oj.uz/problem/view/JOI19_minerals

@@ -1,0 +1,9 @@
+- name: Snail
+  number: 1
+  link: https://oj.uz/problem/view/NOI18_snail
+- name: Knapsack
+  number: 2
+  link: https://oj.uz/problem/view/NOI18_knapsack
+- name: Island
+  number: 3
+  link: https://oj.uz/problem/view/NOI18_island

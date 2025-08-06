@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 from flask_cors import CORS
 from datetime import timedelta, datetime
+import pytz
 from functools import wraps
 import json
 import uuid
@@ -305,7 +306,7 @@ def get_problems():
     # Prepare the query for fetching problems for multiple sources
     placeholders = ', '.join(['?'] * len(from_names))  # Create placeholders for the sources
     problems_raw = db.execute(
-        f'SELECT * FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
+        f'SELECT *, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
         tuple(from_names)
     ).fetchall()
 
@@ -381,7 +382,7 @@ def get_user():
 
         # Get all problems for the selected sources
         problems_raw = db.execute(
-            f'SELECT * FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
+            f'SELECT *, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
             tuple(problems_list)
         ).fetchall()
 
@@ -531,7 +532,7 @@ def update_ojuz_scores():
     ]
     placeholders = ', '.join(['?'] * len(sources))
     problem_rows = db.execute(
-        f"SELECT name, link, source, year FROM problems WHERE source IN ({placeholders})",
+        f"SELECT name, link, source, year, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders})",
         tuple(sources)
     ).fetchall()
 
@@ -701,6 +702,379 @@ def api_logout():
     db.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
     db.commit()
     return jsonify({"success": True, "message": "Logged out successfully."})
+
+@app.route('/api/virtual-contests', methods=["GET"])
+@session_required
+def get_virtual_contests():
+    user_id = request.user_id
+    db = get_db()
+    
+    # Check if user has an active virtual contest
+    active_contest = db.execute('''
+        SELECT 
+            avc.contest_name,
+            avc.contest_stage,
+            avc.start_time,
+            avc.end_time,
+            c.duration_minutes,
+            c.location,
+            c.website,
+            c.link
+        FROM active_virtual_contests avc
+        JOIN contests c ON avc.contest_name = c.name AND avc.contest_stage = c.stage
+        WHERE avc.user_id = ?
+    ''', (user_id,)).fetchone()
+    
+    # Get all contests with their problems
+    contests = db.execute('''
+        SELECT 
+            name, stage, source, year, duration_minutes,
+            COALESCE(location, '') as location,
+            COALESCE(website, '') as website,
+            COALESCE(link, '') as link,
+            COALESCE(date, '') as date,
+            COALESCE(notes, '') as notes
+        FROM contests 
+        ORDER BY year DESC, source, stage
+    ''').fetchall()
+    
+    # Get contest problems for all contests
+    contest_problems = db.execute('''
+        SELECT 
+            cp.contest_name,
+            cp.contest_stage,
+            cp.problem_source,
+            cp.problem_year,
+            cp.problem_number,
+            cp.problem_index
+        FROM contest_problems cp
+        ORDER BY cp.contest_name, cp.contest_stage, cp.problem_index
+    ''').fetchall()
+    
+    # Get last 3 virtual contests for this user
+    recent_virtuals = db.execute('''
+        SELECT 
+            v.contest_name, v.contest_stage,
+            c.source as contest_source, c.year as contest_year,
+            v.started_at,
+            v.score as total_score,
+            v.per_problem_scores,
+            CASE 
+                WHEN c.link LIKE '%oj.uz%' THEN 'oj.uz'
+                ELSE 'manual'
+            END as platform
+        FROM user_virtual_contests v
+        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        WHERE v.user_id = ?
+        ORDER BY v.started_at DESC
+        LIMIT 3
+    ''', (user_id,)).fetchall()
+
+    # Get all completed contests for this user
+    completed_contests = db.execute('''
+        SELECT DISTINCT contest_name || '|' || contest_stage as contest_key
+        FROM user_virtual_contests
+        WHERE user_id = ?
+    ''', (user_id,)).fetchall()
+
+    # Convert to dictionary format
+    contests_dict = {}
+    for c in contests:
+        source = c['source']
+        year = c['year']
+        if source not in contests_dict:
+            contests_dict[source] = {}
+        if year not in contests_dict[source]:
+            contests_dict[source][year] = []
+        
+        contest_dict = dict(c)
+        # Add problems for this contest
+        contest_dict['problems'] = []
+        for cp in contest_problems:
+            if cp['contest_name'] == c['name'] and cp['contest_stage'] == c['stage']:
+                contest_dict['problems'].append({
+                    'source': cp['problem_source'],
+                    'year': cp['problem_year'],
+                    'number': cp['problem_number'],
+                    'index': cp['problem_index']
+                })
+        
+        contests_dict[source][year].append(contest_dict)
+
+    recent_list = [dict(v) for v in recent_virtuals]
+    completed_list = [row['contest_key'] for row in completed_contests]
+
+    result = {
+        'contests': contests_dict,
+        'recent': recent_list,
+        'completed_contests': completed_list
+    }
+    
+    # Add active contest info if exists
+    if active_contest:
+        result['active_contest'] = dict(active_contest)
+    
+    return jsonify(result)
+
+@app.route('/api/virtual-contests/history', methods=["GET"])
+@session_required
+def get_virtual_contest_history():
+    user_id = request.user_id
+    db = get_db()
+    
+    # Get all virtual contests for this user
+    contests = db.execute('''
+        SELECT 
+            v.contest_name,
+            v.contest_stage,
+            c.source as contest_source,
+            c.year as contest_year,
+            v.started_at,
+            v.ended_at,
+            v.score as total_score,
+            v.per_problem_scores,
+            CASE 
+                WHEN c.link LIKE '%oj.uz%' THEN 'oj.uz'
+                ELSE 'manual'
+            END as platform
+        FROM user_virtual_contests v
+        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        WHERE v.user_id = ?
+        ORDER BY v.started_at DESC
+    ''', (user_id,)).fetchall()
+    
+    # Convert to list of dictionaries
+    contests_list = [dict(contest) for contest in contests]
+    
+    return jsonify({
+        'contests': contests_list
+    })
+
+@app.route('/api/virtual-contests/start', methods=["POST"])
+@session_required
+def start_virtual_contest():
+    user_id = request.user_id
+    data = request.get_json()
+    
+    contest_name = data.get('contest_name')
+    contest_stage = data.get('contest_stage')
+    
+    if not all([contest_name, contest_stage]):
+        return jsonify({'error': 'Missing required fields'}), 400
+    
+    db = get_db()
+    
+    # Check if user already has an active contest
+    existing = db.execute(
+        'SELECT 1 FROM active_virtual_contests WHERE user_id = ?',
+        (user_id,)
+    ).fetchone()
+    
+    if existing:
+        return jsonify({'error': 'User already has an active contest'}), 400
+    
+    # Check if user has already completed this contest
+    completed = db.execute(
+        'SELECT 1 FROM user_virtual_contests WHERE user_id = ? AND contest_name = ? AND contest_stage = ?',
+        (user_id, contest_name, contest_stage)
+    ).fetchone()
+    
+    if completed:
+        return jsonify({'error': 'Contest already completed'}), 400
+    
+    # Verify contest exists
+    contest_exists = db.execute(
+        'SELECT 1 FROM contests WHERE name = ? AND stage = ?',
+        (contest_name, contest_stage)
+    ).fetchone()
+    
+    if not contest_exists:
+        return jsonify({'error': 'Contest not found'}), 404
+    
+    # Start the virtual contest with UTC timestamp
+    utc_now = datetime.now(pytz.UTC).isoformat()
+    db.execute('''
+        INSERT INTO active_virtual_contests 
+        (user_id, contest_name, contest_stage, start_time)
+        VALUES (?, ?, ?, ?)
+    ''', (user_id, contest_name, contest_stage, utc_now))
+    
+    db.commit()
+    return jsonify({'success': True})
+
+@app.route('/api/virtual-contests/end', methods=["POST"])
+@session_required
+def end_virtual_contest():
+    user_id = request.user_id
+    data = request.get_json()
+    
+    # Get optional oj.uz username for auto-sync
+    ojuz_username = data.get('ojuz_username')
+    
+    db = get_db()
+    
+    # Get the active contest
+    active_contest = db.execute('''
+        SELECT contest_name, contest_stage, start_time
+        FROM active_virtual_contests 
+        WHERE user_id = ?
+    ''', (user_id,)).fetchone()
+    
+    if not active_contest:
+        return jsonify({'error': 'No active contest found'}), 404
+    
+    utc_now = datetime.now(pytz.UTC).isoformat()
+    
+    # Handle oj.uz sync if username provided
+    if ojuz_username:
+        # TODO: Implement oj.uz score syncing logic
+        # For now, just mark as ended
+        pass
+    
+    # Update the active contest with end_time
+    db.execute('''
+        UPDATE active_virtual_contests 
+        SET end_time = ?
+        WHERE user_id = ?
+    ''', (utc_now, user_id))
+    
+    db.commit()
+    return jsonify({'success': True})
+
+@app.route('/api/virtual-contests/submit', methods=["POST"])
+@session_required
+def submit_virtual_contest():
+    user_id = request.user_id
+    data = request.get_json()
+    
+    # Get scores data
+    scores = data.get('scores', [])
+    total_score = data.get('total_score', 0)
+    
+    if not scores:
+        return jsonify({'error': 'No scores provided'}), 400
+    
+    db = get_db()
+    
+    # Get the ended active contest
+    active_contest = db.execute('''
+        SELECT contest_name, contest_stage, start_time, end_time
+        FROM active_virtual_contests 
+        WHERE user_id = ? AND end_time IS NOT NULL
+    ''', (user_id,)).fetchone()
+    
+    if not active_contest:
+        return jsonify({'error': 'No ended contest found'}), 404
+    
+    contest_name = active_contest['contest_name']
+    contest_stage = active_contest['contest_stage']
+    start_time = active_contest['start_time']
+    end_time = active_contest['end_time']
+    
+    # Save the virtual contest result to main table
+    db.execute('''
+        INSERT OR REPLACE INTO user_virtual_contests 
+        (user_id, contest_name, contest_stage, started_at, ended_at, score, per_problem_scores)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id, contest_name, contest_stage, start_time, end_time, total_score, json.dumps(scores)))
+    
+    # Remove from active contests
+    db.execute('DELETE FROM active_virtual_contests WHERE user_id = ?', (user_id,))
+    
+    db.commit()
+    return jsonify({'success': True})
+
+@app.route('/api/virtual-contests/sync-ojuz', methods=["POST"])
+@session_required
+def sync_ojuz_virtual_contest():
+    user_id = request.user_id
+    data = request.get_json()
+    
+    ojuz_username = data.get('ojuz_username')
+    
+    if not ojuz_username:
+        return jsonify({'error': 'Missing oj.uz username'}), 400
+    
+    # TODO: Implement oj.uz score syncing logic
+    # For now, just return success to avoid errors
+    return jsonify({'success': True, 'message': 'oj.uz sync not implemented yet'})
+
+@app.route('/api/contest-scores', methods=["GET"])
+@session_required
+def get_contest_scores():
+    contest_names = request.args.get('contests')
+    if not contest_names:
+        return jsonify({"error": "Missing 'contests' query parameter"}), 400
+
+    # Parse contest names (format: "contest_name|contest_stage,contest_name2|contest_stage2")
+    contest_list = []
+    for contest in contest_names.split(','):
+        if '|' in contest:
+            name, stage = contest.strip().split('|', 1)
+            contest_list.append((name, stage))
+    
+    if not contest_list:
+        return jsonify({"error": "No valid contests provided"}), 400
+
+    db = get_db()
+    
+    # Fetch contest scores for the requested contests
+    placeholders = ', '.join(['(?, ?)'] * len(contest_list))
+    flat_params = [item for pair in contest_list for item in pair]
+    
+    contest_scores = db.execute(f'''
+        SELECT contest_name, contest_stage, medal_names, medal_cutoffs, problem_scores
+        FROM contest_scores 
+        WHERE (contest_name, contest_stage) IN ({placeholders})
+    ''', flat_params).fetchall()
+    
+    # Convert to dictionary format
+    scores_dict = {}
+    for row in contest_scores:
+        key = f"{row['contest_name']}|{row['contest_stage']}"
+        scores_dict[key] = {
+            'medal_names': json.loads(row['medal_names']) if row['medal_names'] else [],
+            'medal_cutoffs': json.loads(row['medal_cutoffs']) if row['medal_cutoffs'] else [],
+            'problem_scores': json.loads(row['problem_scores']) if row['problem_scores'] else []
+        }
+    
+    return jsonify(scores_dict)
+
+@app.route('/api/virtual-contests/detail/<slug>', methods=["GET"])
+@session_required
+def get_virtual_contest_detail(slug):
+    user_id = request.user_id
+    db = get_db()
+    
+    # Get all virtual contests for this user to find matching slug
+    contests = db.execute('''
+        SELECT 
+            v.contest_name,
+            v.contest_stage,
+            c.source as contest_source,
+            c.year as contest_year,
+            c.location,
+            c.website,
+            v.started_at,
+            v.ended_at,
+            v.score as total_score,
+            v.per_problem_scores,
+            CASE 
+                WHEN c.link LIKE '%oj.uz%' THEN 'oj.uz'
+                ELSE 'manual'
+            END as platform
+        FROM user_virtual_contests v
+        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        WHERE v.user_id = ?
+    ''', (user_id,)).fetchall()
+    
+    # Find contest with matching slug
+    for contest in contests:
+        contest_slug = (contest['contest_name'] + contest['contest_stage']).lower().replace(' ', '')
+        if contest_slug == slug:
+            return jsonify(dict(contest))
+    
+    return jsonify({'error': 'Contest not found'}), 404
 
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0', port=5001)

@@ -1,0 +1,12 @@
+- name: Smaller Strings
+  number: 9
+  link: https://www.acmicpc.net/problem/23007
+- name: Alien Generator
+  number: 10
+  link: https://www.acmicpc.net/problem/23008
+- name: Rock Paper Scissors
+  number: 11
+  link: https://www.acmicpc.net/problem/23009
+- name: Binary Operator
+  number: 12
+  link: https://www.acmicpc.net/problem/23010

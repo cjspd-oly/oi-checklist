@@ -1,0 +1,15 @@
+- name: Pilot
+  number: 1
+  link: https://oj.uz/problem/view/NOI19_pilot
+- name: Lasers
+  number: 2
+  link: https://oj.uz/problem/view/NOI19_lasers
+- name: Feast
+  number: 3
+  link: https://oj.uz/problem/view/NOI19_feast
+- name: Rigged Roads
+  number: 4
+  link: https://oj.uz/problem/view/NOI19_riggedroads
+- name: Shuffle
+  number: 5
+  link: https://oj.uz/problem/view/NOI19_shuffle

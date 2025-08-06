@@ -1,0 +1,12 @@
+- name: Googol String
+  number: 1
+  link: https://www.acmicpc.net/problem/12075
+- name: gCube
+  number: 2
+  link: https://www.acmicpc.net/problem/12077
+- name: gCampus
+  number: 3
+  link: https://www.acmicpc.net/problem/12079
+- name: gSnake
+  number: 4
+  link: https://www.acmicpc.net/problem/12081

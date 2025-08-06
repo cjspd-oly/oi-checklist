@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Virtual Contest Details - OI Checklist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style_vc.css">
+</head>
+
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="navbar-content">
+      <div class="navbar-title" id="page-title">Virtual Contest Details</div>
+      <div class="navbar-user">
+        <span class="welcome-message" id="welcome-message"></span>
+        <a href="#" class="logout-button" id="logout-button">Logout</a>
+        <div class="dark-mode-toggle">
+          <label class="switch">
+            <input type="checkbox" id="dark-mode-switch">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="vc-detail-container">
+    <div class="vc-detail-header">
+      <a href="virtual-history" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 19-7-7 7-7" />
+          <path d="m19 12H5" />
+        </svg>
+        Back to History
+      </a>
+    </div>
+
+    <div class="vc-detail-content" id="vc-detail-content">
+      <!-- Contest details will be populated here -->
+    </div>
+
+    <div class="vc-detail-loading" id="vc-detail-loading">
+      <div class="loading-text">Loading contest details...</div>
+    </div>
+
+    <div class="vc-detail-error" id="vc-detail-error" style="display: none;">
+      <div class="error-text">Contest not found or error loading details.</div>
+      <a href="virtual-history" class="vc-button">Return to History</a>
+    </div>
+  </div>
+
+  <script src='js/darkmode.js'></script>
+  <script src='js/utils.js'></script>
+  <script src='js/virtual-contest-detail.js'></script>
+</body>
+
+</html>

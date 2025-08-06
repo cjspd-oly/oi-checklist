@@ -1,0 +1,9 @@
+- name: Barn Tree
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1254
+- name: Circular Barn
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1255
+- name: Range Reconstruction
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1256

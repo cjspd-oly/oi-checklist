@@ -1,0 +1,9 @@
+- name: Empty Stalls
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=346
+- name: Line of Sight
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=347
+- name: No Change
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=348

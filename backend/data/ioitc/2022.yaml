@@ -1,0 +1,27 @@
+- name: Median Communication
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/MedianCommunication/statements/EN
+- name: Add Subtract Equalize
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/AddSubtractEqualize/statements/EN
+- name: Tree Interval Queries
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/TreeIntervalQueries/statements/EN
+- name: Inversions
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/Inversions/statements/EN
+- name: Tree Coverage
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/TreeCoverage/statements/EN
+- name: Array Splitting
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/ArraySplitting/statements/EN
+- name: Manhattan Matching
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/ManhattanMatching/statements/EN
+- name: Isolable Queries
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/IsolableQueries/statements/EN
+- name: Binary String Happiness
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/BinaryStringHappiness/statements/EN

@@ -1,0 +1,18 @@
+- name: Nowruz
+  number: 1
+  link: https://oj.uz/problem/view/IOI17_nowruz
+- name: Wiring
+  number: 2
+  link: https://oj.uz/problem/view/IOI17_wiring
+- name: Toy Train
+  number: 3
+  link: https://oj.uz/problem/view/IOI17_train
+- name: The Big Prize
+  number: 4
+  link: https://oj.uz/problem/view/IOI17_prize
+- name: Simurgh
+  number: 5
+  link: https://oj.uz/problem/view/IOI17_simurgh
+- name: Ancient Books
+  number: 6
+  link: https://oj.uz/problem/view/IOI17_books

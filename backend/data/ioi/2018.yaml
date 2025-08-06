@@ -1,0 +1,18 @@
+- name: Combo
+  number: 1
+  link: https://oj.uz/problem/view/IOI18_combo
+- name: Seats
+  number: 2
+  link: https://oj.uz/problem/view/IOI18_seats
+- name: Werewolf
+  number: 3
+  link: https://oj.uz/problem/view/IOI18_werewolf
+- name: Mechanical Doll
+  number: 4
+  link: https://oj.uz/problem/view/IOI18_doll
+- name: Highway Tolls
+  number: 5
+  link: https://oj.uz/problem/view/IOI18_highway
+- name: Meetings
+  number: 6
+  link: https://oj.uz/problem/view/IOI18_meetings

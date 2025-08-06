@@ -1,0 +1,9 @@
+- name: Hexagonal Territory
+  number: 1
+  link: https://oj.uz/problem/view/APIO21_hexagon
+- name: Rainforest Jumps
+  number: 2
+  link: https://oj.uz/problem/view/APIO21_jumps
+- name: Road Closures
+  number: 3
+  link: https://oj.uz/problem/view/APIO21_roads

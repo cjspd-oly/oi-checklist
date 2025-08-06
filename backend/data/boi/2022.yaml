@@ -1,0 +1,18 @@
+- name: Art Collections
+  number: 1
+  link: https://oj.uz/problem/view/BOI22_art
+- name: Event Hopping
+  number: 2
+  link: https://oj.uz/problem/view/BOI22_events
+- name: Uplifting Excursion
+  number: 3
+  link: https://oj.uz/problem/view/BOI22_vault
+- name: Flight to the Ford
+  number: 4
+  link: https://oj.uz/problem/view/BOI22_communication
+- name: Stranded Far From Home
+  number: 5
+  link: https://oj.uz/problem/view/BOI22_island
+- name: Boarding Passes
+  number: 6
+  link: https://oj.uz/problem/view/BOI22_passes

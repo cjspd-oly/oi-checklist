@@ -1,0 +1,9 @@
+- name: Haircut
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1041
+- name: Favorite Colors
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1042
+- name: Exercise
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=1043

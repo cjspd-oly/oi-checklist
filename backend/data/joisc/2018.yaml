@@ -1,0 +1,36 @@
+- name: Construction of Highway
+  number: 1
+  link: https://oj.uz/problem/view/JOI18_construction
+- name: Fences
+  number: 2
+  link: https://oj.uz/problem/view/JOI18_fences
+- name: Tents
+  number: 3
+  link: https://oj.uz/problem/view/JOI18_tents
+- name: Asceticism
+  number: 4
+  link: https://oj.uz/problem/view/JOI18_asceticism
+- name: Road Service
+  number: 5
+  link: https://qoj.ac/contest/363/problem/118
+- name: Worst Reporter 3
+  number: 6
+  link: https://oj.uz/problem/view/JOI18_worst_reporter3
+- name: Airline Route Map
+  number: 7
+  link: https://oj.uz/problem/view/JOI18_airline
+- name: Bitaro’s Party
+  number: 8
+  link: https://oj.uz/problem/view/JOI18_bitaro
+- name: Security Gate
+  number: 9
+  link: https://oj.uz/problem/view/JOI18_security_gate
+- name: Candies
+  number: 10
+  link: https://oj.uz/problem/view/JOI18_candies
+- name: Library
+  number: 11
+  link: https://oj.uz/problem/view/JOI18_library
+- name: Wild Boar
+  number: 12
+  link: https://oj.uz/problem/view/JOI18_wild_boar

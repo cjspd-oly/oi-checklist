@@ -1,0 +1,18 @@
+- name: A Light Inconvenience
+  number: 1
+  link: https://oj.uz/problem/view/CEOI23_light
+- name: Bring Down the Grading Server
+  number: 2
+  link: https://oj.uz/problem/view/CEOI23_gradingserver
+- name: Brought Down the Grading Server?
+  number: 3
+  link: https://oj.uz/problem/view/CEOI23_balance
+- name: Tricks of the Trade
+  number: 4
+  link: https://oj.uz/problem/view/CEOI23_trade
+- name: The Ties That Guide Us
+  number: 5
+  link: https://oj.uz/problem/view/CEOI23_incursion
+- name: How to Avoid Disqualification in 75 Easy Steps
+  number: 6
+  link: https://oj.uz/problem/view/CEOI23_avoid

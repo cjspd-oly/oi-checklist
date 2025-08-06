@@ -1,0 +1,40 @@
+- name: Retired Wabbit
+  number: 1
+  link: https://codebreaker.xyz/problem/wabbit
+  extra: Contest 1
+- name: Constructing Birthday Presents
+  number: 2
+  link: https://codebreaker.xyz/problem/construct
+  extra: Contest 1
+- name: Swimming Pool
+  number: 3
+  link: https://codebreaker.xyz/problem/swimming
+  extra: Contest 1
+- name: Rebuilding Bunnyland
+  number: 4
+  link: https://codebreaker.xyz/problem/rebuild
+  extra: Contest 1
+- name: Bucket Stacking
+  number: 5
+  link: https://codebreaker.xyz/problem/bucketstacking
+  extra: Contest 1
+- name: Snake Snack 2
+  number: 1
+  link: https://codebreaker.xyz/problem/snakesnack2
+  extra: Contest 2
+- name: Supreme Leader Armpit
+  number: 2
+  link: https://codebreaker.xyz/problem/armpit
+  extra: Contest 2
+- name: Good Bunny Score
+  number: 3
+  link: https://codebreaker.xyz/problem/bunnyscore
+  extra: Contest 2
+- name: Fencing
+  number: 4
+  link: https://codebreaker.xyz/problem/fencing
+  extra: Contest 2
+- name: Fertile Wabbit
+  number: 5
+  link: https://codebreaker.xyz/problem/fertile
+  extra: Contest 2

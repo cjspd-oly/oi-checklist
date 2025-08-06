@@ -1,0 +1,9 @@
+- name: Stampede
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=511
+- name: Cow Routing
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=512
+- name: Meeting Time
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=513

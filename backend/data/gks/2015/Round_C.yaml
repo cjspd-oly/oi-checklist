@@ -1,0 +1,12 @@
+- name: gRanks
+  number: 9
+  link: https://www.acmicpc.net/problem/12059
+- name: gFiles
+  number: 10
+  link: https://www.acmicpc.net/problem/12061
+- name: gGames
+  number: 11
+  link: https://www.acmicpc.net/problem/12063
+- name: gMatrix
+  number: 12
+  link: https://www.acmicpc.net/problem/12065

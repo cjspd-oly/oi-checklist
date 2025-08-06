@@ -1,0 +1,36 @@
+- name: Fish 3
+  number: 1
+  link: https://oj.uz/problem/view/JOI24_fish3
+- name: Ski 2
+  number: 2
+  link: https://oj.uz/problem/view/JOI24_ski2
+- name: Spy 3
+  number: 3
+  link: https://oj.uz/problem/view/JOI24_spy3
+- name: Board Game
+  number: 4
+  link: https://oj.uz/problem/view/JOI24_boardgame
+- name: Tricolor Lights
+  number: 5
+  link: https://oj.uz/problem/view/JOI24_tricolor
+- name: Growing Vegetables is Fun 5
+  number: 6
+  link: https://oj.uz/problem/view/JOI24_vegetables5
+- name: Card Collection
+  number: 7
+  link: https://oj.uz/problem/view/JOI24_collection
+- name: JOI Tour
+  number: 8
+  link: https://oj.uz/problem/view/JOI24_joitour
+- name: Tower
+  number: 9
+  link: https://oj.uz/problem/view/JOI24_tower
+- name: Escape Route 2
+  number: 10
+  link: https://oj.uz/problem/view/JOI24_escape2
+- name: Island Hopping
+  number: 11
+  link: https://oj.uz/problem/view/JOI24_island
+- name: Table Tennis
+  number: 12
+  link: https://oj.uz/problem/view/JOI24_tabletennis

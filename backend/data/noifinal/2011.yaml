@@ -1,0 +1,9 @@
+- name: Change
+  number: 1
+  link: https://codebreaker.xyz/problem/change
+- name: Paint
+  number: 2
+  link: https://codebreaker.xyz/problem/paint
+- name: Tour
+  number: 3
+  link: https://codebreaker.xyz/problem/tour

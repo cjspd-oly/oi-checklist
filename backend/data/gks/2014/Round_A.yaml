@@ -1,0 +1,12 @@
+- name: Super 2048
+  number: 1
+  link: https://www.acmicpc.net/problem/12209
+- name: Seven-segment Display
+  number: 2
+  link: https://www.acmicpc.net/problem/12207
+- name: Cut Tiles
+  number: 3
+  link: https://www.acmicpc.net/problem/12213
+- name: Addition
+  number: 4
+  link: https://www.acmicpc.net/problem/12211

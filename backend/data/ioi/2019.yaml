@@ -1,0 +1,18 @@
+- name: Arranging Shoes
+  number: 1
+  link: https://oj.uz/problem/view/IOI19_shoes
+- name: Split the Attractions
+  number: 2
+  link: https://oj.uz/problem/view/IOI19_split
+- name: Rectangles
+  number: 3
+  link: https://oj.uz/problem/view/IOI19_rect
+- name: Broken Line
+  number: 4
+  link: https://oj.uz/problem/view/IOI19_line
+- name: Vision Program
+  number: 5
+  link: https://oj.uz/problem/view/IOI19_vision
+- name: Sky Walking
+  number: 6
+  link: https://oj.uz/problem/view/IOI19_walk

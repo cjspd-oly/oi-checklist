@@ -1,0 +1,15 @@
+- name: Stove
+  number: 1
+  link: https://oj.uz/problem/view/JOI18_stove
+- name: Art Exhibition
+  number: 2
+  link: https://oj.uz/problem/view/JOI18_art
+- name: Dango Maker
+  number: 3
+  link: https://oj.uz/problem/view/JOI18_dango_maker
+- name: Commuter Pass
+  number: 4
+  link: https://oj.uz/problem/view/JOI18_commuter_pass
+- name: Snake Escaping
+  number: 5
+  link: https://oj.uz/problem/view/JOI18_snake_escaping

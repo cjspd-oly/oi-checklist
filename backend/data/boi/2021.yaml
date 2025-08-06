@@ -1,0 +1,18 @@
+- name: A Difficult(y) Choice
+  number: 1
+  link: https://oj.uz/problem/view/BOI21_books
+- name: Inside information
+  number: 2
+  link: https://oj.uz/problem/view/BOI21_servers
+- name: From Hacks to Snitches
+  number: 3
+  link: https://oj.uz/problem/view/BOI21_watchmen
+- name: The short shank; Redemption
+  number: 4
+  link: https://oj.uz/problem/view/BOI21_prison
+- name: The Collection Game
+  number: 5
+  link: https://oj.uz/problem/view/BOI21_swaps
+- name: The Xana coup
+  number: 6
+  link: https://oj.uz/problem/view/BOI21_xanadu

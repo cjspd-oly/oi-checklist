@@ -1,0 +1,27 @@
+- name: Arrow Game
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/Arrow_Game/statements/EN
+- name: String Conversion
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/String_Conversion/statements/EN
+- name: Graph Subsets
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/Graph_Subsets/statements/EN
+- name: Bricks
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/Bricks/statements/EN
+- name: Mirror Grid
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/Mirror_Grid/statements/EN
+- name: Bus Travel Cards
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/Bus_Travel_Cards/statements/EN
+- name: Array Sum Approximation
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/Array_Sum_Approximation/statements/EN
+- name: Graph Passage
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/Graph_Passage/statements/EN
+- name: Tree Vertex Ordering
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/Tree_Vertex_Ordering/statements/EN

@@ -1,0 +1,27 @@
+- name: Grid Construction
+  number: 1
+  link: http://cms.iarcs.org.in:8888/tasks/GridConstruction/statements/EN
+- name: Colorful Cycles
+  number: 2
+  link: http://cms.iarcs.org.in:8888/tasks/ColorfulCycles/statements/EN
+- name: LIS
+  number: 3
+  link: http://cms.iarcs.org.in:8888/tasks/LIS/statements/EN
+- name: Reversed Inversions
+  number: 4
+  link: http://cms.iarcs.org.in:8888/tasks/ReversedInversions/statements/EN
+- name: Sole Occupancy
+  number: 5
+  link: http://cms.iarcs.org.in:8888/tasks/SoleOccupancy/statements/EN
+- name: Tournament
+  number: 6
+  link: http://cms.iarcs.org.in:8888/tasks/Tournament/statements/EN
+- name: Yet Another Tree Problem
+  number: 7
+  link: http://cms.iarcs.org.in:8888/tasks/YetAnotherTreeProblem/statements/EN
+- name: Cookies
+  number: 8
+  link: http://cms.iarcs.org.in:8888/tasks/Cookies/statements/EN
+- name: Tree Matching
+  number: 9
+  link: http://cms.iarcs.org.in:8888/tasks/TreeMatching/statements/EN

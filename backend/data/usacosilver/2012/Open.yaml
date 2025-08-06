@@ -1,0 +1,9 @@
+- name: Unlocking Blocks
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=134
+- name: Bookshelf
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=135
+- name: Running Laps
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=136

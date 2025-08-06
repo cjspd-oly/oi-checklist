@@ -1,0 +1,9 @@
+- name: Partitioning the Farm
+  number: 1
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=247
+- name: Taxi
+  number: 2
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=248
+- name: Route Design
+  number: 3
+  link: https://usaco.org/index.php?page=viewproblem2&cpid=249

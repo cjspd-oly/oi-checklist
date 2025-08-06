@@ -1,0 +1,9 @@
+- name: Cyberland
+  number: 1
+  link: https://oj.uz/problem/view/APIO23_cyberland
+- name: Sequence
+  number: 2
+  link: https://oj.uz/problem/view/APIO23_sequence
+- name: Alice, Bob, and Circuit
+  number: 3
+  link: https://oj.uz/problem/view/APIO23_abc

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Virtual Contests - OI Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style_vc.css">
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="navbar-title" id="page-title">Virtual Contests</div>
+            <div class="navbar-user">
+                <span class="welcome-message" id="welcome-message"></span>
+                <a href="#" class="logout-button" id="logout-button">Logout</a>
+                <div class="dark-mode-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="dark-mode-switch">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="vc-container">
+        <!-- Main Virtual Contest Setup -->
+        <div class="vc-main">
+            <div class="vc-form">
+                <h2>Start Virtual Contest</h2>
+
+                <div class="form-row">
+                    <label for="olympiad-select">Olympiad</label>
+                    <select id="olympiad-select" class="vc-select">
+                        <option value="">Select Olympiad</option>
+                    </select>
+                </div>
+
+                <div class="form-row" id="contest-row" style="display: none;">
+                    <label for="contest-select">Contest</label>
+                    <select id="contest-select" class="vc-select" disabled>
+                        <option value="">Select Contest</option>
+                    </select>
+                </div>
+
+                <div class="form-row" id="day-row" style="display: none;">
+                    <label for="day-select">Stage</label>
+                    <select id="day-select" class="vc-select" disabled>
+                        <option value="">Select Stage</option>
+                    </select>
+                </div>
+
+                <div class="contest-details" id="contest-details" style="display: none;">
+                    <div class="detail-item">
+                        <span class="detail-label">Duration:</span>
+                        <span class="detail-value" id="contest-duration"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Problems:</span>
+                        <span class="detail-value" id="contest-problems"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Platform:</span>
+                        <span class="detail-value" id="contest-platform"></span>
+                    </div>
+                </div>
+
+                <div class="completion-warning" id="completion-warning" style="display: none;">
+                    <div class="warning-text">You have already completed this virtual contest.</div>
+                </div>
+
+                <div class="ojuz-section" id="ojuz-section" style="display: none;">
+                    <div class="form-row">
+                        <label for="ojuz-username">oj.uz Username</label>
+                        <input type="text" id="ojuz-username" class="vc-input" placeholder="Enter your oj.uz username">
+                    </div>
+                    <div class="form-note">
+                        Scores will be automatically tracked from your submissions during the contest period.
+                    </div>
+                </div>
+
+                <button id="start-contest-btn" class="vc-button start-btn" disabled>
+                    Start Virtual Contest
+                </button>
+            </div>
+
+            <!-- Active Contest Display -->
+            <div class="active-contest" id="active-contest" style="display: none;">
+                <h2>Contest in Progress</h2>
+                <div class="contest-info-active">
+                    <div class="contest-header">
+                        <div class="contest-title" id="active-contest-title">IOI 2023 Day 1</div>
+                        <div class="contest-metadata">
+                            <div class="contest-location" id="active-contest-location"></div>
+                            <div class="contest-website" id="active-contest-website"></div>
+                        </div>
+                    </div>
+                    <div class="contest-timer" id="contest-timer"></div>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-bar-vc">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text" id="progress-text"></div>
+                </div>
+                <div class="contest-actions">
+                    <a href="#" class="vc-button open-btn" id="open-contest-btn">Open Contest</a>
+                    <button class="vc-button end-btn" id="end-contest-btn">End Contest</button>
+                </div>
+            </div>
+
+            <!-- Score Entry -->
+            <div class="score-entry" id="score-entry" style="display: none;">
+                <div class="completion-header">
+                    <h2>Congratulations!</h2>
+                    <div class="completion-message">You have completed your virtual contest.</div>
+                    <div class="completion-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Contest:</span>
+                            <span class="stat-value" id="score-contest-title">IOI 2023 Day 1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Time Used:</span>
+                            <span class="stat-value" id="completion-time">2h 34m</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="score-section">
+                    <h3>Enter Your Scores</h3>
+                    <div class="score-subtitle">Click on each problem to set your score.</div>
+                    <div class="score-problems-table">
+                        <table class="problem-table">
+                            <tbody id="score-problems-tbody">
+                                <!-- Dynamically populated with problem cells -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="score-actions">
+                    <button class="vc-button submit-btn" id="submit-scores-btn">Submit Scores</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Virtual Contests Sidebar -->
+        <div class="vc-sidebar">
+            <div class="past-vc-preview">
+                <h3>Recent Virtual Contests</h3>
+                <div class="past-vc-list">
+                </div>
+                <a href="virtual-history" class="view-all-link">
+                    View all virtual contests
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="display: inline; vertical-align: middle; margin-left: 4px;">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message System -->
+    <div id="message-container" class="message-container" style="display: none;">
+        <div id="message-content" class="message-content">
+            <div id="message-text"></div>
+            <button id="message-close" class="message-close">×</button>
+        </div>
+    </div>
+
+    <!-- Status Popup (same as main page) -->
+    <div id="status-popup" class="hidden">
+        <div id="popup-status">Unattempted</div>
+        <div class="popup-score">
+            <span id="popup-score" contenteditable="true">0</span>
+            <span class="popup-out-of">/100</span>
+        </div>
+    </div>
+
+    <script src='js/darkmode.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src='js/utils.js'></script>
+    <script src='js/virtual.js'></script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+- name: Illuminate
+  number: 1
+  link: https://codebreaker.xyz/problem/illuminate
+  extra: Contest 1
+- name: 4-Russians
+  number: 2
+  link: https://codebreaker.xyz/problem/4russians
+  extra: Contest 1
+- name: Smurf Paths
+  number: 3
+  link: https://codebreaker.xyz/problem/smurfpaths
+  extra: Contest 1
+- name: Inequality
+  number: 4
+  link: https://codebreaker.xyz/problem/inequality
+  extra: Contest 1
+- name: Reflection
+  number: 5
+  link: https://codebreaker.xyz/problem/reflection
+  extra: Contest 1
+- name: Warp
+  number: 1
+  link: https://codebreaker.xyz/problem/warp
+  extra: Contest 2
+- name: Skyline
+  number: 2
+  link: https://codebreaker.xyz/problem/skyline
+  extra: Contest 2
+- name: Colourblind
+  number: 3
+  link: https://codebreaker.xyz/problem/colourblind
+  extra: Contest 2
+- name: Artswap
+  number: 4
+  link: https://codebreaker.xyz/problem/artswap
+  extra: Contest 2
+- name: Yabbit Meetup
+  number: 5
+  link: https://codebreaker.xyz/problem/yabbitmeetup
+  extra: Contest 2

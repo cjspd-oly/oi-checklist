@@ -1,0 +1,24 @@
+- name: Infinite Race
+  number: 1
+  link: http://oj.uz/problem/view/EGOI24_infiniterace2
+- name: Bouquet
+  number: 2
+  link: https://oj.uz/problem/view/EGOI24_bouquet
+- name: Team Coding
+  number: 3
+  link: https://oj.uz/problem/view/EGOI24_teamcoding
+- name: Garden Decorations
+  number: 4
+  link: https://qoj.ac/contest/1764/problem/9185
+- name: Circle Passing
+  number: 5
+  link: https://oj.uz/problem/view/EGOI24_circlepassing
+- name: Bikeparking
+  number: 6
+  link: https://oj.uz/problem/view/EGOI24_bikeparking
+- name: Light Bulbs
+  number: 7
+  link: https://oj.uz/problem/view/EGOI24_lightbulbs
+- name: Make Them Meet
+  number: 8
+  link: https://oj.uz/problem/view/EGOI24_makethemmeet
