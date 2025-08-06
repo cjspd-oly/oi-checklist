@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function showEmptyState() {
   document.getElementById('vc-history-list').style.display = 'none';
   document.getElementById('vc-history-empty').style.display = 'block';
+  document.getElementById('vc-history-stats').style.display = 'none';
   
   // Reset stats to 0
   document.getElementById('total-contests').textContent = '0';
@@ -133,6 +134,7 @@ function displayContests(contests, contestData, problemsData, contestScores) {
   
   document.getElementById('vc-history-list').style.display = 'flex';
   document.getElementById('vc-history-empty').style.display = 'none';
+  document.getElementById('vc-history-stats').style.display = 'flex';
 }
 
 function createContestItem(contest, contestData, problemsData, contestScores) {
