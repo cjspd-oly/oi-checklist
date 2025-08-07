@@ -188,6 +188,12 @@ async function loadProblems(from) {
           link.href = problem.link;
           link.target = '_blank';
           link.textContent = problem.name;
+          
+          // Prevent cell click handler from firing when link is clicked
+          link.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+          
           cell.appendChild(link);
 
           cell.addEventListener(
@@ -229,6 +235,12 @@ async function loadProblems(from) {
         link.href = problem.link;
         link.target = '_blank';
         link.textContent = problem.name;
+        
+        // Prevent cell click handler from firing when link is clicked
+        link.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+        
         cell.appendChild(link);
 
         cell.addEventListener(
@@ -297,6 +309,12 @@ function loadProblemsWithDay(source, numDays) {
           link.href = problem.link;
           link.target = '_blank';
           link.textContent = problem.name;
+          
+          // Prevent cell click handler from firing when link is clicked
+          link.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+          
           cell.appendChild(link);
 
           cell.addEventListener(
