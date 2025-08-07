@@ -26,14 +26,74 @@
     </nav>
 
     <div class="vc-history-container">
-        <div class="vc-history-stats" id="vc-history-stats">
-            <div class="stat-card">
-                <div class="stat-number" id="total-contests">0</div>
-                <div class="stat-label">Total contests</div>
+        <div class="vc-history-header">
+            <!-- Stats loading skeleton -->
+            <div class="stats-skeleton" id="stats-skeleton">
+                <div class="stat-skeleton-item">
+                    <div class="skeleton-line skeleton-stat-number"></div>
+                    <div class="skeleton-line skeleton-stat-label"></div>
+                </div>
+                <div class="stat-skeleton-divider"></div>
+                <div class="stat-skeleton-item">
+                    <div class="skeleton-line skeleton-stat-number"></div>
+                    <div class="skeleton-line skeleton-stat-label"></div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="total-time">0h</div>
-                <div class="stat-label">Total time</div>
+            
+            <!-- Actual stats -->
+            <div class="vc-history-stats" id="vc-history-stats" style="display: none;">
+                <div class="stat-item">
+                    <span class="stat-number" id="total-contests">0</span>
+                    <span class="stat-label">contests completed</span>
+                </div>
+                <div class="stat-divider">|</div>
+                <div class="stat-item">
+                    <span class="stat-number" id="total-time">0h</span>
+                    <span class="stat-label">total time spent</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading skeleton -->
+        <div class="vc-history-loading" id="vc-history-loading">
+            <div class="history-skeleton-item">
+                <div class="skeleton-item-header">
+                    <div class="skeleton-line skeleton-title-large"></div>
+                    <div class="skeleton-line skeleton-score-large"></div>
+                </div>
+                <div class="skeleton-line skeleton-subtitle"></div>
+                <div class="skeleton-details">
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                </div>
+            </div>
+            <div class="history-skeleton-item">
+                <div class="skeleton-item-header">
+                    <div class="skeleton-line skeleton-title-large"></div>
+                    <div class="skeleton-line skeleton-score-large"></div>
+                </div>
+                <div class="skeleton-line skeleton-subtitle"></div>
+                <div class="skeleton-details">
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                </div>
+            </div>
+            <div class="history-skeleton-item">
+                <div class="skeleton-item-header">
+                    <div class="skeleton-line skeleton-title-large"></div>
+                    <div class="skeleton-line skeleton-score-large"></div>
+                </div>
+                <div class="skeleton-line skeleton-subtitle"></div>
+                <div class="skeleton-details">
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                    <div class="skeleton-line skeleton-detail"></div>
+                </div>
             </div>
         </div>
 

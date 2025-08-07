@@ -319,7 +319,7 @@ function displayContestDetails(contest, contestMetadata, problemsData, scoreData
       <div class="vc-detail-header-section">
         <div>
           <div class="vc-detail-title">${contest.contest_source} ${contest.contest_year} ${contest.contest_stage}</div>
-          <div class="vc-detail-subtitle">${problemCount} Problems</div>
+          <div class="vc-detail-subtitle">${problemCount} problems</div>
           ${contestMetadata.location || contestMetadata.website ? `<div class="vc-detail-location">${contestMetadata.location || ''}${contestMetadata.location && contestMetadata.website ? ' | ' : ''}${contestMetadata.website ? `<a href="${contestMetadata.website}" target="_blank">${contestMetadata.website}</a>` : ''}</div>` : ''}
         </div>
         ${medalClass ? `<div class="vc-detail-medal-ribbon ${medalClass}"></div>` : ''}
@@ -361,14 +361,14 @@ function displayContestDetails(contest, contestMetadata, problemsData, scoreData
       </div>
       
       <div class="vc-detail-problems-section">
-        <h3>Problem Performance</h3>
+        <h3>Problems</h3>
         <div class="vc-detail-problems">
           ${generateProblemsHTML(problemScores, contest, contestMetadata, problemsData, scoreData)}
         </div>
       </div>
       
       <div class="vc-detail-stats-section">
-        <h3>Performance Analysis</h3>
+        <h3>Analysis</h3>
         
         <div class="stats-grid">
           <div class="stat-item">

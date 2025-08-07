@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const pastVcList = document.querySelector('.past-vc-list');
   const sessionToken = localStorage.getItem('sessionToken');
 
+  // Show loading skeleton initially
+  document.getElementById('past-vc-loading').style.display = 'block';
+  pastVcList.style.display = 'none';
+  document.querySelector('.view-all-link').style.display = 'none';
+
   // If we're not logged in, redirect to the home page
   const whooamires = await fetch(`${apiUrl}/api/whoami`, {
     method: 'GET',
@@ -37,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (!response.ok) {
     console.error('Failed to fetch virtual contests data');
+    // Hide skeleton on error
+    document.getElementById('past-vc-loading').style.display = 'none';
     return;
   }
 
@@ -317,6 +324,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
     // Update recent virtual contests
+  // Hide skeleton and show actual content
+  document.getElementById('past-vc-loading').style.display = 'none';
+  pastVcList.style.display = 'block';
+  document.querySelector('.view-all-link').style.display = 'block';
+  
   pastVcList.innerHTML = '';
   const viewAllLink = document.querySelector('.view-all-link');
   
@@ -837,4 +849,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Convert to seconds and use the seconds-based function
     startTimerWithSeconds(remainingMinutes * 60, alreadyElapsedMinutes * 60);
   }
+
+  // Handle logout
+  document.getElementById('logout-button').addEventListener('click', async (event) => {
+    event.preventDefault();
+    
+    const res = await fetch(`${apiUrl}/api/logout`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {'Authorization': `Bearer ${sessionToken}`}
+    });
+
+    if (res.status === 200) {
+      window.location.href = 'home';
+    } else {
+      console.error('Logout failed');
+    }
+  });
 });

@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Show the welcome message
   document.getElementById('welcome-message').innerHTML = `Welcome, ${username}`;
 
+  // Show loading skeleton initially
+  document.getElementById('vc-history-loading').style.display = 'block';
+  document.getElementById('vc-history-list').style.display = 'none';
+  document.getElementById('vc-history-empty').style.display = 'none';
+  document.getElementById('stats-skeleton').style.display = 'flex';
+  document.getElementById('vc-history-stats').style.display = 'none';
+
   // Fetch contest data and problems data (like virtual.js)
   let contestData = {};
   let problemsData = {};
@@ -58,6 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!response.ok) {
       console.error('Failed to fetch virtual contest history');
+      document.getElementById('vc-history-loading').style.display = 'none';
       showEmptyState();
       return;
     }
@@ -92,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
   } catch (error) {
     console.error('Error fetching virtual contest history:', error);
+    document.getElementById('vc-history-loading').style.display = 'none';
     showEmptyState();
   }
 
@@ -114,8 +123,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function showEmptyState() {
+  document.getElementById('vc-history-loading').style.display = 'none';
   document.getElementById('vc-history-list').style.display = 'none';
   document.getElementById('vc-history-empty').style.display = 'block';
+  document.getElementById('stats-skeleton').style.display = 'none';
   document.getElementById('vc-history-stats').style.display = 'none';
   
   // Reset stats to 0
@@ -132,8 +143,11 @@ function displayContests(contests, contestData, problemsData, contestScores) {
     listContainer.appendChild(item);
   });
   
+  // Hide loading and show content
+  document.getElementById('vc-history-loading').style.display = 'none';
   document.getElementById('vc-history-list').style.display = 'flex';
   document.getElementById('vc-history-empty').style.display = 'none';
+  document.getElementById('stats-skeleton').style.display = 'none';
   document.getElementById('vc-history-stats').style.display = 'flex';
 }
 

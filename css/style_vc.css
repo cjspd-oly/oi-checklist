@@ -155,6 +155,18 @@
     background-color: #218838;
 }
 
+.start-btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.start-btn-small:hover:not(:disabled) {
+    background-color: #218838;
+}
+
 /* Active Contest */
 .active-contest {
     border: 2px solid #28a745;
@@ -519,6 +531,60 @@
     opacity: 0.8;
 }
 
+/* Loading skeleton styles */
+.past-vc-loading {
+    display: block;
+}
+
+.skeleton-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+}
+
+.skeleton-item:last-child {
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 1rem;
+}
+
+.skeleton-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-line {
+    height: 12px;
+    background: linear-gradient(90deg, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-title {
+    width: 60%;
+}
+
+.skeleton-score {
+    width: 25%;
+}
+
+.skeleton-date {
+    width: 40%;
+    height: 10px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
 /* Dark mode for empty state */
 .dark-mode .empty-text {
     color: #ffffff;
@@ -526,6 +592,17 @@
 
 .dark-mode .past-vc-empty {
     color: #aaa;
+}
+
+/* Dark mode skeleton styles */
+.dark-mode .skeleton-item {
+    background-color: #2a2a2a;
+    border-color: #404040;
+}
+
+.dark-mode .skeleton-line {
+    background: linear-gradient(90deg, #404040 25%, #4a4a4a 50%, #404040 75%);
+    background-size: 200% 100%;
 }
 
 /* Contest metadata styling */
@@ -968,55 +1045,127 @@
 }
 
 .vc-history-header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
     margin-bottom: 2rem;
 }
 
-.start-btn-small {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    background-color: #28a745;
-    color: white;
-    border-color: #28a745;
-}
-
-.start-btn-small:hover:not(:disabled) {
-    background-color: #218838;
-}
-
 .vc-history-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-.stat-card {
-    background-color: var(--card-bg, #f9f9f9);
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.stat-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e9ecef;
 }
 
 .stat-number {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 2.5rem;
+    font-weight: 700;
     color: #007bff;
-    margin-bottom: 0.2rem;
+    line-height: 1;
+    margin-bottom: 0.25rem;
 }
 
 .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     color: var(--text-secondary, #666);
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-divider {
+    font-size: 1.5rem;
+    color: var(--text-secondary, #666);
+    opacity: 0.5;
+    font-weight: 300;
+}
+
+/* Stats skeleton */
+.stats-skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.stat-skeleton-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.skeleton-stat-number {
+    width: 60px;
+    height: 32px;
+}
+
+.skeleton-stat-label {
+    width: 120px;
+    height: 12px;
+}
+
+.stat-skeleton-divider {
+    width: 8px;
+    height: 20px;
+    background: linear-gradient(90deg, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+/* History loading skeleton */
+.vc-history-loading {
+    display: block;
+}
+
+.history-skeleton-item {
+    background-color: var(--card-bg, #f9f9f9);
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.skeleton-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.skeleton-title-large {
+    width: 45%;
+    height: 16px;
+}
+
+.skeleton-score-large {
+    width: 20%;
+    height: 20px;
+}
+
+.skeleton-subtitle {
+    width: 60%;
+    height: 12px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.skeleton-detail {
+    width: 80%;
+    height: 10px;
 }
 
 .vc-history-list {
@@ -1220,6 +1369,41 @@
     margin-bottom: 2rem;
 }
 
+/* Dark mode for virtual history page */
+.dark-mode .vc-history-stats {
+    border-bottom-color: #444;
+}
+
+.dark-mode .stats-skeleton {
+    border-bottom-color: #444;
+}
+
+.dark-mode .stat-number {
+    color: #4dabf7;
+}
+
+.dark-mode .stat-label {
+    color: #aaa;
+}
+
+.dark-mode .stat-divider {
+    color: #aaa;
+}
+
+.dark-mode .stat-skeleton-divider {
+    background: linear-gradient(90deg, #404040 25%, #4a4a4a 50%, #404040 75%);
+    background-size: 200% 100%;
+}
+
+.dark-mode .history-skeleton-item {
+    background-color: #2a2a2a;
+    border-color: #404040;
+}
+
+.dark-mode .skeleton-details {
+    border-top-color: #444;
+}
+
 /* Dark mode for history page */
 .dark-mode .stat-card,
 .dark-mode .vc-history-item {
@@ -1336,9 +1520,71 @@
     color: var(--text-secondary, #666);
 }
 
+.loading-spinner {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+}
+
+.spinner-ring {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 3px solid var(--text-secondary, #666);
+    border-radius: 50%;
+    animation: spinner-rotation 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--text-secondary, #666) transparent transparent transparent;
+}
+
+.spinner-ring:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.spinner-ring:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.spinner-ring:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes spinner-rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .loading-text {
     font-size: 1.1rem;
     font-weight: 500;
+}
+
+.loading-dots::after {
+    content: '';
+    animation: loading-dots-animation 1.5s infinite;
+}
+
+@keyframes loading-dots-animation {
+    0%, 20% {
+        content: '';
+    }
+    25%, 45% {
+        content: '.';
+    }
+    50%, 70% {
+        content: '..';
+    }
+    75%, 100% {
+        content: '...';
+    }
 }
 
 .vc-detail-error {
@@ -1554,13 +1800,6 @@
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 1rem;
-    border: 1px solid #e9ecef;
-    background-color: var(--card-bg, #f8f9fa);
 }
 
 .stat-number {
@@ -1788,63 +2027,8 @@
     color: #aaa;
 }
 
-.dark-mode .error-text,
-.dark-mode .vc-detail-title,
-.dark-mode .vc-detail-problems-section h3,
-.dark-mode .vc-detail-stats-section h3,
-.dark-mode .vc-detail-problem-name,
-.dark-mode .vc-detail-meta-value {
-    color: #ffffff;
-}
-
-.dark-mode .vc-detail-main {
-    background-color: #2b2b2b;
-    border-color: #444;
-}
-
-.dark-mode .vc-detail-main.medal-gold {
-    background-color: #2a2618;
-    border-left-color: #ffd700;
-}
-
-.dark-mode .vc-detail-main.medal-silver {
-    background-color: #252525;
-    border-left-color: #c0c0c0;
-}
-
-.dark-mode .vc-detail-main.medal-bronze {
-    background-color: #2a2018;
-    border-left-color: #cd7f32;
-}
-
-.dark-mode .vc-detail-summary,
-.dark-mode .vc-detail-metadata {
-    background-color: #333;
-    border-color: #444;
-}
-
-.dark-mode .vc-detail-problem,
-.dark-mode .vc-detail-stat-card {
-    background-color: #2b2b2b;
-    border-color: #444;
-}
-
-.dark-mode .vc-detail-meta-label,
-.dark-mode .vc-detail-stat-label,
-.dark-mode .vc-detail-score-rate,
-.dark-mode .vc-detail-problem-rank,
-.dark-mode .rank-text {
-    color: #aaa;
-}
-
-/* Dark mode for detail page */
-.dark-mode .back-link {
-    color: #4ea1f3;
-}
-
-.dark-mode .vc-detail-loading,
-.dark-mode .vc-detail-error {
-    color: #aaa;
+.dark-mode .spinner-ring {
+    border-color: #aaa transparent transparent transparent;
 }
 
 .dark-mode .error-text,
@@ -1885,46 +2069,15 @@
     border-color: #444;
 }
 
-.dark-mode .stat-item,
-.dark-mode .contest-comparison,
-.dark-mode .problem-difficulty {
-    background-color: #1e1e1e;
-    border-color: #1e1e1e;
-}
-
-.dark-mode .comparison-row {
-    border-bottom-color: #444;
-}
-
-.dark-mode .comparison-row.highlight {
-    background-color: #1a2332;
-}
-
-.dark-mode .score-bar-container {
-    background-color: #444;
-    border-color: #555;
-}
-
-.dark-mode .score-bar-value {
-    color: #ffffff;
-}
-
-.dark-mode .comparison-summary {
-    border-top-color: #444;
-}
-
-.dark-mode .difficulty-row {
-    border-bottom-color: #444;
-}
-
-.dark-mode .vc-detail-problem {
+.dark-mode .vc-detail-problem,
+.dark-mode .vc-detail-stat-card {
     background-color: #2b2b2b;
     border-color: #444;
 }
 
 .dark-mode .vc-detail-meta-label,
-.dark-mode .stat-label,
-.dark-mode .vc-detail-score-rate-container .score-percentage,
+.dark-mode .vc-detail-stat-label,
+.dark-mode .vc-detail-score-rate,
 .dark-mode .vc-detail-problem-rank,
 .dark-mode .rank-text,
 .dark-mode .comparison-label,
@@ -1972,6 +2125,33 @@
 
 .dark-mode .vc-detail-problem-empty {
     color: #aaa;
+}
+
+.dark-mode .contest-comparison {
+    background-color: #252525;
+    border-color: #444;
+}
+
+.dark-mode .comparison-summary {
+    border-top-color: #444;
+}
+
+.dark-mode .score-bar-container {
+    background-color: #333;
+    border-color: #555;
+}
+
+.dark-mode .score-bar-value {
+    color: #ffffff;
+}
+
+.dark-mode .problem-difficulty {
+    background-color: #2b2b2b;
+    border-color: #444;
+}
+
+.dark-mode .difficulty-row {
+    border-bottom-color: #444;
 }
 
 /* Mobile responsive for detail page */
