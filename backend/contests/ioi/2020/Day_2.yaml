@@ -3,6 +3,7 @@
   duration_minutes: 300
   website: https://ioi2020.sg/
   link: https://oj.uz/problems/source/ioi2020day2
+  notes: IOI 2020 was held online by NUS due to COVID-19.
   problems:
   - source: IOI
     year: 2020

@@ -91,7 +91,7 @@ The checklist supports a wide range of Olympiads in Informatics:
 
 ## Local Development Instructions
 
-> Requires Python 3 and Node.js installed locally.
+> Requires Python 3 installed locally.
 
 ### 0. Create a `.env` file
 
