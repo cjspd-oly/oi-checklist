@@ -145,6 +145,9 @@ CREATE TABLE active_virtual_contests (
     contest_stage TEXT NOT NULL,
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP,
+    ojuz_synced BOOLEAN NOT NULL DEFAULT 0,
+    score INTEGER,
+    per_problem_scores TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(contest_name, contest_stage) REFERENCES contests(name, stage) ON DELETE CASCADE
 )''')

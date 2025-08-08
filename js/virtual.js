@@ -20,6 +20,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   pastVcList.style.display = 'none';
   document.querySelector('.view-all-link').style.display = 'none';
 
+  // Check if we expect an active contest from localStorage
+  const contestOngoing = localStorage.getItem('contest_ongoing') === 'true';
+  
+  // Show appropriate skeleton based on expected state
+  if (contestOngoing) {
+    // Show active contest skeleton
+    document.getElementById('vc-main-loading').style.display = 'block';
+    document.getElementById('vc-main-loading').className = 'vc-main-loading active-contest-skeleton';
+  } else {
+    // Show form skeleton
+    document.getElementById('vc-main-loading').style.display = 'block';
+    document.getElementById('vc-main-loading').className = 'vc-main-loading form-skeleton';
+  }
+  
+  vcForm.style.display = 'none';
+  activeContest.style.display = 'none';
+  scoreEntry.style.display = 'none';
+
   // If we're not logged in, redirect to the home page
   const whooamires = await fetch(`${apiUrl}/api/whoami`, {
     method: 'GET',
@@ -60,10 +78,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     messageText.textContent = text;
     messageContent.className = `message-content ${type}`;
     messageContainer.style.display = 'flex';
+    
+    // Trigger animation after a brief delay to ensure display is set
+    setTimeout(() => {
+      messageContainer.classList.add('show');
+    }, 10);
   }
 
   function hideMessage() {
-    document.getElementById('message-container').style.display = 'none';
+    const messageContainer = document.getElementById('message-container');
+    messageContainer.classList.remove('show');
+    
+    // Hide the element after animation completes
+    setTimeout(() => {
+      messageContainer.style.display = 'none';
+    }, 300);
   }
 
   // Handle message close button
@@ -76,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  function showScoreEntry() {
+  function showScoreEntry(isReadOnly = false) {
     if (!currentActiveContest) {
       showMessage('No active contest data available.');
       return;
@@ -106,6 +135,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const timeUsed = elapsedHours > 0 ? `${elapsedHours}h ${remainingMinutes}m` : `${remainingMinutes}m`;
     document.getElementById('completion-time').textContent = timeUsed;
+
+    // Update header and description based on mode
+    const scoreSection = document.querySelector('.score-section');
+    const scoreSectionH3 = scoreSection.querySelector('h3');
+    const scoreSubtitle = document.querySelector('.score-subtitle');
+    
+    if (isReadOnly) {
+      scoreSectionH3.textContent = 'View Your Scores';
+      scoreSubtitle.textContent = 'Click on each problem to view detailed scoring information.';
+    } else {
+      scoreSectionH3.textContent = 'Enter Your Scores';
+      scoreSubtitle.textContent = 'Click on each problem to set your score.';
+    }
+
+    // Calculate total score for oj.uz mode and update completion stats
+    if (isReadOnly && currentActiveContest.ojuz_data) {
+      const totalScore = currentActiveContest.ojuz_data.reduce((sum, submission) => sum + submission.score, 0);
+      
+      // Add total score stat item
+      const completionStats = document.querySelector('.completion-stats');
+      
+      // Check if total score stat already exists
+      let totalScoreStat = document.getElementById('total-score-stat');
+      if (!totalScoreStat) {
+        totalScoreStat = document.createElement('div');
+        totalScoreStat.id = 'total-score-stat';
+        totalScoreStat.className = 'stat-item';
+        totalScoreStat.innerHTML = `
+          <span class="stat-label">Total Score:</span>
+          <span class="stat-value" id="total-score-value">${totalScore}/300</span>
+        `;
+        completionStats.appendChild(totalScoreStat);
+      } else {
+        // Update existing stat
+        document.getElementById('total-score-value').textContent = `${totalScore}/300`;
+      }
+    }
 
     // Generate score table with actual problem names using main page cell system
     const scoreTbody = document.getElementById('score-problems-tbody');
@@ -151,7 +217,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               source: prob.source,
               year: prob.year,
               score: 0,
-              status: 0
+              status: 0,
+              index: prob.index
             });
           } else {
             problemData.push({
@@ -160,17 +227,19 @@ document.addEventListener('DOMContentLoaded', async () => {
               source: prob.source,
               year: prob.year,
               score: 0,
-              status: 0
+              status: 0,
+              index: prob.index
             });
           }
         } else {
           problemData.push({
             name: `Problem ${index + 1}`,
             link: '#',
-            source: 'Unknown',
-            year: new Date().getFullYear(),
+            source: prob.source,
+            year: prob.year,
             score: 0,
-            status: 0
+            status: 0,
+            index: prob.index
           });
         }
       });
@@ -183,9 +252,31 @@ document.addEventListener('DOMContentLoaded', async () => {
           source: 'Unknown',
           year: new Date().getFullYear(),
           score: 0,
-          status: 0
+          status: 0,
+          index: i
         });
       }
+    }
+    
+    // If we have oj.uz data, populate scores
+    if (isReadOnly && currentActiveContest.ojuz_data) {
+      const ojuzData = currentActiveContest.ojuz_data;
+      ojuzData.forEach(submission => {
+        const problemIndex = problemData.findIndex(p => p.index === submission.problem_index);
+        if (problemIndex !== -1) {
+          problemData[problemIndex].score = submission.score;
+          problemData[problemIndex].subtask_scores = submission.subtask_scores;
+          problemData[problemIndex].submission_time = submission.submission_time;
+          // Set status based on score
+          if (submission.score === 100) {
+            problemData[problemIndex].status = 2; // solved
+          } else if (submission.score > 0) {
+            problemData[problemIndex].status = 1; // partial
+          } else {
+            problemData[problemIndex].status = 0; // failed
+          }
+        }
+      });
     }
     
     // Create table row with problem cells (same as main page)
@@ -193,31 +284,55 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     problemData.forEach((problem, index) => {
       const cell = document.createElement('td');
-      cell.className = 'problem-cell white';
-      cell.dataset.status = '0';
+      cell.className = `problem-cell ${getStatusColor(problem.status)}`;
+      cell.dataset.status = problem.status.toString();
       cell.dataset.problemId = problem.name;
       cell.dataset.source = problem.source;
       cell.dataset.year = problem.year;
-      cell.dataset.score = '0';
+      cell.dataset.score = problem.score.toString();
+      cell.dataset.readOnly = isReadOnly.toString();
+      
+      // Store additional data for read-only mode
+      if (isReadOnly) {
+        cell.dataset.subtaskScores = JSON.stringify(problem.subtask_scores || []);
+        cell.dataset.submissionTime = problem.submission_time || '';
+      }
+      
+      const cellContent = document.createElement('div');
+      cellContent.className = 'problem-cell-content';
       
       const link = document.createElement('a');
       link.href = problem.link;
       link.target = '_blank';
       link.textContent = problem.name;
-      cell.appendChild(link);
+      cellContent.appendChild(link);
       
-      // Add click handler using the same system as main page
-      cell.addEventListener('click', (e) => handleCellClick(cell, problem.name, problem.source, problem.year, e));
+      cell.appendChild(cellContent);
+      
+      // Add click handler using the appropriate system
+      if (isReadOnly) {
+        cell.addEventListener('click', (e) => handleReadOnlyCellClick(cell, problem, e));
+      } else {
+        cell.addEventListener('click', (e) => handleCellClick(cell, problem.name, problem.source, problem.year, e));
+      }
       
       row.appendChild(cell);
     });
     
     scoreTbody.appendChild(row);
-
+    
+    // Hide active contest UI elements
+    activeContest.style.display = 'none';
     scoreEntry.style.display = 'block';
   }
 
   function showForm() {
+    // Clear contest ongoing flag
+    localStorage.setItem('contest_ongoing', 'false');
+    
+    // Hide skeleton and show form
+    document.getElementById('vc-main-loading').style.display = 'none';
+    
     // Reset form
     olympiadSelect.value = '';
     contestSelect.innerHTML = '<option value="">Select Contest</option>';
@@ -254,12 +369,36 @@ document.addEventListener('DOMContentLoaded', async () => {
     // User has an ongoing contest
     currentActiveContest = data.active_contest;
     
+    // Set localStorage flag for future loads
+    localStorage.setItem('contest_ongoing', 'true');
+    
+    // Hide main skeleton
+    document.getElementById('vc-main-loading').style.display = 'none';
+    
     // Check if contest is ended (has end_time)
     if (currentActiveContest.end_time) {
       // Contest is finished, show score entry screen
+      localStorage.setItem('contest_ongoing', 'false');
       vcForm.style.display = 'none';
       document.getElementById('active-contest').style.display = 'none';
-      showScoreEntry();
+      
+      // Check if we have oj.uz data OR if this was previously synced
+      const wasSynced = localStorage.getItem('is_synced') === 'true';
+      const hasOjuzData = currentActiveContest.ojuz_data && currentActiveContest.ojuz_data.length > 0;
+      
+      // If we were synced but don't have ojuz_data, restore from localStorage
+      if (wasSynced && !hasOjuzData) {
+        const storedOjuzData = localStorage.getItem('ojuz_data');
+        if (storedOjuzData) {
+          try {
+            currentActiveContest.ojuz_data = JSON.parse(storedOjuzData);
+          } catch (e) {
+            console.error('Failed to parse stored oj.uz data:', e);
+          }
+        }
+      }
+      
+      showScoreEntry(hasOjuzData || wasSynced);
     } else {
       // Contest is still running, show timer
       vcForm.style.display = 'none';
@@ -314,6 +453,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Populate olympiad select (only if not in active contest)
   if (!currentActiveContest) {
+    // No active contest, clear localStorage flag
+    localStorage.setItem('contest_ongoing', 'false');
+    
+    // Hide main skeleton and show form
+    document.getElementById('vc-main-loading').style.display = 'none';
+    vcForm.style.display = 'block';
+    
     olympiadSelect.innerHTML = '<option value="">Select Olympiad</option>';
     Object.keys(contestData).forEach(source => {
       const option = document.createElement('option');
@@ -502,9 +648,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         startBtn.disabled = false;
       }
 
-      // Show oj.uz section if needed (check if any platform is oj.uz)
-      const hasOjuz = contest.link?.includes('oj.uz') || (platforms && platforms.some(p => p === 'oj.uz'));
-      if (hasOjuz && false)  { // temporarily disabling this feature until I finish coding it lol
+      const hasOjuz = platforms && platforms.length > 0 && platforms.every(p => p === 'oj.uz');
+      if (hasOjuz)  {
         ojuzSection.style.display = 'block';
       } else {
         ojuzSection.style.display = 'none';
@@ -526,6 +671,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const [contestName, year] = selectedContest.split('|');
     const contests = contestData[selectedOlympiad][year] || [];
     const contest = contests.find(c => c.name === contestName && c.stage === selectedStage);
+
+    // Get the oj.uz username if provided
+    const ojuzUsername = document.getElementById('ojuz-username')?.value?.trim() || null;
 
     // Start the virtual contest in the database
     try {
@@ -550,6 +698,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           showMessage('Failed to start contest: ' + error.error);
         }
         return;
+      }
+      
+      // Set localStorage flag for active contest
+      localStorage.setItem('contest_ongoing', 'true');
+      localStorage.removeItem('is_synced'); // Clear any previous sync flag
+      
+      // Store oj.uz username if provided
+      if (ojuzUsername) {
+        localStorage.setItem('ojuz_username', ojuzUsername);
+      } else {
+        localStorage.removeItem('ojuz_username');
       }
     } catch (error) {
       showMessage('Failed to start contest: ' + error.message);
@@ -595,19 +754,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       duration_minutes: contest.duration_minutes,
       location: contest.location || '',
       website: contest.website || '',
-      link: contest.link || ''
+      link: contest.link || '',
+      ojuz_username: ojuzUsername // Store the oj.uz username
     };
   });
 
   // Handle end contest button
   document.getElementById('end-contest-btn').addEventListener('click', async () => {
-    console.log('End contest clicked, currentActiveContest:', currentActiveContest);
-    
-    // Check if oj.uz username is provided
-    const ojuzUsername = document.getElementById('ojuz-username').value.trim();
+    // Get oj.uz username from localStorage (stored when contest started) or from currentActiveContest
+    const ojuzUsername = localStorage.getItem('ojuz_username') || currentActiveContest?.ojuz_username || null;
     
     try {
-      const endResponse = await fetch(`${apiUrl}/api/virtual-contests/end`, {
+      // Hide entire UI and show loading spinner if oj.uz username is provided
+      if (ojuzUsername) {
+        activeContest.style.display = 'none';
+        document.getElementById('ojuz-sync-loading').style.display = 'flex';
+      }
+      
+      const response = await fetch(`${apiUrl}/api/virtual-contests/end`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -615,35 +779,56 @@ document.addEventListener('DOMContentLoaded', async () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          ojuz_username: ojuzUsername || undefined
+          ojuz_username: ojuzUsername
         })
       });
 
-      if (!endResponse.ok) {
-        const error = await endResponse.json();
-        showMessage('Failed to end contest: ' + error.error);
-        return;
+      // Hide loading spinner and restore UI
+      if (ojuzUsername) {
+        document.getElementById('ojuz-sync-loading').style.display = 'none';
       }
 
-      // Contest ended successfully
-      if (ojuzUsername) {
-        showMessage('Contest ended! Scores will be synced automatically from oj.uz.', 'success');
-        // TODO: Handle oj.uz sync success case when implemented
-        activeContest.style.display = 'none';
-        showForm();
-        currentActiveContest = null;
+      if (response.ok) {
+        const result = await response.json();
+        
+        console.log(ojuzUsername);
+        console.log(result);
+        console.log(result.submissions);
+        if (ojuzUsername && result.submissions) {
+          // Show score entry with oj.uz data in read-only mode
+          localStorage.setItem('contest_ongoing', 'false');
+          localStorage.setItem('is_synced', 'true');
+          
+          // Store oj.uz data in localStorage for persistence across refreshes
+          localStorage.setItem('ojuz_data', JSON.stringify(result.submissions));
+          
+          // Update currentActiveContest to mark it as ended
+          currentActiveContest.end_time = new Date().toISOString();
+          currentActiveContest.ojuz_data = result.submissions; // Store detailed submission data
+          
+          showScoreEntry(true); // Pass true to indicate read-only mode with oj.uz data
+        } else {
+          // Hide active contest and show manual score entry
+          localStorage.setItem('contest_ongoing', 'false');
+          localStorage.removeItem('is_synced');
+          localStorage.removeItem('ojuz_username'); // Clear stored username
+          
+          // Update currentActiveContest to mark it as ended
+          currentActiveContest.end_time = new Date().toISOString();
+          
+          showScoreEntry(false); // Pass false for manual entry mode
+        }
       } else {
-        // Hide active contest and show manual score entry
-        activeContest.style.display = 'none';
-        
-        // Update currentActiveContest to mark it as ended
-        currentActiveContest.end_time = new Date().toISOString();
-        
-        showScoreEntry();
+        throw new Error('Failed to end contest');
       }
-      
     } catch (error) {
-      showMessage('Failed to end contest: ' + error.message);
+      // Hide loading spinner and restore UI on error
+      if (ojuzUsername) {
+        document.getElementById('ojuz-sync-loading').style.display = 'none';
+        activeContest.style.display = 'block';
+      }
+      console.error('Error ending contest:', error);
+      showMessage('Failed to end contest. Please try again.', 'error');
     }
   });
 
@@ -691,17 +876,161 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Handle score submission
+  // Helper function to get status color
+  function getStatusColor(status) {
+    switch (status) {
+      case 2: return 'green';
+      case 1: return 'yellow';
+      case 0: return 'red';
+      default: return 'white';
+    }
+  }
+
+  // Handle read-only cell clicks for oj.uz mode
+  function handleReadOnlyCellClick(cell, problem, event) {
+    event.preventDefault();
+    
+    const subtaskScores = JSON.parse(cell.dataset.subtaskScores || '[]');
+    const totalScore = parseInt(cell.dataset.score) || 0;
+    
+    showReadOnlyPopup(cell, {
+      problemName: problem.name,
+      totalScore: totalScore,
+      subtaskScores: subtaskScores
+    }, event);
+  }
+
+  // Show read-only popup for oj.uz scores
+  function showReadOnlyPopup(cell, data, event) {
+    let readonlyPopup = document.getElementById('readonly-popup');
+    if (!readonlyPopup) {
+      // Create the popup if it doesn't exist
+      const popupDiv = document.createElement('div');
+      popupDiv.id = 'readonly-popup';
+      popupDiv.className = 'readonly-popup hidden';
+      popupDiv.innerHTML = `
+        <div class="readonly-popup-content">
+          <div class="readonly-popup-header">
+            <div id="readonly-popup-problem"></div>
+            <div id="readonly-popup-total-score"></div>
+          </div>
+          <div class="readonly-popup-subtasks" id="readonly-popup-subtasks"></div>
+        </div>
+      `;
+      document.body.appendChild(popupDiv);
+      
+      // Close popup when clicking outside
+      popupDiv.addEventListener('click', (e) => {
+        if (e.target === popupDiv) {
+          hideReadOnlyPopup();
+        }
+      });
+      
+      // Close popup on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          hideReadOnlyPopup();
+        }
+      });
+      
+      readonlyPopup = popupDiv;
+    }
+    
+    // Populate popup content
+    document.getElementById('readonly-popup-problem').textContent = data.problemName;
+    document.getElementById('readonly-popup-total-score').textContent = `Total Score: ${data.totalScore}/100`;
+    
+    // Create subtasks list
+    const subtasksDiv = document.getElementById('readonly-popup-subtasks');
+    if (data.subtaskScores && data.subtaskScores.length > 0) {
+      subtasksDiv.innerHTML = '<div class="subtasks-header">Subtask Scores:</div>';
+      const subtasksList = document.createElement('div');
+      subtasksList.className = 'subtasks-list';
+      
+      data.subtaskScores.forEach((score, index) => {
+        const subtaskDiv = document.createElement('div');
+        subtaskDiv.className = 'subtask-item';
+        subtaskDiv.innerHTML = `
+          <span class="subtask-label">Subtask ${index + 1}:</span>
+          <span class="subtask-score">${score}</span>
+        `;
+        subtasksList.appendChild(subtaskDiv);
+      });
+      
+      subtasksDiv.appendChild(subtasksList);
+    } else {
+      subtasksDiv.innerHTML = '<div class="no-subtasks">No subtask information available</div>';
+    }
+    
+    // Show popup
+    readonlyPopup.style.display = 'flex';
+    readonlyPopup.classList.remove('hidden');
+    
+    // Trigger animation after a brief delay to ensure display is set
+    setTimeout(() => {
+      readonlyPopup.classList.add('show');
+    }, 10);
+  }
+
+  function hideReadOnlyPopup() {
+    const popup = document.getElementById('readonly-popup');
+    if (popup) {
+      popup.classList.remove('show');
+      popup.classList.add('hidden');
+      
+      // Hide the element after animation completes
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 300);
+    }
+  }
   document.getElementById('submit-scores-btn').addEventListener('click', async () => {
     if (!currentActiveContest) {
       showMessage('No active contest data available.');
       return;
     }
 
-    // Collect scores from problem cells (same as main page)
-    const scores = [];
-    const problemCells = document.querySelectorAll('#score-problems-tbody .problem-cell');
+    // Check if we're in read-only mode (with oj.uz data)
+    const isReadOnly = currentActiveContest.ojuz_data;
+    
+    if (isReadOnly) {
+      // oj.uz mode - just confirm the contest completion
+      try {
+        const confirmResponse = await fetch(`${apiUrl}/api/virtual-contests/confirm`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${sessionToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!confirmResponse.ok) {
+          const error = await confirmResponse.json();
+          showMessage('Failed to confirm virtual contest: ' + error.error);
+          return;
+        }
+
+        // Redirect to virtual history page
+        window.location.href = '/virtual-history';
+        
+        // Clear stored data since contest is now completed
+        localStorage.removeItem('is_synced');
+        localStorage.removeItem('ojuz_data');
+        localStorage.removeItem('ojuz_username');
+        
+      } catch (error) {
+        showMessage('Failed to confirm contest: ' + error.message);
+      }
+      
+      return; // Exit early for oj.uz mode
+    }
+
+    // Manual entry mode - collect and validate scores
+    let scores = [];
     let totalScore = 0;
+    
+    const problemCells = document.querySelectorAll('#score-problems-tbody .problem-cell');
     
     // Validate scores first
     for (let i = 0; i < problemCells.length; i++) {
@@ -713,9 +1042,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       scores.push(score);
       totalScore += score;
     }
+    
+    console.log('Using manual scores:', scores, 'Total:', totalScore);
 
     try {
-      // First, update individual problem statuses and scores
+      // Update individual problem statuses and scores
       for (let i = 0; i < problemCells.length; i++) {
         const cell = problemCells[i];
         const problemName = cell.dataset.problemId;
@@ -769,7 +1100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
 
-      // Then submit the virtual contest scores
+      // Submit the virtual contest scores
       const submitResponse = await fetch(`${apiUrl}/api/virtual-contests/submit`, {
         method: 'POST',
         credentials: 'include',
@@ -791,6 +1122,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Redirect to virtual history page
       window.location.href = '/virtual-history';
+      
+      // Clear stored data since contest is now completed
+      localStorage.removeItem('is_synced');
+      localStorage.removeItem('ojuz_data');
+      localStorage.removeItem('ojuz_username');
       
     } catch (error) {
       showMessage('Failed to submit scores: ' + error.message);

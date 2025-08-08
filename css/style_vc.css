@@ -536,6 +536,151 @@
     display: block;
 }
 
+/* Main content skeleton */
+.vc-main-loading {
+    display: none;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Active contest skeleton styling */
+.vc-main-loading.active-contest-skeleton {
+    border: 2px solid #28a745;
+    background-color: #f8fff8;
+    min-height: 280px;
+}
+
+/* Form skeleton styling */
+.vc-main-loading.form-skeleton {
+    background-color: var(--card-bg, #ffffff);
+    border: 1px solid #ddd;
+    min-height: 200px;
+}
+
+/* Show/hide skeleton content based on type */
+.vc-main-loading.active-contest-skeleton .form-skeleton-content {
+    display: none;
+}
+
+.vc-main-loading.form-skeleton .active-contest-skeleton-content {
+    display: none;
+}
+
+.vc-main-loading.active-contest-skeleton .active-contest-skeleton-content {
+    display: block;
+}
+
+.vc-main-loading.form-skeleton .form-skeleton-content {
+    display: block;
+}
+
+/* Active contest skeleton elements */
+.main-skeleton-header {
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-main-title {
+    width: 60%;
+    height: 24px;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-main-subtitle {
+    width: 40%;
+    height: 16px;
+    margin-bottom: 1rem;
+}
+
+.main-skeleton-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skeleton-timer {
+    width: 35%;
+    height: 28px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-progress {
+    width: 100%;
+    height: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.skeleton-button {
+    width: 120px;
+    height: 36px;
+}
+
+/* Form skeleton elements - matching exact form structure */
+.form-skeleton-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* H2 title skeleton - matches "Start Virtual Contest" */
+.skeleton-line.skeleton-form-title {
+    width: 80%;
+    height: 40px !important; /* Override skeleton-line height */
+    margin-bottom: 2rem; /* matches h2 margin-bottom */
+}
+
+/* Form row skeleton - matches .form-row structure */
+.skeleton-form-row {
+    margin-bottom: 1.5rem; /* matches .form-row margin-bottom */
+}
+
+/* Label skeleton - matches form-row label */
+.skeleton-form-label {
+    width: 25%;
+    height: 16px; /* 1rem font-size */
+    margin-bottom: 0.5rem; /* matches label margin-bottom */
+}
+
+/* Select skeleton - matches .vc-select */
+.skeleton-line.skeleton-form-select {
+    width: 100%;
+    height: 56px !important; /* Override skeleton-line height */
+}
+
+/* Button skeleton - matches .start-btn */
+.skeleton-form-button {
+    width: 100%;
+    height: 48px; /* matches button padding + font-size + border */
+    margin-top: 1rem; /* matches .start-btn margin-top */
+    background: linear-gradient(90deg, #28a745 25%, #34ce57 50%, #28a745 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+/* Dark mode skeleton styles */
+.dark-mode .vc-main-loading.active-contest-skeleton {
+    background-color: #1e2e1e;
+    border-color: #28a745;
+}
+
+.dark-mode .vc-main-loading.form-skeleton {
+    background-color: #2b2b2b;
+    border-color: #444;
+}
+
+.dark-mode .skeleton-form-button {
+    background: linear-gradient(90deg, #1e7e34 25%, #28a745 50%, #1e7e34 75%);
+    background-size: 200% 100%;
+}
+
+.dark-mode .skeleton-line {
+    background: linear-gradient(90deg, #404040 25%, #4a4a4a 50%, #404040 75%);
+    background-size: 200% 100%;
+}
+
 .skeleton-item {
     padding: 0.75rem;
     margin-bottom: 0.5rem;
@@ -800,6 +945,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.message-container.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .message-content {
@@ -810,6 +963,12 @@
     width: 90%;
     position: relative;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(0.9) translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.message-container.show .message-content {
+    transform: scale(1) translateY(0);
 }
 
 .message-content.error {
@@ -869,6 +1028,26 @@
 .dark-mode .message-close:hover {
     color: #ffffff;
 }
+
+/* oj.uz Sync Loading Overlay */
+#ojuz-sync-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Make score-entry container relative for absolute positioning */
+.score-entry {
+    position: relative;
+}
+
 #status-popup {
     position: absolute;
     z-index: 1000;
@@ -878,7 +1057,6 @@
     padding: 8px 12px;
     width: 120px;
     font-size: 14px;
-    border-radius: 0px;
 }
 
 #popup-status {
@@ -1034,6 +1212,207 @@
     .score-input-field {
         width: 100%;
     }
+    
+    /* Mobile responsive for read-only popup */
+    .readonly-popup-content {
+        max-width: 95%;
+        padding: 1rem;
+    }
+    
+    .subtasks-list {
+        gap: 0.25rem;
+    }
+    
+    .subtask-item {
+        padding: 0.375rem;
+    }
+}
+
+/* Read-only popup styles for oj.uz scores */
+.readonly-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.readonly-popup.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.readonly-popup.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.readonly-popup-content {
+    background-color: var(--card-bg, #ffffff);
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(0.9) translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.readonly-popup.show .readonly-popup-content {
+    transform: scale(1) translateY(0);
+}
+
+.readonly-popup-header {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+}
+
+#readonly-popup-problem {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary, #333);
+    margin-bottom: 0.5rem;
+}
+
+#readonly-popup-total-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.readonly-popup-time {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.readonly-popup-subtasks {
+    margin-top: 1rem;
+}
+
+.subtasks-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary, #333);
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.subtasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.subtask-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--highlight-bg, #f8f9fa);
+    border: 1px solid #e9ecef;
+    border-radius: 2px;
+}
+
+.subtask-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #666);
+    font-weight: 500;
+}
+
+.subtask-score {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary, #333);
+    font-family: monospace;
+}
+
+.no-subtasks {
+    text-align: center;
+    color: var(--text-secondary, #666);
+    font-style: italic;
+    padding: 1rem;
+    background-color: var(--highlight-bg, #f8f9fa);
+    border: 1px solid #e9ecef;
+    border-radius: 2px;
+}
+
+/* Submission time display under problem cells */
+.submission-time-display {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #666);
+    margin-top: 0.25rem;
+    font-style: italic;
+    text-align: center;
+    font-weight: 500;
+}
+
+.problem-cell-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Dark mode for read-only popup */
+.dark-mode .readonly-popup-content {
+    background-color: #2b2b2b;
+    border-color: #444;
+}
+
+.dark-mode .readonly-popup-header {
+    border-color: #444;
+}
+
+.dark-mode #readonly-popup-problem,
+.dark-mode .subtasks-header {
+    color: #ffffff;
+}
+
+.dark-mode #readonly-popup-total-score {
+    color: #4ea1f3;
+}
+
+.dark-mode .readonly-popup-time {
+    color: #aaa;
+}
+
+.dark-mode .subtask-item {
+    background-color: #333;
+    border-color: #555;
+}
+
+.dark-mode .subtask-label {
+    color: #aaa;
+}
+
+.dark-mode .subtask-score {
+    color: #ffffff;
+}
+
+.dark-mode .no-subtasks {
+    background-color: #333;
+    border-color: #555;
+    color: #aaa;
+}
+
+.dark-mode .submission-time-display {
+    color: #aaa;
 }
 
 /* Virtual Contest History Page Styles */
@@ -1565,6 +1944,15 @@
 .loading-text {
     font-size: 1.1rem;
     font-weight: 500;
+    text-align: center;
+    position: relative;
+}
+
+.loading-dots {
+    display: inline-block;
+    width: 1.5em;
+    text-align: left;
+    position: absolute;
 }
 
 .loading-dots::after {

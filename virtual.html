@@ -28,6 +28,35 @@
     <div class="vc-container">
         <!-- Main Virtual Contest Setup -->
         <div class="vc-main">
+            <!-- Loading skeleton for main content -->
+            <div class="vc-main-loading" id="vc-main-loading">
+                <!-- Active contest skeleton -->
+                <div class="active-contest-skeleton-content">
+                    <div class="main-skeleton-header">
+                        <div class="skeleton-line skeleton-main-title"></div>
+                        <div class="skeleton-line skeleton-main-subtitle"></div>
+                    </div>
+                    <div class="main-skeleton-content">
+                        <div class="skeleton-line skeleton-timer"></div>
+                        <div class="skeleton-line skeleton-progress"></div>
+                        <div class="skeleton-actions">
+                            <div class="skeleton-line skeleton-button"></div>
+                            <div class="skeleton-line skeleton-button"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form skeleton -->
+                <div class="form-skeleton-content">
+                    <div class="skeleton-line skeleton-form-title"></div>
+                    <div class="skeleton-form-row">
+                        <div class="skeleton-line skeleton-form-label"></div>
+                        <div class="skeleton-line skeleton-form-select"></div>
+                    </div>
+                    <div class="skeleton-form-button"></div>
+                </div>
+            </div>
+
             <div class="vc-form">
                 <h2>Start Virtual Contest</h2>
 
@@ -67,10 +96,6 @@
                     </div>
                 </div>
 
-                <div class="completion-warning" id="completion-warning" style="display: none;">
-                    <div class="warning-text">You have already completed this virtual contest.</div>
-                </div>
-
                 <div class="ojuz-section" id="ojuz-section" style="display: none;">
                     <div class="form-row">
                         <label for="ojuz-username">oj.uz Username</label>
@@ -79,6 +104,10 @@
                     <div class="form-note">
                         Scores will be automatically tracked from your submissions during the contest period.
                     </div>
+                </div>
+
+                <div class="completion-warning" id="completion-warning" style="display: none;">
+                    <div class="warning-text">You have already completed this virtual contest.</div>
                 </div>
 
                 <button id="start-contest-btn" class="vc-button start-btn" disabled>
@@ -148,7 +177,7 @@
         <div class="vc-sidebar">
             <div class="past-vc-preview">
                 <h3>Recent Virtual Contests</h3>
-                
+
                 <!-- Loading skeleton -->
                 <div class="past-vc-loading" id="past-vc-loading">
                     <div class="skeleton-item">
@@ -173,7 +202,7 @@
                         <div class="skeleton-line skeleton-date"></div>
                     </div>
                 </div>
-                
+
                 <!-- Actual content -->
                 <div class="past-vc-list">
                 </div>
@@ -193,7 +222,11 @@
     <div id="message-container" class="message-container" style="display: none;">
         <div id="message-content" class="message-content">
             <div id="message-text"></div>
-            <button id="message-close" class="message-close">×</button>
+            <button id="message-close" class="message-close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -203,6 +236,19 @@
         <div class="popup-score">
             <span id="popup-score" contenteditable="true">0</span>
             <span class="popup-out-of">/100</span>
+        </div>
+    </div>
+
+    <!-- oj.uz Sync Loading Overlay -->
+    <div class="vc-detail-loading" id="ojuz-sync-loading" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <div class="loading-text">
+            <span>Syncing submission data from oj.uz</span>
+            <span class="loading-dots"></span>
         </div>
     </div>
 

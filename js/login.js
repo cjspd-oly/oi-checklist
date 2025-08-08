@@ -20,7 +20,7 @@ document.getElementById('login-form')
 
         if (response.ok && data.success) {
           const sessionToken = data.token;
-          console.log('JWT Token: ' + sessionToken);
+          localStorage.clear();
           localStorage.setItem('sessionToken', sessionToken);
 
           window.location.href = '/';
