@@ -1,8 +1,6 @@
 # oi-checklist
 
-A modern, full-featured checklist for tracking progress across major Olympiads in InformaUse Live Server (or a simple HTTP server) from the root directory (where `index.html` is located).
-
-> 💡 Make sure to update the `apiUrl` in `js/utils.js` to match your Flask server's URL if it differs.s.
+A modern, full-featured checklist for tracking progress across major Olympiads in Informatics.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f2ad6ffc-0ab8-44dd-a30e-beee810cda7a" alt="Dashboard view (logged in, dark mode)" width="80%">
