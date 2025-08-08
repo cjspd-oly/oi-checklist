@@ -99,6 +99,7 @@ In the `backend/` directory, create a `.env` file with the following values:
 
 | Variable               | Description                                                      |
 | ---------------------- | ---------------------------------------------------------------- |
+| `PORT`                 | The port your backend will run on.                               |
 | `FLASK_ENV`            | Set to `local` for local development                             |
 | `DATABASE_PATH`        | Path to your SQLite database (e.g., `database.db`)               |
 | `BACKEND_DIR`          | Absolute path to the `backend/` folder                           |
