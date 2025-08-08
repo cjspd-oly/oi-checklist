@@ -39,7 +39,6 @@ def get_db():
 def session_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        time.sleep(0.2)
         auth = request.headers.get("Authorization")
         if not auth or not auth.startswith("Bearer "):
             return jsonify({"error": "Token is missing"}), 403
@@ -1027,10 +1026,53 @@ def get_olympiad_order():
     else:
         return jsonify(olympiad_order=None)
 
+@app.route('/api/demo-login', methods=["POST"])
+def api_demo_login():
+    """
+    Demo login endpoint that provides a fixed session for the demo account.
+    This avoids creating infinite temporary sessions.
+    """
+    db = get_db()
+    
+    # Fixed demo account details
+    demo_username = "demo-user"
+    demo_session_id = "demo-session-fixed-token-123456789"
+    
+    # Ensure demo user exists
+    demo_user = db.execute("SELECT id FROM users WHERE username = ?", (demo_username,)).fetchone()
+    if not demo_user:
+        # Create demo user if it doesn't exist
+        db.execute("INSERT INTO users (username) VALUES (?)", (demo_username,))
+        demo_user_id = db.execute("SELECT id FROM users WHERE username = ?", (demo_username,)).fetchone()["id"]
+    else:
+        demo_user_id = demo_user["id"]
+    
+    # Ensure demo session exists (or update if user_id changed)
+    existing_session = db.execute("SELECT user_id FROM sessions WHERE session_id = ?", (demo_session_id,)).fetchone()
+    if not existing_session:
+        # Create fixed demo session
+        db.execute("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", (demo_session_id, demo_user_id))
+    elif existing_session["user_id"] != demo_user_id:
+        # Update session to point to correct demo user
+        db.execute("UPDATE sessions SET user_id = ? WHERE session_id = ?", (demo_user_id, demo_session_id))
+    
+    db.commit()
+    
+    return jsonify({
+        "success": True, 
+        "token": demo_session_id,
+        "username": demo_username
+    })
+
 @app.route('/api/logout', methods=["POST"])
 @session_required
 def api_logout():
     session_id = request.headers.get("Authorization").split(" ")[1]
+    
+    # Don't delete the fixed demo session
+    if session_id == "demo-session-fixed-token-123456789":
+        return jsonify({"success": True, "message": "Demo session preserved."})
+    
     db = get_db()
     db.execute("DELETE FROM sessions WHERE session_id = ?", (session_id,))
     db.commit()
