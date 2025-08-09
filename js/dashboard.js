@@ -597,15 +597,26 @@ window.onload = async () => {
     cachedProblemsData = profileData.problems;
 
     sources.forEach(src => {
-      const tbl = document.getElementById(`${src.toLowerCase()}-container`)
-                      .querySelector('table');
-      tbl.innerHTML = '';
-      if (src === 'JOISC')
-        loadProblemsWithDay('JOISC', 4);
-      else if (src === 'IOITC')
-        loadProblemsWithDay('IOITC', 3);
-      else
-        loadProblems(src);
+      let tbl;
+      if (src.startsWith('USACO')) {
+        // For USACO divisions, look inside the nested container
+        const container = document.getElementById(`${src.toLowerCase()}-container`);
+        tbl = container?.querySelector('table');
+      } else {
+        // For regular olympiads, look in the main container
+        const container = document.getElementById(`${src.toLowerCase()}-container`);
+        tbl = container?.querySelector('table');
+      }
+      
+      if (tbl) {
+        tbl.innerHTML = '';
+        if (src === 'JOISC')
+          loadProblemsWithDay('JOISC', 4);
+        else if (src === 'IOITC')
+          loadProblemsWithDay('IOITC', 3);
+        else
+          loadProblems(src);
+      }
     });
   } else {
     document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
@@ -631,15 +642,26 @@ window.onload = async () => {
     cachedProblemsData = await res.json();
 
     sources.forEach(src => {
-      const tbl = document.getElementById(`${src.toLowerCase()}-container`)
-                      .querySelector('table');
-      tbl.innerHTML = '';
-      if (src === 'JOISC')
-        loadProblemsWithDay('JOISC', 4);
-      else if (src === 'IOITC')
-        loadProblemsWithDay('IOITC', 3);
-      else
-        loadProblems(src);
+      let tbl;
+      if (src.startsWith('USACO')) {
+        // For USACO divisions, look inside the nested container
+        const container = document.getElementById(`${src.toLowerCase()}-container`);
+        tbl = container?.querySelector('table');
+      } else {
+        // For regular olympiads, look in the main container
+        const container = document.getElementById(`${src.toLowerCase()}-container`);
+        tbl = container?.querySelector('table');
+      }
+      
+      if (tbl) {
+        tbl.innerHTML = '';
+        if (src === 'JOISC')
+          loadProblemsWithDay('JOISC', 4);
+        else if (src === 'IOITC')
+          loadProblemsWithDay('IOITC', 3);
+        else
+          loadProblems(src);
+      }
     });
   }
 
