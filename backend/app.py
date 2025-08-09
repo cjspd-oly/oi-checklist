@@ -75,19 +75,36 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
     end_dt = datetime.fromisoformat(contest_end_time.replace('Z', '+00:00'))
     
     # Get contest problems and their oj.uz links
-    contest_problems = db.execute('''
-        SELECT 
-            cp.problem_index,
-            p.name as problem_name,
-            p.link as problem_link
-        FROM contest_problems cp
-        JOIN problems p ON cp.problem_source = p.source 
-                        AND cp.problem_year = p.year 
-                        AND cp.problem_number = p.number
-        WHERE cp.contest_name = ? AND (cp.contest_stage = ? OR (cp.contest_stage IS NULL AND ? IS NULL))
-        AND p.link LIKE 'https://oj.uz/%'
-        ORDER BY cp.problem_index
-    ''', (contest_name, contest_stage, contest_stage)).fetchall()
+    if contest_stage is not None:
+        contest_problems = db.execute('''
+            SELECT 
+                cp.problem_index,
+                p.name as problem_name,
+                p.link as problem_link
+            FROM contest_problems cp
+            JOIN problems p ON cp.problem_source = p.source 
+                            AND cp.problem_year = p.year 
+                            AND cp.problem_number = p.number
+            WHERE cp.contest_name = ? AND cp.contest_stage = ?
+            AND p.link LIKE 'https://oj.uz/%'
+            ORDER BY cp.problem_index
+        ''', (contest_name, contest_stage)).fetchall()
+    else:
+        contest_problems = db.execute('''
+            SELECT 
+                cp.problem_index,
+                p.name as problem_name,
+                p.link as problem_link
+            FROM contest_problems cp
+            JOIN problems p ON cp.problem_source = p.source 
+                            AND cp.problem_year = p.year 
+                            AND cp.problem_number = p.number
+            WHERE cp.contest_name = ? AND cp.contest_stage IS NULL
+            AND p.link LIKE 'https://oj.uz/%'
+            ORDER BY cp.problem_index
+        ''', (contest_name,)).fetchall()
+    
+    print(f"Found {len(contest_problems)} oj.uz problems for contest {contest_name}, stage: {contest_stage}")
     for row in contest_problems:
         print(dict(row))
     
@@ -204,76 +221,75 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
             break
     
     print(f"Found {len(relevant_submissions)} relevant submissions")
-    if not relevant_submissions:
-        return []
     
-    # Step 2: Fetch detailed scores for each submission
-    def fetch_submission_details(submission_info):
-        try:
-            submission_url = f"https://oj.uz/submission/{submission_info['submission_id']}"
-            print(f"Fetching submission details: {submission_url}")
-            
-            response = requests.get(submission_url, headers=headers, timeout=10)
-            if response.status_code != 200:
-                print(f"Failed to fetch submission {submission_info['submission_id']}")
-                return None
-            
-            soup = BeautifulSoup(response.text, 'html.parser')
-            
-            # Extract subtask scores
-            subtask_scores = []
-            total_score = 0
-            
-            # Find all subtask panels
-            subtask_divs = soup.find_all('div', id=re.compile(r'subtask_results_div_\d+'))
-            
-            for subtask_div in subtask_divs:
-                try:
-                    # Find the subtask score span
-                    score_span = subtask_div.find('span', class_=re.compile(r'subtask-score'))
-                    if score_span:
-                        # Extract score text like "17 / 17" or "0 / 6" or "39.61 / 100"
-                        score_text = score_span.get_text().strip()
-                        score_match = re.search(r'([0-9]+(?:\.[0-9]+)?)\s*/\s*([0-9]+(?:\.[0-9]+)?)', score_text)
-                        if score_match:
-                            earned = float(score_match.group(1))
-                            max_points = float(score_match.group(2))
-                            # Round to 2 decimal places and convert to int if it's a whole number
-                            earned_rounded = round(earned, 2)
-                            if earned_rounded == int(earned_rounded):
-                                earned_rounded = int(earned_rounded)
-                            total_score += earned_rounded
-                            subtask_scores.append(earned_rounded)
+    # Step 2: Fetch detailed scores for each submission (only if submissions exist)
+    detailed_submissions = []
+    if relevant_submissions:
+        def fetch_submission_details(submission_info):
+            try:
+                submission_url = f"https://oj.uz/submission/{submission_info['submission_id']}"
+                print(f"Fetching submission details: {submission_url}")
+                
+                response = requests.get(submission_url, headers=headers, timeout=10)
+                if response.status_code != 200:
+                    print(f"Failed to fetch submission {submission_info['submission_id']}")
+                    return None
+                
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Extract subtask scores
+                subtask_scores = []
+                total_score = 0
+                
+                # Find all subtask panels
+                subtask_divs = soup.find_all('div', id=re.compile(r'subtask_results_div_\d+'))
+                
+                for subtask_div in subtask_divs:
+                    try:
+                        # Find the subtask score span
+                        score_span = subtask_div.find('span', class_=re.compile(r'subtask-score'))
+                        if score_span:
+                            # Extract score text like "17 / 17" or "0 / 6" or "39.61 / 100"
+                            score_text = score_span.get_text().strip()
+                            score_match = re.search(r'([0-9]+(?:\.[0-9]+)?)\s*/\s*([0-9]+(?:\.[0-9]+)?)', score_text)
+                            if score_match:
+                                earned = float(score_match.group(1))
+                                max_points = float(score_match.group(2))
+                                # Round to 2 decimal places and convert to int if it's a whole number
+                                earned_rounded = round(earned, 2)
+                                if earned_rounded == int(earned_rounded):
+                                    earned_rounded = int(earned_rounded)
+                                total_score += earned_rounded
+                                subtask_scores.append(earned_rounded)
+                            else:
+                                subtask_scores.append(0)
                         else:
                             subtask_scores.append(0)
-                    else:
+                    except Exception as e:
+                        print(f"Error parsing subtask in submission {submission_info['submission_id']}: {e}")
                         subtask_scores.append(0)
-                except Exception as e:
-                    print(f"Error parsing subtask in submission {submission_info['submission_id']}: {e}")
-                    subtask_scores.append(0)
-            
-            return {
-                'submission_id': submission_info['submission_id'],
-                'submission_time': submission_info['submission_time'],
-                'problem_index': submission_info['problem_index'],
-                'problem_name': submission_info['problem_name'],
-                'problem_link': submission_info['problem_link'],
-                'total_score': total_score,
-                'subtask_scores': subtask_scores
-            }
-            
-        except Exception as e:
-            print(f"Error fetching submission {submission_info['submission_id']}: {e}")
-            return None
-    
-    # Fetch all submission details in parallel
-    detailed_submissions = []
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        results = executor.map(fetch_submission_details, relevant_submissions)
-        for result in results:
-            if result:
-                detailed_submissions.append(result)
-            time.sleep(0.2)  # Rate limiting between requests
+                
+                return {
+                    'submission_id': submission_info['submission_id'],
+                    'submission_time': submission_info['submission_time'],
+                    'problem_index': submission_info['problem_index'],
+                    'problem_name': submission_info['problem_name'],
+                    'problem_link': submission_info['problem_link'],
+                    'total_score': total_score,
+                    'subtask_scores': subtask_scores
+                }
+                
+            except Exception as e:
+                print(f"Error fetching submission {submission_info['submission_id']}: {e}")
+                return None
+        
+        # Fetch all submission details in parallel
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            results = executor.map(fetch_submission_details, relevant_submissions)
+            for result in results:
+                if result:
+                    detailed_submissions.append(result)
+                time.sleep(0.2)  # Rate limiting between requests
     
     print(f"Successfully fetched details for {len(detailed_submissions)} submissions")
     

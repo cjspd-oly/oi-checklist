@@ -539,6 +539,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     ojuzSection.style.display = 'none';
     startBtn.disabled = true;
     
+    // Hide completion warning when olympiad changes
+    const completionWarning = document.getElementById('completion-warning');
+    completionWarning.style.display = 'none';
+    
     // Show/hide entire form rows
     contestRow.style.display = selectedOlympiad ? 'block' : 'none';
     dayRow.style.display = 'none';
@@ -577,6 +581,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     contestDetails.style.display = 'none';
     ojuzSection.style.display = 'none';
     startBtn.disabled = true;
+    
+    // Hide completion warning when contest changes
+    const completionWarning = document.getElementById('completion-warning');
+    completionWarning.style.display = 'none';
     
     // Hide day row initially
     dayRow.style.display = 'none';
