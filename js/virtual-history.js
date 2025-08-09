@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       showEmptyState();
     } else {
       // Fetch contest scores for medal calculation
-      const contestKeys = contests.map(c => `${c.contest_name}|${c.contest_stage}`);
+      const contestKeys = contests.map(c => `${c.contest_name}|${c.contest_stage || ''}`);
       let contestScores = {};
       
       try {
@@ -156,7 +156,7 @@ function createContestItem(contest, contestData, problemsData, contestScores) {
   item.className = 'vc-history-item';
   
   // Calculate medal type
-  const contestKey = `${contest.contest_name}|${contest.contest_stage}`;
+  const contestKey = `${contest.contest_name}|${contest.contest_stage || ''}`;
   const scoreData = contestScores[contestKey];
   let medalClass = '';
   let medalText = '';
@@ -227,7 +227,8 @@ function createContestItem(contest, contestData, problemsData, contestScores) {
       // Find the contest in contestData to get problems
       for (const [olympiad, years] of Object.entries(contestData)) {
         for (const [year, contests] of Object.entries(years)) {
-          const contestInfo = contests.find(c => c.name === contest.contest_name && c.stage === contest.contest_stage);
+          const contestInfo = contests.find(c => c.name === contest.contest_name && 
+            (contest.contest_stage ? c.stage === contest.contest_stage : c.stage == null));
           if (contestInfo && contestInfo.problems && contestInfo.problems[maxIndex]) {
             const prob = contestInfo.problems[maxIndex];
             // Find the problem in problemsData
@@ -260,7 +261,8 @@ function createContestItem(contest, contestData, problemsData, contestScores) {
   try {
     for (const [olympiad, years] of Object.entries(contestData)) {
       for (const [year, contests] of Object.entries(years)) {
-        const contestInfo = contests.find(c => c.name === contest.contest_name && c.stage === contest.contest_stage);
+        const contestInfo = contests.find(c => c.name === contest.contest_name && 
+          (contest.contest_stage ? c.stage === contest.contest_stage : c.stage == null));
         if (contestInfo) {
           contestLocation = contestInfo.location || '';
           contestWebsite = contestInfo.website || '';
@@ -276,7 +278,7 @@ function createContestItem(contest, contestData, problemsData, contestScores) {
   item.innerHTML = `
     <div class="vc-history-item-header">
       <div>
-        <div class="vc-history-title">${contest.contest_source} ${contest.contest_year} ${contest.contest_stage}</div>
+        <div class="vc-history-title">${contest.contest_source} ${contest.contest_year}${contest.contest_stage ? ` ${contest.contest_stage}` : ''}</div>
         <div class="vc-history-date">${formattedDate} | ${problemCount} problems</div>
         <div class="vc-history-metadata">${contestLocation || contestWebsite ? `${contestLocation}${contestLocation && contestWebsite ? ' | ' : ''}${contestWebsite ? `<a href="${contestWebsite}" target="_blank">${contestWebsite}</a>` : ''}` : ''}</div>
       </div>
@@ -314,7 +316,7 @@ function createContestItem(contest, contestData, problemsData, contestScores) {
       return;
     }
     // Use query parameters with clean slug
-    const slug = (contest.contest_name + contest.contest_stage).toLowerCase().replace(/\s+/g, '');
+    const slug = (contest.contest_name + (contest.contest_stage || '')).toLowerCase().replace(/\s+/g, '');
     window.location.href = `virtual-contest-detail?contest=${slug}`;
   });
   

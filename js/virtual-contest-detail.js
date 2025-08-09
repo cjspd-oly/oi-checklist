@@ -106,7 +106,8 @@ async function fetchAdditionalData(contest) {
       // Find contest metadata
       for (const [olympiad, years] of Object.entries(contestDataAll)) {
         for (const [year, contests] of Object.entries(years)) {
-          const contestInfo = contests.find(c => c.name === contest.contest_name && c.stage === contest.contest_stage);
+          const contestInfo = contests.find(c => c.name === contest.contest_name && 
+            (contest.contest_stage ? c.stage === contest.contest_stage : c.stage == null));
           if (contestInfo) {
             contestMetadata = contestInfo;
             break;
@@ -117,7 +118,7 @@ async function fetchAdditionalData(contest) {
     }
     
     // Fetch contest scores for medal/rank data
-    const contestKey = `${contest.contest_name}|${contest.contest_stage}`;
+    const contestKey = `${contest.contest_name}|${contest.contest_stage || ''}`;
     const scoresResponse = await fetch(`${apiUrl}/api/contest-scores?contests=${contestKey}`, {
       method: 'GET',
       credentials: 'include',
@@ -318,7 +319,7 @@ function displayContestDetails(contest, contestMetadata, problemsData, scoreData
     <div class="vc-detail-main ${medalClass}">
       <div class="vc-detail-header-section">
         <div>
-          <div class="vc-detail-title">${contest.contest_source} ${contest.contest_year} ${contest.contest_stage}</div>
+          <div class="vc-detail-title">${contest.contest_source} ${contest.contest_year}${contest.contest_stage ? ` ${contest.contest_stage}` : ''}</div>
           <div class="vc-detail-subtitle">${problemCount} problems</div>
           ${contestMetadata.location || contestMetadata.website ? `<div class="vc-detail-location">${contestMetadata.location || ''}${contestMetadata.location && contestMetadata.website ? ' | ' : ''}${contestMetadata.website ? `<a href="${contestMetadata.website}" target="_blank">${contestMetadata.website}</a>` : ''}</div>` : ''}
         </div>

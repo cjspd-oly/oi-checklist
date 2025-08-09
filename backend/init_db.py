@@ -72,7 +72,7 @@ CREATE TABLE sessions (
 c.execute('''
 CREATE TABLE contests (
     name TEXT NOT NULL,
-    stage TEXT NOT NULL,
+    stage TEXT,
     location TEXT,
     duration_minutes INTEGER,
     source TEXT NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE contests (
 
 c.execute('''CREATE TABLE contest_scores (
     contest_name TEXT NOT NULL,
-    contest_stage TEXT NOT NULL,
+    contest_stage TEXT,
     medal_names TEXT,
     medal_cutoffs TEXT,
     problem_scores TEXT,
@@ -98,7 +98,7 @@ c.execute('''CREATE TABLE contest_scores (
 c.execute('''
 CREATE TABLE contest_problems (
     contest_name TEXT NOT NULL,
-    contest_stage TEXT NOT NULL,
+    contest_stage TEXT,
     problem_source TEXT NOT NULL,
     problem_year INTEGER NOT NULL,
     problem_number INTEGER NOT NULL,
@@ -114,7 +114,7 @@ c.execute('''
   CREATE TABLE user_virtual_contests (
     user_id INTEGER NOT NULL,
     contest_name TEXT NOT NULL,
-    contest_stage TEXT NOT NULL,
+    contest_stage TEXT,
     started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ended_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     score INTEGER,
@@ -128,7 +128,7 @@ c.execute('''
 CREATE TABLE user_virtual_submissions (
     user_id INTEGER NOT NULL,
     contest_name TEXT NOT NULL,
-    contest_stage TEXT NOT NULL,
+    contest_stage TEXT,
     submission_time TIMESTAMP NOT NULL,
     problem_index INTEGER NOT NULL,
     score INTEGER NOT NULL,
@@ -142,7 +142,7 @@ c.execute('''
 CREATE TABLE active_virtual_contests (
     user_id INTEGER PRIMARY KEY,
     contest_name TEXT NOT NULL,
-    contest_stage TEXT NOT NULL,
+    contest_stage TEXT,
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP,
     ojuz_synced BOOLEAN NOT NULL DEFAULT 0,

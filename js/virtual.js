@@ -112,11 +112,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Get contest info from the active contest data
-    const contestTitle = `${currentActiveContest.contest_name} ${currentActiveContest.contest_stage}`;
+    const contestTitle = currentActiveContest.contest_stage ? 
+      `${currentActiveContest.contest_name} ${currentActiveContest.contest_stage}` : 
+      currentActiveContest.contest_name;
     
     document.getElementById('score-contest-title').textContent = contestTitle;
 
-    // Calculate time used based on stored start and end times
+    // Calculate time used based on stored start and end times, capped at contest duration
     const startTime = new Date(currentActiveContest.start_time);
     let endTime;
     
@@ -128,7 +130,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       endTime = new Date();
     }
     
-    const elapsedMilliseconds = endTime - startTime;
+    // Cap the end time at contest duration
+    const contestDurationMs = currentActiveContest.duration_minutes * 60 * 1000;
+    const maxEndTime = new Date(startTime.getTime() + contestDurationMs);
+    const cappedEndTime = new Date(Math.min(endTime.getTime(), maxEndTime.getTime()));
+    
+    const elapsedMilliseconds = cappedEndTime - startTime;
     const elapsedMinutes = Math.floor(elapsedMilliseconds / (1000 * 60));
     const elapsedHours = Math.floor(elapsedMinutes / 60);
     const remainingMinutes = elapsedMinutes % 60;
@@ -188,7 +195,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Search through all olympiads and years to find this contest
     for (const [olympiad, years] of Object.entries(contestData)) {
       for (const [year, contests] of Object.entries(years)) {
-        const contest = contests.find(c => c.name === contestName && c.stage === contestStage);
+        const contest = contests.find(c => c.name === contestName && 
+          (contestStage ? c.stage === contestStage : c.stage == null));
         if (contest && contest.problems) {
           contestProblems = contest.problems;
           problemCount = contest.problems.length;
@@ -405,7 +413,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('active-contest').style.display = 'block';
       
       // Set contest title and metadata
-      document.getElementById('active-contest-title').innerHTML = `${currentActiveContest.contest_name} <svg width="12" height="3" viewBox="0 0 12 3" style="vertical-align: middle; margin: 0 4px;"><rect width="12" height="2" fill="currentColor"/></svg> ${currentActiveContest.contest_stage}`;
+      const titleText = currentActiveContest.contest_stage ? 
+        `${currentActiveContest.contest_name} <svg width="12" height="3" viewBox="0 0 12 3" style="vertical-align: middle; margin: 0 4px;"><rect width="12" height="2" fill="currentColor"/></svg> ${currentActiveContest.contest_stage}` : 
+        currentActiveContest.contest_name;
+      document.getElementById('active-contest-title').innerHTML = titleText;
       
       // Set location and website in one line
       const locationElement = document.getElementById('active-contest-location');
@@ -428,24 +439,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         websiteElement.style.display = 'none';
       }
 
-      // Calculate remaining time
+      // Calculate remaining time, capped at contest duration
       const startTime = new Date(currentActiveContest.start_time);
       const now = new Date();
       const elapsedMilliseconds = now - startTime;
       const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
       const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-      const remainingSeconds = Math.max(0, (currentActiveContest.duration_minutes * 60) - elapsedSeconds);
+      
+      // Cap elapsed time at contest duration
+      const maxElapsedSeconds = currentActiveContest.duration_minutes * 60;
+      const cappedElapsedSeconds = Math.min(elapsedSeconds, maxElapsedSeconds);
+      
+      const remainingSeconds = Math.max(0, maxElapsedSeconds - cappedElapsedSeconds);
       const remainingMinutes = Math.floor(remainingSeconds / 60);
       
       console.log('Start time:', startTime);
       console.log('Current time:', now);
       console.log('Elapsed seconds:', elapsedSeconds);
+      console.log('Capped elapsed seconds:', cappedElapsedSeconds);
       console.log('Elapsed minutes:', elapsedMinutes);
       console.log('Remaining seconds:', remainingSeconds);
       console.log('Remaining minutes:', remainingMinutes);
       
-      // Start timer with remaining time and elapsed time (in seconds precision)
-      startTimerWithSeconds(remainingSeconds, elapsedSeconds);
+      // Start timer with remaining time and capped elapsed time (in seconds precision)
+      startTimerWithSeconds(remainingSeconds, cappedElapsedSeconds);
     }
     
     // Don't return here - we still need to set up event listeners
@@ -499,7 +516,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       item.innerHTML = `
               <div class="past-vc-title">${contest.contest_source} ${
-          contest.contest_year} ${contest.contest_stage}</div>
+          contest.contest_year}${contest.contest_stage ? ` ${contest.contest_stage}` : ''}</div>
               <div class="past-vc-score">${contest.total_score || 0}/300</div>
               <div class="past-vc-date">${formattedDate}</div>
           `;
@@ -569,10 +586,64 @@ document.addEventListener('DOMContentLoaded', async () => {
       const contests = contestData[selectedOlympiad][year] || [];
       const matchingContests = contests.filter(c => c.name === contestName);
       
-      // Get unique stages and sort them
-      const stages = [...new Set(matchingContests.map(c => c.stage))].sort();
+      // Get unique stages and filter out null/undefined stages
+      const stages = [...new Set(matchingContests.map(c => c.stage).filter(stage => stage != null))].sort();
 
-      if (stages.length > 0) {
+      // Check if there's only one contest and it has no stage
+      if (matchingContests.length === 1 && (matchingContests[0].stage == null || matchingContests[0].stage === '')) {
+        // Skip stage selection entirely - directly show contest details
+        const contest = matchingContests[0];
+        
+        // Check if this contest has been completed
+        const contestKey = `${contestName}|${contest.stage || ''}`;
+        const isCompleted = data.completed_contests && data.completed_contests.includes(contestKey);
+
+        // Calculate problem count from contest.problems array
+        const problemCount = contest.problems ? contest.problems.length : 3;
+        
+        // Get platforms from the problems data we already fetched
+        let platforms = ['Unknown'];
+        if (contest.problems && problemsData[selectedOlympiad]) {
+          const platformSet = new Set();
+          contest.problems.forEach(prob => {
+            const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
+            const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
+            if (problem && problem.link) {
+              platformSet.add(getPlatformFromLink(problem.link));
+            }
+          });
+          platforms = Array.from(platformSet).filter(p => p !== 'Unknown');
+          if (platforms.length === 0) platforms = ['Unknown'];
+        }
+
+        // Show contest details with accurate info
+        document.getElementById('contest-duration').textContent = formatDuration(contest.duration_minutes);
+        document.getElementById('contest-problems').textContent = problemCount;
+        document.getElementById('contest-platform').textContent = platforms.join(', ');
+        
+        contestDetails.style.display = 'block';
+
+        // Show/hide completion warning
+        const completionWarning = document.getElementById('completion-warning');
+        if (isCompleted) {
+          completionWarning.style.display = 'block';
+          startBtn.disabled = true;
+        } else {
+          completionWarning.style.display = 'none';
+          startBtn.disabled = false;
+        }
+
+        const hasOjuz = platforms && platforms.length > 0 && platforms.every(p => p === 'oj.uz');
+        if (hasOjuz) {
+          ojuzSection.style.display = 'block';
+        } else {
+          ojuzSection.style.display = 'none';
+        }
+        
+        // Don't show the day row at all
+        dayRow.style.display = 'none';
+      } else if (stages.length > 0) {
+        // Normal behavior - show stage selection
         // Check if all stages follow "Day X" pattern
         const allDayPattern = stages.every(stage => /^Day \d+$/.test(stage));
         
@@ -670,7 +741,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const [contestName, year] = selectedContest.split('|');
     const contests = contestData[selectedOlympiad][year] || [];
-    const contest = contests.find(c => c.name === contestName && c.stage === selectedStage);
+    
+    // Handle both cases: with stage selection and without
+    let contest;
+    let finalStage;
+    
+    if (daySelect.style.display === 'none' || !selectedStage) {
+      // No stage selection was shown - find the single contest
+      const matchingContests = contests.filter(c => c.name === contestName);
+      if (matchingContests.length === 1) {
+        contest = matchingContests[0];
+        finalStage = contest.stage || null; // Use the contest's stage (which might be null)
+      } else {
+        showMessage('Error: Multiple contests found but no stage selected.', 'error');
+        return;
+      }
+    } else {
+      // Normal stage selection
+      contest = contests.find(c => c.name === contestName && c.stage === selectedStage);
+      finalStage = selectedStage;
+    }
+    
+    if (!contest) {
+      showMessage('Error: Contest not found.', 'error');
+      return;
+    }
 
     // Get the oj.uz username if provided
     const ojuzUsername = document.getElementById('ojuz-username')?.value?.trim() || null;
@@ -686,7 +781,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
         body: JSON.stringify({
           contest_name: contestName,
-          contest_stage: selectedStage
+          contest_stage: finalStage
         })
       });
 
@@ -715,12 +810,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
+    // Update currentActiveContest with the contest data we just started FIRST
+    currentActiveContest = {
+      contest_name: contestName,
+      contest_stage: finalStage,
+      start_time: new Date().toISOString(),
+      duration_minutes: contest.duration_minutes,
+      location: contest.location || '',
+      website: contest.website || '',
+      link: contest.link || '',
+      ojuz_username: ojuzUsername // Store the oj.uz username
+    };
+
     // Hide form and show active contest
     vcForm.style.display = 'none';
     activeContest.style.display = 'block';
 
     // Set contest title and metadata
-    document.getElementById('active-contest-title').innerHTML = `${contestName} <svg width="12" height="3" viewBox="0 0 12 3" style="vertical-align: middle; margin: 0 4px;"><rect width="12" height="2" fill="currentColor"/></svg> ${selectedStage}`;
+    const titleText = finalStage ? `${contestName} <svg width="12" height="3" viewBox="0 0 12 3" style="vertical-align: middle; margin: 0 4px;"><rect width="12" height="2" fill="currentColor"/></svg> ${finalStage}` : contestName;
+    document.getElementById('active-contest-title').innerHTML = titleText;
     
     // Set location and website in one line
     const locationElement = document.getElementById('active-contest-location');
@@ -743,20 +851,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       websiteElement.style.display = 'none';
     }
 
-    // Start timer with actual contest duration
+    // Start timer with actual contest duration (after currentActiveContest is set)
     startTimer(contest.duration_minutes);
-    
-    // Update currentActiveContest with the contest data we just started
-    currentActiveContest = {
-      contest_name: contestName,
-      contest_stage: selectedStage,
-      start_time: new Date().toISOString(),
-      duration_minutes: contest.duration_minutes,
-      location: contest.location || '',
-      website: contest.website || '',
-      link: contest.link || '',
-      ojuz_username: ojuzUsername // Store the oj.uz username
-    };
   });
 
   // Handle end contest button
@@ -802,8 +898,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           // Store oj.uz data in localStorage for persistence across refreshes
           localStorage.setItem('ojuz_data', JSON.stringify(result.submissions));
           
-          // Update currentActiveContest to mark it as ended
-          currentActiveContest.end_time = new Date().toISOString();
+          // Update currentActiveContest to mark it as ended with capped end time
+          const contestDurationMs = currentActiveContest.duration_minutes * 60 * 1000;
+          const startTime = new Date(currentActiveContest.start_time);
+          const maxEndTime = new Date(startTime.getTime() + contestDurationMs);
+          const actualEndTime = new Date();
+          const cappedEndTime = new Date(Math.min(actualEndTime.getTime(), maxEndTime.getTime()));
+          
+          currentActiveContest.end_time = cappedEndTime.toISOString();
           currentActiveContest.ojuz_data = result.submissions; // Store detailed submission data
           
           showScoreEntry(true); // Pass true to indicate read-only mode with oj.uz data
@@ -813,8 +915,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           localStorage.removeItem('is_synced');
           localStorage.removeItem('ojuz_username'); // Clear stored username
           
-          // Update currentActiveContest to mark it as ended
-          currentActiveContest.end_time = new Date().toISOString();
+          // Update currentActiveContest to mark it as ended with capped end time
+          const contestDurationMs = currentActiveContest.duration_minutes * 60 * 1000;
+          const startTime = new Date(currentActiveContest.start_time);
+          const maxEndTime = new Date(startTime.getTime() + contestDurationMs);
+          const actualEndTime = new Date();
+          const cappedEndTime = new Date(Math.min(actualEndTime.getTime(), maxEndTime.getTime()));
+          
+          currentActiveContest.end_time = cappedEndTime.toISOString();
           
           showScoreEntry(false); // Pass false for manual entry mode
         }
@@ -864,8 +972,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const [contestName, year] = selectedContest.split('|');
     const contests = contestData[selectedOlympiad][year] || [];
-    const selectedStage = daySelect.value;
-    const contest = contests.find(c => c.name === contestName && c.stage === selectedStage);
+    
+    // Handle both cases: with stage selection and without
+    let contest;
+    let selectedStage;
+    
+    if (daySelect.style.display === 'none') {
+      // No stage selection was shown - find the single contest
+      const matchingContests = contests.filter(c => c.name === contestName);
+      if (matchingContests.length === 1) {
+        contest = matchingContests[0];
+        selectedStage = contest.stage;
+      }
+    } else {
+      // Normal stage selection
+      selectedStage = daySelect.value;
+      contest = contests.find(c => c.name === contestName && c.stage === selectedStage);
+    }
     
     console.log('Found contest:', contest);
     
@@ -1152,16 +1275,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       timer.textContent = `${hours}:${minutes.toString().padStart(2, '0')}:${
           seconds.toString().padStart(2, '0')}`;
 
-      // Total elapsed time = already elapsed + timer elapsed
-      const totalElapsedSeconds = alreadyElapsedSeconds + timerElapsedSeconds;
-      const totalContestSeconds = alreadyElapsedSeconds + remainingSeconds;
-      
-      const progressPercent = (totalElapsedSeconds / totalContestSeconds) * 100;
-      progressFill.style.width = `${Math.min(100, progressPercent)}%`;
+      // Only update progress if we have contest data
+      if (currentActiveContest && currentActiveContest.duration_minutes) {
+        // Total elapsed time = already elapsed + timer elapsed
+        const totalElapsedSeconds = alreadyElapsedSeconds + timerElapsedSeconds;
+        const totalContestSeconds = currentActiveContest.duration_minutes * 60;
+        
+        // Cap elapsed time at contest duration
+        const cappedElapsedSeconds = Math.min(totalElapsedSeconds, totalContestSeconds);
+        
+        const progressPercent = (cappedElapsedSeconds / totalContestSeconds) * 100;
+        progressFill.style.width = `${Math.min(100, progressPercent)}%`;
 
-      const elapsedHours = Math.floor(totalElapsedSeconds / 3600);
-      const elapsedMins = Math.floor((totalElapsedSeconds % 3600) / 60);
-      progressText.textContent = `${elapsedHours}h ${elapsedMins}m elapsed`;
+        const elapsedHours = Math.floor(cappedElapsedSeconds / 3600);
+        const elapsedMins = Math.floor((cappedElapsedSeconds % 3600) / 60);
+        progressText.textContent = `${elapsedHours}h ${elapsedMins}m elapsed`;
+      }
     };
 
     // Set initial display
@@ -1176,7 +1305,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         clearInterval(interval);
         timer.textContent = '0:00:00';
         progressFill.style.width = '100%';
-        showMessage('Time is up! Please end your contest and submit your scores.', 'warning');
+        
+        // Only show message if page is visible to avoid popup-like behavior
+        if (!document.hidden) {
+          // Small delay to ensure consistent behavior
+          setTimeout(() => {
+            showMessage('Time is up! Please end your contest and submit your scores.', 'warning');
+          }, 100);
+        }
       }
     }, 1000);
   }

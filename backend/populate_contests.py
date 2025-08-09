@@ -35,9 +35,9 @@ cur.execute("DELETE FROM contest_scores")
 
 for contest in contests:
     name = contest["name"]
-    stage = contest["stage"]
     source = contest["source"]
     year = contest["year"]
+    stage = contest.get("stage")  # May be None
 
     cur.execute('''
         INSERT INTO contests (
@@ -73,21 +73,21 @@ for contest in contests:
             i + 1
         ))
 
-    # YAML path
-    rel_path = os.path.join(
-        "contests",
-        source.lower(),
-        str(year),
-        f"{stage.replace(' ', '_')}.yaml"
-    )
+    # --- YAML path and scores path ---
+    if stage is None:
+        # For contests without stages, the structure is source/year.yaml and scores_year.json is in source/ directory
+        rel_path = os.path.join("contests", source.lower(), f"{year}.yaml")
+        scores_json_path = Path(contests_dir) / source.lower() / f"scores_{year}.json"
+    else:
+        stage_filename = stage.replace(" ", "_")
+        rel_path = os.path.join("contests", source.lower(), str(year), f"{stage_filename}.yaml")
+        scores_json_path = Path(contests_dir) / source.lower() / str(year) / f"scores_{stage_filename}.json"
+
     yaml_files_by_dir[os.path.dirname(rel_path)].add(os.path.basename(rel_path))
 
-    # -------- Process Scores if Available --------
-    scores_json_path = Path(contests_dir) / source.lower() / str(year) / f"scores_{stage.replace(' ', '_')}.json"
-    if scores_json_path.exists():
-        with open(scores_json_path, "r", encoding="utf-8") as f:
-            scores_data = json.load(f)
-
+    # Check if contest has scores data (loaded by compile_to_json.py)
+    scores_data = contest.get("scores")
+    if scores_data:
         # Build ordered list of scores per problem
         problem_keys = sorted(scores_data.keys(), key=int)
         problem_scores = [scores_data[key] for key in problem_keys]

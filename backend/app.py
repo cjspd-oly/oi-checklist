@@ -84,10 +84,10 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
         JOIN problems p ON cp.problem_source = p.source 
                         AND cp.problem_year = p.year 
                         AND cp.problem_number = p.number
-        WHERE cp.contest_name = ? AND cp.contest_stage = ?
+        WHERE cp.contest_name = ? AND (cp.contest_stage = ? OR (cp.contest_stage IS NULL AND ? IS NULL))
         AND p.link LIKE 'https://oj.uz/%'
         ORDER BY cp.problem_index
-    ''', (contest_name, contest_stage)).fetchall()
+    ''', (contest_name, contest_stage, contest_stage)).fetchall()
     for row in contest_problems:
         print(dict(row))
     
@@ -1097,7 +1097,7 @@ def get_virtual_contests():
             c.website,
             c.link
         FROM active_virtual_contests avc
-        JOIN contests c ON avc.contest_name = c.name AND avc.contest_stage = c.stage
+        JOIN contests c ON avc.contest_name = c.name AND (avc.contest_stage = c.stage OR (avc.contest_stage IS NULL AND c.stage IS NULL))
         WHERE avc.user_id = ?
     ''', (user_id,)).fetchone()
     
@@ -1140,7 +1140,7 @@ def get_virtual_contests():
                 ELSE 'manual'
             END as platform
         FROM user_virtual_contests v
-        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        JOIN contests c ON v.contest_name = c.name AND (v.contest_stage = c.stage OR (v.contest_stage IS NULL AND c.stage IS NULL))
         WHERE v.user_id = ?
         ORDER BY v.started_at DESC
         LIMIT 3
@@ -1148,7 +1148,7 @@ def get_virtual_contests():
 
     # Get all completed contests for this user
     completed_contests = db.execute('''
-        SELECT DISTINCT contest_name || '|' || contest_stage as contest_key
+        SELECT DISTINCT contest_name || '|' || COALESCE(contest_stage, '') as contest_key
         FROM user_virtual_contests
         WHERE user_id = ?
     ''', (user_id,)).fetchall()
@@ -1167,7 +1167,7 @@ def get_virtual_contests():
         # Add problems for this contest
         contest_dict['problems'] = []
         for cp in contest_problems:
-            if cp['contest_name'] == c['name'] and cp['contest_stage'] == c['stage']:
+            if cp['contest_name'] == c['name'] and (cp['contest_stage'] == c['stage'] or (cp['contest_stage'] is None and c['stage'] is None)):
                 contest_dict['problems'].append({
                     'source': cp['problem_source'],
                     'year': cp['problem_year'],
@@ -1214,7 +1214,7 @@ def get_virtual_contest_history():
                 ELSE 'manual'
             END as platform
         FROM user_virtual_contests v
-        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        JOIN contests c ON v.contest_name = c.name AND (v.contest_stage = c.stage OR (v.contest_stage IS NULL AND c.stage IS NULL))
         WHERE v.user_id = ?
         ORDER BY v.started_at DESC
     ''', (user_id,)).fetchall()
@@ -1233,10 +1233,10 @@ def start_virtual_contest():
     data = request.get_json()
     
     contest_name = data.get('contest_name')
-    contest_stage = data.get('contest_stage')
+    contest_stage = data.get('contest_stage')  # This can be None/null now
     
-    if not all([contest_name, contest_stage]):
-        return jsonify({'error': 'Missing required fields'}), 400
+    if not contest_name:
+        return jsonify({'error': 'Missing contest_name'}), 400
     
     db = get_db()
     
@@ -1250,19 +1250,33 @@ def start_virtual_contest():
         return jsonify({'error': 'User already has an active contest'}), 400
     
     # Check if user has already completed this contest
-    completed = db.execute(
-        'SELECT 1 FROM user_virtual_contests WHERE user_id = ? AND contest_name = ? AND contest_stage = ?',
-        (user_id, contest_name, contest_stage)
-    ).fetchone()
+    # Handle both NULL and non-NULL contest_stage cases
+    if contest_stage is not None:
+        completed = db.execute(
+            'SELECT 1 FROM user_virtual_contests WHERE user_id = ? AND contest_name = ? AND contest_stage = ?',
+            (user_id, contest_name, contest_stage)
+        ).fetchone()
+    else:
+        completed = db.execute(
+            'SELECT 1 FROM user_virtual_contests WHERE user_id = ? AND contest_name = ? AND contest_stage IS NULL',
+            (user_id, contest_name)
+        ).fetchone()
     
     if completed:
         return jsonify({'error': 'Contest already completed'}), 400
     
     # Verify contest exists
-    contest_exists = db.execute(
-        'SELECT 1 FROM contests WHERE name = ? AND stage = ?',
-        (contest_name, contest_stage)
-    ).fetchone()
+    # Handle both NULL and non-NULL contest_stage cases
+    if contest_stage is not None:
+        contest_exists = db.execute(
+            'SELECT 1 FROM contests WHERE name = ? AND stage = ?',
+            (contest_name, contest_stage)
+        ).fetchone()
+    else:
+        contest_exists = db.execute(
+            'SELECT 1 FROM contests WHERE name = ? AND stage IS NULL',
+            (contest_name,)
+        ).fetchone()
     
     if not contest_exists:
         return jsonify({'error': 'Contest not found'}), 404
@@ -1289,34 +1303,48 @@ def end_virtual_contest():
     
     db = get_db()
     
-    # Get the active contest
+    # Get the active contest with duration info
     active_contest = db.execute('''
-        SELECT contest_name, contest_stage, start_time
-        FROM active_virtual_contests 
-        WHERE user_id = ?
+        SELECT 
+            avc.contest_name, 
+            avc.contest_stage, 
+            avc.start_time,
+            c.duration_minutes
+        FROM active_virtual_contests avc
+        JOIN contests c ON avc.contest_name = c.name AND (avc.contest_stage = c.stage OR (avc.contest_stage IS NULL AND c.stage IS NULL))
+        WHERE avc.user_id = ?
     ''', (user_id,)).fetchone()
     
     if not active_contest:
         return jsonify({'error': 'No active contest found'}), 404
     
-    # End the contest immediately to prevent timing delays
-    utc_now = datetime.now(pytz.UTC).isoformat()
+    # Calculate the end time, capped at contest duration
+    start_time = datetime.fromisoformat(active_contest['start_time'].replace('Z', '+00:00'))
+    duration_minutes = active_contest['duration_minutes']
+    utc_now = datetime.now(pytz.UTC)
     
-    # Update the active contest with end_time
+    # Calculate maximum allowed end time based on contest duration
+    max_end_time = start_time + timedelta(minutes=duration_minutes)
+    
+    # Cap the end time at the maximum allowed time
+    capped_end_time = min(utc_now, max_end_time)
+    capped_end_time_iso = capped_end_time.isoformat()
+    
+    # Update the active contest with capped end_time
     db.execute('''
         UPDATE active_virtual_contests 
         SET end_time = ?
         WHERE user_id = ?
-    ''', (utc_now, user_id))
+    ''', (capped_end_time_iso, user_id))
     db.commit()
     
-    # Create updated active_contest object with end_time for sync function
+    # Create updated active_contest object with capped end_time for sync function
     active_contest_with_end = {
         'user_id': user_id,
         'contest_name': active_contest['contest_name'],
         'contest_stage': active_contest['contest_stage'],
         'start_time': active_contest['start_time'],
-        'end_time': utc_now
+        'end_time': capped_end_time_iso
     }
     
     # Handle oj.uz sync if username provided (after contest is officially ended)
@@ -1387,9 +1415,9 @@ def confirm_virtual_contest():
         JOIN problems p ON cp.problem_source = p.source 
                         AND cp.problem_year = p.year 
                         AND cp.problem_number = p.number
-        WHERE cp.contest_name = ? AND cp.contest_stage = ?
+        WHERE cp.contest_name = ? AND (cp.contest_stage = ? OR (cp.contest_stage IS NULL AND ? IS NULL))
         ORDER BY cp.problem_index
-    ''', (contest_name, contest_stage)).fetchall()
+    ''', (contest_name, contest_stage, contest_stage)).fetchall()
     
     # Parse the per-problem scores from JSON
     try:
@@ -1502,32 +1530,46 @@ def get_contest_scores():
     if not contest_names:
         return jsonify({"error": "Missing 'contests' query parameter"}), 400
 
-    # Parse contest names (format: "contest_name|contest_stage,contest_name2|contest_stage2")
     contest_list = []
     for contest in contest_names.split(','):
         if '|' in contest:
             name, stage = contest.strip().split('|', 1)
-            contest_list.append((name, stage))
-    
+            # Handle empty stage (convert to None for NULL matching)
+            stage = stage.strip() if stage.strip() else None
+            contest_list.append((name.strip(), stage))
+        else:
+            # No stage separator, assume no stage (NULL)
+            contest_list.append((contest.strip(), None))
+
     if not contest_list:
         return jsonify({"error": "No valid contests provided"}), 400
 
     db = get_db()
     
-    # Fetch contest scores for the requested contests
-    placeholders = ', '.join(['(?, ?)'] * len(contest_list))
-    flat_params = [item for pair in contest_list for item in pair]
+    # Build dynamic query to handle NULL stages properly
+    where_conditions = []
+    params = []
+    
+    for name, stage in contest_list:
+        if stage is None:
+            where_conditions.append("(contest_name = ? AND contest_stage IS NULL)")
+            params.append(name)
+        else:
+            where_conditions.append("(contest_name = ? AND contest_stage = ?)")
+            params.extend([name, stage])
+    
+    where_clause = " OR ".join(where_conditions)
     
     contest_scores = db.execute(f'''
         SELECT contest_name, contest_stage, medal_names, medal_cutoffs, problem_scores
         FROM contest_scores 
-        WHERE (contest_name, contest_stage) IN ({placeholders})
-    ''', flat_params).fetchall()
+        WHERE {where_clause}
+    ''', params).fetchall()
     
     # Convert to dictionary format
     scores_dict = {}
     for row in contest_scores:
-        key = f"{row['contest_name']}|{row['contest_stage']}"
+        key = f"{row['contest_name']}|{row['contest_stage'] or ''}"
         scores_dict[key] = {
             'medal_names': json.loads(row['medal_names']) if row['medal_names'] else [],
             'medal_cutoffs': json.loads(row['medal_cutoffs']) if row['medal_cutoffs'] else [],
@@ -1560,13 +1602,13 @@ def get_virtual_contest_detail(slug):
                 ELSE 'manual'
             END as platform
         FROM user_virtual_contests v
-        JOIN contests c ON v.contest_name = c.name AND v.contest_stage = c.stage
+        JOIN contests c ON v.contest_name = c.name AND (v.contest_stage = c.stage OR (v.contest_stage IS NULL AND c.stage IS NULL))
         WHERE v.user_id = ?
     ''', (user_id,)).fetchall()
     
     # Find contest with matching slug
     for contest in contests:
-        contest_slug = (contest['contest_name'] + contest['contest_stage']).lower().replace(' ', '')
+        contest_slug = (contest['contest_name'] + (contest['contest_stage'] or '')).lower().replace(' ', '')
         if contest_slug == slug:
             return jsonify(dict(contest))
     
