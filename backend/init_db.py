@@ -46,7 +46,7 @@ CREATE TABLE problem_statuses (
     source TEXT,
     year INTEGER,
     status INTEGER DEFAULT 0,
-    score INTEGER DEFAULT 0,
+    score REAL DEFAULT 0,
     PRIMARY KEY(user_id, problem_name, source, year),
     FOREIGN KEY(user_id) REFERENCES users(id)
 )
@@ -117,7 +117,7 @@ c.execute('''
     contest_stage TEXT,
     started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ended_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    score INTEGER,
+    score REAL,
     per_problem_scores TEXT,
     PRIMARY KEY(user_id, contest_name, contest_stage),
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -131,7 +131,7 @@ CREATE TABLE user_virtual_submissions (
     contest_stage TEXT,
     submission_time TIMESTAMP NOT NULL,
     problem_index INTEGER NOT NULL,
-    score INTEGER NOT NULL,
+    score REAL NOT NULL,
     subtask_scores TEXT NOT NULL,
     FOREIGN KEY(user_id, contest_name, contest_stage)
         REFERENCES user_virtual_contests(user_id, contest_name, contest_stage)
@@ -146,7 +146,7 @@ CREATE TABLE active_virtual_contests (
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP,
     ojuz_synced BOOLEAN NOT NULL DEFAULT 0,
-    score INTEGER,
+    score REAL,
     per_problem_scores TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(contest_name, contest_stage) REFERENCES contests(name, stage) ON DELETE CASCADE

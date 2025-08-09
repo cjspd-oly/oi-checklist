@@ -1,6 +1,9 @@
 // Shared utility functions and configuration
-const apiUrl = 'https://api.checklist.spoi.org.in';
-// const apiUrl = 'http://127.0.0.1:5001';
+// Auto-detect environment based on hostname
+const isLocalDev = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1' || 
+                   window.location.hostname.startsWith('192.168.');
+const apiUrl = isLocalDev ? 'http://127.0.0.1:5001' : 'https://api.checklist.spoi.org.in';
 // const apiUrl = 'https://avighna.pythonanywhere.com';
 
 function getFullOlympiadName(id) {
@@ -225,12 +228,15 @@ function handleCellClick(cell, name, source, year, e) {
     if (isProfileMode) return;
 
     let raw = popupScore.textContent.trim();
-    let score = parseInt(raw);
+    let score = parseFloat(raw);
     if (isNaN(score)) score = 0;
+    
+    // Round to 2 decimal places and clamp between 0 and 100
+    score = Math.round(score * 100) / 100;
     score = Math.max(0, Math.min(score, 100));
 
-    let prevScore = thisCell.dataset.score;
-    let scoreChanged = prevScore != score;
+    let prevScore = parseFloat(thisCell.dataset.score) || 0;
+    let scoreChanged = Math.abs(prevScore - score) > 0.001; // Handle floating point comparison
 
     thisCell.dataset.score = score;
     popupScore.textContent = score;
@@ -276,7 +282,12 @@ function handleCellClick(cell, name, source, year, e) {
       e.preventDefault();
       return;
     }
-    if (!/[0-9]/.test(e.key) && e.key !== 'Enter') {
+    // Allow digits, decimal point, and Enter
+    if (!/[0-9.]/.test(e.key) && e.key !== 'Enter') {
+      e.preventDefault();
+    }
+    // Prevent multiple decimal points
+    if (e.key === '.' && popupScore.textContent.includes('.')) {
       e.preventDefault();
     }
     if (e.key === 'Enter') {
@@ -328,7 +339,7 @@ function updateStatus(status, cell, name, source, year) {
 function handlePopupClose(cell) {
   if (isProfileMode) return;
 
-  const score = parseInt(cell.dataset.score || '0');
+  const score = parseFloat(cell.dataset.score) || 0;
   const status = parseInt(cell.dataset.status || '0');
   const name = cell.dataset.problemId;
   const source = cell.dataset.source;
@@ -336,7 +347,7 @@ function handlePopupClose(cell) {
 
   if (status === 2 || status === 0) {
     const finalScore = status === 2 ? 100 : 0;
-    if (cell.dataset.score == finalScore) {
+    if (Math.abs(parseFloat(cell.dataset.score) - finalScore) < 0.001) { // Handle floating point comparison
       return;
     }
     cell.dataset.score = finalScore;

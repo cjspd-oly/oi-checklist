@@ -1022,7 +1022,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     event.preventDefault();
     
     const subtaskScores = JSON.parse(cell.dataset.subtaskScores || '[]');
-    const totalScore = parseInt(cell.dataset.score) || 0;
+    const totalScore = parseFloat(cell.dataset.score) || 0;
     
     showReadOnlyPopup(cell, {
       problemName: problem.name,
@@ -1165,7 +1165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Validate scores first
     for (let i = 0; i < problemCells.length; i++) {
-      const score = parseInt(problemCells[i].dataset.score) || 0;
+      const score = parseFloat(problemCells[i].dataset.score) || 0;
       if (score < 0 || score > 100) {
         showMessage(`${problemCells[i].dataset.problemId} score must be between 0 and 100.`, 'warning');
         return;
@@ -1183,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const problemName = cell.dataset.problemId;
         const source = cell.dataset.source;
         const year = parseInt(cell.dataset.year);
-        const score = parseInt(cell.dataset.score) || 0;
+        const score = parseFloat(cell.dataset.score) || 0;
         const status = parseInt(cell.dataset.status) || 0;
 
         // Update problem status

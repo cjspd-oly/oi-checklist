@@ -65,7 +65,7 @@ function updateStatusWithCount(status, cell, name, source, year) {
 function handlePopupCloseWithServer(cell) {
   if (isProfileMode) return;
 
-  const score = parseInt(cell.dataset.score || '0');
+  const score = parseFloat(cell.dataset.score) || 0;
   const status = parseInt(cell.dataset.status || '0');
   const name = cell.dataset.problemId;
   const source = cell.dataset.source;
@@ -76,7 +76,7 @@ function handlePopupCloseWithServer(cell) {
 
   if (status === 2 || status === 0) {
     const finalScore = status === 2 ? 100 : 0;
-    if (cell.dataset.score == finalScore) {
+    if (Math.abs(parseFloat(cell.dataset.score) - finalScore) < 0.001) { // Handle floating point comparison
       return;
     }
     
