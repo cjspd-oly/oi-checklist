@@ -1,6 +1,7 @@
 // Count tracking for dashboard
 const count = {
   counts: {red: 0, yellow: 0, green: 0, white: 0},
+  sectionCounts: {}, // Track counts per section
   update(key, diff) {
     if (key in this.counts) {
       this.counts[key] += diff;
@@ -17,8 +18,111 @@ const count = {
         }
       }
     }
+  },
+  updateSection(sectionId, key, diff) {
+    if (!this.sectionCounts[sectionId]) {
+      this.sectionCounts[sectionId] = {red: 0, yellow: 0, green: 0, white: 0};
+    }
+    
+    if (key in this.sectionCounts[sectionId]) {
+      this.sectionCounts[sectionId][key] += diff;
+      
+      // Update section progress bar
+      let sectionTotal = 0;
+      for (const color in this.sectionCounts[sectionId]) {
+        sectionTotal += this.sectionCounts[sectionId][color];
+      }
+      
+      if (sectionTotal > 0) {
+        for (const color in this.sectionCounts[sectionId]) {
+          const el = document.querySelector(`#${sectionId}-container .section-progress-bar .progress-segment.${color}`);
+          if (el) {
+            el.style.width = `${(this.sectionCounts[sectionId][color] / sectionTotal) * 100}%`;
+          }
+        }
+      }
+    }
   }
 };
+
+function createOlympiadContainer(olympiadId) {
+  const container = document.createElement('div');
+  container.className = 'table-container';
+  container.id = `${olympiadId.toLowerCase()}-container`;
+  
+  if (olympiadId === 'USACO') {
+    // Special handling for USACO with tabs
+    container.innerHTML = `
+      <div class="usaco-header">
+        <h2>${getFullOlympiadName(olympiadId)}</h2>
+        <div class="usaco-tab-buttons" style="display: none;">
+          <button data-tab="usacoplatinum" class="usaco-tab platinum">Platinum</button>
+          <button data-tab="usacogold" class="usaco-tab gold">Gold</button>
+          <button data-tab="usacosilver" class="usaco-tab silver">Silver</button>
+          <button data-tab="usacobronze" class="usaco-tab bronze">Bronze</button>
+        </div>
+      </div>
+      <div class="section-progress-bar">
+        <div class="progress-segment red"></div>
+        <div class="progress-segment yellow"></div>
+        <div class="progress-segment green"></div>
+        <div class="progress-segment white"></div>
+      </div>
+      <div id="usacoplatinum-container" class="usaco-tab-content">
+        <table class="problem-table"></table>
+      </div>
+      <div id="usacogold-container" class="usaco-tab-content hidden">
+        <table class="problem-table"></table>
+      </div>
+      <div id="usacosilver-container" class="usaco-tab-content hidden">
+        <table class="problem-table"></table>
+      </div>
+      <div id="usacobronze-container" class="usaco-tab-content hidden">
+        <table class="problem-table"></table>
+      </div>
+    `;
+    
+    // Add event listeners for USACO tabs after creating the container
+    setTimeout(() => {
+      container.querySelectorAll('.usaco-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.dataset.tab;
+
+          container.querySelectorAll('.usaco-tab-content').forEach(el => {
+            el.classList.add('hidden');
+          });
+
+          document.getElementById(`${tab}-container`).classList.remove('hidden');
+        });
+      });
+    }, 0);
+    
+  } else {
+    // Standard olympiad container
+    const h2 = document.createElement('h2');
+    h2.textContent = getFullOlympiadName(olympiadId);
+    h2.style.visibility = 'hidden';
+    
+    const progressBar = document.createElement('div');
+    progressBar.className = 'section-progress-bar';
+    progressBar.innerHTML = `
+      <div class="progress-segment red"></div>
+      <div class="progress-segment yellow"></div>
+      <div class="progress-segment green"></div>
+      <div class="progress-segment white"></div>
+    `;
+    
+    const table = document.createElement('table');
+    table.className = 'problem-table';
+    table.innerHTML = generateSkeletonRows(10);
+    
+    container.appendChild(h2);
+    container.appendChild(progressBar);
+    container.appendChild(table);
+  }
+  
+  return container;
+}
 
 document.querySelectorAll('.problem-cell').forEach(cell => {
   const name = cell.dataset.problemId?.trim();
@@ -176,6 +280,12 @@ async function loadProblems(from) {
           if (status?.className) {
             cell.classList.add(status.className);
             count.update(status.className, 1);
+            count.updateSection(from.toLowerCase(), status.className, 1);
+            
+            // Also update the parent USACO container if this is a USACO division
+            if (from.startsWith('USACO')) {
+              count.updateSection('usaco', status.className, 1);
+            }
           }
 
           cell.dataset.status = problem.status;
@@ -223,6 +333,12 @@ async function loadProblems(from) {
         if (status?.className) {
           cell.classList.add(status.className);
           count.update(status.className, 1);
+          count.updateSection(from.toLowerCase(), status.className, 1);
+          
+          // Also update the parent USACO container if this is a USACO division
+          if (from.startsWith('USACO')) {
+            count.updateSection('usaco', status.className, 1);
+          }
         }
 
         cell.dataset.status = problem.status;
@@ -297,6 +413,12 @@ function loadProblemsWithDay(source, numDays) {
           if (status?.className) {
             cell.classList.add(status.className);
             count.update(status.className, 1);
+            count.updateSection(source.toLowerCase(), status.className, 1);
+            
+            // Also update the parent USACO container if this is a USACO division
+            if (source.startsWith('USACO')) {
+              count.updateSection('usaco', status.className, 1);
+            }
           }
 
           cell.dataset.status = problem.status;
@@ -354,32 +476,19 @@ window.onload = async () => {
     'GKS', 'USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'
   ];
 
-  // Render containers immediately with skeletons and hidden <h2>s
+  // Create and render containers dynamically with skeletons
   const olympiadList = document.getElementById('olympiad-list');
   sources.forEach(src => {
-    if (!src.startsWith('USACO')) {
-      const container = document.getElementById(`${src.toLowerCase()}-container`);
-      if (container) {
-        // Populate the h2 with the full olympiad name
-        const h2 = container.querySelector('h2');
-        if (h2) {
-          h2.textContent = getFullOlympiadName(src);
-        }
-        h2.style.visibility = 'hidden';
-        container.querySelector('table').innerHTML = generateSkeletonRows(10);
-        olympiadList.appendChild(container);
-      }
+    if (src === 'USACO') {
+      // Create USACO container with all its sub-containers
+      const usacoContainer = createOlympiadContainer('USACO');
+      olympiadList.appendChild(usacoContainer);
+    } else if (!src.startsWith('USACO')) {
+      // Create regular olympiad containers
+      const container = createOlympiadContainer(src);
+      olympiadList.appendChild(container);
     }
   });
-
-  // Handle USACO container separately
-  const usacoContainer = document.getElementById('usaco-container');
-  if (usacoContainer) {
-    const usacoH2 = usacoContainer.querySelector('h2');
-    if (usacoH2) {
-      usacoH2.textContent = getFullOlympiadName('USACO');
-    }
-  }
 
   // Fetch user info
   const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
@@ -413,10 +522,18 @@ window.onload = async () => {
       const { olympiad_order } = await orderResponse.json();
       if (Array.isArray(olympiad_order) && olympiad_order.length > 0) {
         sources = olympiad_order.map(id => id.toUpperCase());
-        // Reorder existing DOM nodes
+        // Clear and recreate containers in the new order
+        olympiadList.innerHTML = '';
         sources.forEach(src => {
-          const container = document.getElementById(`${src.toLowerCase()}-container`);
-          if (container) olympiadList.appendChild(container);
+          if (src === 'USACO') {
+            // Create USACO container with all its sub-containers
+            const usacoContainer = createOlympiadContainer('USACO');
+            olympiadList.appendChild(usacoContainer);
+          } else if (!src.startsWith('USACO')) {
+            // Create regular olympiad containers
+            const container = createOlympiadContainer(src);
+            olympiadList.appendChild(container);
+          }
         });
       }
     }
@@ -538,167 +655,153 @@ window.onload = async () => {
 
 const settingsButton = document.getElementById('settings-button');
 const dropdown = document.getElementById('settings-dropdown');
-const settingsContainer =
-    settingsButton
-        .parentElement;  // Get the parent container (.settings-container)
+const settingsContainer = settingsButton?.parentElement;  // Get the parent container (.settings-container)
 // Correctly reference the visibility item div by its new ID
-const checklistVisibilityItem =
-    document.getElementById('checklist-visibility-item');
+const checklistVisibilityItem = document.getElementById('checklist-visibility-item');
 
-// Helper: Update the text content, data-state, and color classes of the
-// visibility item
-function updateVisibilityUI(itemElement, isPublic) {
-  // Find the label span within the item element
-  const labelSpan = itemElement.querySelector('.settings-label');
-  if (labelSpan) {
-    // Update the text content of the span
-    labelSpan.textContent =
-        `Checklist Visibility: ${isPublic ? 'Public' : 'Private'}`;
+// Only proceed with settings functionality if elements exist
+if (settingsButton && settingsContainer && checklistVisibilityItem) {
+  // Helper: Update the text content, data-state, and color classes of the
+  // visibility item
+  function updateVisibilityUI(itemElement, isPublic) {
+    // Find the label span within the item element
+    const labelSpan = itemElement.querySelector('.settings-label');
+    if (labelSpan) {
+      // Update the text content of the span
+      labelSpan.textContent =
+          `Checklist Visibility: ${isPublic ? 'Public' : 'Private'}`;
+    }
+
+    // Set the data-state attribute on the item element itself
+    itemElement.setAttribute('data-state', isPublic ? 'public' : 'private');
+
+    // Remove existing color classes and add the new one
+    // Include any color classes you might use for items here
+    itemElement.classList.remove('red', 'green', 'yellow', 'white');
+    if (isPublic) {
+      itemElement.classList.add('green');  // Add 'green' class for public state
+    } else {
+      itemElement.classList.add('red');  // Add 'red' class for private state
+    }
+    // If you have other states/colors for items, add logic here
   }
 
-  // Set the data-state attribute on the item element itself
-  itemElement.setAttribute('data-state', isPublic ? 'public' : 'private');
-
-  // Remove existing color classes and add the new one
-  // Include any color classes you might use for items here
-  itemElement.classList.remove('red', 'green', 'yellow', 'white');
-  if (isPublic) {
-    itemElement.classList.add('green');  // Add 'green' class for public state
-  } else {
-    itemElement.classList.add('red');  // Add 'red' class for private state
-  }
-  // If you have other states/colors for items, add logic here
-}
-
-// Outside click handler - Simplified permanent listener
-function handleOutsideClick(e) {
-  // If the click target is NOT inside the settings container
-  if (!settingsContainer.contains(e.target)) {
-    // Only close if the dropdown is currently active to avoid unnecessary calls
-    if (settingsContainer.classList.contains('active')) {
-      settingsContainer.classList.remove('active');
-      settingsButton.setAttribute('aria-expanded', 'false');
+  // Outside click handler - Simplified permanent listener
+  function handleOutsideClick(e) {
+    // If the click target is NOT inside the settings container
+    if (!settingsContainer.contains(e.target)) {
+      // Only close if the dropdown is currently active to avoid unnecessary calls
+      if (settingsContainer.classList.contains('active')) {
+        settingsContainer.classList.remove('active');
+        settingsButton.setAttribute('aria-expanded', 'false');
+      }
     }
   }
-}
 
-// Attach the outside click handler once to the document
-document.addEventListener('click', handleOutsideClick);
+  // Attach the outside click handler once to the document
+  document.addEventListener('click', handleOutsideClick);
 
 
-// Settings button click
-settingsButton.addEventListener('click', async (event) => {
-  event.stopPropagation();  // Prevent click from bubbling up to document
-                            // listener
+  // Settings button click
+  settingsButton.addEventListener('click', async (event) => {
+    event.stopPropagation();  // Prevent click from bubbling up to document
+                              // listener
 
-  const isActive = settingsContainer.classList.contains('active');
-  // Toggle the active state of the container
-  settingsContainer.classList.toggle('active', !isActive);
-  // Update aria-expanded state for accessibility
-  settingsButton.setAttribute('aria-expanded', !isActive);
+    const isActive = settingsContainer.classList.contains('active');
+    // Toggle the active state of the container
+    settingsContainer.classList.toggle('active', !isActive);
+    // Update aria-expanded state for accessibility
+    settingsButton.setAttribute('aria-expanded', !isActive);
 
-  // If we are opening the dropdown, fetch the current setting
-  if (!isActive) {
-    try {
-      const sessionToken = localStorage.getItem('sessionToken');
-      const response = await fetch(`${apiUrl}/api/settings`, {
-        method: 'GET',
-        credentials: 'include',  // Include cookies if necessary
-        headers: {'Authorization': `Bearer ${sessionToken}`}
-      });
+    // If we are opening the dropdown, fetch the current setting
+    if (!isActive) {
+      try {
+        const sessionToken = localStorage.getItem('sessionToken');
+        const response = await fetch(`${apiUrl}/api/settings`, {
+          method: 'GET',
+          credentials: 'include',  // Include cookies if necessary
+          headers: {'Authorization': `Bearer ${sessionToken}`}
+        });
 
-      if (!response.ok) {
-        // Handle HTTP errors (e.g., 401, 404, 500)
-        console.error(
-            'Error fetching settings:', response.status, response.statusText);
+        if (!response.ok) {
+          // Handle HTTP errors (e.g., 401, 404, 500)
+          console.error(
+              'Error fetching settings:', response.status, response.statusText);
+          // Optional: Close dropdown and revert button state on fetch failure
+          settingsContainer.classList.remove('active');
+          settingsButton.setAttribute('aria-expanded', 'false');
+          // Optional: Show an error state or message in the UI (e.g., on the
+          // settings button or item)
+          return;  // Stop execution
+        }
+
+        const data = await response.json();
+        // Update the UI based on the fetched state (using the
+        // checklistVisibilityItem element)
+        updateVisibilityUI(checklistVisibilityItem, data.checklist_public);
+
+      } catch (err) {
+        // Handle network errors or errors parsing JSON
+        console.error('Error fetching settings:', err);
         // Optional: Close dropdown and revert button state on fetch failure
         settingsContainer.classList.remove('active');
         settingsButton.setAttribute('aria-expanded', 'false');
-        // Optional: Show an error state or message in the UI (e.g., on the
-        // settings button or item)
+        // Optional: Show an error state or message in the UI
+      }
+    }
+    // If we are closing the dropdown, no extra action is needed here
+  });
+
+
+  // Toggle checklist visibility on item click
+  // Listen for clicks on the entire checklistVisibilityItem div
+  checklistVisibilityItem.addEventListener('click', async () => {
+    // Get the current state from the data attribute on the item div
+    const currentState = checklistVisibilityItem.getAttribute('data-state');
+    // Determine the new state (invert the current state)
+    const newStateIsPublic = currentState ===
+        'private';  // If currently private, the new state is public
+
+    // Optimistically update the UI immediately (pass the item element)
+    updateVisibilityUI(checklistVisibilityItem, newStateIsPublic);
+
+    try {
+      const sessionToken = localStorage.getItem('sessionToken');
+      const response = await fetch(`${apiUrl}/api/settings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionToken}`  // Correctly adding the token
+        },
+        // Send the new boolean state in the request body
+        body: JSON.stringify({checklist_public: newStateIsPublic})
+      });
+
+      if (!response.ok) {
+        console.error(
+            'Error updating settings:', response.status, response.statusText);
+        // Revert the UI state if the save failed (pass the item element)
+        updateVisibilityUI(
+            checklistVisibilityItem,
+            !newStateIsPublic);  // Go back to the previous state
+        // Optional: Show a temporary error message next to the item
         return;  // Stop execution
       }
-
-      const data = await response.json();
-      // Update the UI based on the fetched state (using the
-      // checklistVisibilityItem element)
-      updateVisibilityUI(checklistVisibilityItem, data.checklist_public);
+      // Optional: Add visual feedback for successful save (e.g., brief background
+      // flash, checkmark icon)
+      console.log(
+          'Settings updated successfully:',
+          newStateIsPublic ? 'Public' : 'Private');
 
     } catch (err) {
-      // Handle network errors or errors parsing JSON
-      console.error('Error fetching settings:', err);
-      // Optional: Close dropdown and revert button state on fetch failure
-      settingsContainer.classList.remove('active');
-      settingsButton.setAttribute('aria-expanded', 'false');
-      // Optional: Show an error state or message in the UI
-    }
-  }
-  // If we are closing the dropdown, no extra action is needed here
-});
-
-
-// Toggle checklist visibility on item click
-// Listen for clicks on the entire checklistVisibilityItem div
-checklistVisibilityItem.addEventListener('click', async () => {
-  // Get the current state from the data attribute on the item div
-  const currentState = checklistVisibilityItem.getAttribute('data-state');
-  // Determine the new state (invert the current state)
-  const newStateIsPublic = currentState ===
-      'private';  // If currently private, the new state is public
-
-  // Optimistically update the UI immediately (pass the item element)
-  updateVisibilityUI(checklistVisibilityItem, newStateIsPublic);
-
-  try {
-    const sessionToken = localStorage.getItem('sessionToken');
-    const response = await fetch(`${apiUrl}/api/settings`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionToken}`  // Correctly adding the token
-      },
-      // Send the new boolean state in the request body
-      body: JSON.stringify({checklist_public: newStateIsPublic})
-    });
-
-    if (!response.ok) {
-      console.error(
-          'Error updating settings:', response.status, response.statusText);
-      // Revert the UI state if the save failed (pass the item element)
+      console.error('Error updating settings:', err);
+      // Revert the UI state if the save failed due to network error etc. (pass
+      // the item element)
       updateVisibilityUI(
           checklistVisibilityItem,
           !newStateIsPublic);  // Go back to the previous state
-      // Optional: Show a temporary error message next to the item
-      return;  // Stop execution
+                               // Optional: Show a temporary error message next to
+                               // the item
     }
-    // Optional: Add visual feedback for successful save (e.g., brief background
-    // flash, checkmark icon)
-    console.log(
-        'Settings updated successfully:',
-        newStateIsPublic ? 'Public' : 'Private');
-
-  } catch (err) {
-    console.error('Error updating settings:', err);
-    // Revert the UI state if the save failed due to network error etc. (pass
-    // the item element)
-    updateVisibilityUI(
-        checklistVisibilityItem,
-        !newStateIsPublic);  // Go back to the previous state
-                             // Optional: Show a temporary error message next to
-                             // the item
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.usaco-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-
-      document.querySelectorAll('.usaco-tab-content').forEach(el => {
-        el.classList.add('hidden');
-      });
-
-      document.getElementById(`${tab}-container`).classList.remove('hidden');
-    });
   });
-});
+}
