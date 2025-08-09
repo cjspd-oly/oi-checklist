@@ -77,19 +77,8 @@ function generateSkeletonRows(numRows) {
 function getPlatformFromLink(link) {
   if (!link) return 'Unknown';
   try {
-    const url = new URL(link);
-    const hostname = url.hostname.toLowerCase();
-    
-    if (hostname.includes('oj.uz')) return 'oj.uz';
-    if (hostname.includes('qoj.ac')) return 'QOJ';
-    if (hostname.includes('usaco.org')) return 'USACO';
-    if (hostname.includes('atcoder.jp')) return 'AtCoder';
-    if (hostname.includes('codeforces.com')) return 'Codeforces';
-    if (hostname.includes('codechef.com')) return 'CodeChef';
-    
-    // Return the hostname if no specific platform detected
-    return hostname.replace('www.', '');
-  } catch (e) {
+    return new URL(link).hostname.replace(/^www\./i, '').toLowerCase();
+  } catch {
     return 'Unknown';
   }
 }

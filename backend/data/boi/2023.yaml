@@ -1,18 +1,18 @@
 - name: Astronomer
   number: 1
-  link: https://open.kattis.com/problems/astronomer
-- name: Minequake
-  number: 2
-  link: https://open.kattis.com/problems/boi23.minequake
-- name: Mineral Deposits
-  number: 3
-  link: https://open.kattis.com/problems/boi23.mineraldeposits
-- name: Sequence
-  number: 4
-  link: https://open.kattis.com/problems/boi23.sequence
+  link: https://qoj.ac/contest/1527/problem/8266
 - name: Staring Contest
-  number: 5
-  link: https://open.kattis.com/problems/boi23.staringcontest
+  number: 2
+  link: https://qoj.ac/contest/1527/problem/8267
 - name: Tycho
+  number: 3
+  link: https://qoj.ac/contest/1527/problem/8268
+- name: Minequake
+  number: 4
+  link: https://qoj.ac/contest/1528/problem/8269
+- name: Mineral Deposits
+  number: 5
+  link: https://qoj.ac/contest/1528/problem/8270
+- name: Sequence
   number: 6
-  link: https://open.kattis.com/problems/boi23.tycho
+  link: https://qoj.ac/contest/1528/problem/8271
