@@ -27,23 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load contest details
   await loadContestDetails(slug);
-
-  // Handle logout
-  document.getElementById('logout-button').addEventListener('click', async (event) => {
-    event.preventDefault();
-    
-    const res = await fetch(`${apiUrl}/api/logout`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
-    });
-
-    if (res.status === 200) {
-      window.location.href = 'home';
-    } else {
-      console.error('Logout failed');
-    }
-  });
 });
 
 async function loadContestDetails(slug) {

@@ -1329,21 +1329,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Convert to seconds and use the seconds-based function
     startTimerWithSeconds(remainingMinutes * 60, alreadyElapsedMinutes * 60);
   }
-
-  // Handle logout
-  document.getElementById('logout-button').addEventListener('click', async (event) => {
-    event.preventDefault();
-    
-    const res = await fetch(`${apiUrl}/api/logout`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
-    });
-
-    if (res.status === 200) {
-      window.location.href = 'home';
-    } else {
-      console.error('Logout failed');
-    }
-  });
 });

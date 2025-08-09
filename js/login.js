@@ -13,17 +13,25 @@ document.getElementById('login-form')
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({username, password})
+          body: JSON.stringify({ username, password })
         });
 
         const data = await response.json();
 
         if (response.ok && data.success) {
-          const sessionToken = data.token;
-          let theme = localStorage.getItem('theme') || 'light-mode';
-          localStorage.clear();
-          localStorage.setItem('theme', theme);
-          localStorage.setItem('sessionToken', sessionToken);
+          if (data.local_storage) {
+            try {
+              const savedData = JSON.parse(data.local_storage);
+              if (savedData && typeof savedData === 'object') {
+                for (const key in savedData) {
+                  localStorage.setItem(key, savedData[key]);
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to parse saved localStorage from server:', e);
+            }
+          }
+          localStorage.setItem('sessionToken', data.token);
           window.location.href = '/';
         } else {
           errorBox.style.display = 'block';

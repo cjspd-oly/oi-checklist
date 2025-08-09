@@ -360,12 +360,26 @@ window.onload = async () => {
     if (!src.startsWith('USACO')) {
       const container = document.getElementById(`${src.toLowerCase()}-container`);
       if (container) {
-        container.querySelector('h2').style.visibility = 'hidden';
+        // Populate the h2 with the full olympiad name
+        const h2 = container.querySelector('h2');
+        if (h2) {
+          h2.textContent = getFullOlympiadName(src);
+        }
+        h2.style.visibility = 'hidden';
         container.querySelector('table').innerHTML = generateSkeletonRows(10);
         olympiadList.appendChild(container);
       }
     }
   });
+
+  // Handle USACO container separately
+  const usacoContainer = document.getElementById('usaco-container');
+  if (usacoContainer) {
+    const usacoH2 = usacoContainer.querySelector('h2');
+    if (usacoH2) {
+      usacoH2.textContent = getFullOlympiadName('USACO');
+    }
+  }
 
   // Fetch user info
   const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
@@ -521,26 +535,6 @@ window.onload = async () => {
     el.style.display = 'flex';
   });
 };
-
-document.getElementById('logout-button')
-    .addEventListener('click', async (event) => {
-      const sessionToken = localStorage.getItem('sessionToken');
-      event.preventDefault();  // Prevents the default behavior of the <a> tag
-
-      const res = await fetch(apiUrl + '/api/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {'Authorization': `Bearer ${sessionToken}`}
-      });
-
-      if (res.status === 200) {
-        // Successfully logged out, you can redirect the user or update the UI
-        window.location.href = 'home';  // Redirect to home page after logout
-      } else {
-        // Handle error if something goes wrong
-        console.error('Logout failed');
-      }
-    });
 
 const settingsButton = document.getElementById('settings-button');
 const dropdown = document.getElementById('settings-dropdown');

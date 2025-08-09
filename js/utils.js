@@ -13,14 +13,14 @@ function getFullOlympiadName(id) {
     INOI: 'Indian National Olympiad in Informatics',
     ZCO: 'Indian Zonal Computing Olympiad',
     IOI: 'International Olympiad in Informatics',
-    JOIFR: 'Japanese Olympiad in Informatics: Final Round',
-    JOISC: 'Japanese Olympiad in Informatics: Spring Camp',
-    IOITC: 'Indian International Olympiad in Informatics: Training Camp',
-    NOIPRELIM: 'Singapore NOI: Preliminary Round',
-    NOIQUAL: 'Singapore NOI: Qualification Round',
-    NOIFINAL: 'Singapore NOI: Final Round',
+    JOIFR: 'Japanese OI — Final Round',
+    JOISC: 'Japanese OI — Spring Camp',
+    IOITC: 'Indian IOI Training Camp',
+    NOIPRELIM: 'Singapore NOI — Preliminary Round',
+    NOIQUAL: 'Singapore NOI — Qualification Round',
+    NOIFINAL: 'Singapore NOI — Final Round',
+    NOISEL: 'Singapore NOI — Selection Test',
     POI: 'Polish Olympiad in Informatics',
-    NOISEL: 'Singapore NOI: Selection Test',
     CEOI: 'Central European Olympiad in Informatics',
     COI: 'Croatian Olympiad in Informatics',
     BOI: 'Baltic Olympiad in Informatics',
@@ -373,3 +373,66 @@ function handlePopupClose(cell) {
     }
   }
 }
+
+// Handle logout
+document.addEventListener('DOMContentLoaded', async () => {
+  const logout_button = document.getElementById('logout-button');
+  if (!logout_button) return;
+
+  logout_button.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    // Send entire localStorage as JSON
+    const token = localStorage.getItem('sessionToken');
+    localStorage.removeItem('sessionToken'); // we don't really need to send this
+    const localStorageData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      localStorageData[key] = localStorage.getItem(key);
+    }
+
+    const res = await fetch(`${apiUrl}/api/logout`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ local_storage: JSON.stringify(localStorageData) })
+    });
+
+    if (res.status === 200) {
+      window.location.href = 'home';
+    } else {
+      console.error('Logout failed');
+    }
+  });
+});
+
+// Dark mode
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleSwitch = document.getElementById('dark-mode-switch');
+  if (!toggleSwitch) {
+    let currentTheme = localStorage.getItem('theme') || 'light-mode';
+    if (currentTheme === 'dark-mode') {
+      document.body.classList.add('dark-mode');
+    }
+    return;
+  }
+
+  let currentTheme = localStorage.getItem('theme') || 'light-mode';
+  if (currentTheme === 'dark-mode') {
+    document.body.classList.add('dark-mode');
+    toggleSwitch.checked = true;
+  }
+
+  toggleSwitch.addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light-mode');
+    }
+  });
+});
