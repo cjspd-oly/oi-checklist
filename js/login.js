@@ -20,9 +20,10 @@ document.getElementById('login-form')
 
         if (response.ok && data.success) {
           const sessionToken = data.token;
+          let theme = localStorage.getItem('theme') || 'light-mode';
           localStorage.clear();
+          localStorage.setItem('theme', theme);
           localStorage.setItem('sessionToken', sessionToken);
-
           window.location.href = '/';
         } else {
           errorBox.style.display = 'block';
