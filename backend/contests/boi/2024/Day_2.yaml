@@ -1,0 +1,19 @@
+- name: BOI 2024
+  location: Vilnius, Lithuania
+  duration_minutes: 300
+  website: https://boi2024.lmio.lt/
+  link: https://oj.uz/problems/source/boi2024day2
+  problems:
+  - source: BOI
+    year: 2024
+    number: 4
+  - source: BOI
+    year: 2024
+    number: 5
+  - source: BOI
+    year: 2024
+    number: 6
+  medal_cutoffs:
+  - gold: 204.0
+    silver: 123.0
+    bronze: 65.0
