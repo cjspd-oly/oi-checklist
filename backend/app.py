@@ -427,6 +427,10 @@ def github_link():
         return jsonify({"error": "Invalid or expired session"}), 401
 
     user_id = session["user_id"]
+    username_row = db.execute("SELECT username FROM users WHERE id = ?", (user_id,)).fetchone()
+    if username_row and username_row["username"] == "demo-user":
+        return jsonify({"error": "Demo user cannot link GitHub accounts."}), 403
+
     github = OAuth2Session(GITHUB_CLIENT_ID, redirect_uri=GITHUB_CALLBACK_URL)
     auth_url, new_state = github.authorization_url(
         GITHUB_AUTH_URL, state=state
