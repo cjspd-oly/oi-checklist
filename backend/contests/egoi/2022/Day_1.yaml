@@ -1,0 +1,22 @@
+- name: EGOI 2022
+  location: Antalya, Turkey
+  duration_minutes: 300
+  website: https://ubilo.tubitak.gov.tr/egoi2022/
+  link: https://qoj.ac/contest/2259
+  problems:
+  - source: EGOI
+    year: 2022
+    number: 1
+  - source: EGOI
+    year: 2022
+    number: 2
+  - source: EGOI
+    year: 2022
+    number: 3
+  - source: EGOI
+    year: 2022
+    number: 4
+  medal_cutoffs:
+  - gold: 265.0
+    silver: 169.0
+    bronze: 126.0

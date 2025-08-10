@@ -303,8 +303,10 @@
     border: 1px solid #ddd;
     padding: 2rem;
     background-color: #ffffff;
-    max-width: 600px;
+    max-width: 900px;
+    width: 100%;
     margin: 0 auto;
+    overflow-x: auto;
 }
 
 .completion-header {
@@ -374,24 +376,49 @@
 }
 
 .score-problems-table {
-    margin-bottom: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .score-problems-table .problem-table {
     width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
+    table-layout: fixed;
+}
+
+.score-problems-table .problem-cell {
+    word-break: break-word;
+    min-width: 120px;
+    max-width: 1fr;
+    box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+  .score-entry {
+    max-width: 100vw;
+    padding: 1rem;
+  }
+  .score-problems-table .problem-table {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .score-entry {
+    max-width: 100vw;
+    padding: 1rem;
+  }
+  .score-problems-table .problem-table {
+    font-size: 0.9rem;
+  }
+  .score-problems-table .problem-cell {
+    min-width: 100px;
+  }
 }
 
 .score-problems-table .problem-table td {
     border: 1px solid #ccc;
     padding: 12px;
     text-align: center;
-}
-
-.score-problems-table .problem-cell {
-    transition: background-color 0.3s ease;
-    cursor: pointer;
 }
 
 .score-problems-table .problem-cell a {

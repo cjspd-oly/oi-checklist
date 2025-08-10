@@ -1,0 +1,22 @@
+- name: EGOI 2021
+  location: Zurich, Switzerland
+  duration_minutes: 300
+  website: https://egoi.ch/
+  link: https://qoj.ac/contest/2292
+  problems:
+  - source: EGOI
+    year: 2021
+    number: 5
+  - source: EGOI
+    year: 2021
+    number: 6
+  - source: EGOI
+    year: 2021
+    number: 7
+  - source: EGOI
+    year: 2021
+    number: 8
+  medal_cutoffs:
+  - gold: 300.0
+    silver: 207.0
+    bronze: 130.0
