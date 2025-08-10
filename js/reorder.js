@@ -1,3 +1,20 @@
+// Dynamically populate olympiad cards
+const olympiadIds = [
+  'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOISC', 'IOITC', 'NOISEL',
+  'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO', 'GKS'
+];
+const list = document.getElementById('olympiad-reorder-list');
+olympiadIds.forEach(id => {
+  const card = document.createElement('div');
+  card.className = 'connection-card';
+  card.dataset.id = id.toLowerCase();
+  const h3 = document.createElement('h3');
+  h3.className = 'connection-name';
+  h3.textContent = getFullOlympiadName(id);
+  card.appendChild(h3);
+  list.appendChild(card);
+});
+
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
 
