@@ -13,7 +13,14 @@
 <body>
   <nav class="navbar" id="navbar">
     <div class="navbar-content">
-      <div class="navbar-title" id="page-title">Settings</div>
+      <div class="navbar-left">
+        <a href="/" class="home-icon">
+          <svg id="home-svg" class="home-icon-svg" width="36" height="36" viewBox="0 0 24 24" stroke="none">
+            <path d="M12 3l9 7v11h-6v-8h-6v8H3V10l9-7z" />
+          </svg>
+        </a>
+        <div class="navbar-title" id="page-title">Settings</div>
+      </div>
       <div class="navbar-user">
         <span class="welcome-message" id="welcome-message"></span>
         <a href="#" class="logout-button" id="logout-button">Logout</a>
@@ -31,11 +38,13 @@
     <!-- Privacy Section -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Privacy</h2>
-      
-      <div id="checklist-visibility-item" class="settings-item-new clickable" data-state="private" role="button" tabindex="0" aria-live="polite">
+
+      <div id="checklist-visibility-item" class="settings-item-new clickable" data-state="private" role="button"
+        tabindex="0" aria-live="polite">
         <div class="settings-item-info-new">
           <h3 class="settings-item-title-new">Checklist Visibility</h3>
-          <p class="settings-item-description-new" id="checklist-visibility-description">Click to toggle your checklist's visibility at /profile/</p>
+          <p class="settings-item-description-new" id="checklist-visibility-description">Click to toggle your
+            checklist's visibility at /profile/</p>
         </div>
         <div class="settings-control-new">
           <span class="status-badge-new private" id="visibility-badge">Private</span>
@@ -46,7 +55,7 @@
     <!-- Integration Section -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Integrations</h2>
-      
+
       <div class="settings-item-new">
         <div class="settings-item-info-new">
           <h3 class="settings-item-title-new">Platform Connections</h3>
@@ -65,7 +74,7 @@
     <!-- Customization Section -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Customization</h2>
-      
+
       <div class="settings-item-new">
         <div class="settings-item-info-new">
           <h3 class="settings-item-title-new">Olympiad Order</h3>

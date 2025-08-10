@@ -1693,3 +1693,31 @@ body,
 .table-container .section-progress-bar {
     margin: 0.5rem 0 1rem 0;
 }
+
+/* Left section with home icon and title */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.home-icon {
+  text-decoration: none;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.home-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* Icon fill colors */
+.home-icon-svg path {
+  fill: black;
+}
+
+.dark-mode .home-icon-svg path {
+  fill: white;
+}
