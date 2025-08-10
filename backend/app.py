@@ -1659,5 +1659,21 @@ def get_virtual_contest_detail(slug):
     
     return jsonify({'error': 'Contest not found'}), 404
 
+@app.route('/api/settings/sync', methods=["POST"])
+@session_required
+def sync_settings_to_account():
+    data = request.get_json(silent=True) or {}
+    local_storage_data = data.get("local_storage")
+    db = get_db()
+    # Store localStorage in user_settings
+    if local_storage_data is not None:
+        db.execute(
+            "UPDATE user_settings SET local_storage = ? WHERE user_id = ?",
+            (local_storage_data, request.user_id)
+        )
+        db.commit()
+        return jsonify({"success": True, "message": "Settings synced successfully."})
+    return jsonify({"success": False, "message": "No settings data provided."}), 400
+
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0', port=os.getenv("PORT"))

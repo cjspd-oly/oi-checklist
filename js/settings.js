@@ -80,6 +80,64 @@ document.addEventListener("DOMContentLoaded", async () => {
       handleVisibilityToggle();
     });
   }
+
+  // Year sort order toggle logic
+  const yearSortToggle = document.getElementById('year-sort-toggle');
+  if (yearSortToggle) {
+    // Initialize button state from localStorage
+    const sortOrder = localStorage.getItem('yearSortOrder') || 'asc';
+    yearSortToggle.textContent = sortOrder === 'asc' ? 'Earlier first' : 'Later first';
+
+    yearSortToggle.addEventListener('click', () => {
+      const currentOrder = localStorage.getItem('yearSortOrder') || 'asc';
+      const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+      localStorage.setItem('yearSortOrder', newOrder);
+      yearSortToggle.textContent = newOrder === 'asc' ? 'Earlier first' : 'Later first';
+    });
+  }
+
+  // Sync Settings to Account button logic
+  const syncSettingsButton = document.getElementById('sync-settings-button');
+  if (syncSettingsButton) {
+    syncSettingsButton.addEventListener('click', async () => {
+      // Gather all localStorage except sessionToken
+      const localStorageData = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key !== 'sessionToken') {
+          localStorageData[key] = localStorage.getItem(key);
+        }
+      }
+      const sessionToken = localStorage.getItem('sessionToken');
+      try {
+        const response = await fetch(`${apiUrl}/api/settings/sync`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
+          body: JSON.stringify({ local_storage: JSON.stringify(localStorageData) })
+        });
+        if (response.ok) {
+          syncSettingsButton.textContent = 'Settings Synced!';
+          setTimeout(() => {
+            syncSettingsButton.textContent = 'Sync Settings to Account';
+          }, 2000);
+        } else {
+          syncSettingsButton.textContent = 'Sync Failed';
+          setTimeout(() => {
+            syncSettingsButton.textContent = 'Sync Settings to Account';
+          }, 2000);
+        }
+      } catch (err) {
+        syncSettingsButton.textContent = 'Sync Failed';
+        setTimeout(() => {
+          syncSettingsButton.textContent = 'Sync Settings to Account';
+        }, 2000);
+      }
+    });
+  }
 });
 
 function updateVisibilityUI(itemElement, badgeElement, isPublic) {

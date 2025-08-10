@@ -215,7 +215,15 @@ async function loadProblems(from) {
     Open: 16
   };
 
-  for (const [year, problems] of Object.entries(yearMap)) {
+  // Get year sort order from localStorage
+  const yearSortOrder = localStorage.getItem('yearSortOrder') || 'asc';
+  const sortedYears = Object.keys(yearMap).sort((a, b) => {
+    return yearSortOrder === 'asc' ? a - b : b - a;
+  });
+
+  for (const year of sortedYears) {
+    const problems = yearMap[year];
+
     let prefix = from;
     if (prefix === 'JOIFR') {
       prefix = 'JOI';
@@ -383,7 +391,14 @@ function loadProblemsWithDay(source, numDays) {
 
   const tbody = document.createElement('tbody');
 
-  for (const [year, problems] of Object.entries(yearMap)) {
+  // Get year sort order from localStorage
+  const yearSortOrder = localStorage.getItem('yearSortOrder') || 'asc';
+  const sortedYears = Object.keys(yearMap).sort((a, b) => {
+    return yearSortOrder === 'asc' ? a - b : b - a;
+  });
+
+  for (const year of sortedYears) {
+    const problems = yearMap[year];
     const yearRow = document.createElement('tr');
     const yearCell = document.createElement('td');
     yearCell.className = 'year-cell';
