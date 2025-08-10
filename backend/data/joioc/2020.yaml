@@ -1,0 +1,9 @@
+- name: Furniture
+  number: 1
+  link: https://oj.uz/problem/view/JOI20_furniture
+- name: Monochrome Points
+  number: 2
+  link: https://oj.uz/problem/view/JOI20_monochrome
+- name: Power Plant
+  number: 3
+  link: https://oj.uz/problem/view/JOI20_power

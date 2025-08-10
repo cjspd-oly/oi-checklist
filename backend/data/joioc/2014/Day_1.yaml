@@ -1,0 +1,9 @@
+- name: Factories
+  number: 1
+  link: https://oj.uz/problem/view/JOI14_factories
+- name: Fortune Telling 2
+  number: 2
+  link: https://oj.uz/problem/view/JOI14_fortune_telling2
+- name: Space Pirate
+  number: 3
+  link: https://oj.uz/problem/view/JOI14_space_pirate

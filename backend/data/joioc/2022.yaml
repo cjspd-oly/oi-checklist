@@ -1,0 +1,9 @@
+- name: Seesaw
+  number: 1
+  link: https://oj.uz/problem/view/JOI22_seesaw
+- name: Giraffes
+  number: 2
+  link: https://oj.uz/problem/view/JOI22_giraffes
+- name: School Road
+  number: 3
+  link: https://qoj.ac/contest/959/problem/4357

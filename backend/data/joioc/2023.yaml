@@ -1,0 +1,9 @@
+- name: Ancient Machine 2
+  number: 1
+  link: https://oj.uz/problem/view/JOI23_ancient2
+- name: Cell Automaton
+  number: 2
+  link: https://oj.uz/problem/view/JOI23_cell
+- name: Garden
+  number: 3
+  link: https://oj.uz/problem/view/JOI23_garden

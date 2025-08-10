@@ -1,0 +1,9 @@
+- name: Crossing
+  number: 1
+  link: https://oj.uz/problem/view/JOI21_crossing
+- name: Financial Report
+  number: 2
+  link: https://oj.uz/problem/view/JOI21_financial
+- name: Monster Game
+  number: 3
+  link: https://oj.uz/problem/view/JOI21_monster

@@ -225,7 +225,11 @@ async function loadProblems(from) {
     const problems = yearMap[year];
 
     let prefix = from;
-    if (prefix === 'JOIFR') {
+    let was_joioc = false;
+    if (prefix === 'JOIFR' || prefix === 'JOIOC') {
+      if (prefix === 'JOIOC') {
+        was_joioc = true;
+      }
       prefix = 'JOI';
     } else if (
       prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
@@ -246,7 +250,7 @@ async function loadProblems(from) {
         prefix = 'Platinum';
       }
     }
-    const isGroupedByExtra = prefix === 'GKS' || isUsaco;
+    const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc;
 
     if (isGroupedByExtra) {
       // --- Year header row ---
@@ -267,64 +271,106 @@ async function loadProblems(from) {
 
       // --- Sort extras ---
       const sortedExtras = Object.keys(extraMap).sort((a, b) => {
+        // Handle Day X pattern
+        const dayRegex = /^Day\s+(\d+)$/;
+        const matchA = a.match(dayRegex);
+        const matchB = b.match(dayRegex);
+        if (matchA && matchB) {
+          return parseInt(matchA[1]) - parseInt(matchB[1]);
+        }
+        // Normal monthOrder-based sorting
         const orderA = monthOrder[a] || 99;
         const orderB = monthOrder[b] || 99;
-        return orderA - orderB;
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+        // Fallback: alphabetical
+        return a.localeCompare(b);
       });
 
       for (const extra of sortedExtras) {
-        const extraRow = document.createElement('tr');
+        if (extra === 'No Extra') {
+          // CHANGE: Add these problems directly to the year row instead of a new row
+          for (const problem of extraMap[extra]) {
+            const cell = document.createElement('td');
+            cell.className = 'problem-cell';
 
-        const extraCell = document.createElement('td');
-        extraCell.className = 'day-cell';
-        extraCell.textContent = extra;
-        extraRow.appendChild(extraCell);
-
-        for (const problem of extraMap[extra]) {
-          const cell = document.createElement('td');
-          cell.className = 'problem-cell';
-
-          const status = statuses.find(s => s.value === problem.status);
-          if (status?.className) {
-            cell.classList.add(status.className);
-            count.update(status.className, 1);
-            count.updateSection(from.toLowerCase(), status.className, 1);
-            
-            // Also update the parent USACO container if this is a USACO division
-            if (from.startsWith('USACO')) {
-              count.updateSection('usaco', status.className, 1);
+            const status = statuses.find(s => s.value === problem.status);
+            if (status?.className) {
+              cell.classList.add(status.className);
+              count.update(status.className, 1);
+              count.updateSection(from.toLowerCase(), status.className, 1);
+              if (from.startsWith('USACO')) {
+                count.updateSection('usaco', status.className, 1);
+              }
             }
+
+            cell.dataset.status = problem.status;
+            cell.dataset.problemId = problem.name;
+            cell.dataset.source = problem.source;
+            cell.dataset.year = problem.year;
+            cell.dataset.score = problem.score;
+
+            const link = document.createElement('a');
+            link.href = problem.link;
+            link.target = '_blank';
+            link.textContent = problem.name;
+            link.addEventListener('click', e => e.stopPropagation());
+            cell.appendChild(link);
+
+            cell.addEventListener(
+              'click',
+              e => handleCellClick(cell, problem.name, from, problem.year, e)
+            );
+
+            yearRow.appendChild(cell);
+          }
+        } else {
+          // --- Regular extra row ---
+          const extraRow = document.createElement('tr');
+          const extraCell = document.createElement('td');
+          extraCell.className = 'day-cell';
+          extraCell.textContent = extra;
+          extraRow.appendChild(extraCell);
+
+          for (const problem of extraMap[extra]) {
+            const cell = document.createElement('td');
+            cell.className = 'problem-cell';
+
+            const status = statuses.find(s => s.value === problem.status);
+            if (status?.className) {
+              cell.classList.add(status.className);
+              count.update(status.className, 1);
+              count.updateSection(from.toLowerCase(), status.className, 1);
+              if (from.startsWith('USACO')) {
+                count.updateSection('usaco', status.className, 1);
+              }
+            }
+
+            cell.dataset.status = problem.status;
+            cell.dataset.problemId = problem.name;
+            cell.dataset.source = problem.source;
+            cell.dataset.year = problem.year;
+            cell.dataset.score = problem.score;
+
+            const link = document.createElement('a');
+            link.href = problem.link;
+            link.target = '_blank';
+            link.textContent = problem.name;
+            link.addEventListener('click', e => e.stopPropagation());
+            cell.appendChild(link);
+
+            cell.addEventListener(
+              'click',
+              e => handleCellClick(cell, problem.name, from, problem.year, e)
+            );
+
+            extraRow.appendChild(cell);
           }
 
-          cell.dataset.status = problem.status;
-          cell.dataset.problemId = problem.name;
-          cell.dataset.source = problem.source;
-          cell.dataset.year = problem.year;
-          cell.dataset.score = problem.score;
-
-          const link = document.createElement('a');
-          link.href = problem.link;
-          link.target = '_blank';
-          link.textContent = problem.name;
-          
-          // Prevent cell click handler from firing when link is clicked
-          link.addEventListener('click', (e) => {
-            e.stopPropagation();
-          });
-          
-          cell.appendChild(link);
-
-          cell.addEventListener(
-            'click',
-            e => handleCellClick(cell, problem.name, from, problem.year, e)
-          );
-
-          extraRow.appendChild(cell);
+          tbody.appendChild(extraRow);
         }
-
-        tbody.appendChild(extraRow);
       }
-
     } else {
       // --- Original logic for other prefixes ---
       const row = document.createElement('tr');
@@ -485,12 +531,11 @@ window.onload = async () => {
   const isProfilePage = relativePath.startsWith('profile/');
   
   // Default order
-  let sources = [
-    'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-    'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI',
-    'GKS', 'USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'
-  ];
-
+  let sources = olympiadIds.flatMap(id =>
+    id === 'USACO'
+      ? ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE']
+      : id
+  );
   // Create and render containers dynamically with skeletons
   const olympiadList = document.getElementById('olympiad-list');
   sources.forEach(src => {

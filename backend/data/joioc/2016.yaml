@@ -1,0 +1,9 @@
+- name: JOIRIS
+  number: 1
+  link: https://oj.uz/problem/view/JOI16_joiris
+- name: Selling RNA Strands
+  number: 2
+  link: https://oj.uz/problem/view/JOI16_selling_rna
+- name: Skyscraper
+  number: 3
+  link: https://oj.uz/problem/view/JOI16_skyscraper

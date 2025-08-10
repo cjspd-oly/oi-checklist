@@ -1,0 +1,9 @@
+- name: Triple Jump
+  number: 1
+  link: https://oj.uz/problem/view/JOI19_jumps
+- name: Remittance
+  number: 2
+  link: https://oj.uz/problem/view/JOI19_remittance
+- name: Virus Experiment
+  number: 3
+  link: https://oj.uz/problem/view/JOI19_virus

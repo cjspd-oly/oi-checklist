@@ -1,0 +1,12 @@
+- name: Bubble Sort 2
+  number: 1
+  link: https://oj.uz/problem/view/JOI18_bubblesort2
+- name: Cats or Dogs
+  number: 2
+  link: https://oj.uz/problem/view/JOI18_catdog
+- name: Collapse
+  number: 3
+  link: https://oj.uz/problem/view/JOI18_collapse
+- name: Xylophone
+  number: 4
+  link: https://oj.uz/problem/view/JOI18_xylophone

@@ -1,0 +1,9 @@
+- name: Project of Migration
+  number: 1
+  link: https://oj.uz/problem/view/JOI14_migration
+- name: Pinball
+  number: 2
+  link: https://oj.uz/problem/view/JOI14_pinball
+- name: Secret
+  number: 3
+  link: https://oj.uz/problem/view/JOI14_secret
