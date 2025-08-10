@@ -713,15 +713,12 @@ body.dark-mode .settings-dropdown {
 
 /* Styling for the label text within the item */
 .settings-label {
-    font-size: 14px;
-    font-weight: normal;
-    /* Text color will typically be set here or inherited */
-    color: #333;
-    /* Light mode text color */
-    margin-bottom: 0;
-    /* Ensure text color transitions */
-    transition: color 0.2s ease;
+    font-size: 1.2rem;
     font-weight: bold;
+    padding: 0.3rem 0.6rem;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Assuming dark mode needs different label text color */

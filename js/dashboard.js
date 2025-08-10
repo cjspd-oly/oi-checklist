@@ -675,155 +675,24 @@ window.onload = async () => {
   });
 };
 
-const settingsButton = document.getElementById('settings-button');
-const dropdown = document.getElementById('settings-dropdown');
-const settingsContainer = settingsButton?.parentElement;  // Get the parent container (.settings-container)
-// Correctly reference the visibility item div by its new ID
-const checklistVisibilityItem = document.getElementById('checklist-visibility-item');
-
-// Only proceed with settings functionality if elements exist
-if (settingsButton && settingsContainer && checklistVisibilityItem) {
-  // Helper: Update the text content, data-state, and color classes of the
-  // visibility item
-  function updateVisibilityUI(itemElement, isPublic) {
-    // Find the label span within the item element
-    const labelSpan = itemElement.querySelector('.settings-label');
-    if (labelSpan) {
-      // Update the text content of the span
-      labelSpan.textContent =
-          `Checklist Visibility: ${isPublic ? 'Public' : 'Private'}`;
-    }
-
-    // Set the data-state attribute on the item element itself
-    itemElement.setAttribute('data-state', isPublic ? 'public' : 'private');
-
-    // Remove existing color classes and add the new one
-    // Include any color classes you might use for items here
-    itemElement.classList.remove('red', 'green', 'yellow', 'white');
-    if (isPublic) {
-      itemElement.classList.add('green');  // Add 'green' class for public state
-    } else {
-      itemElement.classList.add('red');  // Add 'red' class for private state
-    }
-    // If you have other states/colors for items, add logic here
-  }
-
-  // Outside click handler - Simplified permanent listener
-  function handleOutsideClick(e) {
-    // If the click target is NOT inside the settings container
-    if (!settingsContainer.contains(e.target)) {
-      // Only close if the dropdown is currently active to avoid unnecessary calls
-      if (settingsContainer.classList.contains('active')) {
+// Settings dropdown toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const settingsButton = document.getElementById('settings-button');
+  const settingsContainer = document.getElementById('settings-container');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+  
+  if (settingsButton && settingsContainer && settingsDropdown) {
+    settingsButton.addEventListener('click', function(e) {
+      e.stopPropagation();
+      settingsContainer.classList.toggle('active');
+      settingsButton.setAttribute('aria-expanded', settingsContainer.classList.contains('active'));
+    });
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!settingsContainer.contains(e.target)) {
         settingsContainer.classList.remove('active');
         settingsButton.setAttribute('aria-expanded', 'false');
       }
-    }
+    });
   }
-
-  // Attach the outside click handler once to the document
-  document.addEventListener('click', handleOutsideClick);
-
-
-  // Settings button click
-  settingsButton.addEventListener('click', async (event) => {
-    event.stopPropagation();  // Prevent click from bubbling up to document
-                              // listener
-
-    const isActive = settingsContainer.classList.contains('active');
-    // Toggle the active state of the container
-    settingsContainer.classList.toggle('active', !isActive);
-    // Update aria-expanded state for accessibility
-    settingsButton.setAttribute('aria-expanded', !isActive);
-
-    // If we are opening the dropdown, fetch the current setting
-    if (!isActive) {
-      try {
-        const sessionToken = localStorage.getItem('sessionToken');
-        const response = await fetch(`${apiUrl}/api/settings`, {
-          method: 'GET',
-          credentials: 'include',  // Include cookies if necessary
-          headers: {'Authorization': `Bearer ${sessionToken}`}
-        });
-
-        if (!response.ok) {
-          // Handle HTTP errors (e.g., 401, 404, 500)
-          console.error(
-              'Error fetching settings:', response.status, response.statusText);
-          // Optional: Close dropdown and revert button state on fetch failure
-          settingsContainer.classList.remove('active');
-          settingsButton.setAttribute('aria-expanded', 'false');
-          // Optional: Show an error state or message in the UI (e.g., on the
-          // settings button or item)
-          return;  // Stop execution
-        }
-
-        const data = await response.json();
-        // Update the UI based on the fetched state (using the
-        // checklistVisibilityItem element)
-        updateVisibilityUI(checklistVisibilityItem, data.checklist_public);
-
-      } catch (err) {
-        // Handle network errors or errors parsing JSON
-        console.error('Error fetching settings:', err);
-        // Optional: Close dropdown and revert button state on fetch failure
-        settingsContainer.classList.remove('active');
-        settingsButton.setAttribute('aria-expanded', 'false');
-        // Optional: Show an error state or message in the UI
-      }
-    }
-    // If we are closing the dropdown, no extra action is needed here
-  });
-
-
-  // Toggle checklist visibility on item click
-  // Listen for clicks on the entire checklistVisibilityItem div
-  checklistVisibilityItem.addEventListener('click', async () => {
-    // Get the current state from the data attribute on the item div
-    const currentState = checklistVisibilityItem.getAttribute('data-state');
-    // Determine the new state (invert the current state)
-    const newStateIsPublic = currentState ===
-        'private';  // If currently private, the new state is public
-
-    // Optimistically update the UI immediately (pass the item element)
-    updateVisibilityUI(checklistVisibilityItem, newStateIsPublic);
-
-    try {
-      const sessionToken = localStorage.getItem('sessionToken');
-      const response = await fetch(`${apiUrl}/api/settings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${sessionToken}`  // Correctly adding the token
-        },
-        // Send the new boolean state in the request body
-        body: JSON.stringify({checklist_public: newStateIsPublic})
-      });
-
-      if (!response.ok) {
-        console.error(
-            'Error updating settings:', response.status, response.statusText);
-        // Revert the UI state if the save failed (pass the item element)
-        updateVisibilityUI(
-            checklistVisibilityItem,
-            !newStateIsPublic);  // Go back to the previous state
-        // Optional: Show a temporary error message next to the item
-        return;  // Stop execution
-      }
-      // Optional: Add visual feedback for successful save (e.g., brief background
-      // flash, checkmark icon)
-      console.log(
-          'Settings updated successfully:',
-          newStateIsPublic ? 'Public' : 'Private');
-
-    } catch (err) {
-      console.error('Error updating settings:', err);
-      // Revert the UI state if the save failed due to network error etc. (pass
-      // the item element)
-      updateVisibilityUI(
-          checklistVisibilityItem,
-          !newStateIsPublic);  // Go back to the previous state
-                               // Optional: Show a temporary error message next to
-                               // the item
-    }
-  });
-}
+});

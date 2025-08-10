@@ -1,0 +1,403 @@
+.settings-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.settings-section {
+  margin-bottom: 0;
+}
+
+.settings-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.settings-card-header {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.settings-card h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: #333;
+}
+
+.settings-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.settings-label.green {
+  color: #ffffff;
+}
+
+.settings-label.red {
+  color: #ffffff;
+}
+
+.settings-description {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.settings-link {
+  flex-shrink: 0;
+}
+
+.settings-description {
+  font-size: 1rem;
+  color: #555;
+  margin: 0.5rem 0 0;
+}
+
+.settings-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.settings-link:hover {
+  background-color: #0056b3;
+}
+
+/* Dark mode styles for settings page */
+.dark-mode .settings-page {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+.dark-mode .settings-card {
+  background: #2a2a2a;
+  border-color: #444;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .settings-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.15);
+}
+
+.dark-mode .settings-card h2 {
+  color: #ffffff;
+}
+
+.dark-mode .settings-label {
+  color: #cccccc;
+}
+
+.dark-mode .settings-description {
+  color: #bbbbbb;
+}
+
+.dark-mode .settings-link {
+  background-color: #3399ff;
+  color: #ffffff;
+}
+
+.dark-mode .settings-link:hover {
+  background-color: #287acc;
+}
+
+@media (max-width: 768px) {
+  .settings-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-card-header {
+    margin-bottom: 1rem;
+  }
+
+  .settings-description {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .settings-label,
+  .settings-link {
+    align-self: flex-end;
+    margin-left: auto;
+    margin-top: 0.5rem;
+  }
+
+  .settings-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Settings page layout - using -new suffix to avoid conflicts */
+.settings-page-new {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.settings-header-new {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.settings-header-new h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.settings-header-new p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0.5rem 0 0 0;
+}
+
+/* Settings sections */
+.settings-section-new {
+  margin-bottom: 2.5rem;
+}
+
+.settings-section-title-new {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+  color: #333;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Settings items */
+.settings-item-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.settings-item-new:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #bbb;
+}
+
+.settings-item-new.clickable {
+  cursor: pointer;
+}
+
+.settings-item-new.clickable:active {
+  transform: translateY(0);
+}
+
+.settings-item-info-new {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.settings-item-title-new {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.settings-item-description-new {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Settings controls */
+.settings-control-new {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Status badge - simple clickable label like before */
+.status-badge-new {
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  min-width: 80px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-badge-new.public {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-badge-new.private {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Action buttons - same size as status badge */
+.settings-button-new {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.settings-button-new:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.settings-button-new.secondary {
+  background-color: #6c757d;
+}
+
+.settings-button-new.secondary:hover {
+  background-color: #545b62;
+}
+
+/* Dark mode styles for new settings */
+.dark-mode .settings-page-new {
+  color: #f0f0f0;
+}
+
+.dark-mode .settings-header-new h1,
+.dark-mode .settings-section-title-new,
+.dark-mode .settings-item-title-new {
+  color: #ffffff;
+}
+
+.dark-mode .settings-header-new p,
+.dark-mode .settings-item-description-new {
+  color: #ccc;
+}
+
+.dark-mode .settings-item-new {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+.dark-mode .settings-item-new:hover {
+  border-color: #666;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .settings-section-title-new {
+  border-bottom-color: #444;
+}
+
+.dark-mode .settings-toggle-slider-new {
+  background-color: #555;
+}
+
+.dark-mode input:checked + .settings-toggle-slider-new {
+  background-color: #28a745;
+}
+
+.dark-mode .settings-button-new {
+  background-color: #3399ff;
+}
+
+.dark-mode .settings-button-new:hover {
+  background-color: #287acc;
+}
+
+.dark-mode .settings-button-new.secondary {
+  background-color: #555;
+}
+
+.dark-mode .settings-button-new.secondary:hover {
+  background-color: #666;
+}
+
+/* Mobile responsiveness for new settings */
+@media (max-width: 768px) {
+  .settings-page-new {
+    padding: 1rem;
+  }
+  
+  .settings-header-new h1 {
+    font-size: 2rem;
+  }
+  
+  .settings-item-new {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .settings-item-info-new {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .settings-control-new {
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .settings-button-new,
+  .status-badge-new {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
+
+.profile-link {
+  color: #4ea1f3;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.profile-link:hover {
+  color: #82c6ff;
+}
