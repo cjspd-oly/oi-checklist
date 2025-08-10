@@ -157,7 +157,7 @@
 
 /* Settings page layout - using -new suffix to avoid conflicts */
 .settings-page-new {
-  max-width: 800px;
+  width: 80%;
   margin: 0 auto;
   padding: 2rem;
   font-family: sans-serif;
