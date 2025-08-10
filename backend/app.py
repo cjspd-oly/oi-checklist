@@ -27,8 +27,6 @@ app = Flask(__name__)
 app.config['SESSION_COOKIE_SAMESITE'] = 'None' if os.getenv("FLASK_ENV") == "production" else 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
 CORS(app, supports_credentials=True, origins=[os.getenv("FRONTEND_URL")])
-app.secret_key = "your-secret-key"
-app.permanent_session_lifetime = timedelta(days=1)
 
 def get_db():
     db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db" if not set
