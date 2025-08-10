@@ -1409,7 +1409,14 @@ body,
     }
     
     .solve-count-item span:last-child {
-        font-size: 0.9rem;
+        font-size: 16px !important;
+    }
+
+    #yellow-count,
+    #red-count,
+    #green-count,
+    #white-count {
+        font-size: 16px;
     }
     
     /* Tables mobile */
