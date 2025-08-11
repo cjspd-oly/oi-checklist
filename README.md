@@ -79,6 +79,7 @@ The checklist supports a wide range of Olympiads in Informatics:
 
   * Spring Camp
   * Final Round
+  * Open Contest
 * European Girls' Olympiad in Informatics (EGOI)
 * Polish Olympiad in Informatics (POI)
 * Baltic Olympiad in Informatics (BOI)
