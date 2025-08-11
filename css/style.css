@@ -1270,6 +1270,32 @@ body,
     height: 20px;
 }
 
+.btn-discord {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #5865F2; /* Discord blurple */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+}
+
+.btn-discord:hover {
+    background-color: #4752C4; /* Slightly darker blurple */
+}
+
+.discord-logo {
+    width: 20px;
+    height: 20px;
+}
+
 .separator {
     display: flex;
     align-items: center;

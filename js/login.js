@@ -47,3 +47,7 @@ document.getElementById('login-form')
 document.getElementById('github-continue').addEventListener('click', () => {
   window.location.href = `${apiUrl}/auth/github/start`;
 });
+
+document.getElementById('discord-continue').addEventListener('click', () => {
+  window.location.href = `${apiUrl}/auth/discord/start`;
+});

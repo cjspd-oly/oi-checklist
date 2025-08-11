@@ -1,3 +1,4 @@
+
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   let res = await fetch(`${apiUrl}/api/whoami`, {
@@ -25,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
       button.addEventListener('click', () => handleGithubClick());
     } else if (providerName === 'oj.uz') {
       button.addEventListener('click', () => showOjuzPopup());
+    } else if (providerName === 'discord') {
+      button.addEventListener('click', () => handleDiscordClick());
     }
   });
 
@@ -167,7 +170,107 @@ async function handleGithubClick() {
   }
 }
 
+async function handleDiscordClick() {
+  const token = localStorage.getItem('sessionToken');
+  if (!token) {
+    showDiscordError('You are not logged in.');
+    return;
+  }
+
+  // Immediately show popup with loading spinner
+  showProviderPopup(
+    'Discord Connection',
+    `
+    <p>
+      Discord is currently linked to
+      <strong>
+        <a id="discord-link" href="https://discord.com/" target="_blank" rel="noopener noreferrer">
+          <span id="discord-placeholder">@<span class="spinner"></span></span>
+        </a>
+      </strong>.
+    </p>
+    <div id="popup-message"></div>
+    <button class="primary-button" id="unlink-discord-button">Unlink</button>
+  `
+  );
+
+  try {
+    const res = await fetch(`${apiUrl}/api/discord/status`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (res.status === 200) {
+      const { discord_username, provider_user_id } = await res.json();
+      const linkEl = document.getElementById('discord-link');
+      const placeholderEl = document.getElementById('discord-placeholder');
+      if (linkEl && placeholderEl) {
+        linkEl.href = `https://discord.com/users/${provider_user_id}`;
+        placeholderEl.textContent = `@${discord_username}`;
+      }
+
+      document.getElementById('unlink-discord-button').onclick = async () => {
+        const messageBox = document.getElementById('popup-message');
+        messageBox.style.display = 'block';
+        try {
+          const unlinkRes = await fetch(`${apiUrl}/api/discord/unlink`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+
+          const resBody = await unlinkRes.json();
+
+          if (unlinkRes.ok) {
+            messageBox.textContent =
+              resBody.message || 'Discord unlinked successfully.';
+            messageBox.style.color = 'green';
+            setTimeout(closeProviderPopup, 1000);
+          } else {
+            messageBox.textContent =
+              resBody.error || 'Failed to unlink Discord.';
+            messageBox.style.color = 'red';
+          }
+        } catch (err) {
+          console.error(err);
+          messageBox.textContent = 'Unexpected error occurred.';
+          messageBox.style.color = 'red';
+        }
+      };
+    } else {
+      showProviderPopup(
+        'Link Discord',
+        `
+        <p>You have not linked your Discord account yet.</p>
+        <div id="popup-message"></div>
+        <button class="primary-button" id="link-discord-button">Link Discord</button>
+      `
+      );
+
+      document.getElementById('link-discord-button').onclick = () => {
+        const state = crypto.randomUUID();
+        localStorage.setItem('oauth_discord_state', state);
+        const sessionToken = localStorage.getItem('sessionToken');
+        const currentPage = encodeURIComponent(window.location.pathname);
+        window.location.href = `${apiUrl}/auth/discord/link?state=${state}&session_id=${sessionToken}&redirect_to=${currentPage}`;
+      };
+    }
+  } catch (err) {
+    console.error('Error checking Discord status:', err);
+    showDiscordError('Error checking Discord status.');
+  }
+}
+
 function showGithubError(message) {
+  const messageBox = document.getElementById('popup-message');
+  if (!messageBox) return;
+  messageBox.style.display = 'block';
+  messageBox.textContent = message;
+  messageBox.style.color =
+      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+      'black' :
+      'white';
+}
+
+function showDiscordError(message) {
   const messageBox = document.getElementById('popup-message');
   if (!messageBox) return;
   messageBox.style.display = 'block';

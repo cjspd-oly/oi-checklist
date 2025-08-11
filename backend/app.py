@@ -560,6 +560,182 @@ def github_unlink():
     db.commit()
     return jsonify({"success": True, "message": "GitHub unlinked successfully."})
 
+# Literal same thing for discord OAuth config
+DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID")
+DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET")
+DISCORD_CALLBACK_URL = os.getenv("BACKEND_URL") + "/auth/discord/callback"
+DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize"
+DISCORD_TOKEN_URL = "https://discord.com/api/oauth2/token"
+DISCORD_USER_API = "https://discord.com/api/users/@me"
+
+@app.route("/auth/discord/start")
+def discord_start():
+    discord = OAuth2Session(
+        DISCORD_CLIENT_ID,
+        redirect_uri=DISCORD_CALLBACK_URL,
+        scope=["identify"]
+    )
+    auth_url, _ = discord.authorization_url(DISCORD_AUTH_URL)
+    return redirect(auth_url)
+
+@app.route("/auth/discord/link")
+def discord_link():
+    state = request.args.get("state")
+    session_token = request.args.get("session_id")
+    redirect_to = request.args.get("redirect_to", "/")
+
+    if not state or not session_token:
+        return jsonify({"error": "Missing OAuth state or session token"}), 400
+
+    db = get_db()
+    session = db.execute(
+        "SELECT user_id FROM sessions WHERE session_id = ?", (session_token,)
+    ).fetchone()
+    if not session:
+        return jsonify({"error": "Invalid or expired session"}), 401
+
+    user_id = session["user_id"]
+    username_row = db.execute(
+        "SELECT username FROM users WHERE id = ?", (user_id,)
+    ).fetchone()
+    if username_row and username_row["username"] == "demo-user":
+        return jsonify({"error": "Demo user cannot link Discord accounts."}), 403
+
+    discord = OAuth2Session(
+        DISCORD_CLIENT_ID,
+        redirect_uri=DISCORD_CALLBACK_URL,
+        scope=["identify"]
+    )
+    auth_url, new_state = discord.authorization_url(DISCORD_AUTH_URL, state=state)
+
+    if not hasattr(app, "oauth_state_map"):
+        app.oauth_state_map = {}
+    app.oauth_state_map[state] = {
+        "user_id": user_id,
+        "redirect_to": redirect_to
+    }
+
+    return redirect(auth_url)
+
+
+@app.route("/auth/discord/callback")
+def discord_callback():
+    discord = OAuth2Session(
+        DISCORD_CLIENT_ID,
+        redirect_uri=DISCORD_CALLBACK_URL,
+        scope=["identify"]
+    )
+    try:
+        token = discord.fetch_token(
+            DISCORD_TOKEN_URL,
+            client_secret=DISCORD_CLIENT_SECRET,
+            authorization_response=request.url
+        )
+    except Exception as e:
+        return jsonify({"error": "OAuth token exchange failed", "details": str(e)}), 400
+
+    resp = discord.get(DISCORD_USER_API)
+    if not resp.ok:
+        return jsonify({"error": "Failed to fetch user info from Discord"}), 400
+
+    discord_info = resp.json()
+    discord_id = str(discord_info.get("id"))
+    discord_username = f"{discord_info.get('username')}#{discord_info.get('discriminator')}"
+
+    db = get_db()
+
+    identity = db.execute(
+        "SELECT user_id FROM auth_identities WHERE provider = ? AND provider_user_id = ?",
+        ("discord", discord_id)
+    ).fetchone()
+
+    linking_data = None
+    state = request.args.get("state")
+    if state and hasattr(app, "oauth_state_map"):
+        linking_data = app.oauth_state_map.pop(state, None)
+
+    if identity:
+        user_id = identity["user_id"]
+    elif linking_data:
+        user_id = linking_data["user_id"]
+        db.execute(
+            "INSERT INTO auth_identities (user_id, provider, provider_user_id, display_name) VALUES (?, ?, ?, ?)",
+            (user_id, "discord", discord_id, discord_username)
+        )
+        db.commit()
+    else:
+        base_username = discord_info.get("username")
+        attempt = 0
+        while True:
+            candidate = base_username if attempt == 0 else f"{base_username}-{attempt}"
+            taken = db.execute("SELECT 1 FROM users WHERE username = ?", (candidate,)).fetchone()
+            if not taken:
+                discord_username = candidate
+                break
+            attempt += 1
+
+        db.execute("INSERT INTO users (username) VALUES (?)", (discord_username,))
+        user_id = db.execute("SELECT id FROM users WHERE username = ?", (discord_username,)).fetchone()["id"]
+        db.execute(
+            "INSERT INTO auth_identities (user_id, provider, provider_user_id, display_name) VALUES (?, ?, ?, ?)",
+            (user_id, "discord", discord_id, discord_username)
+        )
+        db.commit()
+
+    session_id = str(uuid.uuid4())
+    db.execute("INSERT INTO sessions (session_id, user_id) VALUES (?, ?)", (session_id, user_id))
+    db.commit()
+
+    redirect_to = linking_data["redirect_to"] if linking_data and "redirect_to" in linking_data else "/"
+    return redirect(f"{FRONTEND_URL}/discord-auth-success.html?token={session_id}&redirect_to={redirect_to}")
+
+
+@app.route("/api/discord/status")
+@session_required
+def discord_status():
+    db = get_db()
+    identity = db.execute(
+        "SELECT display_name, provider_user_id FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("discord", request.user_id)
+    ).fetchone()
+
+    if identity:
+        return jsonify({
+            "discord_username": identity["display_name"],
+            "provider_user_id": identity["provider_user_id"]
+        }), 200
+    else:
+        return jsonify({"error": "Discord not linked"}), 404
+
+@app.route("/api/discord/unlink", methods=["POST"])
+@session_required
+def discord_unlink():
+    db = get_db()
+    identity = db.execute(
+        "SELECT id FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("discord", request.user_id)
+    ).fetchone()
+    if not identity:
+        return jsonify({"error": "No linked Discord account"}), 400
+
+    linked_count = db.execute(
+        """
+        SELECT 
+            (SELECT COUNT(*) FROM auth_identities WHERE user_id = ?) +
+            (SELECT CASE WHEN password IS NOT NULL THEN 1 ELSE 0 END FROM users WHERE id = ?)
+        """,
+        (request.user_id, request.user_id)
+    ).fetchone()[0]
+    if linked_count <= 1:
+        return jsonify({"error": "You cannot unlink Discord as it's your only login method!"}), 400
+
+    db.execute(
+        "DELETE FROM auth_identities WHERE provider = ? AND user_id = ?",
+        ("discord", request.user_id)
+    )
+    db.commit()
+    return jsonify({"success": True, "message": "Discord unlinked successfully."})
+
 @app.route("/api/register", methods=["POST"])
 def api_register():
     data = request.get_json()
