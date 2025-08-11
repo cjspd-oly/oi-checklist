@@ -205,7 +205,7 @@ async function handleDiscordClick() {
       const placeholderEl = document.getElementById('discord-placeholder');
       if (linkEl && placeholderEl) {
         linkEl.href = `https://discord.com/users/${provider_user_id}`;
-        placeholderEl.textContent = `@${discord_username}`;
+        placeholderEl.textContent = `${discord_username}`;
       }
 
       document.getElementById('unlink-discord-button').onclick = async () => {

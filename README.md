@@ -97,16 +97,18 @@ The checklist supports a wide range of Olympiads in Informatics:
 
 In the `backend/` directory, create a `.env` file with the following values:
 
-| Variable               | Description                                                      |
-| ---------------------- | ---------------------------------------------------------------- |
-| `PORT`                 | The port your backend will run on.                               |
-| `FLASK_ENV`            | Set to `local` for local development                             |
-| `DATABASE_PATH`        | Path to your SQLite database (e.g., `database.db`)               |
-| `BACKEND_DIR`          | Absolute path to the `backend/` folder                           |
-| `FRONTEND_URL`         | URL where the frontend runs (e.g., `http://localhost:5501`)      |
-| `BACKEND_URL`          | URL where the Flask backend runs (e.g., `http://localhost:5001`) |
-| `GITHUB_CLIENT_ID`     | GitHub OAuth client ID                                           |
-| `GITHUB_CLIENT_SECRET` | GitHub OAuth client secret                                       |
+| Variable                | Description                                                      |
+| ----------------------  | ---------------------------------------------------------------- |
+| `PORT`                  | The port your backend will run on.                               |
+| `FLASK_ENV`             | Set to `local` for local development                             |
+| `DATABASE_PATH`         | Path to your SQLite database (e.g., `database.db`)               |
+| `BACKEND_DIR`           | Absolute path to the `backend/` folder                           |
+| `FRONTEND_URL`          | URL where the frontend runs (e.g., `http://localhost:5501`)      |
+| `BACKEND_URL`           | URL where the Flask backend runs (e.g., `http://localhost:5001`) |
+| `GITHUB_CLIENT_ID`      | GitHub OAuth client ID                                           |
+| `GITHUB_CLIENT_SECRET`  | GitHub OAuth client secret                                       |
+| `DISCORD_CLIENT_ID`     | Discord OAuth client ID                                          |
+| `DISCORD_CLIENT_SECRET` | Discord OAuth client secret                                      |
 
 ---
 
