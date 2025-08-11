@@ -1003,17 +1003,23 @@ def update_olympiad_order():
     user_id = request.user_id
 
     olympiad_order = data.get('olympiad_order')
+    hidden = data.get('hidden')
+
     if not isinstance(olympiad_order, list):
         return jsonify({"error": "Invalid or missing olympiad_order"}), 400
+    if hidden is not None and not isinstance(hidden, list):
+        return jsonify({"error": "Invalid 'hidden' list"}), 400
 
     db = get_db()
     db.execute(
         '''
-        INSERT INTO user_settings (user_id, olympiad_order)
-        VALUES (?, ?)
-        ON CONFLICT(user_id) DO UPDATE SET olympiad_order = excluded.olympiad_order
+        INSERT INTO user_settings (user_id, olympiad_order, hidden)
+        VALUES (?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET 
+            olympiad_order = excluded.olympiad_order,
+            hidden = excluded.hidden
         ''',
-        (user_id, json.dumps(olympiad_order))
+        (user_id, json.dumps(olympiad_order), json.dumps(hidden) if hidden is not None else json.dumps([]))
     )
     db.commit()
     db.close()
@@ -1025,40 +1031,40 @@ def get_olympiad_order():
     username = request.args.get('username')
     if not username:
         return jsonify({"error": "Missing 'username' query parameter"}), 400
-
     db = get_db()
-
     # Get user ID from username
     user = db.execute(
         "SELECT id FROM users WHERE username = ?",
         (username,)
     ).fetchone()
-
     if not user:
         db.close()
         return jsonify({"error": f"User '{username}' not found"}), 404
 
     user_id = user['id']
-
-    # Fetch olympiad order
+    # Fetch olympiad order and hidden list
     row = db.execute(
         '''
-        SELECT olympiad_order FROM user_settings
+        SELECT olympiad_order, hidden FROM user_settings
         WHERE user_id = ?
         ''',
         (user_id,)
     ).fetchone()
-
     db.close()
-
-    if row and row['olympiad_order']:
-        try:
-            order = json.loads(row['olympiad_order'])
-            return jsonify(olympiad_order=order)
-        except Exception:
-            return jsonify({"error": "Failed to parse olympiad_order"}), 500
-    else:
-        return jsonify(olympiad_order=None)
+    olympiad_order = None
+    hidden = None
+    if row:
+        if row['olympiad_order']:
+            try:
+                olympiad_order = json.loads(row['olympiad_order'])
+            except Exception:
+                return jsonify({"error": "Failed to parse olympiad_order"}), 500
+        if row['hidden']:
+            try:
+                hidden = json.loads(row['hidden'])
+            except Exception:
+                return jsonify({"error": "Failed to parse hidden"}), 500
+    return jsonify(olympiad_order=olympiad_order, hidden=hidden)
 
 @app.route('/api/demo-login', methods=["POST"])
 def api_demo_login():

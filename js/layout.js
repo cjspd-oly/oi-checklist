@@ -1,5 +1,7 @@
 // Dynamically populate olympiad cards
-const list = document.getElementById('olympiad-reorder-list');
+const reorderList = document.getElementById('olympiad-reorder-list');
+const hiddenList = document.getElementById('hidden-olympiad-list');
+
 olympiadIds.forEach(id => {
   const card = document.createElement('div');
   card.className = 'connection-card';
@@ -8,7 +10,7 @@ olympiadIds.forEach(id => {
   h3.className = 'connection-name';
   h3.textContent = getFullOlympiadName(id);
   card.appendChild(h3);
-  list.appendChild(card);
+  reorderList.appendChild(card);
 });
 
 window.onload = async () => {
@@ -26,7 +28,7 @@ window.onload = async () => {
   const { username } = await res.json();
   document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
 
-  // Load user's olympiad order
+  // Load user's olympiad order and hidden list
   const orderRes = await fetch(`${apiUrl}/api/get-olympiad-order?username=${username}`, {
     method: 'GET',
     credentials: 'include',
@@ -38,15 +40,24 @@ window.onload = async () => {
     if (data.olympiad_order && Array.isArray(data.olympiad_order)) {
       applyOlympiadOrder(data.olympiad_order);
     }
+    if (data.hidden && Array.isArray(data.hidden)) {
+      applyHiddenOlympiads(data.hidden);
+    }
   }
 
   // Unhide all H3s after DOM has been updated
-  document.querySelectorAll('#olympiad-reorder-list h3').forEach(h3 => {
+  document.querySelectorAll('#olympiad-reorder-list h3, #hidden-olympiad-list h3').forEach(h3 => {
     h3.style.visibility = 'visible';
   });
 
-  // Init Sortable
-  new Sortable(document.getElementById('olympiad-reorder-list'), {
+  // Init Sortable for both lists
+  new Sortable(reorderList, {
+    group: 'olympiads',
+    animation: 150,
+    ghostClass: 'dragging'
+  });
+  new Sortable(hiddenList, {
+    group: 'olympiads',
     animation: 150,
     ghostClass: 'dragging'
   });
@@ -77,16 +88,28 @@ function applyOlympiadOrder(order) {
   }
 }
 
+function applyHiddenOlympiads(hidden) {
+  const allCards = document.querySelectorAll('.connection-card');
+  const hiddenList = document.getElementById('hidden-olympiad-list');
+  hiddenList.innerHTML = '';
+  for (const id of hidden) {
+    const card = Array.from(allCards).find(card => card.dataset.id === id.toLowerCase());
+    if (card) {
+      hiddenList.appendChild(card);
+    }
+  }
+}
+
 function saveOlympiadOrder() {
   const order = Array.from(document.querySelectorAll('#olympiad-reorder-list .connection-card'))
     .map(card => card.dataset.id);
-
+  const hidden = Array.from(document.querySelectorAll('#hidden-olympiad-list .connection-card'))
+    .map(card => card.dataset.id);
   const sessionToken = localStorage.getItem('sessionToken');
   const messageBox = document.getElementById('popup-message-oly-save');
   messageBox.style.display = 'block';
   let currentTheme = localStorage.getItem('theme') || 'light-mode';
   messageBox.color = currentTheme == 'light-mode' ? 'black' : 'white';
-
   fetch(apiUrl + '/api/update-olympiad-order', {
     method: 'POST',
     credentials: 'include',
@@ -95,7 +118,8 @@ function saveOlympiadOrder() {
       'Authorization': `Bearer ${sessionToken}`
     },
     body: JSON.stringify({
-      olympiad_order: order
+      olympiad_order: order,
+      hidden: hidden
     })
   })
   .then(response => response.json())

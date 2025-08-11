@@ -57,6 +57,7 @@ CREATE TABLE user_settings (
     user_id INTEGER PRIMARY KEY,
     checklist_public BOOLEAN NOT NULL DEFAULT 0,
     olympiad_order TEXT DEFAULT NULL,
+    hidden TEXT DEFAULT NULL,
     local_storage TEXT DEFAULT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 )
