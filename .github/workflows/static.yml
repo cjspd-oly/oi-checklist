@@ -34,7 +34,7 @@ jobs:
       - name: Copy index.html to 404.html and add 404.js
         run: |
           cp index.html 404.html
-          sed -i '/<\/body>/i \  <script src="404.js"></script>' 404.html
+          sed -i '/<\/body>/i \  <script src="js/404.js"></script>' 404.html
       - name: Minify HTML
         run: |
           npm install -g html-minifier-terser
