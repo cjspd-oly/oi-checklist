@@ -11,10 +11,21 @@ const count = {
       for (const color in this.counts) {
         total += this.counts[color];
       }
-      for (const color in this.counts) {
-        const el = document.querySelector(`.progress-segment.${color}`);
-        if (el) {
-          el.style.width = `${(this.counts[color] / total) * 100}%`;
+      // Only update progress bars if there are items to display
+      if (total > 0) {
+        for (const color in this.counts) {
+          const el = document.querySelector(`.progress-segment.${color}`);
+          if (el) {
+            el.style.width = `${(this.counts[color] / total) * 100}%`;
+          }
+        }
+      } else {
+        // Reset all segments to 0 width when no items
+        for (const color in this.counts) {
+          const el = document.querySelector(`.progress-segment.${color}`);
+          if (el) {
+            el.style.width = color === 'white' ? '100%' : '0%';
+          }
         }
       }
     }
@@ -38,6 +49,14 @@ const count = {
           const el = document.querySelector(`#${sectionId}-container .section-progress-bar .progress-segment.${color}`);
           if (el) {
             el.style.width = `${(this.sectionCounts[sectionId][color] / sectionTotal) * 100}%`;
+          }
+        }
+      } else {
+        // Reset section progress bars when no items
+        for (const color in this.sectionCounts[sectionId]) {
+          const el = document.querySelector(`#${sectionId}-container .section-progress-bar .progress-segment.${color}`);
+          if (el) {
+            el.style.width = '0%';
           }
         }
       }
@@ -522,6 +541,17 @@ function loadProblemsWithDay(source, numDays) {
   table.appendChild(tbody);
 }
 
+function displayEmptyStateMessage() {
+  const olympiadList = document.getElementById('olympiad-list');
+  olympiadList.innerHTML = `
+    <div class="empty-state">
+      <h3>No olympiads to display</h3>
+      <p>It looks like you don't have any olympiads configured to show on your checklist.</p>
+      <p>You can configure which olympiads to display in your settings.</p>
+    </div>
+  `;
+}
+
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   const fullPath = window.location.pathname;
@@ -536,19 +566,6 @@ window.onload = async () => {
       ? ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE']
       : id
   );
-  // Create and render containers dynamically with skeletons
-  const olympiadList = document.getElementById('olympiad-list');
-  sources.forEach(src => {
-    if (src === 'USACO') {
-      // Create USACO container with all its sub-containers
-      const usacoContainer = createOlympiadContainer('USACO');
-      olympiadList.appendChild(usacoContainer);
-    } else if (!src.startsWith('USACO')) {
-      // Create regular olympiad containers
-      const container = createOlympiadContainer(src);
-      olympiadList.appendChild(container);
-    }
-  });
 
   // Fetch user info
   const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
@@ -580,26 +597,50 @@ window.onload = async () => {
 
     if (orderResponse.ok) {
       const { olympiad_order } = await orderResponse.json();
-      if (Array.isArray(olympiad_order) && olympiad_order.length > 0) {
+      // Changed condition here - now accepts empty arrays too
+      if (Array.isArray(olympiad_order)) {
         sources = olympiad_order.map(id => id.toUpperCase());
-        // Clear and recreate containers in the new order
-        olympiadList.innerHTML = '';
-        sources.forEach(src => {
-          if (src === 'USACO') {
-            // Create USACO container with all its sub-containers
-            const usacoContainer = createOlympiadContainer('USACO');
-            olympiadList.appendChild(usacoContainer);
-          } else if (!src.startsWith('USACO')) {
-            // Create regular olympiad containers
-            const container = createOlympiadContainer(src);
-            olympiadList.appendChild(container);
-          }
-        });
       }
     }
   } catch (err) {
     console.error('Failed to fetch olympiad order:', err);
   }
+
+  // Handle empty sources case
+  if (sources.length === 0) {
+    displayEmptyStateMessage();
+    
+    // Set title
+    if (isProfilePage) {
+      const uname = relativePath.split('/')[1];
+      document.getElementById('page-title').textContent = `${uname}'s OI Checklist`;
+    } else {
+      document.getElementById('page-title').textContent = `OI Checklist`;
+      document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
+    }
+    
+    // Initialize counts to zero
+    count.update('red', 0);
+    count.update('yellow', 0);
+    count.update('green', 0);
+    count.update('white', 0);
+    
+    return; // Exit early, no need to load problems
+  }
+
+  // Create and render containers dynamically with skeletons
+  const olympiadList = document.getElementById('olympiad-list');
+  sources.forEach(src => {
+    if (src === 'USACO') {
+      // Create USACO container with all its sub-containers
+      const usacoContainer = createOlympiadContainer('USACO');
+      olympiadList.appendChild(usacoContainer);
+    } else if (!src.startsWith('USACO')) {
+      // Create regular olympiad containers
+      const container = createOlympiadContainer(src);
+      olympiadList.appendChild(container);
+    }
+  });
 
   // Set title
   if (isProfilePage) {
@@ -622,6 +663,12 @@ window.onload = async () => {
       }
       return src;
     });
+    
+    if (sources.length === 0) {
+      // This shouldn't happen after the early return above, but just in case
+      return;
+    }
+    
     const namesParam = sources.join(',');
 
     const res = await fetch(
@@ -630,7 +677,7 @@ window.onload = async () => {
 
     if (res.status === 404) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
-        Error: user “${uname}” does not exist.
+        Error: user "${uname}" does not exist.
       </h2>`;
       return;
     }
@@ -691,6 +738,12 @@ window.onload = async () => {
       }
       return src;
     });
+    
+    if (sources.length === 0) {
+      // This shouldn't happen after the early return above, but just in case
+      return;
+    }
+    
     const res = await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
       method: 'GET',
       credentials: 'include',

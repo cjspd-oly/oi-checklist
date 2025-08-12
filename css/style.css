@@ -1747,3 +1747,39 @@ body,
 .dark-mode .home-icon-svg path {
   fill: white;
 }
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    margin: 2rem auto;  
+    padding: 3rem 2rem;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin: 0.75rem 0;
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Dark mode support */
+.dark-mode .empty-state {
+    background-color: #1e1e1e;
+    border-color: #1e1e1e;
+}
+
+.dark-mode .empty-state h3 {
+    color: #ffffff;
+}
+
+.dark-mode .empty-state p {
+    color: #cccccc;
+}
