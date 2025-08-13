@@ -15,6 +15,8 @@ Try it live: [https://checklist.spoi.org.in](https://checklist.spoi.org.in) or e
 * **Real performance data:** Post-contest screens show rank, percentile, medal, and more — all based on actual historical results.
 * **oj.uz sync:** Automatically update your checklist progress using your past submissions.
 * **Responsive UI with dark mode:** Built for clarity across devices.
+* **Reordering & hiding**: Arrange Olympiads in any order you like, and hide those you don’t want cluttering your view.
+* **Custom notes**: Attach personal notes to problems for strategy, hints, or reminders, enhanced with a rudimentary markdown editor.
 
 ---
 
