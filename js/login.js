@@ -51,3 +51,7 @@ document.getElementById('github-continue').addEventListener('click', () => {
 document.getElementById('discord-continue').addEventListener('click', () => {
   window.location.href = `${apiUrl}/auth/discord/start`;
 });
+
+document.getElementById('google-continue').addEventListener('click', () => {
+  window.location.href = `${apiUrl}/auth/google/start`;
+});

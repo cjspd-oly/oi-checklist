@@ -1,4 +1,3 @@
-
 window.onload = async () => {
   const sessionToken = localStorage.getItem('sessionToken');
   let res = await fetch(`${apiUrl}/api/whoami`, {
@@ -28,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
       button.addEventListener('click', () => showOjuzPopup());
     } else if (providerName === 'discord') {
       button.addEventListener('click', () => handleDiscordClick());
+    } else if (providerName === 'google') {
+      button.addEventListener('click', () => handleGoogleClick());
     }
   });
 
@@ -259,6 +260,93 @@ async function handleDiscordClick() {
   }
 }
 
+async function handleGoogleClick() {
+  const token = localStorage.getItem('sessionToken');
+  if (!token) {
+    showGoogleError('You are not logged in.');
+    return;
+  }
+
+  // Immediately show popup with loading spinner
+  showProviderPopup(
+    'Google Connection',
+    `
+    <p>
+      Google is currently linked to
+      <strong>
+        <span id="google-placeholder">@<span class="spinner"></span></span>
+      </strong>.
+    </p>
+    <div id="popup-message"></div>
+    <button class="primary-button" id="unlink-google-button">Unlink</button>
+  `
+  );
+
+  try {
+    const res = await fetch(`${apiUrl}/api/google/status`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (res.status === 200) {
+      const { google_display_name } = await res.json();
+      const placeholderEl = document.getElementById('google-placeholder');
+      if (placeholderEl) {
+        placeholderEl.textContent = google_display_name ? `${google_display_name}` : 'Linked';
+      }
+
+      document.getElementById('unlink-google-button').onclick = async () => {
+        const messageBox = document.getElementById('popup-message');
+        messageBox.style.display = 'block';
+        try {
+          const unlinkRes = await fetch(`${apiUrl}/api/google/unlink`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+
+          const resBody = await unlinkRes.json();
+
+          if (unlinkRes.ok) {
+            messageBox.textContent =
+              resBody.message || 'Google unlinked successfully.';
+            messageBox.style.color = 'green';
+            setTimeout(closeProviderPopup, 1000);
+          } else {
+            messageBox.textContent =
+              resBody.error || 'Failed to unlink Google.';
+            messageBox.style.color = 'red';
+          }
+        } catch (err) {
+          console.error(err);
+          const messageBox = document.getElementById('popup-message');
+          messageBox.textContent = 'Unexpected error occurred.';
+          messageBox.style.color = 'red';
+        }
+      };
+    } else {
+      // Not linked yet — show link button
+      showProviderPopup(
+        'Link Google',
+        `
+        <p>You have not linked your Google account yet.</p>
+        <div id="popup-message"></div>
+        <button class="primary-button" id="link-google-button">Link Google</button>
+      `
+      );
+
+      document.getElementById('link-google-button').onclick = () => {
+        const state = crypto.randomUUID();
+        localStorage.setItem('oauth_google_state', state);
+        const sessionToken = localStorage.getItem('sessionToken');
+        const currentPage = encodeURIComponent(window.location.pathname);
+        window.location.href = `${apiUrl}/auth/google/link?state=${state}&session_id=${sessionToken}&redirect_to=${currentPage}`;
+      };
+    }
+  } catch (err) {
+    console.error('Error checking Google status:', err);
+    showGoogleError('Error checking Google status.');
+  }
+}
+
 function showGithubError(message) {
   const messageBox = document.getElementById('popup-message');
   if (!messageBox) return;
@@ -271,6 +359,17 @@ function showGithubError(message) {
 }
 
 function showDiscordError(message) {
+  const messageBox = document.getElementById('popup-message');
+  if (!messageBox) return;
+  messageBox.style.display = 'block';
+  messageBox.textContent = message;
+  messageBox.style.color =
+      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+      'black' :
+      'white';
+}
+
+function showGoogleError(message) {
   const messageBox = document.getElementById('popup-message');
   if (!messageBox) return;
   messageBox.style.display = 'block';
