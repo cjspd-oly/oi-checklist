@@ -110,6 +110,8 @@ In the `backend/` directory, create a `.env` file with the following values:
 | `GITHUB_CLIENT_SECRET`  | GitHub OAuth client secret                                       |
 | `DISCORD_CLIENT_ID`     | Discord OAuth client ID                                          |
 | `DISCORD_CLIENT_SECRET` | Discord OAuth client secret                                      |
+| `GOOGLE_CLIENT_ID`      | Google OAuth client ID                                           |
+| `GOOGLE_CLIENT_SECRET`  | Google OAuth client secret                                       |
 
 ---
 
