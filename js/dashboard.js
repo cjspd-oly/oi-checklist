@@ -72,7 +72,13 @@ function renderMarkdownPreview(text) {
   if (inOl) html += '</ol>';
   if (inFence) flushFence();
 
+  // Insert the HTML into the preview
   preview.innerHTML = html || '<p><em>No content</em></p>';
+
+  // After inserting, trigger MathJax to typeset the preview for math support
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise([preview]);
+  }
 }
 // --- Markdown editor helpers for click-to-edit and fenced code blocks ---
 function sumTextBefore(node, stopAt) {
@@ -107,9 +113,10 @@ function getTextOffsetWithin(div, clientX, clientY) {
   return base + offset;
 }
 let currentCellForNotes = null;
-// --- lightweight markdown live preview (line-based) ---
+// lightweight markdown live preview
 let noteLines = [];
 function mdEscape(html) {
+  // Do not escape $ or $$ so MathJax can process them
   return html.replace(
       /[&<>]/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[m]));
 }
