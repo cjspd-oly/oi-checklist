@@ -1,3 +1,65 @@
+/* --- Note editor layout fixes --- */
+.popup {
+    max-height: 85vh;
+    overflow: hidden;
+}
+
+.popup-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 0;
+}
+
+.md-toolbar {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    flex-wrap: wrap;
+}
+
+.md-toolbar-sep {
+    width: 1px;
+    height: 16px;
+    background: #ddd;
+    margin: 0 .25rem;
+}
+
+body.dark-mode .md-toolbar-sep {
+    background: #444;
+}
+
+.md-textarea,
+.md-preview {
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 50vh;
+    /* keep inside popup */
+    overflow: auto;
+    /* scroll instead of leaking */
+}
+
+.md-textarea {
+    min-height: 180px;
+}
+
+.md-preview {
+    padding: 0.75rem 0.85rem;
+    border: 1px solid #d0d7de;
+    background: #fafbfc;
+    color: #222;
+}
+
+.md-preview pre {
+    overflow: auto;
+}
+
+.dark-mode .md-preview {
+    border-color: #3a3a3a;
+    background: #1f1f1f;
+    color: #e6e6e6;
+}
+
 body {
     font-family: sans-serif;
     padding: 20px;
@@ -115,6 +177,77 @@ h2 {
     /* No rounding */
 }
 
+/* Subtle note icon inside the status popup */
+#status-popup {
+    position: absolute;
+}
+
+#status-popup {
+    position: absolute;
+}
+
+/* Inline score row */
+.popup-score {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    white-space: nowrap;
+    font-family: monospace;
+    margin: 0;
+}
+
+/* keep the score parts together on the left */
+.score-left {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.popup-score .score-left {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+/* compact note icon */
+.note-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    color: #888;
+    opacity: 0.75;
+    cursor: pointer;
+    margin-left: auto;
+    /* NEW: moves icon to far right without adding gaps */
+}
+
+.note-icon:hover {
+    opacity: 1;
+    color: #555;
+}
+
+.dark-mode .note-icon {
+    color: #bbb;
+}
+
+.dark-mode .note-icon:hover {
+    color: #fff;
+}
+
+/* Filled state when a note exists */
+.note-icon.has-note {
+    opacity: 0.95;
+    color: #3f51b5;
+}
+
+.dark-mode .note-icon.has-note {
+    color: #82c6ff;
+}
+
 #popup-status {
     padding: 4px 8px;
     font-weight: bold;
@@ -143,7 +276,7 @@ h2 {
     background: none;
     outline: none;
     border: none;
-    padding: 2px 4px;
+    padding: 0;
     color: #3f51b5;
     font-weight: bold;
     border-radius: 0;
@@ -152,6 +285,43 @@ h2 {
 .popup-score {
     white-space: nowrap;
     font-family: monospace;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    left: -9999px !important;
+    top: auto !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+}
+
+.note-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+    color: #888;
+}
+
+.note-icon svg {
+    display: block;
+}
+
+/* Ensure editable score doesn't reserve extra width globally */
+#popup-score[contenteditable] {
+    display: inline;
+    min-width: 0;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    white-space: normal;
+}
+
+/* Fallback when .score-left isn't present (e.g., profile pages) */
+.popup-score>#popup-score+.popup-out-of {
+    margin-left: 4px;
 }
 
 .popup-score span:focus {
@@ -890,7 +1060,7 @@ body.dark-mode .connect-button:hover {
 
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 1200;
 
     /* Add transition for opacity */
     transition: opacity 0.3s ease-in-out;
@@ -911,7 +1081,7 @@ body.dark-mode .connect-button:hover {
     padding: 1.5rem;
     border-radius: 8px;
     width: 90%;
-    max-width: 500px;
+    max-width: 720px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     position: relative;
 
@@ -1277,7 +1447,8 @@ body,
     gap: 10px;
     width: 100%;
     padding: 10px;
-    background-color: #5865F2; /* Discord blurple */
+    background-color: #5865F2;
+    /* Discord blurple */
     color: white;
     border: none;
     border-radius: 4px;
@@ -1288,7 +1459,8 @@ body,
 }
 
 .btn-discord:hover {
-    background-color: #4752C4; /* Slightly darker blurple */
+    background-color: #4752C4;
+    /* Slightly darker blurple */
 }
 
 .discord-logo {
@@ -1307,21 +1479,21 @@ body,
     padding: 10px;
     margin-bottom: 20px;
 
-    background-color: #ffffff; 
-    color: #3c4043;            
-    border: 1px solid #dadce0; 
+    background-color: #ffffff;
+    color: #3c4043;
+    border: 1px solid #dadce0;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
 
     transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .btn-google:hover {
     background-color: #f8f9fa;
     border-color: #c6c6c6;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
 }
 
 .btn-google:active {
@@ -1404,18 +1576,18 @@ body,
     .navbar {
         padding: 0.5rem 1rem;
     }
-    
+
     .navbar-content {
         flex-wrap: wrap;
         gap: 0.5rem;
     }
-    
+
     .navbar-title {
         font-size: 1.5rem;
         order: 1;
         flex: 1;
     }
-    
+
     .navbar-user {
         order: 2;
         width: 100%;
@@ -1424,52 +1596,52 @@ body,
         flex-wrap: wrap;
         gap: 0.5rem;
     }
-    
+
     .welcome-message {
         font-size: 0.9rem;
         order: 1;
         flex: 1;
     }
-    
+
     .logout-button {
         order: 3;
         font-size: 0.9rem;
         padding: 0.3rem 0.6rem;
     }
-    
+
     .dark-mode-toggle {
         order: 2;
         transform: scale(0.9);
     }
-    
+
     .settings-container {
         order: 4;
         transform: scale(0.9);
     }
-    
+
     .settings-dropdown {
         right: -1rem;
         left: auto;
         width: 200px;
     }
-    
+
     /* Stats container mobile */
     #solve-count-container {
         margin: 1rem;
         padding: 1rem;
     }
-    
+
     #solve-count {
         flex-wrap: wrap;
         gap: 0.75rem;
         justify-content: center;
     }
-    
+
     .solve-count-item {
         min-width: 80px;
         text-align: center;
     }
-    
+
     .solve-count-item span:last-child {
         font-size: 16px !important;
     }
@@ -1480,14 +1652,14 @@ body,
     #white-count {
         font-size: 16px;
     }
-    
+
     /* Tables mobile */
     .table-container {
         margin: 1rem;
         padding: 0.75rem;
         overflow-x: auto;
     }
-    
+
     .table-container h2 {
         font-size: 1.4rem;
         margin-bottom: 1rem;
@@ -1495,13 +1667,14 @@ body,
         line-height: 1.3;
         padding: 0 0.5rem;
     }
-    
+
     .problem-table {
         min-width: 100%;
         font-size: 0.9rem;
     }
-    
-    .year-cell, .day-cell {
+
+    .year-cell,
+    .day-cell {
         min-width: 70px;
         max-width: 70px;
         width: 70px;
@@ -1510,7 +1683,7 @@ body,
         text-align: center;
         word-break: break-word;
     }
-    
+
     .problem-cell {
         min-width: 80px;
         padding: 0.4rem 0.2rem;
@@ -1518,32 +1691,33 @@ body,
         min-height: 40px;
         cursor: pointer;
     }
-    
+
     .problem-cell a {
         font-size: 0.85rem;
         line-height: 1.2;
         word-break: break-word;
         hyphens: auto;
     }
-    
+
     .problem-cell:hover {
-        transform: none; /* Disable hover transform on mobile */
+        transform: none;
+        /* Disable hover transform on mobile */
     }
-    
+
     /* USACO tabs mobile */
     .usaco-header {
         flex-direction: column;
         gap: 0.75rem;
         align-items: center;
     }
-    
+
     .usaco-tab-buttons {
         width: 100%;
         justify-content: center;
         flex-wrap: wrap;
         gap: 0.25rem;
     }
-    
+
     .usaco-tab {
         font-size: 0.85rem;
         padding: 0.5rem 0.75rem;
@@ -1551,35 +1725,35 @@ body,
         flex: 1;
         max-width: 90px;
     }
-    
+
     /* Status popup mobile */
     #status-popup {
         width: 140px;
         font-size: 14px;
         padding: 8px 12px;
     }
-    
+
     #popup-status {
         padding: 4px 8px;
         margin-bottom: 6px;
         font-size: 13px;
     }
-    
+
     #popup-score {
         min-width: 20px;
         padding: 2px 4px;
         font-size: 14px;
     }
-    
+
     .popup-out-of {
         font-size: 14px;
     }
-    
+
     /* Improve skeleton loading on mobile */
     .skeleton-row .skeleton {
         height: 35px;
     }
-    
+
     /* Better spacing for mobile */
     #olympiad-list {
         padding: 0 0.5rem;
@@ -1591,59 +1765,60 @@ body,
     .navbar {
         padding: 0.5rem 0.75rem;
     }
-    
+
     .navbar-title {
         font-size: 1.3rem;
     }
-    
+
     .welcome-message {
         font-size: 0.85rem;
     }
-    
+
     #solve-count-container {
         margin: 0.75rem;
         padding: 0.75rem;
     }
-    
+
     .solve-count-item {
         min-width: 70px;
     }
-    
+
     .solve-count-item span:last-child {
         font-size: 0.85rem;
     }
-    
+
     .table-container {
         margin: 0.75rem 0.5rem;
         padding: 0.5rem;
     }
-    
+
     .table-container h2 {
         font-size: 1.2rem;
     }
-    
+
     .problem-table {
         font-size: 0.85rem;
     }
-    
-    .year-cell, .day-cell {
+
+    .year-cell,
+    .day-cell {
         min-width: 60px;
         max-width: 60px;
         width: 60px;
         font-size: 0.75rem;
         padding: 0.3rem 0.1rem;
     }
-    
+
     .problem-cell {
         min-width: 70px;
         padding: 0.3rem 0.15rem;
         font-size: 0.8rem;
     }
-    
+
     .problem-cell a {
         font-size: 0.8rem;
     }
-    
+
     .usaco-tab {
         font-size: 0.8rem;
         padding: 0.4rem 0.6rem;
@@ -1653,15 +1828,17 @@ body,
 
 /* Touch-friendly improvements */
 @media (hover: none) and (pointer: coarse) {
+
     /* This targets touch devices */
     .problem-cell {
-        min-height: 44px; /* Apple's recommended minimum touch target */
+        min-height: 44px;
+        /* Apple's recommended minimum touch target */
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
     }
-    
+
     .problem-cell a {
         padding: 0.5rem;
         display: inline-block;
@@ -1669,17 +1846,17 @@ body,
         position: relative;
         z-index: 2;
     }
-    
+
     /* Remove hover effects on touch devices */
     .problem-cell:hover {
         transform: none;
         box-shadow: none;
     }
-    
+
     .usaco-tab:hover {
         transform: none;
     }
-    
+
     .settings-button:hover {
         background-color: var(--button-bg, #f0f0f0);
     }
@@ -1695,30 +1872,30 @@ body,
         transform: translateY(-50%);
         width: 20px;
         height: 20px;
-        background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1));
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1));
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.3s ease;
     }
-    
+
     .table-container:hover::after {
         opacity: 1;
     }
-    
+
     /* Better scrollbar for horizontal scroll */
     .table-container {
         scrollbar-width: thin;
         scrollbar-color: var(--accent-color, #007bff) transparent;
     }
-    
+
     .table-container::-webkit-scrollbar {
         height: 6px;
     }
-    
+
     .table-container::-webkit-scrollbar-track {
         background: transparent;
     }
-    
+
     .table-container::-webkit-scrollbar-thumb {
         background-color: var(--accent-color, #007bff);
         border-radius: 3px;
@@ -1728,7 +1905,8 @@ body,
 /* Section Progress Bars */
 .section-progress-bar {
     width: 100%;
-    height: 10px; /* Smaller than main progress bar */
+    height: 10px;
+    /* Smaller than main progress bar */
     background-color: #f0f0f0;
     overflow: hidden;
     margin-bottom: 1rem;
@@ -1737,7 +1915,8 @@ body,
 
 .section-progress-bar .progress-segment {
     height: 100%;
-    width: 0%; /* Start with 0 width */
+    width: 0%;
+    /* Start with 0 width */
     transition: width 0.3s ease;
 }
 
@@ -1761,36 +1940,36 @@ body,
 
 /* Left section with home icon and title */
 .navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .home-icon {
-  text-decoration: none;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
+    text-decoration: none;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
 }
 
 .home-icon svg {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 /* Icon fill colors */
 .home-icon-svg path {
-  fill: black;
+    fill: black;
 }
 
 .dark-mode .home-icon-svg path {
-  fill: white;
+    fill: white;
 }
 
 /* Empty state styling */
 .empty-state {
     text-align: center;
-    margin: 2rem auto;  
+    margin: 2rem auto;
     padding: 3rem 2rem;
     background-color: #ffffff;
     transition: background-color 0.3s ease;
@@ -1821,4 +2000,121 @@ body,
 
 .dark-mode .empty-state p {
     color: #cccccc;
+}
+
+/* --- Markdown editor (Obsidian-like live preview) --- */
+.md-toolbar {
+    display: flex;
+    gap: .25rem;
+    margin-bottom: .5rem;
+}
+
+.md-btn {
+    background: transparent;
+    border: 1px solid #d0d0d0;
+    padding: .25rem .5rem;
+    cursor: pointer;
+    font-size: .9rem;
+    line-height: 1;
+}
+
+.md-btn:hover {
+    background: #f2f2f2;
+}
+
+body.dark-mode .md-btn {
+    border-color: #555;
+    color: #eee;
+}
+
+body.dark-mode .md-btn:hover {
+    background: #2a2f36;
+}
+
+/* Markdown editor refinements */
+.md-editor {
+    min-height: 220px;
+    padding: .5rem .75rem;
+    border: 1px solid #d0d0d0;
+    background: #fff;
+    overflow: auto;
+    cursor: text;
+}
+
+.md-editor:focus-within {
+    outline: 2px solid #a7c7ff;
+    outline-offset: -2px;
+}
+
+.md-line {
+    padding: 2px 0;
+}
+
+.md-line.editing {
+    background: #f8f9fb;
+    border-radius: 2px;
+}
+
+.md-line code {
+    padding: 0 .2em;
+    background: rgba(0, 0, 0, .05);
+    border-radius: 2px;
+}
+
+.md-line pre {
+    margin: .25rem 0;
+    padding: .5rem;
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    overflow: auto;
+}
+
+body.dark-mode .md-editor {
+    background: #1b1b1b;
+    border-color: #333;
+}
+
+body.dark-mode .md-line.editing {
+    background: #262b31;
+}
+
+body.dark-mode .md-line code {
+    background: #2a2f36;
+}
+
+body.dark-mode .md-line pre {
+    background: #1f242a;
+    border-color: #2b3138;
+    color: #e6e6e6;
+}
+
+/* --- Markdown textarea (true textbox) --- */
+.md-textarea {
+    width: 100%;
+    min-height: 240px;
+    padding: 0.75rem 0.85rem;
+    font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    color: #222;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .03);
+    resize: vertical;
+    outline: none;
+}
+
+.md-textarea:focus {
+    border-color: #4ea1f3;
+    box-shadow: 0 0 0 3px rgba(78, 161, 243, .25);
+}
+
+.dark-mode .md-textarea {
+    color: #e6e6e6;
+    background: #222;
+    border-color: #3a3a3a;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.dark-mode .md-textarea:focus {
+    border-color: #82c6ff;
+    box-shadow: 0 0 0 3px rgba(130, 198, 255, .25);
 }

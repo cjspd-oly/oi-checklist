@@ -53,6 +53,19 @@ CREATE TABLE problem_statuses (
 ''')
 
 c.execute('''
+CREATE TABLE user_problem_notes (
+    user_id INTEGER NOT NULL,
+    problem_name TEXT NOT NULL,
+    source TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    note TEXT DEFAULT '',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, problem_name, source, year),
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+)
+''')
+
+c.execute('''
 CREATE TABLE user_settings (
     user_id INTEGER PRIMARY KEY,
     checklist_public BOOLEAN NOT NULL DEFAULT 0,
