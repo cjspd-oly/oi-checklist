@@ -1,0 +1,9 @@
+- name: AddK
+  number: 1
+  link: https://oj.uz/problem/view/eJOI21_addk
+- name: KPart
+  number: 2
+  link: https://oj.uz/problem/view/eJOI21_kpart
+- name: XCopy
+  number: 3
+  link: https://qoj.ac/contest/1968/problem/8098
