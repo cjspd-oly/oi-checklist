@@ -1,0 +1,9 @@
+- name: Fountain
+  number: 1
+  link: https://oj.uz/problem/view/eJOI20_fountain
+- name: Triangulation
+  number: 2
+  link: https://qoj.ac/contest/239/problem/6982
+- name: Exam
+  number: 3
+  link: https://oj.uz/problem/view/eJOI20_exam
