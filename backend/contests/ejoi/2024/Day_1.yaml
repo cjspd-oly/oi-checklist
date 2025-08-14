@@ -1,0 +1,19 @@
+- name: EJOI 2024
+  location: Chișinău, Moldova
+  duration_minutes: 240
+  website: https://ejoi2024.gov.md/
+  link: https://qoj.ac/contest/1909
+  problems:
+  - source: EJOI
+    year: 2024
+    number: 1
+  - source: EJOI
+    year: 2024
+    number: 2
+  - source: EJOI
+    year: 2024
+    number: 3
+  medal_cutoffs:
+  - gold: 163
+    silver: 86
+    bronze: 19

@@ -1,0 +1,9 @@
+- name: XORanges
+  number: 1
+  link: https://oj.uz/problem/view/eJOI19_xoranges
+- name: Hanging Rack
+  number: 2
+  link: https://oj.uz/problem/view/eJOI19_rack
+- name: T-Covering
+  number: 3
+  link: https://oj.uz/problem/view/eJOI19_covering

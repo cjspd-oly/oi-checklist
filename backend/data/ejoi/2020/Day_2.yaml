@@ -1,0 +1,9 @@
+- name: XOR Sort
+  number: 1
+  link: https://oj.uz/problem/view/eJOI20_xorsort
+- name: Card Trick
+  number: 2
+  link: https://qoj.ac/contest/240/problem/6985
+- name: Dots and Boxes
+  number: 3
+  link: https://oj.uz/problem/view/eJOI20_game

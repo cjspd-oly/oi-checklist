@@ -1,0 +1,9 @@
+- name: Game With Numbers
+  number: 1
+  link: https://qoj.ac/contest/1018/problem/4928
+- name: Longest Unfriendly Subsequence
+  number: 2
+  link: https://qoj.ac/contest/1018/problem/4929
+- name: LCS of Permutations
+  number: 3
+  link: https://qoj.ac/contest/1018/problem/4930
