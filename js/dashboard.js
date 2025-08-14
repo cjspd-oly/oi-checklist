@@ -891,7 +891,7 @@ async function loadProblems(from) {
         prefix = 'Platinum';
       }
     }
-    const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc;
+    const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc || prefix === 'EJOI';
 
     if (isGroupedByExtra) {
       // --- Year header row ---

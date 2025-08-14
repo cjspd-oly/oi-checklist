@@ -407,7 +407,6 @@ GITHUB_USER_API = 'https://api.github.com/user'
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 # Notes api
-
 @app.route('/api/note', methods=['GET'])
 @session_required
 def get_note():
@@ -1323,7 +1322,7 @@ def update_ojuz_scores():
     # Step 1: Fetch all oj.uz problems + current progress
     sources = [
         'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-        'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC'
+        'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI'
     ]
     placeholders = ', '.join(['?'] * len(sources))
     problem_rows = db.execute(
