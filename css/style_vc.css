@@ -66,7 +66,7 @@
     margin: 1.5rem 0;
 }
 
-.completion-warning {
+.info-warning {
     background: #fff3cd;
     border: 1px solid #ffeaa7;
     padding: 1rem;
@@ -848,7 +848,7 @@
     border-color: #444;
 }
 
-.dark-mode .completion-warning {
+.dark-mode .info-warning {
     background: #3a3a2e;
     border-color: #5c5c3d;
 }
@@ -2244,10 +2244,16 @@
 }
 
 .contest-comparison {
-    margin-bottom: 2rem;
+    margin: 1.25rem 0 2rem; /* add top margin so it doesn't stick to the element above */
     border: 1px solid #e9ecef;
     background-color: var(--card-bg, #f8f9fa);
     padding: 1.5rem;
+}
+
+/* Ensure spacing when directly following the timeline/graph blocks */
+.analysis-timeline + .contest-comparison,
+.analysis-graphs + .contest-comparison {
+    margin-top: 1.25rem;
 }
 
 .comparison-header {
@@ -2543,7 +2549,7 @@
 }
 
 .dark-mode .contest-comparison {
-    background-color: #252525;
+    background-color: #333333;
     border-color: #444;
 }
 

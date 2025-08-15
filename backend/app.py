@@ -2064,35 +2064,74 @@ def get_contest_scores():
 def get_virtual_contest_detail(slug):
     user_id = request.user_id
     db = get_db()
-    
+
     # Get all virtual contests for this user to find matching slug
     contests = db.execute('''
         SELECT 
             v.contest_name,
             v.contest_stage,
-            c.source as contest_source,
-            c.year as contest_year,
+            c.source AS contest_source,
+            c.year AS contest_year,
             c.location,
             c.website,
             v.started_at,
             v.ended_at,
-            v.score as total_score,
+            v.score AS total_score,
             v.per_problem_scores,
             CASE 
                 WHEN c.link LIKE '%oj.uz%' THEN 'oj.uz'
                 ELSE 'manual'
-            END as platform
+            END AS platform
         FROM user_virtual_contests v
-        JOIN contests c ON v.contest_name = c.name AND (v.contest_stage = c.stage OR (v.contest_stage IS NULL AND c.stage IS NULL))
+        JOIN contests c 
+          ON v.contest_name = c.name 
+         AND (v.contest_stage = c.stage OR (v.contest_stage IS NULL AND c.stage IS NULL))
         WHERE v.user_id = ?
     ''', (user_id,)).fetchall()
-    
-    # Find contest with matching slug
+
     for contest in contests:
         contest_slug = (contest['contest_name'] + (contest['contest_stage'] or '')).lower().replace(' ', '')
         if contest_slug == slug:
-            return jsonify(dict(contest))
-    
+            result = dict(contest)
+
+            # Fetch only the relevant submission fields
+            submissions = db.execute('''
+                SELECT 
+                    submission_time,
+                    problem_index,
+                    score,
+                    subtask_scores
+                FROM user_virtual_submissions
+                WHERE user_id = ?
+                  AND contest_name = ?
+                  AND (
+                        (contest_stage = ?)
+                        OR (contest_stage IS NULL AND ? IS NULL)
+                      )
+                  AND submission_time >= ?
+                  AND submission_time <= ?
+                ORDER BY submission_time ASC
+            ''', (
+                user_id,
+                contest['contest_name'],
+                contest['contest_stage'], contest['contest_stage'],
+                contest['started_at'],
+                contest['ended_at'],
+            )).fetchall()
+
+            out_subs = []
+            for row in submissions:
+                d = dict(row)
+                try:
+                    import json
+                    d['subtask_scores'] = json.loads(d.get('subtask_scores') or 'null')
+                except Exception:
+                    pass
+                out_subs.append(d)
+
+            result['submissions'] = out_subs
+            return jsonify(result)
+
     return jsonify({'error': 'Contest not found'}), 404
 
 @app.route('/api/settings/sync', methods=["POST"])
