@@ -7,12 +7,15 @@
   - source: EJOI
     year: 2024
     number: 1
+    extra: Day 1
   - source: EJOI
     year: 2024
     number: 2
+    extra: Day 1
   - source: EJOI
     year: 2024
     number: 3
+    extra: Day 1
   medal_cutoffs:
   - gold: 163
     silver: 86
