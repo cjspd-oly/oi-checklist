@@ -1,0 +1,9 @@
+- name: Simple game
+  number: 1
+  link: https://oj.uz/problem/view/IZhO17_game
+- name: Bomb
+  number: 2
+  link: https://oj.uz/problem/view/IZhO17_bomb
+- name: Hard route
+  number: 3
+  link: https://oj.uz/problem/view/IZhO17_road
