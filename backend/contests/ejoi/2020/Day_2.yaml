@@ -1,0 +1,19 @@
+- name: EJOI 2020
+  location: Tbilisi, Georgia (Online)
+  duration_minutes: 240
+  website: ejoi2020.ge
+  link: https://qoj.ac/contest/240
+  problems:
+  - source: EJOI
+    year: 2020
+    number: 4
+  - source: EJOI
+    year: 2020
+    number: 5
+  - source: EJOI
+    year: 2020
+    number: 6
+  medal_cutoffs:
+  - gold: 123
+    silver: 101
+    bronze: 61
