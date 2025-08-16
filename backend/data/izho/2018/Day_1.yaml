@@ -1,0 +1,9 @@
+- name: Chessboard
+  number: 1
+  link: https://oj.uz/problem/view/IZhO18_chessboard
+- name: Evacuation plan
+  number: 2
+  link: https://oj.uz/problem/view/IZhO18_plan
+- name: Gift
+  number: 3
+  link: https://oj.uz/problem/view/IZhO18_nicegift
