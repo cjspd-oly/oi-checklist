@@ -1,0 +1,19 @@
+- name: EJOI 2022
+  location: Kyiv, Ukraine (Online)
+  duration_minutes: 240
+  website: ejoi2022.org
+  link: https://qoj.ac/contest/1017
+  problems:
+  - source: EJOI
+    year: 2022
+    number: 1
+  - source: EJOI
+    year: 2022
+    number: 2
+  - source: EJOI
+    year: 2022
+    number: 3
+  medal_cutoffs:
+  - gold: 138
+    silver: 55
+    bronze: 10
