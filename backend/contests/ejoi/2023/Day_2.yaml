@@ -6,13 +6,16 @@
   problems:
   - source: EJOI
     year: 2023
-    number: 4
+    number: 1
+    extra: Day 2
   - source: EJOI
     year: 2023
-    number: 5
+    number: 2
+    extra: Day 2
   - source: EJOI
     year: 2023
-    number: 6
+    number: 3
+    extra: Day 2
   medal_cutoffs:
   - gold: 174.27
     silver: 111
