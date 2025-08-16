@@ -6,13 +6,13 @@
   problems:
   - source: EJOI
     year: 2024
-    number: 1
+    number: 4
   - source: EJOI
     year: 2024
-    number: 2
+    number: 5
   - source: EJOI
     year: 2024
-    number: 3
+    number: 6
   medal_cutoffs:
   - gold: 190.22
     silver: 121.4
