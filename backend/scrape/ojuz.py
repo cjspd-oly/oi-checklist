@@ -1,3 +1,4 @@
+from flask import request, jsonify
 from datetime import timedelta, datetime
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
@@ -5,6 +6,7 @@ import requests
 import re
 import time
 import json
+import random
 from database.db import get_db
 
 def sync_ojuz_submissions(active_contest, ojuz_username):
@@ -353,3 +355,145 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
     print(f"Final scores calculated for {len(submissions_summary)} problems")
     
     return submissions_summary
+
+def verify_ojuz():
+    data = request.get_json()
+    oidc_auth_cookie = data.get('cookie')
+
+    if not oidc_auth_cookie:
+        return jsonify({"error": "Missing cookie"}), 400
+    # URL of the homepage
+    homepage_url = 'https://oj.uz'
+    # Send a GET request to the homepage with the OIDC cookie
+    headers = {
+        'Cookie': f'oidc-auth={oidc_auth_cookie}',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+    }
+    try:
+        response = requests.get(homepage_url, headers=headers, timeout=5)
+        if response.status_code != 200:
+            return jsonify({"error": "Failed to fetch homepage"}), 500
+        # Check if the username appears on the homepage by looking for the specific span element
+        match = re.search(r'<span><a href="/profile/([^"]+)">([^<]+)</a></span>', response.text)
+        if match:
+            username = match.group(2)  # Extract the username
+            return jsonify({"valid": True, "username": username})
+        else:
+            # If no match found, the user is not logged in
+            return jsonify({"valid": False}), 400
+    except Exception as e:
+        return jsonify({"error": f"Error fetching homepage: {str(e)}"}), 500
+    
+def update_ojuz_scores():
+    data = request.get_json()
+    oidc_auth = data.get('cookie')
+    if not oidc_auth:
+        return jsonify({'error': 'Missing oidc-auth cookie'}), 400
+
+    user_id = request.user_id
+    db = get_db()
+
+    # Step 1: Fetch all oj.uz problems + current progress
+    sources = [
+        'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
+        'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO'
+    ]
+    placeholders = ', '.join(['?'] * len(sources))
+    problem_rows = db.execute(
+        f"SELECT name, link, source, year, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders})",
+        tuple(sources)
+    ).fetchall()
+
+    progress_rows = db.execute(
+        f"SELECT problem_name, source, year, status, score FROM problem_statuses "
+        f"WHERE user_id = ? AND source IN ({placeholders})",
+        (user_id, *sources)
+    ).fetchall()
+
+    # Organize progress
+    progress = {
+        (row['problem_name'], row['source'], row['year']): {
+            'status': row['status'],
+            'score': row['score']
+        }
+        for row in progress_rows
+    }
+
+    # Filter only oj.uz problems
+    oj_problems = [
+        {
+            'name': row['name'],
+            'link': row['link'],
+            'source': row['source'],
+            'year': row['year']
+        }
+        for row in problem_rows if row['link'].startswith('https://oj.uz/')
+    ]
+
+    # Step 2: Fetch scores using threads
+    headers = {
+        'Cookie': f'oidc-auth={oidc_auth}',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+    }
+
+    def fetch_score(problem):
+        print("Fetching:", problem['link'])
+        try:
+            time.sleep(random.uniform(0.2, 0.5))
+            res = requests.get(problem['link'], headers=headers, timeout=5)
+            if 'Sign in' in res.text:
+                return 'INVALID_COOKIE'
+            match = re.search(r"circleProgress\(\s*{\s*value:\s*([0-9.]+)", res.text)
+            if match:
+                score = round(float(match.group(1)) * 100)
+                print("Score for", problem['name'], ":", score)
+                return (problem, score)
+            else:
+                print("No score found for", problem['name'])
+        except Exception as e:
+            print("Error fetching", problem['name'], ":", e)
+        return None
+
+    results = []
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        for result in executor.map(fetch_score, oj_problems):
+            if result == 'INVALID_COOKIE':
+                return jsonify({'error': 'Invalid or expired cookie'}), 401
+            if result is not None:
+                results.append(result)
+
+    updated = 0
+    for problem, new_score in results:
+        key = (problem['name'], problem['source'], problem['year'])
+        old = progress.get(key, {'status': 0, 'score': 0})
+
+        # Set new score to max(new score, old score)
+        new_score = max(new_score, old['score'])
+
+        # Determine the new status based on the new score
+        if new_score == 100:
+            new_status = 2  # solved
+        elif 0 < new_score < 100:
+            new_status = 1  # in progress
+        else:
+            new_status = 0  # failed
+
+        # Always update the entry, even if the score hasn't changed
+        db.execute(
+            '''
+            INSERT INTO problem_statuses (user_id, problem_name, source, year, score, status)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(user_id, problem_name, source, year)
+            DO UPDATE SET score = ?, status = ?
+            ''',
+            (
+                user_id, problem['name'], problem['source'], problem['year'], new_score, new_status,
+                new_score, new_status
+            )
+        )
+        updated += 1
+        print(f"Updated {problem['name']} to score {new_score} and status {new_status}")
+
+    db.commit()
+    db.close()
+    return jsonify({'updated': updated, 'total_checked': len(results)}), 200
