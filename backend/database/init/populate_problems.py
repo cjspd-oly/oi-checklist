@@ -3,6 +3,8 @@ import sys
 import json
 import sqlite3
 import subprocess
+import re
+from urllib.parse import urlparse
 from pathlib import Path
 from collections import defaultdict
 from dotenv import load_dotenv, find_dotenv
@@ -35,42 +37,147 @@ yaml_files_by_dir = defaultdict(set)
 
 db_path = os.getenv("DATABASE_PATH", str(BACKEND_DIR / "database.db"))
 conn = sqlite3.connect(db_path)
+conn.row_factory = sqlite3.Row
 cur = conn.cursor()
 
-cur.execute("DELETE FROM problems")
+# Ensure FK cascade works (needed per-connection in SQLite)
+cur.execute("PRAGMA foreign_keys = ON;")
 
-for p in problems:
-    extra = p.get("extra", "")
-    if extra:
-        rel_path = Path("data") / "problems" / p["source"].lower() / str(p["year"]) / f"{extra.replace(' ', '_')}.yaml"
-    else:
-        rel_path = Path("data") / "problems" / p["source"].lower() / f"{p['year']}.yaml"
+# Hostname → platform map
+DEFAULT_HOSTNAME_MAP = {
+    "acmicpc.net": "baekjoon",
+    "atcoder.jp": "atcoder",
+    "cms.iarcs.org.in": "cms",
+    "codebreaker.xyz": "codebreaker",
+    "codechef.com": "codechef",
+    "codedrills.io": "codedrills",
+    "codeforces.com": "codeforces",
+    "dmoj.ca": "dmoj",
+    "icpc.codedrills.io": "codedrills",
+    "oj.uz": "oj.uz",
+    "qoj.ac": "qoj.ac",
+    "szkopul.edu.pl": "szkopuł",
+    "usaco.org": "usaco",
+}
 
-    yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
-
+def _hostname(url: str) -> str | None:
+    if not url:
+        return None
+    if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://", url):
+        url = "http://" + url
     try:
+        h = (urlparse(url).hostname or "").lower()
+        return h[4:] if h.startswith("www.") else h
+    except Exception:
+        return None
+
+def _infer_platform(url: str) -> str:
+    h = _hostname(url)
+    if not h:
+        return "unknown"
+    return DEFAULT_HOSTNAME_MAP.get(h, h)
+
+def normalize_links(entry: dict) -> list[dict]:
+    out = []
+    if "links" in entry and entry["links"] is not None:
+        links = entry["links"]
+        if isinstance(links, list):
+            for item in links:
+                if isinstance(item, str):
+                    url = item
+                    out.append({"platform": _infer_platform(url), "url": url})
+                elif isinstance(item, dict):
+                    url = item.get("url")
+                    plat = item.get("platform") or _infer_platform(url or "")
+                    out.append({"platform": plat, "url": url})
+        elif isinstance(links, dict):
+            for plat, url in links.items():
+                out.append({"platform": str(plat), "url": str(url)})
+    if "link" in entry and entry["link"]:
+        url = entry["link"]
+        out.append({"platform": _infer_platform(url), "url": url})
+
+    # de-dup
+    seen = set()
+    deduped = []
+    for d in out:
+        key = (d["platform"], d["url"])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(d)
+    return deduped
+
+def normalize_extra(val) -> str | None:
+    """Return None for missing/empty/whitespace extras so DB stores NULL."""
+    if val is None:
+        return None
+    if isinstance(val, str):
+        s = val.strip()
+        return s if s != "" else None
+    # Any non-string 'extra' is unexpected; treat as stringified
+    return str(val)
+
+# Atomic wipe & repopulate
+cur.execute("BEGIN;")
+try:
+    # WARNING: This deletes ALL problems. If other tables (e.g. contest_problems)
+    # reference problems with ON DELETE CASCADE, they will also be cleared.
+    cur.execute("DELETE FROM problems")
+
+    for p in problems:
+        extra = normalize_extra(p.get("extra"))
+
+        # Build a relative path for display/debug only (doesn't affect DB)
+        if extra is not None:
+            rel_path = (
+                Path("data") / "problems" / p["source"].lower() / str(p["year"]) /
+                f"{extra.replace(' ', '_')}.yaml"
+            )
+        else:
+            rel_path = Path("data") / "problems" / p["source"].lower() / f"{p['year']}.yaml"
+
+        yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
+
+        links = normalize_links(p)
+
         if "number" in p:
             cur.execute(
                 """
-                INSERT INTO problems (name, number, source, year, link, extra)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO problems (name, number, source, year, extra)
+                VALUES (?, ?, ?, ?, ?)
                 """,
-                (p["name"], p["number"], p["source"], p["year"], p["link"], extra),
+                (p["name"], p["number"], p["source"], p["year"], extra),
             )
         else:
             cur.execute(
                 """
-                INSERT INTO problems (name, source, year, link, extra)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO problems (name, source, year, extra)
+                VALUES (?, ?, ?, ?)
                 """,
-                (p["name"], p["source"], p["year"], p["link"], extra),
+                (p["name"], p["source"], p["year"], extra),
             )
-    except sqlite3.IntegrityError:
-        print("Error inserting problem:", p)
-        raise
+        problem_id = cur.lastrowid
 
-conn.commit()
-conn.close()
+        # Insert problem_links
+        for link in links:
+            plat = link.get("platform")
+            url = link.get("url")
+            if not url:
+                continue
+            cur.execute(
+                """
+                INSERT OR IGNORE INTO problem_links (problem_id, platform, url)
+                VALUES (?, ?, ?)
+                """,
+                (problem_id, plat, url),
+            )
+
+    conn.commit()
+except Exception:
+    conn.rollback()
+    raise
+finally:
+    conn.close()
 
 print("Processed YAML structure:")
 for directory in sorted(yaml_files_by_dir):
@@ -81,6 +188,7 @@ for directory in sorted(yaml_files_by_dir):
         prefix = "└── " if i == len(display) - 1 else "├── "
         print(f"    {prefix}{file}")
 
+# Cleanup temp JSON
 try:
     JSON_OUT.unlink()
     print(f"Deleted temporary file: {JSON_OUT}")

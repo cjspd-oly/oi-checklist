@@ -1,7 +1,88 @@
 import argparse
 import json
+import re
 import yaml
 from pathlib import Path
+from urllib.parse import urlparse
+
+DEFAULT_HOSTNAME_MAP = {
+    "acmicpc.net": "baekjoon",
+    "atcoder.jp": "atcoder",
+    "cms.iarcs.org.in": "cms",
+    "codebreaker.xyz": "codebreaker",
+    "codechef.com": "codechef",
+    "codedrills.io": "codedrills",
+    "codeforces.com": "codeforces",
+    "dmoj.ca": "dmoj",
+    "icpc.codedrills.io": "codedrills",
+    "oj.uz": "oj.uz",
+    "qoj.ac": "qoj.ac",
+    "szkopul.edu.pl": "szkopuł",
+    "usaco.org": "usaco",
+}
+
+def _hostname(url: str) -> str | None:
+    if not url:
+        return None
+    # ensure scheme so urlparse works
+    if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://", url):
+        url = "http://" + url
+    try:
+        h = (urlparse(url).hostname or "").lower()
+        return h[4:] if h.startswith("www.") else h
+    except Exception:
+        return None
+
+def _infer_platform(url: str) -> str:
+    h = _hostname(url)
+    if not h:
+        return "unknown"
+    return DEFAULT_HOSTNAME_MAP.get(h, h)  # fallback to hostname itself
+
+def _normalize_links(entry: dict) -> list[dict]:
+    """
+    Accepts any of:
+      - entry["link"] = str
+      - entry["links"] = [ "https://...", ... ]
+      - entry["links"] = [ {platform,url}, ... ]  (will respect given platform)
+      - entry["links"] = { platform: url, ... }   (rare, but supported)
+    Returns: list of {platform,url}, de-duplicated.
+    """
+    out: list[dict] = []
+
+    if "links" in entry and entry["links"] is not None:
+        links = entry["links"]
+        if isinstance(links, list):
+            for item in links:
+                if isinstance(item, str):
+                    url = item
+                    out.append({"platform": _infer_platform(url), "url": url})
+                elif isinstance(item, dict):
+                    url = item.get("url")
+                    plat = item.get("platform") or _infer_platform(url or "")
+                    out.append({"platform": str(plat), "url": str(url)})
+                else:
+                    raise ValueError(f"Unsupported links item: {item!r}")
+        elif isinstance(links, dict):
+            for plat, url in links.items():
+                out.append({"platform": str(plat), "url": str(url)})
+        else:
+            raise ValueError(f"Unsupported 'links' type: {type(links).__name__}")
+
+    # legacy single link
+    if "link" in entry and entry["link"]:
+        url = entry["link"]
+        out.append({"platform": _infer_platform(url), "url": url})
+
+    # de-dup
+    seen = set()
+    deduped = []
+    for d in out:
+        key = (d["platform"], d["url"])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(d)
+    return deduped
 
 def main():
     parser = argparse.ArgumentParser(description="Convert YAML directory structure into flat JSON")
@@ -36,6 +117,10 @@ def main():
                     problem["year"] = year
                     if extra:
                         problem["extra"] = extra
+
+                    # normalize links (adds unified 'links' array; keeps legacy 'link' as-is)
+                    problem["links"] = _normalize_links(problem)
+
                     all_problems.append(problem)
 
     with open(args.output, "w", encoding="utf-8") as f:

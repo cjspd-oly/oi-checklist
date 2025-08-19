@@ -399,14 +399,32 @@ def update_ojuz_scores():
         'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO'
     ]
     placeholders = ', '.join(['?'] * len(sources))
-    problem_rows = db.execute(
-        f"SELECT name, link, source, year, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders})",
-        tuple(sources)
+
+    # Pull only problems that have an oj.uz link in problem_links
+    oj_rows = db.execute(
+        f"""
+        SELECT
+            p.id,
+            p.name,
+            p.source,
+            p.year,
+            COALESCE(p.number, 0) AS number,
+            pl.url AS oj_url
+        FROM problems p
+        JOIN problem_links pl
+          ON pl.problem_id = p.id
+        WHERE p.source IN ({placeholders})
+          AND pl.platform = ?
+        """,
+        (*sources, 'oj.uz')
     ).fetchall()
 
     progress_rows = db.execute(
-        f"SELECT problem_name, source, year, status, score FROM problem_statuses "
-        f"WHERE user_id = ? AND source IN ({placeholders})",
+        f"""
+        SELECT problem_name, source, year, status, score
+        FROM problem_statuses
+        WHERE user_id = ? AND source IN ({placeholders})
+        """,
         (user_id, *sources)
     ).fetchall()
 
@@ -419,15 +437,15 @@ def update_ojuz_scores():
         for row in progress_rows
     }
 
-    # Filter only oj.uz problems
+    # Only oj.uz problems
     oj_problems = [
         {
             'name': row['name'],
-            'link': row['link'],
+            'link': row['oj_url'],
             'source': row['source'],
-            'year': row['year']
+            'year': row['year'],
         }
-        for row in problem_rows if row['link'].startswith('https://oj.uz/')
+        for row in oj_rows
     ]
 
     # Step 2: Fetch scores using threads
@@ -440,9 +458,7 @@ def update_ojuz_scores():
         print("Fetching:", problem['link'])
         try:
             time.sleep(random.uniform(0.2, 0.5))
-            res = requests.get(problem['link'], headers=headers, timeout=5)
-            if 'Sign in' in res.text:
-                return 'INVALID_COOKIE'
+            res = requests.get(problem['link'], headers=headers, timeout=5, allow_redirects=True)
             match = re.search(r"circleProgress\(\s*{\s*value:\s*([0-9.]+)", res.text)
             if match:
                 score = round(float(match.group(1)) * 100)
@@ -457,10 +473,12 @@ def update_ojuz_scores():
     results = []
     with ThreadPoolExecutor(max_workers=8) as executor:
         for result in executor.map(fetch_score, oj_problems):
-            if result == 'INVALID_COOKIE':
-                return jsonify({'error': 'Invalid or expired cookie'}), 401
             if result is not None:
                 results.append(result)
+                
+    # If nothing succeeded then treat cookie as invalid
+    if not results:
+        return jsonify({'error': 'Invalid or expired cookie'}), 401
 
     updated = 0
     for problem, new_score in results:

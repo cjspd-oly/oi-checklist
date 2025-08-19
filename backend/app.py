@@ -126,6 +126,44 @@ def update_user_settings():
 
     return jsonify({"success": True})
 
+import ast
+
+def choose_link(links, preferred_platform=None):
+    """links is a list of {platform, url} dicts."""
+    if not links:
+        return None
+
+    show = len(links) > 1
+
+    # Normalize preferred_platform to a list
+    if preferred_platform:
+        if isinstance(preferred_platform, str):
+            try:
+                # Try to interpret it as a list-like string
+                parsed = ast.literal_eval(preferred_platform)
+                if isinstance(parsed, list):
+                    preferred_platform = parsed
+                else:
+                    preferred_platform = [preferred_platform]
+            except (ValueError, SyntaxError):
+                preferred_platform = [preferred_platform]
+
+        for plat in preferred_platform:
+            for l in links:
+                if l['platform'] == plat:
+                    return l['url']
+                elif show:
+                    print(f"checking {l['platform']} vs {plat}")
+
+    # Default order preference
+    order = ["oj.uz", "qoj.ac"]
+    for plat in order:
+        for l in links:
+            if l['platform'] == plat:
+                return l['url']
+
+    return links[0]['url']
+
 @app.route('/api/problems', methods=["GET"])
 @session_required
 def get_problems():
@@ -133,26 +171,41 @@ def get_problems():
     if not from_names:
         return jsonify({"error": "Missing 'names' query parameter"}), 400
 
-    # Split the names by comma and strip any leading/trailing whitespace
     from_names = [name.strip() for name in from_names.split(',')]
-
-    user_id = request.user_id  # Get user ID from JWT token
+    user_id = request.user_id 
     db = get_db()
 
-    # Prepare the query for fetching problems for multiple sources
-    placeholders = ', '.join(['?'] * len(from_names))  # Create placeholders for the sources
+    pref_row = db.execute(
+        "SELECT platform_pref FROM user_settings WHERE user_id = ?",
+        (user_id,)
+    ).fetchone()
+    preferred_platform = pref_row['platform_pref'] if pref_row and pref_row['platform_pref'] else None
+
+    placeholders = ', '.join(['?'] * len(from_names))
     problems_raw = db.execute(
         f'SELECT *, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
         tuple(from_names)
     ).fetchall()
 
-    # Get progress data for all the sources
+    problem_ids = [row['id'] for row in problems_raw]
+    links_by_pid = {}
+    if problem_ids:
+        ph_ids = ', '.join(['?'] * len(problem_ids))
+        link_rows = db.execute(
+            f'SELECT problem_id, platform, url FROM problem_links WHERE problem_id IN ({ph_ids})',
+            tuple(problem_ids)
+        ).fetchall()
+        for lr in link_rows:
+            links_by_pid.setdefault(lr['problem_id'], []).append({
+                'platform': lr['platform'],
+                'url': lr['url']
+            })
+
     progress_rows = db.execute(
         f'SELECT problem_name, source, year, status, score FROM problem_statuses WHERE user_id = ? AND source IN ({placeholders})',
         (user_id, *from_names)
     ).fetchall()
 
-    # Organize progress by (problem_name, source, year)
     progress = {
         (row['problem_name'], row['source'], row['year']): {
             'status': row['status'],
@@ -161,16 +214,20 @@ def get_problems():
         for row in progress_rows
     }
 
-    # Prepare the response structure
     problems_by_category = {}
 
     for row in problems_raw:
         source = row['source']
         year = row['year']
-        problem = dict(row)
-        problem.pop("id", None)  # Remove the ID, assuming it's not needed in the response
+        pid = row['id']
 
-        # Include 'extra' only if it exists and is not None
+        problem = dict(row)
+        problem.pop("id", None)
+
+        links = links_by_pid.get(pid, [])
+        problem['link'] = choose_link(links, preferred_platform)
+        # to expose all links, add problem['links'] = links
+
         if 'extra' in row.keys() and row['extra'] is not None:
             problem['extra'] = row['extra']
 
@@ -184,7 +241,6 @@ def get_problems():
 
         if source not in problems_by_category:
             problems_by_category[source] = {}
-
         problems_by_category[source].setdefault(year, []).append(problem)
 
     return jsonify(problems_by_category)
@@ -212,17 +268,36 @@ def get_user():
     if checklist_public == 0:
         return jsonify({"error": f"{username}'s checklist is private."}), 403
 
+    # ---- get their platform setting ----
+    pref_row = db.execute(
+        "SELECT preferred_platform FROM user_settings WHERE user_id = ?",
+        (user_id,)
+    ).fetchone()
+    preferred_platform = pref_row['preferred_platform'] if pref_row and pref_row['preferred_platform'] else None
+
     problems_by_category = {}
     if problems_list:
         placeholders = ', '.join(['?'] * len(problems_list))
 
-        # Get all problems for the selected sources
         problems_raw = db.execute(
             f'SELECT *, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
             tuple(problems_list)
         ).fetchall()
 
-        # Get the user's status and score for these problems
+        problem_ids = [row['id'] for row in problems_raw]
+        links_by_pid = {}
+        if problem_ids:
+            ph_ids = ', '.join(['?'] * len(problem_ids))
+            link_rows = db.execute(
+                f'SELECT problem_id, platform, url FROM problem_links WHERE problem_id IN ({ph_ids})',
+                tuple(problem_ids)
+            ).fetchall()
+            for lr in link_rows:
+                links_by_pid.setdefault(lr['problem_id'], []).append({
+                    'platform': lr['platform'],
+                    'url': lr['url']
+                })
+
         progress_rows = db.execute(
             f'''
             SELECT problem_name, source, year, status, score
@@ -243,8 +318,14 @@ def get_user():
         for row in problems_raw:
             source = row['source']
             year = row['year']
+            pid = row['id']
+
             problem = dict(row)
             problem.pop("id", None)
+
+            # ---- attach chosen link ----
+            links = links_by_pid.get(pid, [])
+            problem['link'] = choose_link(links, preferred_platform)
 
             key = (problem['name'], problem['source'], problem['year'])
             if key in progress:
@@ -320,75 +401,114 @@ def update_problem_score():
     db.close()
     return jsonify(success=True)
 
-@app.route('/api/update-olympiad-order', methods=['POST'])
+# --- POST /api/user-settings: make platform_pref optional like others ---
+@app.route('/api/user-settings', methods=['POST'])
 @session_required
-def update_olympiad_order():
+def upd_user_settings():
     data = request.get_json()
     user_id = request.user_id
 
-    olympiad_order = data.get('olympiad_order')
-    hidden = data.get('hidden')
+    if 'olympiad_order' in data:
+        olympiad_order = data['olympiad_order']
+        if not isinstance(olympiad_order, list):
+            return jsonify({"error": "Invalid 'olympiad_order' (must be list)"}), 400
+    else:
+        olympiad_order = None
 
-    if not isinstance(olympiad_order, list):
-        return jsonify({"error": "Invalid or missing olympiad_order"}), 400
-    if hidden is not None and not isinstance(hidden, list):
-        return jsonify({"error": "Invalid 'hidden' list"}), 400
+    if 'hidden' in data:
+        hidden = data['hidden']
+        if hidden is not None and not isinstance(hidden, list):
+            return jsonify({"error": "Invalid 'hidden' (must be list)"}), 400
+    else:
+        hidden = None
+
+    if 'asc_order' in data:
+        asc_order = data['asc_order']
+        if not isinstance(asc_order, (bool, int)):
+            return jsonify({"error": "Invalid 'asc_order' (must be bool)"}), 400
+    else:
+        asc_order = None
+
+    if 'platform_pref' in data:
+        platform_pref = data['platform_pref']
+        if not (isinstance(platform_pref, list) and all(isinstance(x, str) for x in platform_pref)):
+            return jsonify({"error": "Invalid 'platform_pref' (must be list of strings)"}), 400
+    else:
+        platform_pref = None
 
     db = get_db()
-    db.execute(
-        '''
-        INSERT INTO user_settings (user_id, olympiad_order, hidden)
-        VALUES (?, ?, ?)
-        ON CONFLICT(user_id) DO UPDATE SET 
-            olympiad_order = excluded.olympiad_order,
-            hidden = excluded.hidden
-        ''',
-        (user_id, json.dumps(olympiad_order), json.dumps(hidden) if hidden is not None else json.dumps([]))
-    )
-    db.commit()
-    db.close()
+    user_id = request.user_id  # or wherever you get it
 
+    data = request.get_json(force=True) or {}
+    olympiad_order = data.get('olympiad_order')
+    hidden         = data.get('hidden')
+    asc_sort       = data.get('asc_sort')   # bool or 0/1 expected
+    platform_pref  = data.get('platform_pref')
+
+    # 1) Ensure row exists so defaults apply (checklist_public=0, asc_sort=0, etc.)
+    db.execute(
+        "INSERT INTO user_settings (user_id) VALUES (?) ON CONFLICT(user_id) DO NOTHING",
+        (user_id,)
+    )
+
+    # 2) Update only what was provided; keep the rest as-is
+    db.execute(
+        """
+        UPDATE user_settings
+        SET
+        olympiad_order = COALESCE(?, olympiad_order),
+        hidden         = COALESCE(?, hidden),
+        asc_sort       = COALESCE(?, asc_sort),
+        platform_pref  = COALESCE(?, platform_pref)
+        WHERE user_id = ?
+        """,
+        (
+        json.dumps(olympiad_order) if 'olympiad_order' in data else None,
+        json.dumps(hidden)         if 'hidden'         in data else None,
+        (1 if asc_sort else 0)     if 'asc_sort'       in data else None,
+        json.dumps(platform_pref)  if 'platform_pref'  in data else None,
+        user_id,
+        )
+    )
+
+    db.commit()
     return jsonify(success=True)
 
-@app.route('/api/get-olympiad-order', methods=['GET'])
-def get_olympiad_order():
+# --- GET /api/user-settings: include platform_pref ---
+@app.route('/api/user-settings', methods=['GET'])
+def gget_user_settings():
     username = request.args.get('username')
     if not username:
         return jsonify({"error": "Missing 'username' query parameter"}), 400
     db = get_db()
-    # Get user ID from username
-    user = db.execute(
-        "SELECT id FROM users WHERE username = ?",
-        (username,)
-    ).fetchone()
+    user = db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()
     if not user:
         db.close()
         return jsonify({"error": f"User '{username}' not found"}), 404
 
     user_id = user['id']
-    # Fetch olympiad order and hidden list
     row = db.execute(
-        '''
-        SELECT olympiad_order, hidden FROM user_settings
-        WHERE user_id = ?
-        ''',
+        'SELECT olympiad_order, hidden, asc_sort, platform_pref FROM user_settings WHERE user_id = ?',
         (user_id,)
     ).fetchone()
     db.close()
-    olympiad_order = None
-    hidden = None
+
+    olympiad_order = hidden = asc_order = platform_pref = None
     if row:
-        if row['olympiad_order']:
-            try:
-                olympiad_order = json.loads(row['olympiad_order'])
-            except Exception:
-                return jsonify({"error": "Failed to parse olympiad_order"}), 500
-        if row['hidden']:
-            try:
-                hidden = json.loads(row['hidden'])
-            except Exception:
-                return jsonify({"error": "Failed to parse hidden"}), 500
-    return jsonify(olympiad_order=olympiad_order, hidden=hidden)
+        try:
+            if row['olympiad_order']: olympiad_order = json.loads(row['olympiad_order'])
+            if row['hidden']:         hidden         = json.loads(row['hidden'])
+            if row['asc_sort']:       asc_order      = json.loads(row['asc_sort'])
+            if row['platform_pref']:  platform_pref  = json.loads(row['platform_pref'])
+        except Exception:
+            return jsonify({"error": "Failed to parse user_settings JSON"}), 500
+
+    return jsonify(
+        olympiad_order=olympiad_order,
+        hidden=hidden,
+        asc_order=asc_order,
+        platform_pref=platform_pref
+    )
 
 @app.route('/api/demo-login', methods=["POST"])
 def api_demo_login():

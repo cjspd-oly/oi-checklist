@@ -94,8 +94,8 @@ function sumTextBefore(node, stopAt) {
 function caretRangeFromPoint(x, y) {
   if (document.caretRangeFromPoint) return document.caretRangeFromPoint(x, y);
   const pos = document.caretPositionFromPoint ?
-      document.caretPositionFromPoint(x, y) :
-      null;
+    document.caretPositionFromPoint(x, y) :
+    null;
   if (pos) {
     const r = document.createRange();
     r.setStart(pos.offsetNode, pos.offset);
@@ -118,7 +118,7 @@ let noteLines = [];
 function mdEscape(html) {
   // Do not escape $ or $$ so MathJax can process them
   return html.replace(
-      /[&<>]/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[m]));
+    /[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
 }
 function mdInline(line) {
   // inline code
@@ -129,8 +129,8 @@ function mdInline(line) {
   line = line.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
   // links [text](url)
   line = line.replace(
-      /\[([^\]]+)\]\(([^)]+)\)/g,
-      '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>');
   return line;
 }
 function mdBlockRender(raw) {
@@ -149,7 +149,7 @@ function mdBlockRender(raw) {
     return '<h1>' + mdInline(mdEscape(raw.replace(/^#\s+/, ''))) + '</h1>';
   if (/^>\s?/.test(raw))
     return '<blockquote>' + mdInline(mdEscape(raw.replace(/^>\s?/, ''))) +
-        '</blockquote>';
+      '</blockquote>';
   if (/^[-*]\s+/.test(raw))
     return '<li>' + mdInline(mdEscape(raw.replace(/^[-*]\s+/, ''))) + '</li>';
   if (/^\d+\.\s+/.test(raw))
@@ -161,7 +161,7 @@ function renderAllLines() {
   if (!editor) return;
   let html = '';
   let inUl = false, inOl = false, inFence = false, fenceLang = '',
-      fenceLines = [], fenceStartIndex = -1;
+    fenceLines = [], fenceStartIndex = -1;
   noteLines.forEach((raw, idx) => {
     const fenceMatch = raw.match(/^```(.*)\s*$/);
     if (fenceMatch) {
@@ -174,8 +174,7 @@ function renderAllLines() {
       } else {
         // close fence
         html +=
-            `<div class="md-line" data-index="${fenceStartIndex}"><pre><code>${
-                mdEscape(fenceLines.join('\n'))}</code></pre></div>`;
+          `<div class="md-line" data-index="${fenceStartIndex}"><pre><code>${mdEscape(fenceLines.join('\n'))}</code></pre></div>`;
         inFence = false;
         fenceLang = '';
         fenceLines = [];
@@ -217,11 +216,10 @@ function renderAllLines() {
   if (inOl) html += '</ol>';
   if (inFence) {
     // dangling fence, render raw as code anyway
-    html += `<div class="md-line" data-index="${fenceStartIndex}"><pre><code>${
-        mdEscape(fenceLines.join('\n'))}</code></pre></div>`;
+    html += `<div class="md-line" data-index="${fenceStartIndex}"><pre><code>${mdEscape(fenceLines.join('\n'))}</code></pre></div>`;
   }
   editor.innerHTML = html ||
-      '<div class="md-line" data-index="0"><p><em>Start typing…</em></p></div>';
+    '<div class="md-line" data-index="0"><p><em>Start typing…</em></p></div>';
   // click-to-edit per line
   editor.querySelectorAll('.md-line').forEach(div => {
     div.addEventListener('click', (e) => {
@@ -238,7 +236,7 @@ function renderAllLines() {
       renderAllLines();
       startEditingLine(noteLines.length - 1);
     }
-  }, {once: true});
+  }, { once: true });
 }
 function startEditingLine(i, caretAt = null) {
   const editor = document.getElementById('md-editor');
@@ -266,7 +264,7 @@ function startEditingLine(i, caretAt = null) {
         div.classList.remove('editing');
         renderAllLines();
       };
-      div.addEventListener('blur', commit, {once: true});
+      div.addEventListener('blur', commit, { once: true });
       div.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'enter') {
           e.preventDefault();
@@ -283,7 +281,7 @@ function startEditingLine(i, caretAt = null) {
         // place at pos
         let remaining = pos;
         const walker =
-            document.createTreeWalker(div, NodeFilter.SHOW_TEXT, null);
+          document.createTreeWalker(div, NodeFilter.SHOW_TEXT, null);
         let n;
         while ((n = walker.nextNode())) {
           if (remaining <= n.nodeValue.length) {
@@ -337,7 +335,7 @@ function startEditingLine(i, caretAt = null) {
     div.classList.remove('editing');
     renderAllLines();
   };
-  div.addEventListener('blur', commit, {once: true});
+  div.addEventListener('blur', commit, { once: true });
   div.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'Enter') {
       e.preventDefault();
@@ -420,13 +418,13 @@ async function openNoteEditor(cell) {
   const sessionToken = localStorage.getItem('sessionToken');
   // Load current note
   try {
-    const params = new URLSearchParams({problem_name: name, source, year});
+    const params = new URLSearchParams({ problem_name: name, source, year });
     const res = await fetch(apiUrl + NOTE_ENDPOINT + '?' + params.toString(), {
       method: 'GET',
       credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
-    const data = res.ok ? await res.json() : {note: ''};
+    const data = res.ok ? await res.json() : { note: '' };
     const raw = (data.note || '').replace(/\r/g, '');
     document.getElementById('note-raw').value = raw;
     const ta = document.getElementById('md-textarea');
@@ -467,9 +465,9 @@ async function refreshNoteIconState() {
     const res = await fetch(apiUrl + NOTE_ENDPOINT + '?' + params.toString(), {
       method: 'GET',
       credentials: 'include',
-      headers: {'Authorization': `Bearer ${sessionToken}`}
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
     });
-    const data = res.ok ? await res.json() : {note: ''};
+    const data = res.ok ? await res.json() : { note: '' };
     if (data.note && String(data.note).trim())
       btn.classList.add('has-note');
     else
@@ -480,78 +478,78 @@ async function refreshNoteIconState() {
 }
 
 // Note editor wiring
-(function() {
-const btn = document.getElementById('note-button');
-const overlay = document.getElementById('note-overlay');
-const closeBtn = document.getElementById('note-close');
-const saveBtn = document.getElementById('note-save');
-const ta = document.getElementById('md-textarea');
-const pv = document.getElementById('md-preview');
-const toggleBtn = document.getElementById('md-toggle');
-if (btn) {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openNoteEditor(currentCellForNotes);
-  });
-}
-if (closeBtn) {
-  closeBtn.addEventListener('click', closeNoteEditor);
-}
-if (overlay) {
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeNoteEditor();
-  });
-}
-if (saveBtn) {
-  saveBtn.addEventListener('click', async () => {
-    const hidden = document.getElementById('note-raw');
-    const name = hidden.dataset.problemName;
-    const source = hidden.dataset.source;
-    const year = hidden.dataset.year;
-    const ta = document.getElementById('md-textarea');
-    const markdown = ta ? ta.value : '';
-    const sessionToken = localStorage.getItem('sessionToken');
-    await fetch(apiUrl + NOTE_ENDPOINT, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sessionToken}`
-      },
-      body: JSON.stringify({problem_name: name, source, year, note: markdown})
+(function () {
+  const btn = document.getElementById('note-button');
+  const overlay = document.getElementById('note-overlay');
+  const closeBtn = document.getElementById('note-close');
+  const saveBtn = document.getElementById('note-save');
+  const ta = document.getElementById('md-textarea');
+  const pv = document.getElementById('md-preview');
+  const toggleBtn = document.getElementById('md-toggle');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openNoteEditor(currentCellForNotes);
     });
-    closeNoteEditor();
-    // update icon state to reflect presence/absence
-    const btn = document.getElementById('note-button');
-    if (markdown.trim())
-      btn.classList.add('has-note');
-    else
-      btn.classList.remove('has-note');
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeNoteEditor);
+  }
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeNoteEditor();
+    });
+  }
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async () => {
+      const hidden = document.getElementById('note-raw');
+      const name = hidden.dataset.problemName;
+      const source = hidden.dataset.source;
+      const year = hidden.dataset.year;
+      const ta = document.getElementById('md-textarea');
+      const markdown = ta ? ta.value : '';
+      const sessionToken = localStorage.getItem('sessionToken');
+      await fetch(apiUrl + NOTE_ENDPOINT, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify({ problem_name: name, source, year, note: markdown })
+      });
+      closeNoteEditor();
+      // update icon state to reflect presence/absence
+      const btn = document.getElementById('note-button');
+      if (markdown.trim())
+        btn.classList.add('has-note');
+      else
+        btn.classList.remove('has-note');
+    });
+  }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const mode = toggleBtn.dataset.mode || 'edit';
+      if (mode === 'edit') {
+        // switch to preview
+        renderMarkdownPreview(ta ? ta.value : '');
+        if (ta) ta.style.display = 'none';
+        if (pv) pv.style.display = 'block';
+        toggleBtn.dataset.mode = 'preview';
+        toggleBtn.title = 'Edit (Ctrl/Cmd+/)';
+      } else {
+        // switch to edit
+        if (pv) pv.style.display = 'none';
+        if (ta) ta.style.display = 'block';
+        if (ta) ta.focus();
+        toggleBtn.dataset.mode = 'edit';
+        toggleBtn.title = 'Preview (Ctrl/Cmd+/)';
+      }
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNoteEditor();
   });
-}
-if (toggleBtn) {
-  toggleBtn.addEventListener('click', () => {
-    const mode = toggleBtn.dataset.mode || 'edit';
-    if (mode === 'edit') {
-      // switch to preview
-      renderMarkdownPreview(ta ? ta.value : '');
-      if (ta) ta.style.display = 'none';
-      if (pv) pv.style.display = 'block';
-      toggleBtn.dataset.mode = 'preview';
-      toggleBtn.title = 'Edit (Ctrl/Cmd+/)';
-    } else {
-      // switch to edit
-      if (pv) pv.style.display = 'none';
-      if (ta) ta.style.display = 'block';
-      if (ta) ta.focus();
-      toggleBtn.dataset.mode = 'edit';
-      toggleBtn.title = 'Preview (Ctrl/Cmd+/)';
-    }
-  });
-}
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeNoteEditor();
-});
 })();
 
 // Toolbar actions
@@ -600,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Count tracking for dashboard
 const count = {
-  counts: {red: 0, yellow: 0, green: 0, white: 0},
+  counts: { red: 0, yellow: 0, green: 0, white: 0 },
   sectionCounts: {},  // Track counts per section
   update(key, diff) {
     if (key in this.counts) {
@@ -632,7 +630,7 @@ const count = {
   },
   updateSection(sectionId, key, diff) {
     if (!this.sectionCounts[sectionId]) {
-      this.sectionCounts[sectionId] = {red: 0, yellow: 0, green: 0, white: 0};
+      this.sectionCounts[sectionId] = { red: 0, yellow: 0, green: 0, white: 0 };
     }
 
     if (key in this.sectionCounts[sectionId]) {
@@ -646,20 +644,15 @@ const count = {
 
       if (sectionTotal > 0) {
         for (const color in this.sectionCounts[sectionId]) {
-          const el = document.querySelector(`#${
-              sectionId}-container .section-progress-bar .progress-segment.${
-              color}`);
+          const el = document.querySelector(`#${sectionId}-container .section-progress-bar .progress-segment.${color}`);
           if (el) {
-            el.style.width = `${
-                (this.sectionCounts[sectionId][color] / sectionTotal) * 100}%`;
+            el.style.width = `${(this.sectionCounts[sectionId][color] / sectionTotal) * 100}%`;
           }
         }
       } else {
         // Reset section progress bars when no items
         for (const color in this.sectionCounts[sectionId]) {
-          const el = document.querySelector(`#${
-              sectionId}-container .section-progress-bar .progress-segment.${
-              color}`);
+          const el = document.querySelector(`#${sectionId}-container .section-progress-bar .progress-segment.${color}`);
           if (el) {
             el.style.width = '0%';
           }
@@ -717,7 +710,7 @@ function createOlympiadContainer(olympiadId) {
           });
 
           document.getElementById(`${tab}-container`)
-              .classList.remove('hidden');
+            .classList.remove('hidden');
         });
       });
     }, 0);
@@ -792,7 +785,7 @@ function updateStatusWithCount(status, cell, name, source, year) {
       'Authorization': `Bearer ${sessionToken}`
     },
     body: JSON.stringify(
-        {problem_name: name, source: source, year: year, status: status})
+      { problem_name: name, source: source, year: year, status: status })
   });
 }
 
@@ -811,7 +804,7 @@ function handlePopupCloseWithServer(cell) {
   if (status === 2 || status === 0) {
     const finalScore = status === 2 ? 100 : 0;
     if (Math.abs(parseFloat(cell.dataset.score) - finalScore) <
-        0.001) {  // Handle floating point comparison
+      0.001) {  // Handle floating point comparison
       return;
     }
 
@@ -824,7 +817,7 @@ function handlePopupCloseWithServer(cell) {
         'Authorization': `Bearer ${sessionToken}`
       },
       body: JSON.stringify(
-          {problem_name: name, source: source, year: year, score: finalScore})
+        { problem_name: name, source: source, year: year, score: finalScore })
     });
   }
 }
@@ -874,8 +867,8 @@ async function loadProblems(from) {
       }
       prefix = 'JOI';
     } else if (
-        prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
-        prefix === 'NOIFINAL' || prefix === 'NOISEL') {
+      prefix === 'NOIPRELIM' || prefix === 'NOIQUAL' ||
+      prefix === 'NOIFINAL' || prefix === 'NOISEL') {
       prefix = 'NOI';
     }
 
@@ -1082,7 +1075,7 @@ async function loadProblems(from) {
 function loadProblemsWithDay(source, numDays) {
   const yearMap = cachedProblemsData[source] || {};
   const container =
-      document.getElementById(`${source.toLowerCase()}-container`);
+    document.getElementById(`${source.toLowerCase()}-container`);
   const table = container.querySelector('table');
   table.innerHTML = '';
 
@@ -1167,8 +1160,8 @@ function loadProblemsWithDay(source, numDays) {
       }
 
       const hasProblem = [...dayRow.children].some(
-          td =>
-              td.classList.contains('problem-cell') && td.children.length > 0);
+        td =>
+          td.classList.contains('problem-cell') && td.children.length > 0);
       if (hasProblem) {
         tbody.appendChild(dayRow);
       }
@@ -1194,27 +1187,27 @@ window.onload = async () => {
   const fullPath = window.location.pathname;
   const basePath = document.querySelector('base')?.getAttribute('href') || '/';
   const relativePath = fullPath.startsWith(basePath) ?
-      fullPath.slice(basePath.length) :
-      fullPath;
+    fullPath.slice(basePath.length) :
+    fullPath;
 
   const isProfilePage = relativePath.startsWith('profile/');
 
   // Default order
   let sources = olympiadIds.flatMap(
-      id => id === 'USACO' ?
-          ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'] :
-          id);
+    id => id === 'USACO' ?
+      ['USACOPLATINUM', 'USACOGOLD', 'USACOSILVER', 'USACOBRONZE'] :
+      id);
 
   // Fetch user info
   const whoamiRes = await fetch(`${apiUrl}/api/whoami`, {
     method: 'GET',
     credentials: 'include',
-    headers: {'Authorization': `Bearer ${sessionToken}`}
+    headers: { 'Authorization': `Bearer ${sessionToken}` }
   });
 
   let username = '';
   if (whoamiRes.ok) {
-    const {username: uname} = await whoamiRes.json();
+    const { username: uname } = await whoamiRes.json();
     username = uname;
   }
 
@@ -1224,24 +1217,29 @@ window.onload = async () => {
 
   // Attempt to fetch saved order
   try {
-    let req = `${apiUrl}/api/get-olympiad-order`;
+    let req = `${apiUrl}/api/user-settings`;
     const uname = isProfilePage ? relativePath.split('/')[1] : username;
     req += `?username=${uname}`;
 
-    const orderResponse = await fetch(req, {
+    const resp = await fetch(req, {
       method: 'GET',
       credentials: 'include',
     });
 
-    if (orderResponse.ok) {
-      const {olympiad_order} = await orderResponse.json();
-      // Changed condition here - now accepts empty arrays too
+    if (resp.ok) {
+      const { olympiad_order, asc_order, platform_pref } = await resp.json();
       if (Array.isArray(olympiad_order)) {
         sources = olympiad_order.map(id => id.toUpperCase());
       }
+      if (typeof asc_order === "boolean") {
+        localStorage.setItem('yearSortOrder', asc_order ? "asc" : "desc");
+      }
+      if (Array.isArray(platform_pref)) {
+        localStorage.setItem('platformPref', JSON.stringify(platform_pref));
+      }
     }
   } catch (err) {
-    console.error('Failed to fetch olympiad order:', err);
+    console.error('Failed to fetch user settings:', err);
   }
 
   // Handle empty sources case
@@ -1252,11 +1250,11 @@ window.onload = async () => {
     if (isProfilePage) {
       const uname = relativePath.split('/')[1];
       document.getElementById('page-title').textContent =
-          `${uname}'s OI Checklist`;
+        `${uname}'s OI Checklist`;
     } else {
       document.getElementById('page-title').textContent = `OI Checklist`;
       document.getElementById('welcome-message').textContent =
-          `Welcome, ${username}`;
+        `Welcome, ${username}`;
     }
 
     // Initialize counts to zero
@@ -1286,7 +1284,7 @@ window.onload = async () => {
   if (isProfilePage) {
     const uname = relativePath.split('/')[1];
     document.getElementById('page-title').textContent =
-        `${uname}'s OI Checklist`;
+      `${uname}'s OI Checklist`;
   } else {
     document.getElementById('page-title').textContent = `OI Checklist`;
   }
@@ -1313,8 +1311,8 @@ window.onload = async () => {
     const namesParam = sources.join(',');
 
     const res = await fetch(
-        `${apiUrl}/api/user?username=${uname}&problems=${namesParam}`,
-        {method: 'GET', credentials: 'include'});
+      `${apiUrl}/api/user?username=${uname}&problems=${namesParam}`,
+      { method: 'GET', credentials: 'include' });
 
     if (res.status === 404) {
       document.body.innerHTML = `<h2 style="text-align:center;margin-top:2em;">
@@ -1349,12 +1347,12 @@ window.onload = async () => {
       if (src.startsWith('USACO')) {
         // For USACO divisions, look inside the nested container
         const container =
-            document.getElementById(`${src.toLowerCase()}-container`);
+          document.getElementById(`${src.toLowerCase()}-container`);
         tbl = container?.querySelector('table');
       } else {
         // For regular olympiads, look in the main container
         const container =
-            document.getElementById(`${src.toLowerCase()}-container`);
+          document.getElementById(`${src.toLowerCase()}-container`);
         tbl = container?.querySelector('table');
       }
 
@@ -1370,7 +1368,7 @@ window.onload = async () => {
     });
   } else {
     document.getElementById('welcome-message').textContent =
-        `Welcome, ${username}`;
+      `Welcome, ${username}`;
     count.update('red', 0);
     count.update('yellow', 0);
     count.update('green', 0);
@@ -1389,11 +1387,11 @@ window.onload = async () => {
     }
 
     const res =
-        await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
-          method: 'GET',
-          credentials: 'include',
-          headers: {'Authorization': `Bearer ${sessionToken}`}
-        });
+      await fetch(`${apiUrl}/api/problems?names=${sources.join(',')}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Authorization': `Bearer ${sessionToken}` }
+      });
 
     if (!res.ok) return window.location.href = 'home';
 
@@ -1404,12 +1402,12 @@ window.onload = async () => {
       if (src.startsWith('USACO')) {
         // For USACO divisions, look inside the nested container
         const container =
-            document.getElementById(`${src.toLowerCase()}-container`);
+          document.getElementById(`${src.toLowerCase()}-container`);
         tbl = container?.querySelector('table');
       } else {
         // For regular olympiads, look in the main container
         const container =
-            document.getElementById(`${src.toLowerCase()}-container`);
+          document.getElementById(`${src.toLowerCase()}-container`);
         tbl = container?.querySelector('table');
       }
 
@@ -1436,20 +1434,20 @@ window.onload = async () => {
 };
 
 // Settings dropdown toggle
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const settingsButton = document.getElementById('settings-button');
   const settingsContainer = document.getElementById('settings-container');
   const settingsDropdown = document.getElementById('settings-dropdown');
 
   if (settingsButton && settingsContainer && settingsDropdown) {
-    settingsButton.addEventListener('click', function(e) {
+    settingsButton.addEventListener('click', function (e) {
       e.stopPropagation();
       settingsContainer.classList.toggle('active');
       settingsButton.setAttribute(
-          'aria-expanded', settingsContainer.classList.contains('active'));
+        'aria-expanded', settingsContainer.classList.contains('active'));
     });
     // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!settingsContainer.contains(e.target)) {
         settingsContainer.classList.remove('active');
         settingsButton.setAttribute('aria-expanded', 'false');
@@ -1459,43 +1457,43 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Note editor wiring
-(function() {
-const noteBtn = document.getElementById('note-button');
-const noteSave = document.getElementById('note-save');
-const noteClose = document.getElementById('note-close');
-const noteOverlay = document.getElementById('note-overlay');
+(function () {
+  const noteBtn = document.getElementById('note-button');
+  const noteSave = document.getElementById('note-save');
+  const noteClose = document.getElementById('note-close');
+  const noteOverlay = document.getElementById('note-overlay');
 
-if (!areNotesEnabled()) {
-  if (noteBtn) noteBtn.style.display = 'none';
-} else {
-  if (noteBtn) {
-    noteBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openNoteEditor(currentCellForNotes);
-    });
-  }
-  if (noteSave) {
-    noteSave.addEventListener('click', () => {
-      const ta = document.getElementById('note-textarea');
-      const key = ta?.dataset.noteKey;
-      if (key) {
-        localStorage.setItem(key, (ta.value || '').trim());
-      }
-      closeNoteEditor();
-      refreshNoteIconState();
-    });
-  }
-  if (noteClose) {
-    noteClose.addEventListener('click', closeNoteEditor);
-  }
-  if (noteOverlay) {
-    noteOverlay.addEventListener('click', (e) => {
-      if (e.target === noteOverlay) closeNoteEditor();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && noteOverlay.style.display !== 'none')
+  if (!areNotesEnabled()) {
+    if (noteBtn) noteBtn.style.display = 'none';
+  } else {
+    if (noteBtn) {
+      noteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openNoteEditor(currentCellForNotes);
+      });
+    }
+    if (noteSave) {
+      noteSave.addEventListener('click', () => {
+        const ta = document.getElementById('note-textarea');
+        const key = ta?.dataset.noteKey;
+        if (key) {
+          localStorage.setItem(key, (ta.value || '').trim());
+        }
         closeNoteEditor();
-    });
+        refreshNoteIconState();
+      });
+    }
+    if (noteClose) {
+      noteClose.addEventListener('click', closeNoteEditor);
+    }
+    if (noteOverlay) {
+      noteOverlay.addEventListener('click', (e) => {
+        if (e.target === noteOverlay) closeNoteEditor();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && noteOverlay.style.display !== 'none')
+          closeNoteEditor();
+      });
+    }
   }
-}
 })();

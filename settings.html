@@ -36,7 +36,7 @@
   </nav>
 
   <div class="settings-page-new">
-    <!-- Privacy Section -->
+    <!-- Privacy -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Privacy</h2>
 
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <!-- Integration Section -->
+    <!-- Integrations -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Integrations</h2>
 
@@ -65,14 +65,12 @@
           </p>
         </div>
         <div class="settings-control-new">
-          <a href="connections" class="settings-button-new">
-            Manage
-          </a>
+          <a href="connections" class="settings-button-new">Manage</a>
         </div>
       </div>
     </div>
 
-    <!-- Customization Section -->
+    <!-- Customization -->
     <div class="settings-section-new">
       <h2 class="settings-section-title-new">Customization</h2>
 
@@ -84,9 +82,7 @@
           </p>
         </div>
         <div class="settings-control-new">
-          <a href="layout" class="settings-button-new">
-            Arrange
-          </a>
+          <a href="layout" class="settings-button-new">Arrange</a>
         </div>
       </div>
 
@@ -113,16 +109,35 @@
           <button id="notes-toggle" class="settings-button-new">Enabled</button>
         </div>
       </div>
-    </div>
 
-    <!-- Sync Settings Button -->
-    <div style="width:100%;display:flex;justify-content:center;margin:2rem 0 0 0;">
-      <button id="sync-settings-button" class="settings-button-new green">Sync Settings to Account</button>
+      <!-- ------------- Platform Preference ------------- -->
+      <div class="settings-item-new" id="platform-pref">
+        <div class="settings-item-info-new">
+          <h3 class="settings-item-title-new">Platform Preference</h3>
+          <p class="settings-item-description-new">
+            Drag and drop sources to set link priority. Sources are tried in order until a match is found.
+          </p>
+        </div>
+        <div class="settings-control-new">
+          <button id="platform-pref-toggle" class="settings-button-new">Edit</button>
+        </div>
+
+        <!-- Expandable panel -->
+        <div id="platform-pref-panel" class="platform-pref-panel" hidden>
+          <ul id="platform-pref-list" class="platform-list"></ul>
+          <div id="platform-pref-bottom-slot"></div>
+        </div>
+      </div>
+
+      <!-- Sync -->
+      <div style="width:100%;display:flex;justify-content:center;margin:2rem 0 0 0;">
+        <button id="sync-settings-button" class="settings-button-new green">Sync Settings to Account</button>
+      </div>
     </div>
   </div>
 
-  <script src='js/utils.js'></script>
-  <script src='js/settings.js'></script>
+  <script src="js/utils.js"></script>
+  <script src="js/settings.js"></script>
 </body>
 
 </html>

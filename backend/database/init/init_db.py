@@ -34,9 +34,17 @@ c.execute('''CREATE TABLE problems (
     number INTEGER,
     source TEXT,
     year INTEGER,
-    link TEXT,
     extra TEXT,
     UNIQUE(source, year, number, extra)
+)''')
+
+c.execute('''CREATE TABLE problem_links (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    problem_id  INTEGER NOT NULL,
+    platform TEXT NOT NULL,
+    url TEXT NOT NULL,
+    UNIQUE (problem_id, platform, url),
+    FOREIGN KEY (problem_id) REFERENCES problems(id) ON DELETE CASCADE
 )''')
 
 c.execute('''
@@ -70,6 +78,8 @@ CREATE TABLE user_settings (
     user_id INTEGER PRIMARY KEY,
     checklist_public BOOLEAN NOT NULL DEFAULT 0,
     olympiad_order TEXT DEFAULT NULL,
+    asc_sort BOOLEAN NOT NULL DEFAULT 0,
+    platform_pref TEXT,
     hidden TEXT DEFAULT NULL,
     local_storage TEXT DEFAULT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -112,17 +122,18 @@ c.execute('''CREATE TABLE contest_scores (
 
 c.execute('''
 CREATE TABLE contest_problems (
-    contest_name TEXT NOT NULL,
-    contest_stage TEXT,
-    problem_source TEXT NOT NULL,
-    problem_year INTEGER NOT NULL,
-    problem_number INTEGER NOT NULL,
-    problem_index INTEGER NOT NULL,
+    contest_name   TEXT NOT NULL,
+    contest_stage  TEXT,
+    problem_source TEXT,
+    problem_year   INTEGER,
+    problem_number INTEGER,
+    problem_extra  TEXT,
+    problem_index  INTEGER NOT NULL,
     PRIMARY KEY (contest_name, contest_stage, problem_index),
     FOREIGN KEY (contest_name, contest_stage)
         REFERENCES contests(name, stage) ON DELETE CASCADE,
-    FOREIGN KEY (problem_source, problem_year, problem_number)
-        REFERENCES problems(source, year, number) ON DELETE CASCADE
+    FOREIGN KEY (problem_source, problem_year, problem_number, problem_extra)
+        REFERENCES problems(source, year, number, extra) ON DELETE CASCADE
 )''')
 
 c.execute('''

@@ -35,6 +35,10 @@ db_path = os.getenv("DATABASE_PATH", str(BACKEND_DIR / "database.db"))
 conn = sqlite3.connect(db_path)
 cur = conn.cursor()
 
+# Enforce FKs so cascades & checks work
+cur.execute("PRAGMA foreign_keys = ON;")
+
+# Clear existing rows (order is safe; contests would cascade anyway)
 cur.execute("DELETE FROM contest_problems")
 cur.execute("DELETE FROM contest_scores")
 cur.execute("DELETE FROM contests")
@@ -69,13 +73,15 @@ for contest in contests:
 
     # Insert problems for the contest
     for i, p in enumerate(contest["problems"]):
+        # `problem_extra` must match `problems.extra` in parent ('' by default)
+        problem_extra = p.get("extra")
         cur.execute(
             """
             INSERT INTO contest_problems (
                 contest_name, contest_stage,
                 problem_source, problem_year, problem_number,
-                problem_index
-            ) VALUES (?, ?, ?, ?, ?, ?)
+                problem_index, problem_extra
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 name,
@@ -84,6 +90,7 @@ for contest in contests:
                 p["year"],
                 p["number"],
                 i + 1,
+                problem_extra,
             ),
         )
 

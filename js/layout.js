@@ -28,20 +28,23 @@ window.onload = async () => {
   const { username } = await res.json();
   document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
 
-  // Load user's olympiad order and hidden list
-  const orderRes = await fetch(`${apiUrl}/api/get-olympiad-order?username=${username}`, {
+  // Load user settings
+  const user_settings = await fetch(`${apiUrl}/api/user-settings?username=${username}`, {
     method: 'GET',
     credentials: 'include',
     headers: { 'Authorization': `Bearer ${sessionToken}` }
   });
 
-  if (orderRes.ok) {
-    const data = await orderRes.json();
+  if (user_settings.ok) {
+    const data = await user_settings.json();
     if (data.olympiad_order && Array.isArray(data.olympiad_order)) {
       applyOlympiadOrder(data.olympiad_order);
     }
     if (data.hidden && Array.isArray(data.hidden)) {
       applyHiddenOlympiads(data.hidden);
+    }
+    if (typeof data.asc_order === "boolean") {
+      localStorage.setItem('yearSortOrder', data.asc_order ? "asc" : "desc");
     }
   }
 
@@ -110,7 +113,7 @@ function saveOlympiadOrder() {
   messageBox.style.display = 'block';
   let currentTheme = localStorage.getItem('theme') || 'light-mode';
   messageBox.color = currentTheme == 'light-mode' ? 'black' : 'white';
-  fetch(apiUrl + '/api/update-olympiad-order', {
+  fetch(apiUrl + '/api/user-settings', {
     method: 'POST',
     credentials: 'include',
     headers: {
