@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import sys
 import json
@@ -31,112 +32,136 @@ with JSON_OUT.open("r", encoding="utf-8") as f:
     contests = json.load(f)
 
 yaml_files_by_dir = defaultdict(set)
+
 db_path = os.getenv("DATABASE_PATH", str(BACKEND_DIR / "database.db"))
 conn = sqlite3.connect(db_path)
+conn.row_factory = sqlite3.Row
 cur = conn.cursor()
 
-# Enforce FKs so cascades & checks work
+# Enforce FKs
 cur.execute("PRAGMA foreign_keys = ON;")
+conn.isolation_level = None  # manual transactions
 
-# Clear existing rows (order is safe; contests would cascade anyway)
-cur.execute("DELETE FROM contest_problems")
-cur.execute("DELETE FROM contest_scores")
-cur.execute("DELETE FROM contests")
+def normalize_extra(val):
+    if val is None:
+        return None
+    if isinstance(val, str) and val.strip() == "":
+        return None
+    return val
 
-for contest in contests:
-    name = contest["name"]
-    source = contest["source"]
-    year = contest["year"]
-    stage = contest.get("stage")  # may be None
+def delete_children_for_contest(name, stage):
+    # Delete problems & scores ONLY for this (name, stage)
+    if stage is None:
+        cur.execute("DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage IS NULL", (name,))
+        cur.execute("DELETE FROM contest_scores   WHERE contest_name = ? AND contest_stage IS NULL", (name,))
+    else:
+        cur.execute("DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage = ?", (name, stage))
+        cur.execute("DELETE FROM contest_scores   WHERE contest_name = ? AND contest_stage = ?", (name, stage))
 
-    # Insert contest row
-    cur.execute(
-        """
-        INSERT INTO contests (
-            name, stage, location, duration_minutes, source, year,
-            date, website, link, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            name,
-            stage,
-            contest.get("location"),
-            contest.get("duration_minutes"),
-            source,
-            year,
-            contest.get("date"),
-            contest.get("website"),
-            contest.get("link"),
-            contest.get("notes"),
-        ),
-    )
+try:
+    cur.execute("BEGIN;")
 
-    # Insert problems for the contest
-    for i, p in enumerate(contest["problems"]):
-        # `problem_extra` must match `problems.extra` in parent ('' by default)
-        problem_extra = p.get("extra")
+    for contest in contests:
+        name   = contest["name"]
+        source = contest["source"]
+        year   = contest["year"]
+        stage  = contest.get("stage")  # may be None
+
+        # 1) Upsert the contests row (do NOT delete the table!)
         cur.execute(
             """
-            INSERT INTO contest_problems (
-                contest_name, contest_stage,
-                problem_source, problem_year, problem_number,
-                problem_index, problem_extra
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO contests (
+                name, stage, location, duration_minutes, source, year,
+                date, website, link, notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(name, stage) DO UPDATE SET
+                location         = excluded.location,
+                duration_minutes = excluded.duration_minutes,
+                source           = excluded.source,
+                year             = excluded.year,
+                date             = excluded.date,
+                website          = excluded.website,
+                link             = excluded.link,
+                notes            = excluded.notes
             """,
             (
                 name,
                 stage,
-                p["source"],
-                p["year"],
-                p["number"],
-                i + 1,
-                problem_extra,
+                contest.get("location"),
+                contest.get("duration_minutes"),
+                source,
+                year,
+                contest.get("date"),
+                contest.get("website"),
+                contest.get("link"),
+                contest.get("notes"),
             ),
         )
 
-    # (These are for preview/debugging; not used for file I/O below.)
-    if stage is None:
-        # No stages: data/contests/<source>/<year>.yaml
-        rel_path = Path("data") / "contests" / source.lower() / f"{year}.yaml"
-        scores_json_path = CONTESTS_DIR / source.lower() / f"scores_{year}.json"
-    else:
-        stage_filename = stage.replace(" ", "_")
-        rel_path = Path("data") / "contests" / source.lower() / str(year) / f"{stage_filename}.yaml"
-        scores_json_path = CONTESTS_DIR / source.lower() / str(year) / f"scores_{stage_filename}.json"
+        # 2) Replace the children rows for THIS contest only
+        delete_children_for_contest(name, stage)
 
-    yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
-
-    # Insert scores (if present in compiled JSON)
-    scores_data = contest.get("scores")
-    if scores_data:
-        # Order problems numerically by key
-        problem_keys = sorted(scores_data.keys(), key=int)
-        problem_scores = [scores_data[k] for k in problem_keys]
-
-        medal_cutoffs_block = contest.get("medal_cutoffs")
-        if isinstance(medal_cutoffs_block, list) and medal_cutoffs_block:
-            cutoffs = medal_cutoffs_block[0]
-            medal_names = list(cutoffs.keys())
-            medal_cutoffs = [cutoffs[m] for m in medal_names]
-
+        # 3) Insert problems for the contest
+        for i, p in enumerate(contest.get("problems", []), start=1):
+            problem_extra = normalize_extra(p.get("extra"))
             cur.execute(
                 """
-                INSERT INTO contest_scores (
+                INSERT INTO contest_problems (
                     contest_name, contest_stage,
-                    medal_names, medal_cutoffs, problem_scores
-                ) VALUES (?, ?, ?, ?, ?)
+                    problem_source, problem_year, problem_number, problem_extra,
+                    problem_index
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     name,
                     stage,
-                    json.dumps(medal_names),
-                    json.dumps(medal_cutoffs),
-                    json.dumps(problem_scores),
+                    p["source"],
+                    p["year"],
+                    p["number"],
+                    problem_extra,  # may be NULL
+                    i,
                 ),
             )
 
-conn.commit()
-conn.close()
+        # (Pretty-print/debug: which file this came from)
+        if stage is None:
+            rel_path = Path("data") / "contests" / source.lower() / f"{year}.yaml"
+        else:
+            rel_path = Path("data") / "contests" / source.lower() / str(year) / f"{stage.replace(' ', '_')}.yaml"
+        yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
+
+        # 4) Insert contest_scores (if present)
+        scores_data = contest.get("scores")
+        if scores_data:
+            # order by numeric key
+            problem_keys = sorted(scores_data.keys(), key=int)
+            problem_scores = [scores_data[k] for k in problem_keys]
+
+            medal_cutoffs_block = contest.get("medal_cutoffs")
+            if isinstance(medal_cutoffs_block, list) and medal_cutoffs_block:
+                cutoffs = medal_cutoffs_block[0]
+                medal_names   = list(cutoffs.keys())
+                medal_cutoffs = [cutoffs[m] for m in medal_names]
+
+                cur.execute(
+                    """
+                    INSERT INTO contest_scores (
+                        contest_name, contest_stage,
+                        medal_names, medal_cutoffs, problem_scores
+                    ) VALUES (?, ?, ?, ?, ?)
+                    """,
+                    (
+                        name,
+                        stage,
+                        json.dumps(medal_names),
+                        json.dumps(medal_cutoffs),
+                        json.dumps(problem_scores),
+                    ),
+                )
+    cur.execute("COMMIT;")
+
+finally:
+    conn.close()
 
 # Pretty print YAML structure preview
 print("Processed YAML structure:")
