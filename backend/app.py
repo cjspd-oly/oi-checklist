@@ -133,8 +133,6 @@ def choose_link(links, platform_pref=None):
     if not links:
         return None
 
-    show = len(links) > 1
-
     # Normalize platform_pref to a list
     if platform_pref:
         if isinstance(platform_pref, str):
@@ -152,8 +150,6 @@ def choose_link(links, platform_pref=None):
             for l in links:
                 if l['platform'] == plat:
                     return l['url']
-                elif show:
-                    print(f"checking {l['platform']} vs {plat}")
 
     # Default order preference
     order = ["oj.uz", "qoj.ac"]
@@ -405,76 +401,68 @@ def update_problem_score():
 @app.route('/api/user-settings', methods=['POST'])
 @session_required
 def upd_user_settings():
-    data = request.get_json()
+    # Parse once, safely
+    data = request.get_json(silent=True) or {}
     user_id = request.user_id
 
-    if 'olympiad_order' in data:
-        olympiad_order = data['olympiad_order']
-        if not isinstance(olympiad_order, list):
-            return jsonify({"error": "Invalid 'olympiad_order' (must be list)"}), 400
-    else:
-        olympiad_order = None
+    # Presence flags (so we only update provided keys)
+    has_olymp = 'olympiad_order' in data
+    has_hidden = 'hidden' in data
+    has_asc    = 'asc_sort' in data
+    has_pref   = 'platform_pref' in data
 
-    if 'hidden' in data:
-        hidden = data['hidden']
-        if hidden is not None and not isinstance(hidden, list):
-            return jsonify({"error": "Invalid 'hidden' (must be list)"}), 400
-    else:
-        hidden = None
-
-    if 'asc_order' in data:
-        asc_order = data['asc_order']
-        if not isinstance(asc_order, (bool, int)):
-            return jsonify({"error": "Invalid 'asc_order' (must be bool)"}), 400
-    else:
-        asc_order = None
-
-    if 'platform_pref' in data:
-        platform_pref = data['platform_pref']
-        if not (isinstance(platform_pref, list) and all(isinstance(x, str) for x in platform_pref)):
-            return jsonify({"error": "Invalid 'platform_pref' (must be list of strings)"}), 400
-    else:
-        platform_pref = None
-
-    db = get_db()
-    user_id = request.user_id  # or wherever you get it
-
-    data = request.get_json(force=True) or {}
     olympiad_order = data.get('olympiad_order')
     hidden         = data.get('hidden')
-    asc_sort       = data.get('asc_sort')   # bool or 0/1 expected
+    asc_sort       = data.get('asc_sort')
     platform_pref  = data.get('platform_pref')
 
-    # 1) Ensure row exists so defaults apply (checklist_public=0, asc_sort=0, etc.)
+    # ---- Validation ----
+    if has_olymp and not isinstance(olympiad_order, list):
+        return jsonify({"error": "Invalid 'olympiad_order' (must be list)"}), 400
+
+    if has_hidden and hidden is not None and not isinstance(hidden, list):
+        return jsonify({"error": "Invalid 'hidden' (must be list)"}), 400
+
+    if has_asc and not isinstance(asc_sort, (bool, int)):
+        return jsonify({"error": "Invalid 'asc_sort' (must be bool)"}), 400
+
+    if has_pref:
+        if not (isinstance(platform_pref, list) and all(isinstance(x, str) for x in platform_pref)):
+            return jsonify({"error": "Invalid 'platform_pref' (must be list of strings)"}), 400
+
+    db = get_db()
+
+    # 1) Ensure row exists so defaults apply
     db.execute(
         "INSERT INTO user_settings (user_id) VALUES (?) ON CONFLICT(user_id) DO NOTHING",
         (user_id,)
     )
 
-    # 2) Update only what was provided; keep the rest as-is
+    # 2) Update only provided fields (PATCH semantics)
     db.execute(
         """
         UPDATE user_settings
         SET
-        olympiad_order = COALESCE(?, olympiad_order),
-        hidden         = COALESCE(?, hidden),
-        asc_sort       = COALESCE(?, asc_sort),
-        platform_pref  = COALESCE(?, platform_pref)
+          olympiad_order = COALESCE(?, olympiad_order),
+          hidden         = COALESCE(?, hidden),
+          asc_sort       = COALESCE(?, asc_sort),
+          platform_pref  = COALESCE(?, platform_pref)
         WHERE user_id = ?
         """,
         (
-        json.dumps(olympiad_order) if 'olympiad_order' in data else None,
-        json.dumps(hidden)         if 'hidden'         in data else None,
-        (1 if asc_sort else 0)     if 'asc_sort'       in data else None,
-        json.dumps(platform_pref)  if 'platform_pref'  in data else None,
-        user_id,
+            # If key provided: store JSON text (lists) or int for boolean
+            json.dumps(olympiad_order) if has_olymp else None,
+            json.dumps(hidden)         if has_hidden else None,
+            (1 if asc_sort else 0)     if has_asc    else None,
+            json.dumps(platform_pref)  if has_pref   else None,
+            user_id,
         )
     )
 
     db.commit()
     return jsonify(success=True)
 
-# --- GET /api/user-settings: include platform_pref ---
+# --- GET /api/user-settings: include platform_pref and asc_sort ---
 @app.route('/api/user-settings', methods=['GET'])
 def gget_user_settings():
     username = request.args.get('username')
@@ -488,25 +476,36 @@ def gget_user_settings():
 
     user_id = user['id']
     row = db.execute(
-        'SELECT olympiad_order, hidden, asc_sort, platform_pref FROM user_settings WHERE user_id = ?',
+        "SELECT olympiad_order, hidden, asc_sort, platform_pref FROM user_settings WHERE user_id = ?",
         (user_id,)
     ).fetchone()
     db.close()
 
-    olympiad_order = hidden = asc_order = platform_pref = None
+    olympiad_order = hidden = platform_pref = None
+    asc_sort = None
+
     if row:
-        try:
-            if row['olympiad_order']: olympiad_order = json.loads(row['olympiad_order'])
-            if row['hidden']:         hidden         = json.loads(row['hidden'])
-            if row['asc_sort']:       asc_order      = json.loads(row['asc_sort'])
-            if row['platform_pref']:  platform_pref  = json.loads(row['platform_pref'])
-        except Exception:
-            return jsonify({"error": "Failed to parse user_settings JSON"}), 500
+        def parse_json(text):
+            if text in (None, ""):
+                return None
+            try:
+                return json.loads(text)
+            except Exception:
+                return None
+        olympiad_order = parse_json(row['olympiad_order'])
+        hidden         = parse_json(row['hidden'])
+        platform_pref  = parse_json(row['platform_pref'])
+        v = row['asc_sort']
+        if v is not None:
+            if isinstance(v, (int, float)):
+                asc_sort = bool(v)
+            elif isinstance(v, str):
+                asc_sort = v.strip().lower() in ("1", "true", "t", "yes", "y")
 
     return jsonify(
         olympiad_order=olympiad_order,
         hidden=hidden,
-        asc_order=asc_order,
+        asc_sort=asc_sort,
         platform_pref=platform_pref
     )
 

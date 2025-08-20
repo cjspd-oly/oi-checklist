@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   /* -------- year sort -------- */
   const yearSortToggle = document.getElementById('year-sort-toggle');
   if (yearSortToggle) {
-    const sortOrder = localStorage.getItem('yearSortOrder') || 'asc';
+    const sortOrder = yearSortOrder;
     yearSortToggle.textContent = sortOrder === 'asc' ? 'Earlier first' : 'Later first';
     yearSortToggle.addEventListener('click', () => {
-      const cur = localStorage.getItem('yearSortOrder') || 'asc';
+      const cur = yearSortOrder;
       const next = cur === 'asc' ? 'desc' : 'asc';
-      localStorage.setItem('yearSortOrder', next);
+      yearSortOrder = next;
       yearSortToggle.textContent = next === 'asc' ? 'Earlier first' : 'Later first';
     });
   }
@@ -78,33 +78,61 @@ document.addEventListener('DOMContentLoaded', async () => {
   const syncSettingsButton = document.getElementById('sync-settings-button');
   if (syncSettingsButton) {
     syncSettingsButton.addEventListener('click', async () => {
+      // Build legacy payload: snapshot all localStorage except sessionToken
       const localStorageData = {};
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key !== 'sessionToken') localStorageData[key] = localStorage.getItem(key);
       }
+
+      // Build new endpoint payload
+      const newPayload = {
+        asc_sort: (typeof yearSortOrder === 'string' ? yearSortOrder : '').toLowerCase() === 'asc',
+      };
+      if (Array.isArray(platformPrefDraft) && platformPrefDraft.length > 0) {
+        newPayload.platform_pref = platformPrefDraft;
+      }
+
       try {
-        const response = await fetch(`${apiUrl}/api/settings/sync`, {
-          method: 'POST', credentials: 'include',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session_token}` },
-          body: JSON.stringify({ local_storage: JSON.stringify(localStorageData) })
-        });
-        syncSettingsButton.textContent = response.ok ? 'Settings Synced!' : 'Sync Failed';
+        const [newResSettled, legacyResSettled] = await Promise.allSettled([
+          fetch(`${apiUrl}/api/user-settings`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session_token}`,
+            },
+            body: JSON.stringify(newPayload),
+          }),
+          fetch(`${apiUrl}/api/settings/sync`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session_token}`,
+            },
+            body: JSON.stringify({ local_storage: JSON.stringify(localStorageData) }),
+          }),
+        ]);
+
+        const okNew = newResSettled.status === 'fulfilled' && newResSettled.value.ok;
+        const okLegacy = legacyResSettled.status === 'fulfilled' && legacyResSettled.value.ok;
+
+        if (okNew && newPayload.platform_pref) {
+          // Reflect platform prefs locally if server accepted them
+          try { platformPref = [...newPayload.platform_pref]; } catch { }
+        }
+
+        syncSettingsButton.textContent =
+          okNew && okLegacy ? 'Settings Synced!' :
+            (okNew || okLegacy) ? 'Partially Synced' :
+              'Sync Failed';
       } catch {
         syncSettingsButton.textContent = 'Sync Failed';
       } finally {
-        setTimeout(() => { syncSettingsButton.textContent = 'Sync Settings to Account'; }, 2000);
-      }
-
-      if (platformPrefDraft.length > 0) {
-        try {
-          await fetch(`${apiUrl}/api/user-settings`, {
-            method: 'POST', credentials: 'include',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session_token}` },
-            body: JSON.stringify({ platform_pref: platformPrefDraft })
-          });
-          platformPref = [...platformPrefDraft];
-        } catch { }
+        setTimeout(() => {
+          syncSettingsButton.textContent = 'Sync Settings to Account';
+        }, 2000);
       }
     });
   }
@@ -176,6 +204,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data.platform_pref)) platformPref = data.platform_pref;
+        if (typeof data.asc_sort === "boolean") {
+          yearSortOrder = data.asc_sort ? "asc" : "desc";
+          document.getElementById('year-sort-toggle').textContent = yearSortOrder === 'asc' ? 'Earlier first' : 'Later first';
+        }
       }
     } catch { }
   })();

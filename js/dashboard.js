@@ -850,8 +850,6 @@ async function loadProblems(from) {
     Open: 16
   };
 
-  // Get year sort order from localStorage
-  const yearSortOrder = localStorage.getItem('yearSortOrder') || 'asc';
   const sortedYears = Object.keys(yearMap).sort((a, b) => {
     return yearSortOrder === 'asc' ? a - b : b - a;
   });
@@ -1081,8 +1079,6 @@ function loadProblemsWithDay(source, numDays) {
 
   const tbody = document.createElement('tbody');
 
-  // Get year sort order from localStorage
-  const yearSortOrder = localStorage.getItem('yearSortOrder') || 'asc';
   const sortedYears = Object.keys(yearMap).sort((a, b) => {
     return yearSortOrder === 'asc' ? a - b : b - a;
   });
@@ -1227,12 +1223,12 @@ window.onload = async () => {
     });
 
     if (resp.ok) {
-      const { olympiad_order, asc_order, platform_pref } = await resp.json();
+      const { olympiad_order, asc_sort, platform_pref } = await resp.json();
       if (Array.isArray(olympiad_order)) {
         sources = olympiad_order.map(id => id.toUpperCase());
       }
-      if (typeof asc_order === "boolean") {
-        localStorage.setItem('yearSortOrder', asc_order ? "asc" : "desc");
+      if (typeof asc_sort === "boolean") {
+        yearSortOrder = asc_sort ? "asc" : "desc";
       }
       if (Array.isArray(platform_pref)) {
         localStorage.setItem('platformPref', JSON.stringify(platform_pref));

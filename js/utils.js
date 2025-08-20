@@ -11,6 +11,8 @@ const olympiadIds = [
   'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO', 'GKS', 'EJOI', 'IZHO'
 ];
 
+let yearSortOrder = 'asc';
+
 function getFullOlympiadName(id) {
   const names = {
     APIO: 'Asia-Pacific Informatics Olympiad',
