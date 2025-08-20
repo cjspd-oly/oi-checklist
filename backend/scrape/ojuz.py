@@ -12,6 +12,8 @@ from database.db import get_db
 def sync_ojuz_submissions(active_contest, ojuz_username):
     """
     Utility function to sync oj.uz submissions for a virtual contest.
+    This version is updated for the new database schema where problem URLs
+    are stored in a separate 'problem_links' table.
     
     Args:
         active_contest: The active contest object with user_id, contest_name, contest_stage, start_time, end_time
@@ -32,19 +34,19 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
     start_dt = datetime.fromisoformat(contest_start_time.replace('Z', '+00:00'))
     end_dt = datetime.fromisoformat(contest_end_time.replace('Z', '+00:00'))
     
-    # Get contest problems and their oj.uz links
     if contest_stage is not None:
         contest_problems = db.execute('''
             SELECT 
                 cp.problem_index,
                 p.name as problem_name,
-                p.link as problem_link
+                pl.url as problem_link
             FROM contest_problems cp
             JOIN problems p ON cp.problem_source = p.source 
                             AND cp.problem_year = p.year 
                             AND cp.problem_number = p.number
+            JOIN problem_links pl ON p.id = pl.problem_id
             WHERE cp.contest_name = ? AND cp.contest_stage = ?
-            AND p.link LIKE 'https://oj.uz/%'
+              AND pl.platform = 'oj.uz'
             ORDER BY cp.problem_index
         ''', (contest_name, contest_stage)).fetchall()
     else:
@@ -52,13 +54,14 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
             SELECT 
                 cp.problem_index,
                 p.name as problem_name,
-                p.link as problem_link
+                pl.url as problem_link
             FROM contest_problems cp
             JOIN problems p ON cp.problem_source = p.source 
                             AND cp.problem_year = p.year 
                             AND cp.problem_number = p.number
+            JOIN problem_links pl ON p.id = pl.problem_id
             WHERE cp.contest_name = ? AND cp.contest_stage IS NULL
-            AND p.link LIKE 'https://oj.uz/%'
+              AND pl.platform = 'oj.uz'
             ORDER BY cp.problem_index
         ''', (contest_name,)).fetchall()
     
