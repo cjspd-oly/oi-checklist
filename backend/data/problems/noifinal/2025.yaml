@@ -1,15 +1,25 @@
 - name: Monsters
   number: 1
-  link: https://codebreaker.xyz/problem/monsters2
+  links:
+  - https://codebreaker.xyz/problem/monsters2
+  - https://qoj.ac/problem/10293
 - name: Thumper
   number: 2
-  link: https://codebreaker.xyz/problem/thumper2
+  links:
+  - https://codebreaker.xyz/problem/thumper2
+  - https://qoj.ac/problem/10294
 - name: Reachability
   number: 3
-  link: https://codebreaker.xyz/problem/reachability2
+  links:
+  - https://codebreaker.xyz/problem/reachability2
+  - https://qoj.ac/problem/10295
 - name: Robots
   number: 4
-  link: https://codebreaker.xyz/problem/robots2
+  links:
+  - https://codebreaker.xyz/problem/robots2
+  - https://qoj.ac/problem/10296
 - name: Flooding
   number: 5
-  link: https://codebreaker.xyz/problem/flooding2
+  links:
+  - https://codebreaker.xyz/problem/flooding2
+  - https://qoj.ac/problem/10297

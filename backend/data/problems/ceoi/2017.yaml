@@ -1,18 +1,30 @@
 - name: One-Way Streets
   number: 1
-  link: https://oj.uz/problem/view/CEOI17_oneway
+  links:
+  - https://oj.uz/problem/view/CEOI17_oneway
+  - https://qoj.ac/problem/789
 - name: Sure Bet
   number: 2
-  link: https://oj.uz/problem/view/CEOI17_sure
+  links:
+  - https://oj.uz/problem/view/CEOI17_sure
+  - https://qoj.ac/problem/790
 - name: Mousetrap
   number: 3
-  link: https://oj.uz/problem/view/CEOI17_mousetrap
+  links:
+  - https://oj.uz/problem/view/CEOI17_mousetrap
+  - https://qoj.ac/problem/791
 - name: Building Bridges
   number: 4
-  link: https://oj.uz/problem/view/CEOI17_building
+  links:
+  - https://oj.uz/problem/view/CEOI17_building
+  - https://qoj.ac/problem/792
 - name: Palindromic Partitions
   number: 5
-  link: https://oj.uz/problem/view/CEOI17_palindromic
+  links:
+  - https://oj.uz/problem/view/CEOI17_palindromic
+  - https://qoj.ac/problem/793
 - name: Chase
   number: 6
-  link: https://oj.uz/problem/view/CEOI17_chase
+  links:
+  - https://oj.uz/problem/view/CEOI17_chase
+  - https://qoj.ac/problem/794

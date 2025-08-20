@@ -1,12 +1,20 @@
 - name: Izlet
   number: 1
-  link: https://oj.uz/problem/view/COI19_izlet
+  links:
+  - https://oj.uz/problem/view/COI19_izlet
+  - https://qoj.ac/problem/13555
 - name: Ljetopica
   number: 2
-  link: https://oj.uz/problem/view/COI19_ljetopica
+  links:
+  - https://oj.uz/problem/view/COI19_ljetopica
+  - https://qoj.ac/problem/13556
 - name: Segway
   number: 3
-  link: https://oj.uz/problem/view/COI19_segway
+  links:
+  - https://oj.uz/problem/view/COI19_segway
+  - https://qoj.ac/problem/13557
 - name: Tenis
   number: 4
-  link: https://oj.uz/problem/view/COI19_tenis
+  links:
+  - https://oj.uz/problem/view/COI19_tenis
+  - https://qoj.ac/problem/13558

@@ -1,9 +1,15 @@
 - name: Boat
   number: 1
-  link: https://oj.uz/problem/view/APIO16_boat
+  links:
+  - https://oj.uz/problem/view/APIO16_boat
+  - https://qoj.ac/problem/2
 - name: Fireworks
   number: 2
-  link: https://oj.uz/problem/view/APIO16_fireworks
+  links:
+  - https://oj.uz/problem/view/APIO16_fireworks
+  - https://qoj.ac/problem/3
 - name: Gap
   number: 3
-  link: https://oj.uz/problem/view/APIO16_gap
+  links:
+  - https://oj.uz/problem/view/APIO16_gap
+  - https://qoj.ac/problem/4

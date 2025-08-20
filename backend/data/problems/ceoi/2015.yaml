@@ -1,18 +1,30 @@
 - name: Potemkin Cycle
   number: 1
-  link: https://oj.uz/problem/view/CEOI15_indcyc
+  links:
+  - https://oj.uz/problem/view/CEOI15_indcyc
+  - https://qoj.ac/problem/259
 - name: Calvinball Championship
   number: 2
-  link: https://oj.uz/problem/view/CEOI15_teams
+  links:
+  - https://oj.uz/problem/view/CEOI15_teams
+  - https://qoj.ac/problem/260
 - name: Pipes
   number: 3
-  link: https://oj.uz/problem/view/CEOI15_pipes
+  links:
+  - https://oj.uz/problem/view/CEOI15_pipes
+  - https://qoj.ac/problem/261
 - name: Ice Hockey World Championship
   number: 4
-  link: https://oj.uz/problem/view/CEOI15_bobek
+  links:
+  - https://oj.uz/problem/view/CEOI15_bobek
+  - https://qoj.ac/problem/262
 - name: Nuclearia
   number: 5
-  link: https://oj.uz/problem/view/CEOI15_nuclearia
+  links:
+  - https://oj.uz/problem/view/CEOI15_nuclearia
+  - https://qoj.ac/problem/263
 - name: Calvinball Championship, again
   number: 6
-  link: https://oj.uz/problem/view/CEOI15_calvinball
+  links:
+  - https://oj.uz/problem/view/CEOI15_calvinball
+  - https://qoj.ac/problem/264

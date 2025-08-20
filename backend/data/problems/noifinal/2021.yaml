@@ -1,15 +1,25 @@
 - name: Fraud
   number: 1
-  link: https://codebreaker.xyz/problem/fraud
+  links:
+  - https://codebreaker.xyz/problem/fraud
+  - https://qoj.ac/problem/13908
 - name: Archaeologist
   number: 2
-  link: https://codebreaker.xyz/problem/archaeologist
+  links:
+  - https://codebreaker.xyz/problem/archaeologist
+  - https://qoj.ac/problem/13909
 - name: Password
   number: 3
-  link: https://codebreaker.xyz/problem/password
+  links:
+  - https://codebreaker.xyz/problem/password
+  - https://qoj.ac/problem/13910
 - name: Tiles
   number: 4
-  link: https://codebreaker.xyz/problem/tiles
+  links:
+  - https://codebreaker.xyz/problem/tiles
+  - https://qoj.ac/problem/13911
 - name: Pond
   number: 5
-  link: https://codebreaker.xyz/problem/pond
+  links:
+  - https://codebreaker.xyz/problem/pond
+  - https://qoj.ac/problem/13912

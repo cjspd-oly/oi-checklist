@@ -1,9 +1,15 @@
 - name: New Home
   number: 1
-  link: https://oj.uz/problem/view/APIO18_new_home
+  links:
+  - https://oj.uz/problem/view/APIO18_new_home
+  - https://qoj.ac/problem/190
 - name: Circle Selection
   number: 2
-  link: https://oj.uz/problem/view/APIO18_circle_selection
+  links:
+  - https://oj.uz/problem/view/APIO18_circle_selection
+  - https://qoj.ac/problem/191
 - name: Duathlon
   number: 3
-  link: https://oj.uz/problem/view/APIO18_duathlon
+  links:
+  - https://oj.uz/problem/view/APIO18_duathlon
+  - https://qoj.ac/problem/192

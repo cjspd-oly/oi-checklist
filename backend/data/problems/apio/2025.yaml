@@ -1,9 +1,15 @@
 - name: Hack!
   number: 1
-  link: https://oj.uz/problem/view/APIO25_hack
+  links:
+  - https://oj.uz/problem/view/APIO25_hack
+  - https://qoj.ac/problem/9205
 - name: Permutation Game
   number: 2
-  link: https://oj.uz/problem/view/APIO25_permgame
+  links:
+  - https://oj.uz/problem/view/APIO25_permgame
+  - https://qoj.ac/problem/9206
 - name: Rotating Lines
   number: 3
-  link: https://oj.uz/problem/view/APIO25_rotate
+  links:
+  - https://oj.uz/problem/view/APIO25_rotate
+  - https://qoj.ac/problem/9207

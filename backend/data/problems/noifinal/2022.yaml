@@ -1,15 +1,25 @@
 - name: Voting City
   number: 1
-  link: https://oj.uz/problem/view/NOI22_votingcity
+  links:
+  - https://oj.uz/problem/view/NOI22_votingcity
+  - https://qoj.ac/problem/3871
 - name: Gym Badges
   number: 2
-  link: https://oj.uz/problem/view/NOI22_gymbadges
+  links:
+  - https://oj.uz/problem/view/NOI22_gymbadges
+  - https://qoj.ac/problem/3872
 - name: Towers
   number: 3
-  link: https://oj.uz/problem/view/NOI22_towers
+  links:
+  - https://oj.uz/problem/view/NOI22_towers
+  - https://qoj.ac/problem/3873
 - name: Grapevine
   number: 4
-  link: https://oj.uz/problem/view/NOI22_grapevine
+  links:
+  - https://oj.uz/problem/view/NOI22_grapevine
+  - https://qoj.ac/problem/3874
 - name: Fruits
   number: 5
-  link: https://oj.uz/problem/view/NOI22_fruits
+  links:
+  - https://oj.uz/problem/view/NOI22_fruits
+  - https://qoj.ac/problem/3875

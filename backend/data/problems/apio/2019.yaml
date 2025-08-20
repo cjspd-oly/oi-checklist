@@ -1,9 +1,15 @@
 - name: Strange Device
   number: 1
-  link: https://oj.uz/problem/view/APIO19_strange_device
+  links:
+  - https://oj.uz/problem/view/APIO19_strange_device
+  - https://qoj.ac/problem/184
 - name: Bridges
   number: 2
-  link: https://oj.uz/problem/view/APIO19_bridges
+  links:
+  - https://oj.uz/problem/view/APIO19_bridges
+  - https://qoj.ac/problem/185
 - name: Street Lamps
   number: 3
-  link: https://oj.uz/problem/view/APIO19_street_lamps
+  links:
+  - https://oj.uz/problem/view/APIO19_street_lamps
+  - https://qoj.ac/problem/186

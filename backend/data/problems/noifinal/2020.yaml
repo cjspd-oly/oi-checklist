@@ -1,15 +1,25 @@
 - name: Labels
   number: 1
-  link: https://oj.uz/problem/view/NOI20_labels
+  links:
+  - https://oj.uz/problem/view/NOI20_labels
+  - https://qoj.ac/problem/13913
 - name: Discharging
   number: 2
-  link: https://oj.uz/problem/view/NOI20_discharging
+  links:
+  - https://oj.uz/problem/view/NOI20_discharging
+  - https://qoj.ac/problem/13914
 - name: Progression
   number: 3
-  link: https://oj.uz/problem/view/NOI20_progression
+  links:
+  - https://oj.uz/problem/view/NOI20_progression
+  - https://qoj.ac/problem/13915
 - name: Arcade
   number: 4
-  link: https://oj.uz/problem/view/NOI20_arcade
+  links:
+  - https://oj.uz/problem/view/NOI20_arcade
+  - https://qoj.ac/problem/13916
 - name: Aesthetic
   number: 5
-  link: https://oj.uz/problem/view/NOI20_aesthetic
+  links:
+  - https://oj.uz/problem/view/NOI20_aesthetic
+  - https://qoj.ac/problem/13917

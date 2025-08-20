@@ -1,12 +1,20 @@
 - name: Autobahn
   number: 1
-  link: https://oj.uz/problem/view/COI21_autobahn
+  links:
+  - https://oj.uz/problem/view/COI21_autobahn
+  - https://qoj.ac/problem/5286
 - name: Cigle
   number: 2
-  link: https://oj.uz/problem/view/COI21_cigle
+  links:
+  - https://oj.uz/problem/view/COI21_cigle
+  - https://qoj.ac/problem/5287
 - name: Izvanzemaljci
   number: 3
-  link: https://oj.uz/problem/view/COI21_izvanzemaljci
+  links:
+  - https://oj.uz/problem/view/COI21_izvanzemaljci
+  - https://qoj.ac/problem/5288
 - name: MalnaRISC
   number: 4
-  link: https://oj.uz/problem/view/COI21_malnarisc
+  links:
+  - https://oj.uz/problem/view/COI21_malnarisc
+  - https://qoj.ac/problem/5289

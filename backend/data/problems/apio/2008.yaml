@@ -1,0 +1,9 @@
+- name: Beads
+  number: 1
+  link: https://qoj.ac/problem/6987
+- name: Roads
+  number: 2
+  link: https://qoj.ac/problem/6988
+- name: DNA
+  number: 3
+  link: https://qoj.ac/problem/6989

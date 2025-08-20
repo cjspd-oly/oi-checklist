@@ -1,9 +1,15 @@
 - name: Furniture
   number: 1
-  link: https://oj.uz/problem/view/JOI20_furniture
+  links:
+  - https://oj.uz/problem/view/JOI20_furniture
+  - https://qoj.ac/problem/1128
 - name: Monochrome Points
   number: 2
-  link: https://oj.uz/problem/view/JOI20_monochrome
+  links:
+  - https://oj.uz/problem/view/JOI20_monochrome
+  - https://qoj.ac/problem/1129
 - name: Power Plant
   number: 3
-  link: https://oj.uz/problem/view/JOI20_power
+  links:
+  - https://oj.uz/problem/view/JOI20_power
+  - https://qoj.ac/problem/1130

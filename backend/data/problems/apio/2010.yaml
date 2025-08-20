@@ -1,0 +1,9 @@
+- name: Commando
+  number: 1
+  link: https://qoj.ac/problem/391
+- name: Patrol
+  number: 2
+  link: https://qoj.ac/problem/392
+- name: Signaling
+  number: 3
+  link: https://qoj.ac/problem/393

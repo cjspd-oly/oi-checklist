@@ -1,24 +1,40 @@
 - name: SubsetMex
   number: 1
-  link: https://codeforces.com/gym/104229/problem/A
+  links:
+  - https://codeforces.com/gym/104229/problem/A
+  - https://qoj.ac/problem/5178
 - name: Lego Wall
   number: 2
-  link: https://codeforces.com/gym/104229/problem/B
+  links:
+  - https://codeforces.com/gym/104229/problem/B
+  - https://qoj.ac/problem/5179
 - name: Social Engineering
   number: 3
-  link: https://codeforces.com/gym/104229/problem/C
+  links:
+  - https://codeforces.com/gym/104229/problem/C
+  - https://qoj.ac/problem/5180
 - name: Tourists
   number: 4
-  link: https://codeforces.com/gym/104229/problem/D
+  links:
+  - https://codeforces.com/gym/104229/problem/D
+  - https://qoj.ac/problem/5181
 - name: Data Centers
   number: 5
-  link: https://codeforces.com/gym/104230/problem/A
+  links:
+  - https://codeforces.com/gym/104230/problem/A
+  - https://qoj.ac/problem/5182
 - name: Superpiece
   number: 6
-  link: https://codeforces.com/gym/104230/problem/B
+  links:
+  - https://codeforces.com/gym/104230/problem/B
+  - https://qoj.ac/problem/5183
 - name: Toy Design
   number: 7
-  link: https://codeforces.com/gym/104230/problem/C
+  links:
+  - https://codeforces.com/gym/104230/problem/C
+  - https://qoj.ac/problem/5184
 - name: Chika Wants to Cheat
   number: 8
-  link: https://codeforces.com/gym/104230/problem/D
+  links:
+  - https://codeforces.com/gym/104230/problem/D
+  - https://qoj.ac/problem/5185

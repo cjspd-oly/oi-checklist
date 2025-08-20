@@ -1,18 +1,30 @@
 - name: Bowling
   number: 1
-  link: https://oj.uz/problem/view/BOI15_bow
+  links:
+  - https://oj.uz/problem/view/BOI15_bow
+  - https://qoj.ac/problem/13033
 - name: Editor
   number: 2
-  link: https://oj.uz/problem/view/BOI15_edi
+  links:
+  - https://oj.uz/problem/view/BOI15_edi
+  - https://qoj.ac/problem/13034
 - name: Network
   number: 3
-  link: https://oj.uz/problem/view/BOI15_net
+  links:
+  - https://oj.uz/problem/view/BOI15_net
+  - https://qoj.ac/problem/13035
 - name: File Paths
   number: 4
-  link: https://oj.uz/problem/view/BOI15_fil
+  links:
+  - https://oj.uz/problem/view/BOI15_fil
+  - https://qoj.ac/problem/13036
 - name: Hacker
   number: 5
-  link: https://oj.uz/problem/view/BOI15_hac
+  links:
+  - https://oj.uz/problem/view/BOI15_hac
+  - https://qoj.ac/problem/13037
 - name: Tug of War
   number: 6
-  link: https://oj.uz/problem/view/BOI15_tug
+  links:
+  - https://oj.uz/problem/view/BOI15_tug
+  - https://qoj.ac/problem/13038

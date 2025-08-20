@@ -1,36 +1,60 @@
 - name: Exhibition 3
   number: 1
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_a
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_a
+  - https://qoj.ac/problem/11401
 - name: Fortune Telling 3
   number: 2
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_b
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_b
+  - https://qoj.ac/problem/11402
 - name: Bitaro's Travel 2
   number: 3
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_c
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_c
+  - https://qoj.ac/problem/11403
 - name: Ambulance
   number: 4
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_d
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_d
+  - https://qoj.ac/problem/11404
 - name: Collecting Stamps 4
   number: 5
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_e
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_e
+  - https://qoj.ac/problem/11405
 - name: Space Thief
   number: 6
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_f
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_f
+  - https://qoj.ac/problem/11406
 - name: Bitaro the Brave 3
   number: 7
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_g
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_g
+  - https://qoj.ac/problem/11407
 - name: Conference
   number: 8
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_h
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_h
+  - https://qoj.ac/problem/11408
 - name: Multi Communication
   number: 9
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_i
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_i
+  - https://qoj.ac/problem/11409
 - name: Circuit 2
   number: 10
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_j
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_j
+  - https://qoj.ac/problem/11410
 - name: Migration Plan
   number: 11
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_k
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_k
+  - https://qoj.ac/problem/11411
 - name: Uiro
   number: 12
-  link: https://atcoder.jp/contests/joisp2025/tasks/joisp2025_l
+  links:
+  - https://atcoder.jp/contests/joisp2025/tasks/joisp2025_l
+  - https://qoj.ac/problem/11412

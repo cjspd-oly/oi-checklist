@@ -1,18 +1,30 @@
 - name: Building Skyscrapers
   number: 1
-  link: https://oj.uz/problem/view/CEOI19_skyscrapers
+  links:
+  - https://oj.uz/problem/view/CEOI19_skyscrapers
+  - https://qoj.ac/problem/942
 - name: Cubeword
   number: 2
-  link: https://oj.uz/problem/view/CEOI19_cubeword
+  links:
+  - https://oj.uz/problem/view/CEOI19_cubeword
+  - https://qoj.ac/problem/944
 - name: Dynamic Diameter
   number: 3
-  link: https://oj.uz/problem/view/CEOI19_diameter
+  links:
+  - https://oj.uz/problem/view/CEOI19_diameter
+  - https://qoj.ac/problem/943
 - name: Amusement Park
   number: 4
-  link: https://oj.uz/problem/view/CEOI19_amusementpark
+  links:
+  - https://oj.uz/problem/view/CEOI19_amusementpark
+  - https://qoj.ac/problem/945
 - name: Magic Tree
   number: 5
-  link: https://oj.uz/problem/view/CEOI19_magictree
+  links:
+  - https://oj.uz/problem/view/CEOI19_magictree
+  - https://qoj.ac/problem/946
 - name: Scissors and Tape
   number: 6
-  link: https://oj.uz/problem/view/CEOI19_scissors
+  links:
+  - https://oj.uz/problem/view/CEOI19_scissors
+  - https://qoj.ac/problem/947

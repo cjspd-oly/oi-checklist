@@ -1,24 +1,38 @@
 - name: Infinite Race
   number: 1
-  link: http://oj.uz/problem/view/EGOI24_infiniterace2
+  links:
+  - http://oj.uz/problem/view/EGOI24_infiniterace2
+  - https://qoj.ac/problem/9182
 - name: Bouquet
   number: 2
-  link: https://oj.uz/problem/view/EGOI24_bouquet
+  links:
+  - https://oj.uz/problem/view/EGOI24_bouquet
+  - https://qoj.ac/problem/9183
 - name: Team Coding
   number: 3
-  link: https://oj.uz/problem/view/EGOI24_teamcoding
+  links:
+  - https://oj.uz/problem/view/EGOI24_teamcoding
+  - https://qoj.ac/problem/9184
 - name: Garden Decorations
   number: 4
   link: https://qoj.ac/contest/1764/problem/9185
 - name: Circle Passing
   number: 5
-  link: https://oj.uz/problem/view/EGOI24_circlepassing
+  links:
+  - https://oj.uz/problem/view/EGOI24_circlepassing
+  - https://qoj.ac/problem/9186
 - name: Bikeparking
   number: 6
-  link: https://oj.uz/problem/view/EGOI24_bikeparking
+  links:
+  - https://oj.uz/problem/view/EGOI24_bikeparking
+  - https://qoj.ac/problem/9187
 - name: Light Bulbs
   number: 7
-  link: https://oj.uz/problem/view/EGOI24_lightbulbs
+  links:
+  - https://oj.uz/problem/view/EGOI24_lightbulbs
+  - https://qoj.ac/problem/9188
 - name: Make Them Meet
   number: 8
-  link: https://oj.uz/problem/view/EGOI24_makethemmeet
+  links:
+  - https://oj.uz/problem/view/EGOI24_makethemmeet
+  - https://qoj.ac/problem/9189

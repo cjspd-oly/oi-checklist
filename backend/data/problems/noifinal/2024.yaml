@@ -1,15 +1,25 @@
 - name: Problem Setter
   number: 1
-  link: https://codebreaker.xyz/problem/problemsetter
+  links:
+  - https://codebreaker.xyz/problem/problemsetter
+  - https://qoj.ac/problem/8590
 - name: Shops
   number: 2
-  link: https://codebreaker.xyz/problem/shops
+  links:
+  - https://codebreaker.xyz/problem/shops
+  - https://qoj.ac/problem/8591
 - name: Toxic Gene 2
   number: 3
-  link: https://codebreaker.xyz/problem/toxic2
+  links:
+  - https://codebreaker.xyz/problem/toxic2
+  - https://qoj.ac/problem/8592
 - name: Coins
   number: 4
-  link: https://codebreaker.xyz/problem/coin
+  links:
+  - https://codebreaker.xyz/problem/coin
+  - https://qoj.ac/problem/8593
 - name: Field
   number: 5
-  link: https://codebreaker.xyz/problem/field
+  links:
+  - https://codebreaker.xyz/problem/field
+  - https://qoj.ac/problem/8594

@@ -3,7 +3,11 @@
   link: https://qoj.ac/contest/1492/problem/4698
 - name: Election Campaign
   number: 2
-  link: https://oj.uz/problem/view/JOI15_election_campaign
+  links:
+  - https://oj.uz/problem/view/JOI15_election_campaign
+  - https://qoj.ac/problem/4699
 - name: Sterilizing Spray
   number: 3
-  link: https://oj.uz/problem/view/JOI15_sterilizing
+  links:
+  - https://oj.uz/problem/view/JOI15_sterilizing
+  - https://qoj.ac/problem/4700

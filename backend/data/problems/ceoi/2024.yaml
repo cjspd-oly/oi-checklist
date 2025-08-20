@@ -1,18 +1,30 @@
 - name: Naval Battle
   number: 1
-  link: https://oj.uz/problem/view/CEOI24_battle
+  links:
+  - https://oj.uz/problem/view/CEOI24_battle
+  - https://qoj.ac/problem/9161
 - name: COVID Tests
   number: 2
-  link: https://oj.uz/problem/view/CEOI24_covid
+  links:
+  - https://oj.uz/problem/view/CEOI24_covid
+  - https://qoj.ac/problem/9162
 - name: Text Editor
   number: 3
-  link: https://oj.uz/problem/view/CEOI24_editor
+  links:
+  - https://oj.uz/problem/view/CEOI24_editor
+  - https://qoj.ac/problem/9163
 - name: Toy
   number: 4
-  link: https://oj.uz/problem/view/CEOI24_toy
+  links:
+  - https://oj.uz/problem/view/CEOI24_toy
+  - https://qoj.ac/problem/9164
 - name: Petrol Stations
   number: 5
-  link: https://oj.uz/problem/view/CEOI24_stations
+  links:
+  - https://oj.uz/problem/view/CEOI24_stations
+  - https://qoj.ac/problem/9165
 - name: Sprinklers
   number: 6
-  link: https://oj.uz/problem/view/CEOI24_sprinklers
+  links:
+  - https://oj.uz/problem/view/CEOI24_sprinklers
+  - https://qoj.ac/problem/9166

@@ -1,24 +1,40 @@
 - name: Zeroes
   number: 1
-  link: https://codeforces.com/gym/103148/problem/A
+  links:
+  - https://codeforces.com/gym/103148/problem/A
+  - https://qoj.ac/problem/10393
 - name: Luna Likes Love
   number: 2
-  link: https://codeforces.com/gym/103148/problem/B
+  links:
+  - https://codeforces.com/gym/103148/problem/B
+  - https://qoj.ac/problem/10394
 - name: Twin Cookies
   number: 3
-  link: https://codeforces.com/gym/103148/problem/C
+  links:
+  - https://codeforces.com/gym/103148/problem/C
+  - https://qoj.ac/problem/10395
 - name: Lanterns
   number: 4
-  link: https://codeforces.com/gym/103148/problem/D
+  links:
+  - https://codeforces.com/gym/103148/problem/D
+  - https://qoj.ac/problem/10396
 - name: Shopping Fever
   number: 5
-  link: https://codeforces.com/gym/103149/problem/A
+  links:
+  - https://codeforces.com/gym/103149/problem/A
+  - https://qoj.ac/problem/10397
 - name: Railway
   number: 6
-  link: https://codeforces.com/gym/103149/problem/B
+  links:
+  - https://codeforces.com/gym/103149/problem/B
+  - https://qoj.ac/problem/10398
 - name: Angry Cows
   number: 7
-  link: https://codeforces.com/gym/103149/problem/C
+  links:
+  - https://codeforces.com/gym/103149/problem/C
+  - https://qoj.ac/problem/10399
 - name: Double Move
   number: 8
-  link: https://codeforces.com/gym/103149/problem/D
+  links:
+  - https://codeforces.com/gym/103149/problem/D
+  - https://qoj.ac/problem/10400

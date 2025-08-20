@@ -1,15 +1,25 @@
 - name: ICC
   number: 1
-  link: https://oj.uz/problem/view/CEOI16_icc
+  links:
+  - https://oj.uz/problem/view/CEOI16_icc
+  - https://qoj.ac/problem/5531
 - name: Kangaroo
   number: 2
-  link: https://oj.uz/problem/view/CEOI16_kangaroo
+  links:
+  - https://oj.uz/problem/view/CEOI16_kangaroo
+  - https://qoj.ac/problem/5532
 - name: Match
   number: 4
-  link: https://oj.uz/problem/view/CEOI16_match
+  links:
+  - https://oj.uz/problem/view/CEOI16_match
+  - https://qoj.ac/problem/5534
 - name: Popeala
   number: 5
-  link: https://oj.uz/problem/view/CEOI16_popeala
+  links:
+  - https://oj.uz/problem/view/CEOI16_popeala
+  - https://qoj.ac/problem/5535
 - name: Router
   number: 6
-  link: https://oj.uz/problem/view/CEOI16_router
+  links:
+  - https://oj.uz/problem/view/CEOI16_router
+  - https://qoj.ac/problem/5536

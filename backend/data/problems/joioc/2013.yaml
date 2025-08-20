@@ -3,7 +3,11 @@
   link: https://qoj.ac/contest/2257/problem/12898
 - name: Synchronization
   number: 2
-  link: https://oj.uz/problem/view/JOI13_synchronization
+  links:
+  - https://oj.uz/problem/view/JOI13_synchronization
+  - https://qoj.ac/problem/12899
 - name: Watching
   number: 3
-  link: https://oj.uz/problem/view/JOI13_watching
+  links:
+  - https://oj.uz/problem/view/JOI13_watching
+  - https://qoj.ac/problem/12900

@@ -1,15 +1,25 @@
 - name: Stone Arranging 2
   number: 1
-  link: https://oj.uz/problem/view/JOI23_ho_t1
+  links:
+  - https://oj.uz/problem/view/JOI23_ho_t1
+  - https://qoj.ac/problem/5512
 - name: Advertisement 2
   number: 2
-  link: https://oj.uz/problem/view/JOI23_ho_t2
+  links:
+  - https://oj.uz/problem/view/JOI23_ho_t2
+  - https://qoj.ac/problem/5513
 - name: Maze
   number: 3
-  link: https://oj.uz/problem/view/JOI23_ho_t3
+  links:
+  - https://oj.uz/problem/view/JOI23_ho_t3
+  - https://qoj.ac/problem/5514
 - name: Cat Exercise
   number: 4
-  link: https://oj.uz/problem/view/JOI23_ho_t4
+  links:
+  - https://oj.uz/problem/view/JOI23_ho_t4
+  - https://qoj.ac/problem/5515
 - name: Modern Machine
   number: 5
-  link: https://oj.uz/problem/view/JOI23_ho_t5
+  links:
+  - https://oj.uz/problem/view/JOI23_ho_t5
+  - https://qoj.ac/problem/5516

@@ -1,15 +1,25 @@
 - name: Stove
   number: 1
-  link: https://oj.uz/problem/view/JOI18_stove
+  links:
+  - https://oj.uz/problem/view/JOI18_stove
+  - https://qoj.ac/problem/3123
 - name: Art Exhibition
   number: 2
-  link: https://oj.uz/problem/view/JOI18_art
+  links:
+  - https://oj.uz/problem/view/JOI18_art
+  - https://qoj.ac/problem/3124
 - name: Dango Maker
   number: 3
-  link: https://oj.uz/problem/view/JOI18_dango_maker
+  links:
+  - https://oj.uz/problem/view/JOI18_dango_maker
+  - https://qoj.ac/problem/3125
 - name: Commuter Pass
   number: 4
-  link: https://oj.uz/problem/view/JOI18_commuter_pass
+  links:
+  - https://oj.uz/problem/view/JOI18_commuter_pass
+  - https://qoj.ac/problem/3126
 - name: Snake Escaping
   number: 5
-  link: https://oj.uz/problem/view/JOI18_snake_escaping
+  links:
+  - https://oj.uz/problem/view/JOI18_snake_escaping
+  - https://qoj.ac/problem/3127

@@ -1,15 +1,25 @@
 - name: Collecting Mushrooms
   number: 1
-  link: https://oj.uz/problem/view/NOI18_collectmushrooms
+  links:
+  - https://oj.uz/problem/view/NOI18_collectmushrooms
+  - https://qoj.ac/problem/13295
 - name: Journey
   number: 2
-  link: https://oj.uz/problem/view/NOI18_journey
+  links:
+  - https://oj.uz/problem/view/NOI18_journey
+  - https://qoj.ac/problem/13296
 - name: Lightning Rod
   number: 3
-  link: https://oj.uz/problem/view/NOI18_lightningrod
+  links:
+  - https://oj.uz/problem/view/NOI18_lightningrod
+  - https://qoj.ac/problem/13297
 - name: City Mapping
   number: 4
-  link: https://oj.uz/problem/view/NOI18_citymapping
+  links:
+  - https://oj.uz/problem/view/NOI18_citymapping
+  - https://qoj.ac/problem/13298
 - name: Safety
   number: 5
-  link: https://oj.uz/problem/view/NOI18_safety
+  links:
+  - https://oj.uz/problem/view/NOI18_safety
+  - https://qoj.ac/problem/13299

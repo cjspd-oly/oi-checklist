@@ -1,9 +1,13 @@
 - name: Seesaw
   number: 1
-  link: https://oj.uz/problem/view/JOI22_seesaw
+  links:
+  - https://oj.uz/problem/view/JOI22_seesaw
+  - https://qoj.ac/problem/4355
 - name: Giraffes
   number: 2
-  link: https://oj.uz/problem/view/JOI22_giraffes
+  links:
+  - https://oj.uz/problem/view/JOI22_giraffes
+  - https://qoj.ac/problem/4356
 - name: School Road
   number: 3
   link: https://qoj.ac/contest/959/problem/4357

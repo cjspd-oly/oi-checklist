@@ -1,9 +1,15 @@
 - name: Ancient Machine 2
   number: 1
-  link: https://oj.uz/problem/view/JOI23_ancient2
+  links:
+  - https://oj.uz/problem/view/JOI23_ancient2
+  - https://qoj.ac/problem/6774
 - name: Cell Automaton
   number: 2
-  link: https://oj.uz/problem/view/JOI23_cell
+  links:
+  - https://oj.uz/problem/view/JOI23_cell
+  - https://qoj.ac/problem/6775
 - name: Garden
   number: 3
-  link: https://oj.uz/problem/view/JOI23_garden
+  links:
+  - https://oj.uz/problem/view/JOI23_garden
+  - https://qoj.ac/problem/6776

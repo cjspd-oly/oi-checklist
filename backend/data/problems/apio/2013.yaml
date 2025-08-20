@@ -1,9 +1,13 @@
 - name: Robots
   number: 1
-  link: https://oj.uz/problem/view/APIO13_robots
+  links:
+  - https://oj.uz/problem/view/APIO13_robots
+  - https://qoj.ac/problem/1066
 - name: Toll
   number: 2
-  link: https://oj.uz/problem/view/APIO13_toll
+  links:
+  - https://oj.uz/problem/view/APIO13_toll
+  - https://qoj.ac/problem/1067
 - name: Tasks Author
   number: 3
   link: https://qoj.ac/contest/262/problem/1068

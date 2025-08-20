@@ -1,9 +1,15 @@
 - name: Crossing
   number: 1
-  link: https://oj.uz/problem/view/JOI21_crossing
+  links:
+  - https://oj.uz/problem/view/JOI21_crossing
+  - https://qoj.ac/problem/1131
 - name: Financial Report
   number: 2
-  link: https://oj.uz/problem/view/JOI21_financial
+  links:
+  - https://oj.uz/problem/view/JOI21_financial
+  - https://qoj.ac/problem/1132
 - name: Monster Game
   number: 3
-  link: https://oj.uz/problem/view/JOI21_monster
+  links:
+  - https://oj.uz/problem/view/JOI21_monster
+  - https://qoj.ac/problem/1133

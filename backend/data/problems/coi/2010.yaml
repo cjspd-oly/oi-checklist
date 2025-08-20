@@ -1,12 +1,20 @@
 - name: Hrastovi
   number: 1
-  link: https://dmoj.ca/problem/coi09p1
+  links:
+  - https://dmoj.ca/problem/coi09p1
+  - https://qoj.ac/problem/9504
 - name: Kolo
   number: 2
-  link: https://dmoj.ca/problem/coi09p2
+  links:
+  - https://dmoj.ca/problem/coi09p2
+  - https://qoj.ac/problem/9505
 - name: Loza
   number: 3
-  link: https://dmoj.ca/problem/coi09p3
+  links:
+  - https://dmoj.ca/problem/coi09p3
+  - https://qoj.ac/problem/9506
 - name: Roboti
   number: 4
-  link: https://dmoj.ca/problem/coi09p4
+  links:
+  - https://dmoj.ca/problem/coi09p4
+  - https://qoj.ac/problem/9507

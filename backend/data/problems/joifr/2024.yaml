@@ -1,15 +1,25 @@
 - name: Room Temperature
   number: 1
-  link: https://oj.uz/problem/view/JOI24_ho_t1
-- name: Construction Project 2
-  number: 3
-  link: https://oj.uz/problem/view/JOI24_ho_t3
+  links:
+  - https://oj.uz/problem/view/JOI24_ho_t1
+  - https://qoj.ac/problem/8255
 - name: Marathon Race 2
   number: 2
-  link: https://oj.uz/problem/view/JOI24_ho_t2
+  links:
+  - https://oj.uz/problem/view/JOI24_ho_t2
+  - https://qoj.ac/problem/8257
+- name: Construction Project 2
+  number: 3
+  links:
+  - https://oj.uz/problem/view/JOI24_ho_t3
+  - https://qoj.ac/problem/8256
 - name: Gift Exchange
   number: 4
-  link: https://oj.uz/problem/view/JOI24_ho_t4
+  links:
+  - https://oj.uz/problem/view/JOI24_ho_t4
+  - https://qoj.ac/problem/8258
 - name: Road Service 2
   number: 5
-  link: https://oj.uz/problem/view/JOI24_ho_t5
+  links:
+  - https://oj.uz/problem/view/JOI24_ho_t5
+  - https://qoj.ac/problem/8259

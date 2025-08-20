@@ -1,9 +1,15 @@
 - name: September
   number: 1
-  link: https://oj.uz/problem/view/APIO24_september
+  links:
+  - https://oj.uz/problem/view/APIO24_september
+  - https://qoj.ac/problem/8724
 - name: Train
   number: 2
-  link: https://oj.uz/problem/view/APIO24_train
+  links:
+  - https://oj.uz/problem/view/APIO24_train
+  - https://qoj.ac/problem/8725
 - name: Magic Show
   number: 3
-  link: https://oj.uz/problem/view/APIO24_show
+  links:
+  - https://oj.uz/problem/view/APIO24_show
+  - https://qoj.ac/problem/8726

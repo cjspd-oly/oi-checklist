@@ -1,15 +1,25 @@
 - name: Topical
   number: 1
-  link: https://oj.uz/problem/view/NOI23_topical
+  links:
+  - https://oj.uz/problem/view/NOI23_topical
+  - https://qoj.ac/problem/6389
 - name: Inspections
   number: 2
-  link: https://oj.uz/problem/view/NOI23_inspections
+  links:
+  - https://oj.uz/problem/view/NOI23_inspections
+  - https://qoj.ac/problem/6390
 - name: Airplane
   number: 3
-  link: https://oj.uz/problem/view/NOI23_airplane
+  links:
+  - https://oj.uz/problem/view/NOI23_airplane
+  - https://qoj.ac/problem/6391
 - name: Curtains
   number: 4
-  link: https://oj.uz/problem/view/NOI23_curtains
+  links:
+  - https://oj.uz/problem/view/NOI23_curtains
+  - https://qoj.ac/problem/6392
 - name: Toxic Gene
   number: 5
-  link: https://oj.uz/problem/view/NOI23_toxic
+  links:
+  - https://oj.uz/problem/view/NOI23_toxic
+  - https://qoj.ac/problem/6393

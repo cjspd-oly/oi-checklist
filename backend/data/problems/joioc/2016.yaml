@@ -1,9 +1,15 @@
 - name: JOIRIS
   number: 1
-  link: https://oj.uz/problem/view/JOI16_joiris
+  links:
+  - https://oj.uz/problem/view/JOI16_joiris
+  - https://qoj.ac/problem/5550
 - name: Selling RNA Strands
   number: 2
-  link: https://oj.uz/problem/view/JOI16_selling_rna
+  links:
+  - https://oj.uz/problem/view/JOI16_selling_rna
+  - https://qoj.ac/problem/5551
 - name: Skyscraper
   number: 3
-  link: https://oj.uz/problem/view/JOI16_skyscraper
+  links:
+  - https://oj.uz/problem/view/JOI16_skyscraper
+  - https://qoj.ac/problem/5552

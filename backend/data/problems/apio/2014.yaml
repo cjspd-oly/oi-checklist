@@ -1,9 +1,15 @@
 - name: Palindrome
   number: 1
-  link: https://oj.uz/problem/view/APIO14_palindrome
+  links:
+  - https://oj.uz/problem/view/APIO14_palindrome
+  - https://qoj.ac/problem/275
 - name: Split the Sequence
   number: 2
-  link: https://oj.uz/problem/view/APIO14_sequence
-- name: Beads
+  links:
+  - https://oj.uz/problem/view/APIO14_sequence
+  - https://qoj.ac/problem/276
+- name: Beads and Wires
   number: 3
-  link: https://oj.uz/problem/view/APIO14_beads
+  links:
+  - https://oj.uz/problem/view/APIO14_beads
+  - https://qoj.ac/problem/277

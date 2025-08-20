@@ -1,15 +1,25 @@
 - name: Foehn Phenomena
   number: 1
-  link: https://oj.uz/problem/view/JOI17_foehn_phenomena
+  links:
+  - https://oj.uz/problem/view/JOI17_foehn_phenomena
+  - https://qoj.ac/problem/3141
 - name: Semiexpress
   number: 2
-  link: https://oj.uz/problem/view/JOI17_semiexpress
+  links:
+  - https://oj.uz/problem/view/JOI17_semiexpress
+  - https://qoj.ac/problem/3142
 - name: The Kingdom of JOIOI
   number: 3
-  link: https://oj.uz/problem/view/JOI17_joioi
+  links:
+  - https://oj.uz/problem/view/JOI17_joioi
+  - https://qoj.ac/problem/3143
 - name: Soccer
   number: 4
-  link: https://oj.uz/problem/view/JOI17_soccer
+  links:
+  - https://oj.uz/problem/view/JOI17_soccer
+  - https://qoj.ac/problem/3144
 - name: Rope
   number: 5
-  link: https://oj.uz/problem/view/JOI17_rope
+  links:
+  - https://oj.uz/problem/view/JOI17_rope
+  - https://qoj.ac/problem/3145

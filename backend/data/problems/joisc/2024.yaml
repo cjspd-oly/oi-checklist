@@ -1,36 +1,60 @@
 - name: Fish 3
   number: 1
-  link: https://oj.uz/problem/view/JOI24_fish3
+  links:
+  - https://oj.uz/problem/view/JOI24_fish3
+  - https://qoj.ac/problem/8640
 - name: Ski 2
   number: 2
-  link: https://oj.uz/problem/view/JOI24_ski2
+  links:
+  - https://oj.uz/problem/view/JOI24_ski2
+  - https://qoj.ac/problem/8641
 - name: Spy 3
   number: 3
-  link: https://oj.uz/problem/view/JOI24_spy3
+  links:
+  - https://oj.uz/problem/view/JOI24_spy3
+  - https://qoj.ac/problem/8642
 - name: Board Game
   number: 4
-  link: https://oj.uz/problem/view/JOI24_boardgame
+  links:
+  - https://oj.uz/problem/view/JOI24_boardgame
+  - https://qoj.ac/problem/8643
 - name: Tricolor Lights
   number: 5
-  link: https://oj.uz/problem/view/JOI24_tricolor
+  links:
+  - https://oj.uz/problem/view/JOI24_tricolor
+  - https://qoj.ac/problem/8644
 - name: Growing Vegetables is Fun 5
   number: 6
-  link: https://oj.uz/problem/view/JOI24_vegetables5
+  links:
+  - https://oj.uz/problem/view/JOI24_vegetables5
+  - https://qoj.ac/problem/8645
 - name: Card Collection
   number: 7
-  link: https://oj.uz/problem/view/JOI24_collection
+  links:
+  - https://oj.uz/problem/view/JOI24_collection
+  - https://qoj.ac/problem/8646
 - name: JOI Tour
   number: 8
-  link: https://oj.uz/problem/view/JOI24_joitour
+  links:
+  - https://oj.uz/problem/view/JOI24_joitour
+  - https://qoj.ac/problem/8647
 - name: Tower
   number: 9
-  link: https://oj.uz/problem/view/JOI24_tower
+  links:
+  - https://oj.uz/problem/view/JOI24_tower
+  - https://qoj.ac/problem/8648
 - name: Escape Route 2
   number: 10
-  link: https://oj.uz/problem/view/JOI24_escape2
+  links:
+  - https://oj.uz/problem/view/JOI24_escape2
+  - https://qoj.ac/problem/8649
 - name: Island Hopping
   number: 11
-  link: https://oj.uz/problem/view/JOI24_island
+  links:
+  - https://oj.uz/problem/view/JOI24_island
+  - https://qoj.ac/problem/8650
 - name: Table Tennis
   number: 12
-  link: https://oj.uz/problem/view/JOI24_tabletennis
+  links:
+  - https://oj.uz/problem/view/JOI24_tabletennis
+  - https://qoj.ac/problem/8651

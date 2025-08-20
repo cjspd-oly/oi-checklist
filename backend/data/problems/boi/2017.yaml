@@ -1,18 +1,30 @@
 - name: Political Development
   number: 1
-  link: https://oj.uz/problem/view/BOI17_politicaldevelopment
+  links:
+  - https://oj.uz/problem/view/BOI17_politicaldevelopment
+  - https://qoj.ac/problem/30
 - name: Railway
   number: 2
-  link: https://oj.uz/problem/view/BOI17_railway
+  links:
+  - https://oj.uz/problem/view/BOI17_railway
+  - https://qoj.ac/problem/31
 - name: Toll
   number: 3
-  link: https://oj.uz/problem/view/BOI17_toll
+  links:
+  - https://oj.uz/problem/view/BOI17_toll
+  - https://qoj.ac/problem/32
 - name: Cat in a tree
   number: 4
-  link: https://oj.uz/problem/view/BOI17_catinatree
+  links:
+  - https://oj.uz/problem/view/BOI17_catinatree
+  - https://qoj.ac/problem/33
 - name: Friends
   number: 5
-  link: https://oj.uz/problem/view/BOI17_friends
+  links:
+  - https://oj.uz/problem/view/BOI17_friends
+  - https://qoj.ac/problem/34
 - name: Plus Minus
   number: 6
-  link: https://oj.uz/problem/view/BOI17_plusminus
+  links:
+  - https://oj.uz/problem/view/BOI17_plusminus
+  - https://qoj.ac/problem/35

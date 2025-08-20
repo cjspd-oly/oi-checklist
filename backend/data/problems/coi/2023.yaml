@@ -1,12 +1,20 @@
 - name: Bliskost
   number: 1
-  link: https://oj.uz/problem/view/COI23_bliskost
+  links:
+  - https://oj.uz/problem/view/COI23_bliskost
+  - https://qoj.ac/problem/13597
 - name: Nestabilnost
   number: 2
-  link: https://oj.uz/problem/view/COI23_nestabilnost
+  links:
+  - https://oj.uz/problem/view/COI23_nestabilnost
+  - https://qoj.ac/problem/13598
 - name: Netrpeljivost
   number: 3
-  link: https://oj.uz/problem/view/COI23_netrpeljivost
+  links:
+  - https://oj.uz/problem/view/COI23_netrpeljivost
+  - https://qoj.ac/problem/13599
 - name: Sličnost
   number: 4
-  link: https://oj.uz/problem/view/COI23_slicnost
+  links:
+  - https://oj.uz/problem/view/COI23_slicnost
+  - https://qoj.ac/problem/13600

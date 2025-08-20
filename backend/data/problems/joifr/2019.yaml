@@ -1,15 +1,25 @@
 - name: Bitaro the Brave
   number: 1
-  link: https://oj.uz/problem/view/JOI19_ho_t1
+  links:
+  - https://oj.uz/problem/view/JOI19_ho_t1
+  - https://qoj.ac/problem/2762
 - name: Exhibition
   number: 2
-  link: https://oj.uz/problem/view/JOI19_ho_t2
+  links:
+  - https://oj.uz/problem/view/JOI19_ho_t2
+  - https://qoj.ac/problem/2763
 - name: Growing Vegetable is Fun 3
   number: 3
-  link: https://oj.uz/problem/view/JOI19_ho_t3
+  links:
+  - https://oj.uz/problem/view/JOI19_ho_t3
+  - https://qoj.ac/problem/2764
 - name: Coin Collecting
   number: 4
-  link: https://oj.uz/problem/view/JOI19_ho_t4
+  links:
+  - https://oj.uz/problem/view/JOI19_ho_t4
+  - https://qoj.ac/problem/2765
 - name: Unique Cities
   number: 5
-  link: https://oj.uz/problem/view/JOI19_ho_t5
+  links:
+  - https://oj.uz/problem/view/JOI19_ho_t5
+  - https://qoj.ac/problem/2766

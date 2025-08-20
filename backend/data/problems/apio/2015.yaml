@@ -1,9 +1,15 @@
 - name: Bali Sculptures
   number: 1
-  link: https://oj.uz/problem/view/APIO15_sculpture
+  links:
+  - https://oj.uz/problem/view/APIO15_sculpture
+  - https://qoj.ac/problem/138
 - name: Jakarta Skyscrapers
   number: 2
-  link: https://oj.uz/problem/view/APIO15_skyscraper
+  links:
+  - https://oj.uz/problem/view/APIO15_skyscraper
+  - https://qoj.ac/problem/139
 - name: Palembang Bridges
   number: 3
-  link: https://oj.uz/problem/view/APIO15_bridge
+  links:
+  - https://oj.uz/problem/view/APIO15_bridge
+  - https://qoj.ac/problem/140
