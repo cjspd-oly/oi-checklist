@@ -1,36 +1,60 @@
 - name: Examination
   number: 1
-  link: https://oj.uz/problem/view/JOI19_examination
+  links:
+  - https://oj.uz/problem/view/JOI19_examination
+  - https://qoj.ac/problem/62
 - name: Naan
   number: 2
-  link: https://oj.uz/problem/view/JOI19_naan
+  links:
+  - https://oj.uz/problem/view/JOI19_naan
+  - https://qoj.ac/problem/64
 - name: Meetings
   number: 3
-  link: https://oj.uz/problem/view/JOI19_meetings
+  links:
+  - https://oj.uz/problem/view/JOI19_meetings
+  - https://qoj.ac/problem/63
 - name: Two Antennas
   number: 4
-  link: https://oj.uz/problem/view/JOI19_antennas
+  links:
+  - https://oj.uz/problem/view/JOI19_antennas
+  - https://qoj.ac/problem/65
 - name: Two Dishes
   number: 5
-  link: https://oj.uz/problem/view/JOI19_dishes
+  links:
+  - https://oj.uz/problem/view/JOI19_dishes
+  - https://qoj.ac/problem/66
 - name: Two Transportations
   number: 6
-  link: https://oj.uz/problem/view/JOI19_transportations
+  links:
+  - https://oj.uz/problem/view/JOI19_transportations
+  - https://qoj.ac/problem/67
 - name: Designated Cities
   number: 7
-  link: https://oj.uz/problem/view/JOI19_designated_cities
+  links:
+  - https://oj.uz/problem/view/JOI19_designated_cities
+  - https://qoj.ac/problem/68
 - name: Lamps
   number: 8
-  link: https://oj.uz/problem/view/JOI19_lamps
+  links:
+  - https://oj.uz/problem/view/JOI19_lamps
+  - https://qoj.ac/problem/69
 - name: Bitaro, who Leaps through Time
   number: 9
-  link: https://oj.uz/problem/view/JOI19_timeleap
+  links:
+  - https://oj.uz/problem/view/JOI19_timeleap
+  - https://qoj.ac/problem/70
 - name: Cake 3
   number: 10
-  link: https://oj.uz/problem/view/JOI19_cake3
+  links:
+  - https://oj.uz/problem/view/JOI19_cake3
+  - https://qoj.ac/problem/71
 - name: Mergers
   number: 11
-  link: https://oj.uz/problem/view/JOI19_mergers
+  links:
+  - https://oj.uz/problem/view/JOI19_mergers
+  - https://qoj.ac/problem/72
 - name: Minerals
   number: 12
-  link: https://oj.uz/problem/view/JOI19_minerals
+  links:
+  - https://oj.uz/problem/view/JOI19_minerals
+  - https://qoj.ac/problem/73

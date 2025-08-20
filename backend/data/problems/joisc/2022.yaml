@@ -1,36 +1,60 @@
 - name: Jail
   number: 1
-  link: https://oj.uz/problem/view/JOI22_jail
+  links:
+  - https://oj.uz/problem/view/JOI22_jail
+  - https://qoj.ac/problem/3501
 - name: Sightseeing in Kyoto
   number: 2
-  link: https://oj.uz/problem/view/JOI22_kyoto
+  links:
+  - https://oj.uz/problem/view/JOI22_kyoto
+  - https://qoj.ac/problem/3502
 - name: Misspelling
   number: 3
-  link: https://oj.uz/problem/view/JOI22_misspelling
+  links:
+  - https://oj.uz/problem/view/JOI22_misspelling
+  - https://qoj.ac/problem/3503
 - name: Copy and Paste 3
   number: 4
-  link: https://oj.uz/problem/view/JOI22_copypaste3
+  links:
+  - https://oj.uz/problem/view/JOI22_copypaste3
+  - https://qoj.ac/problem/3504
 - name: Flights
   number: 5
-  link: https://oj.uz/problem/view/JOI22_flights
+  links:
+  - https://oj.uz/problem/view/JOI22_flights
+  - https://qoj.ac/problem/3505
 - name: Team Contest
   number: 6
-  link: https://oj.uz/problem/view/JOI22_team
+  links:
+  - https://oj.uz/problem/view/JOI22_team
+  - https://qoj.ac/problem/3506
 - name: Broken Device 2
   number: 7
-  link: https://oj.uz/problem/view/JOI22_device2
+  links:
+  - https://oj.uz/problem/view/JOI22_device2
+  - https://qoj.ac/problem/3507
 - name: Sprinkler
   number: 8
-  link: https://oj.uz/problem/view/JOI22_sprinkler
+  links:
+  - https://oj.uz/problem/view/JOI22_sprinkler
+  - https://qoj.ac/problem/3508
 - name: Ants and Sugar
   number: 9
-  link: https://oj.uz/problem/view/JOI22_sugar
+  links:
+  - https://oj.uz/problem/view/JOI22_sugar
+  - https://qoj.ac/problem/3509
 - name: Super Dango Maker
   number: 10
-  link: https://oj.uz/problem/view/JOI22_dango3
+  links:
+  - https://oj.uz/problem/view/JOI22_dango3
+  - https://qoj.ac/problem/3510
 - name: Fish 2
   number: 11
-  link: https://oj.uz/problem/view/JOI22_fish2
+  links:
+  - https://oj.uz/problem/view/JOI22_fish2
+  - https://qoj.ac/problem/3511
 - name: Reconstruction Project
   number: 12
-  link: https://oj.uz/problem/view/JOI22_reconstruction
+  links:
+  - https://oj.uz/problem/view/JOI22_reconstruction
+  - https://qoj.ac/problem/3512

@@ -1,36 +1,58 @@
 - name: Construction of Highway
   number: 1
-  link: https://oj.uz/problem/view/JOI18_construction
+  links:
+  - https://oj.uz/problem/view/JOI18_construction
+  - https://qoj.ac/problem/114
 - name: Fences
   number: 2
-  link: https://oj.uz/problem/view/JOI18_fences
+  links:
+  - https://oj.uz/problem/view/JOI18_fences
+  - https://qoj.ac/problem/115
 - name: Tents
   number: 3
-  link: https://oj.uz/problem/view/JOI18_tents
+  links:
+  - https://oj.uz/problem/view/JOI18_tents
+  - https://qoj.ac/problem/116
 - name: Asceticism
   number: 4
-  link: https://oj.uz/problem/view/JOI18_asceticism
+  links:
+  - https://oj.uz/problem/view/JOI18_asceticism
+  - https://qoj.ac/problem/117
 - name: Road Service
   number: 5
   link: https://qoj.ac/contest/363/problem/118
 - name: Worst Reporter 3
   number: 6
-  link: https://oj.uz/problem/view/JOI18_worst_reporter3
+  links:
+  - https://oj.uz/problem/view/JOI18_worst_reporter3
+  - https://qoj.ac/problem/119
 - name: Airline Route Map
   number: 7
-  link: https://oj.uz/problem/view/JOI18_airline
+  links:
+  - https://oj.uz/problem/view/JOI18_airline
+  - https://qoj.ac/problem/120
 - name: Bitaro’s Party
   number: 8
-  link: https://oj.uz/problem/view/JOI18_bitaro
+  links:
+  - https://oj.uz/problem/view/JOI18_bitaro
+  - https://qoj.ac/problem/121
 - name: Security Gate
   number: 9
-  link: https://oj.uz/problem/view/JOI18_security_gate
+  links:
+  - https://oj.uz/problem/view/JOI18_security_gate
+  - https://qoj.ac/problem/122
 - name: Candies
   number: 10
-  link: https://oj.uz/problem/view/JOI18_candies
+  links:
+  - https://oj.uz/problem/view/JOI18_candies
+  - https://qoj.ac/problem/123
 - name: Library
   number: 11
-  link: https://oj.uz/problem/view/JOI18_library
+  links:
+  - https://oj.uz/problem/view/JOI18_library
+  - https://qoj.ac/problem/124
 - name: Wild Boar
   number: 12
-  link: https://oj.uz/problem/view/JOI18_wild_boar
+  links:
+  - https://oj.uz/problem/view/JOI18_wild_boar
+  - https://qoj.ac/problem/125

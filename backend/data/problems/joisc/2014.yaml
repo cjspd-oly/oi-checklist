@@ -1,0 +1,36 @@
+- name: Bus
+  number: 1
+  link: https://qoj.ac/problem/1396
+- name: Growing Vegetables is Fun
+  number: 2
+  link: https://qoj.ac/problem/1397
+- name: Historical Research
+  number: 3
+  link: https://qoj.ac/problem/1398
+- name: Ramen
+  number: 4
+  link: https://qoj.ac/problem/1399
+- name: Water Bottle
+  number: 5
+  link: https://qoj.ac/problem/1400
+- name: Making Friends is Fun
+  number: 6
+  link: https://qoj.ac/problem/1401
+- name: Collecting Stamps
+  number: 7
+  link: https://qoj.ac/problem/1402
+- name: JOIOJI
+  number: 8
+  link: https://qoj.ac/problem/1403
+- name: Scarecrows
+  number: 9
+  link: https://qoj.ac/problem/1404
+- name: Voltage
+  number: 10
+  link: https://qoj.ac/problem/1405
+- name: Constellation 2
+  number: 11
+  link: https://qoj.ac/problem/1406
+- name: Kanji Shiritori
+  number: 12
+  link: https://qoj.ac/problem/1407

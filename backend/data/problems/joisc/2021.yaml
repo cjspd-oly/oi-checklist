@@ -1,36 +1,60 @@
 - name: Aerobatics
   number: 1
-  link: https://oj.uz/problem/view/JOI21_aerobatics
+  links:
+  - https://oj.uz/problem/view/JOI21_aerobatics
+  - https://qoj.ac/problem/3092
 - name: IOI Fever
   number: 2
-  link: https://oj.uz/problem/view/JOI21_fever
+  links:
+  - https://oj.uz/problem/view/JOI21_fever
+  - https://qoj.ac/problem/3093
 - name: Food Court
   number: 3
-  link: https://oj.uz/problem/view/JOI21_foodcourt
+  links:
+  - https://oj.uz/problem/view/JOI21_foodcourt
+  - https://qoj.ac/problem/3094
 - name: Escape Route
   number: 4
-  link: https://oj.uz/problem/view/JOI21_escape_route
+  links:
+  - https://oj.uz/problem/view/JOI21_escape_route
+  - https://qoj.ac/problem/3095
 - name: Road Construction
   number: 5
-  link: https://oj.uz/problem/view/JOI21_road_construction
+  links:
+  - https://oj.uz/problem/view/JOI21_road_construction
+  - https://qoj.ac/problem/3096
 - name: Shopping
   number: 6
-  link: https://oj.uz/problem/view/JOI21_shopping
+  links:
+  - https://oj.uz/problem/view/JOI21_shopping
+  - https://qoj.ac/problem/3097
 - name: Ancient Machine
   number: 7
-  link: https://oj.uz/problem/view/JOI21_ancient_machine
+  links:
+  - https://oj.uz/problem/view/JOI21_ancient_machine
+  - https://qoj.ac/problem/3098
 - name: Bodyguard
   number: 8
-  link: https://oj.uz/problem/view/JOI21_bodyguard
+  links:
+  - https://oj.uz/problem/view/JOI21_bodyguard
+  - https://qoj.ac/problem/3099
 - name: Meetings 2
   number: 9
-  link: https://oj.uz/problem/view/JOI21_meetings2
+  links:
+  - https://oj.uz/problem/view/JOI21_meetings2
+  - https://qoj.ac/problem/3100
 - name: Event Hopping 2
   number: 10
-  link: https://oj.uz/problem/view/JOI21_event2
+  links:
+  - https://oj.uz/problem/view/JOI21_event2
+  - https://qoj.ac/problem/3101
 - name: Navigation 2
   number: 11
-  link: https://oj.uz/problem/view/JOI21_navigation2
+  links:
+  - https://oj.uz/problem/view/JOI21_navigation2
+  - https://qoj.ac/problem/3102
 - name: Worst Reporter 4
   number: 12
-  link: https://oj.uz/problem/view/JOI21_worst_reporter4
+  links:
+  - https://oj.uz/problem/view/JOI21_worst_reporter4
+  - https://qoj.ac/problem/3103

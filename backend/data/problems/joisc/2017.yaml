@@ -1,27 +1,54 @@
 - name: Cultivation
   number: 1
-  link: https://oj.uz/problem/view/JOI17_cultivation
+  links:
+  - https://oj.uz/problem/view/JOI17_cultivation
+  - https://qoj.ac/problem/360
 - name: Port Facility
   number: 2
-  link: https://oj.uz/problem/view/JOI17_port_facility
+  links:
+  - https://oj.uz/problem/view/JOI17_port_facility
+  - https://qoj.ac/problem/361
 - name: Sparklers
   number: 3
-  link: https://oj.uz/problem/view/JOI17_sparklers
+  links:
+  - https://oj.uz/problem/view/JOI17_sparklers
+  - https://qoj.ac/problem/362
 - name: Arranging Tickets
   number: 4
-  link: https://oj.uz/problem/view/JOI17_arranging_tickets
+  links:
+  - https://oj.uz/problem/view/JOI17_arranging_tickets
+  - https://qoj.ac/problem/363
 - name: Broken Device
   number: 5
-  link: https://oj.uz/problem/view/JOI17_broken_device
+  links:
+  - https://oj.uz/problem/view/JOI17_broken_device
+  - https://qoj.ac/problem/364
 - name: Railway Trip
   number: 6
-  link: https://oj.uz/problem/view/JOI17_railway_trip
+  links:
+  - https://oj.uz/problem/view/JOI17_railway_trip
+  - https://qoj.ac/problem/365
 - name: Long Distance Coach
   number: 7
-  link: https://oj.uz/problem/view/JOI17_coach
+  links:
+  - https://oj.uz/problem/view/JOI17_coach
+  - https://qoj.ac/problem/366
 - name: Long Mansion
   number: 8
-  link: https://oj.uz/problem/view/JOI17_long_mansion
-- name: Park
+  links:
+  - https://oj.uz/problem/view/JOI17_long_mansion
+  - https://qoj.ac/problem/367
+- name: Natural Park
   number: 9
-  link: https://oj.uz/problem/view/JOI17_park
+  links:
+  - https://oj.uz/problem/view/JOI17_park
+  - https://qoj.ac/problem/368
+- name: Abduction 2
+  number: 10
+  link: https://qoj.ac/contest/355/problem/369
+- name: City
+  number: 11
+  link: https://qoj.ac/contest/355/problem/370
+- name: Dragon 2
+  number: 12
+  link: https://qoj.ac/contest/355/problem/371

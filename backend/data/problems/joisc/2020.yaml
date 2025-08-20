@@ -1,36 +1,60 @@
 - name: Building 4
   number: 1
-  link: https://oj.uz/problem/view/JOI20_building4
+  links:
+  - https://oj.uz/problem/view/JOI20_building4
+  - https://qoj.ac/problem/3552
 - name: Hamburg Steak
   number: 2
-  link: https://oj.uz/problem/view/JOI20_hamburg
+  links:
+  - https://oj.uz/problem/view/JOI20_hamburg
+  - https://qoj.ac/problem/3553
 - name: Sweeping
   number: 3
-  link: https://oj.uz/problem/view/JOI20_sweeping
+  links:
+  - https://oj.uz/problem/view/JOI20_sweeping
+  - https://qoj.ac/problem/3554
 - name: Chameleon's Love
   number: 4
-  link: https://oj.uz/problem/view/JOI20_chameleon
+  links:
+  - https://oj.uz/problem/view/JOI20_chameleon
+  - https://qoj.ac/problem/3555
 - name: Making Friends on Joitter is Fun
   number: 5
-  link: https://oj.uz/problem/view/JOI20_joitter2
+  links:
+  - https://oj.uz/problem/view/JOI20_joitter2
+  - https://qoj.ac/problem/3556
 - name: Ruins 3
   number: 6
-  link: https://oj.uz/problem/view/JOI20_ruins3
+  links:
+  - https://oj.uz/problem/view/JOI20_ruins3
+  - https://qoj.ac/problem/3557
 - name: Constellation 3
   number: 7
-  link: https://oj.uz/problem/view/JOI20_constellation3
+  links:
+  - https://oj.uz/problem/view/JOI20_constellation3
+  - https://qoj.ac/problem/3558
 - name: Harvest
   number: 8
-  link: https://oj.uz/problem/view/JOI20_harvest
+  links:
+  - https://oj.uz/problem/view/JOI20_harvest
+  - https://qoj.ac/problem/3559
 - name: Stray Cat
   number: 9
-  link: https://oj.uz/problem/view/JOI20_stray
+  links:
+  - https://oj.uz/problem/view/JOI20_stray
+  - https://qoj.ac/problem/3560
 - name: Capital City
   number: 10
-  link: https://oj.uz/problem/view/JOI20_capital_city
+  links:
+  - https://oj.uz/problem/view/JOI20_capital_city
+  - https://qoj.ac/problem/3561
 - name: Legendary Dango Maker
   number: 11
-  link: https://oj.uz/problem/view/JOI20_dango2
+  links:
+  - https://oj.uz/problem/view/JOI20_dango2
+  - https://qoj.ac/problem/3562
 - name: Treatment Project
   number: 12
-  link: https://oj.uz/problem/view/JOI20_treatment
+  links:
+  - https://oj.uz/problem/view/JOI20_treatment
+  - https://qoj.ac/problem/3563

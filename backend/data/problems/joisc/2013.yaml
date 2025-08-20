@@ -1,0 +1,36 @@
+- name: Bus Tour
+  number: 1
+  link: https://qoj.ac/problem/1409
+- name: Collecting Images is Fun
+  number: 2
+  link: https://qoj.ac/problem/1410
+- name: Communication Jamming
+  number: 3
+  link: https://qoj.ac/problem/1411
+- name: JOI Poster
+  number: 4
+  link: https://qoj.ac/problem/1412
+- name: Construction Project
+  number: 5
+  link: https://qoj.ac/problem/1413
+- name: Mascots
+  number: 6
+  link: https://qoj.ac/problem/1414
+- name: Spy
+  number: 7
+  link: https://qoj.ac/problem/1415
+- name: Cake
+  number: 8
+  link: https://qoj.ac/problem/1416
+- name: Koala
+  number: 9
+  link: https://qoj.ac/problem/1417
+- name: Mountain Rescue Team
+  number: 10
+  link: https://qoj.ac/problem/1418
+- name: Presents
+  number: 11
+  link: https://qoj.ac/problem/1420
+- name: Spaceships
+  number: 12
+  link: https://qoj.ac/problem/1421

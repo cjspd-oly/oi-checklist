@@ -1,0 +1,36 @@
+- name: Building 2
+  number: 1
+  link: https://qoj.ac/problem/12608
+- name: Fish
+  number: 2
+  link: https://qoj.ac/problem/12609
+- name: JOI Flag
+  number: 3
+  link: https://qoj.ac/problem/12610
+- name: Broadcasting
+  number: 4
+  link: https://qoj.ac/problem/12611
+- name: Constellation
+  number: 5
+  link: https://qoj.ac/problem/12612
+- name: Rotate
+  number: 6
+  link: https://qoj.ac/problem/12613
+- name: Fortune Telling
+  number: 7
+  link: https://qoj.ac/problem/12614
+- name: Kangaroo
+  number: 8
+  link: https://qoj.ac/problem/12615
+- name: Sokoban
+  number: 9
+  link: https://qoj.ac/problem/12616
+- name: Chinese
+  number: 10
+  link: https://qoj.ac/problem/12617
+- name: Copy and Paste
+  number: 11
+  link: https://qoj.ac/problem/12618
+- name: Invitation
+  number: 12
+  link: https://qoj.ac/problem/12619
