@@ -1,18 +1,30 @@
 - name: Closing Time
   number: 1
-  link: https://oj.uz/problem/view/IOI23_closing
+  links:
+  - https://oj.uz/problem/view/IOI23_closing
+  - https://qoj.ac/problem/7118
 - name: Longest Trip
   number: 2
-  link: https://oj.uz/problem/view/IOI23_longesttrip
+  links:
+  - https://oj.uz/problem/view/IOI23_longesttrip
+  - https://qoj.ac/problem/7119
 - name: Soccer Stadium
   number: 3
-  link: https://oj.uz/problem/view/IOI23_soccer
+  links:
+  - https://oj.uz/problem/view/IOI23_soccer
+  - https://qoj.ac/problem/7120
 - name: Beech Tree
   number: 4
-  link: https://oj.uz/problem/view/IOI23_beechtree
+  links:
+  - https://oj.uz/problem/view/IOI23_beechtree
+  - https://qoj.ac/problem/7121
 - name: Overtaking
   number: 5
-  link: https://oj.uz/problem/view/IOI23_overtaking
+  links:
+  - https://oj.uz/problem/view/IOI23_overtaking
+  - https://qoj.ac/problem/7122
 - name: Robot Contest
   number: 6
-  link: https://oj.uz/problem/view/IOI23_robot
+  links:
+  - https://oj.uz/problem/view/IOI23_robot
+  - https://qoj.ac/problem/7123

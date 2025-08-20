@@ -1,18 +1,30 @@
 - name: Comparing Plants
   number: 1
-  link: https://oj.uz/problem/view/IOI20_plants
+  links:
+  - https://oj.uz/problem/view/IOI20_plants
+  - https://qoj.ac/problem/1134
 - name: Connecting Supertrees
   number: 2
-  link: https://oj.uz/problem/view/IOI20_supertrees
+  links:
+  - https://oj.uz/problem/view/IOI20_supertrees
+  - https://qoj.ac/problem/1135
 - name: Carnival Tickets
   number: 3
-  link: https://oj.uz/problem/view/IOI20_tickets
+  links:
+  - https://oj.uz/problem/view/IOI20_tickets
+  - https://qoj.ac/problem/1136
 - name: Packing Biscuits
   number: 4
-  link: https://oj.uz/problem/view/IOI20_biscuits
+  links:
+  - https://oj.uz/problem/view/IOI20_biscuits
+  - https://qoj.ac/problem/1137
 - name: Counting Mushrooms
   number: 5
-  link: https://oj.uz/problem/view/IOI20_mushrooms
+  links:
+  - https://oj.uz/problem/view/IOI20_mushrooms
+  - https://qoj.ac/problem/1138
 - name: Stations
   number: 6
-  link: https://oj.uz/problem/view/IOI20_stations
+  links:
+  - https://oj.uz/problem/view/IOI20_stations
+  - https://qoj.ac/problem/1139

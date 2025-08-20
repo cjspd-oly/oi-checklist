@@ -1,18 +1,30 @@
 - name: Catfish Farm
   number: 1
-  link: https://oj.uz/problem/view/IOI22_fish
+  links:
+  - https://oj.uz/problem/view/IOI22_fish
+  - https://qoj.ac/problem/4561
 - name: Prisoner Challenge
   number: 2
-  link: https://oj.uz/problem/view/IOI22_prison
+  links:
+  - https://oj.uz/problem/view/IOI22_prison
+  - https://qoj.ac/problem/4562
 - name: Radio Towers
   number: 3
-  link: https://oj.uz/problem/view/IOI22_towers
+  links:
+  - https://oj.uz/problem/view/IOI22_towers
+  - https://qoj.ac/problem/4563
 - name: Digital Circuit
   number: 4
-  link: https://oj.uz/problem/view/IOI22_circuit
+  links:
+  - https://oj.uz/problem/view/IOI22_circuit
+  - https://qoj.ac/problem/4564
 - name: Rarest Insects
   number: 5
-  link: https://oj.uz/problem/view/IOI22_insects
+  links:
+  - https://oj.uz/problem/view/IOI22_insects
+  - https://qoj.ac/problem/4565
 - name: Thousands Islands
   number: 6
-  link: https://oj.uz/problem/view/IOI22_islands
+  links:
+  - https://oj.uz/problem/view/IOI22_islands
+  - https://qoj.ac/problem/4566

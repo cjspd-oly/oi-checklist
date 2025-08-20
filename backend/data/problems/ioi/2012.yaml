@@ -3,16 +3,26 @@
   link: https://qoj.ac/contest/284/problem/1501
 - name: Parachute Rings
   number: 2
-  link: https://oj.uz/problem/view/IOI12_rings
+  links:
+  - https://oj.uz/problem/view/IOI12_rings
+  - https://qoj.ac/problem/1502
 - name: Crayfish Scrivener
   number: 3
-  link: https://oj.uz/problem/view/IOI12_scrivener
+  links:
+  - https://oj.uz/problem/view/IOI12_scrivener
+  - https://qoj.ac/problem/1503
 - name: Ideal City
   number: 4
-  link: https://oj.uz/problem/view/IOI12_city
+  links:
+  - https://oj.uz/problem/view/IOI12_city
+  - https://qoj.ac/problem/1504
 - name: Last Supper
   number: 5
-  link: https://oj.uz/problem/view/IOI12_supper
+  links:
+  - https://oj.uz/problem/view/IOI12_supper
+  - https://qoj.ac/problem/1505
 - name: Jousting Tournament
   number: 6
-  link: https://oj.uz/problem/view/IOI12_tournament
+  links:
+  - https://oj.uz/problem/view/IOI12_tournament
+  - https://qoj.ac/problem/1506

@@ -1,18 +1,30 @@
 - name: Distributing Candies
   number: 1
-  link: https://oj.uz/problem/view/IOI21_candies
+  links:
+  - https://oj.uz/problem/view/IOI21_candies
+  - https://qoj.ac/problem/1140
 - name: Keys
   number: 2
-  link: https://oj.uz/problem/view/IOI21_keys
+  links:
+  - https://oj.uz/problem/view/IOI21_keys
+  - https://qoj.ac/problem/1141
 - name: Fountain Parks
   number: 3
-  link: https://oj.uz/problem/view/IOI21_parks
+  links:
+  - https://oj.uz/problem/view/IOI21_parks
+  - https://qoj.ac/problem/1142
 - name: Mutating DNA
   number: 4
-  link: https://oj.uz/problem/view/IOI21_dna
+  links:
+  - https://oj.uz/problem/view/IOI21_dna
+  - https://qoj.ac/problem/1143
 - name: Dungeons Game
   number: 5
-  link: https://oj.uz/problem/view/IOI21_dungeons
+  links:
+  - https://oj.uz/problem/view/IOI21_dungeons
+  - https://qoj.ac/problem/1144
 - name: Bit Shift Registers
   number: 6
-  link: https://oj.uz/problem/view/IOI21_registers
+  links:
+  - https://oj.uz/problem/view/IOI21_registers
+  - https://qoj.ac/problem/1145

@@ -1,18 +1,30 @@
 - name: Rail
   number: 1
-  link: https://oj.uz/problem/view/IOI14_rail
+  links:
+  - https://oj.uz/problem/view/IOI14_rail
+  - https://qoj.ac/problem/1146
 - name: Wall
   number: 2
-  link: https://oj.uz/problem/view/IOI14_wall
+  links:
+  - https://oj.uz/problem/view/IOI14_wall
+  - https://qoj.ac/problem/1147
 - name: Game
   number: 3
-  link: https://oj.uz/problem/view/IOI14_game
+  links:
+  - https://oj.uz/problem/view/IOI14_game
+  - https://qoj.ac/problem/1148
 - name: Gondola
   number: 4
-  link: https://oj.uz/problem/view/IOI14_gondola
+  links:
+  - https://oj.uz/problem/view/IOI14_gondola
+  - https://qoj.ac/problem/1149
 - name: Friend
   number: 5
-  link: https://oj.uz/problem/view/IOI14_friend
+  links:
+  - https://oj.uz/problem/view/IOI14_friend
+  - https://qoj.ac/problem/1150
 - name: Holiday
   number: 6
-  link: https://oj.uz/problem/view/IOI14_holiday
+  links:
+  - https://oj.uz/problem/view/IOI14_holiday
+  - https://qoj.ac/problem/1151

@@ -1,18 +1,30 @@
 - name: Boxes with Souvenirs
   number: 1
-  link: https://oj.uz/problem/view/IOI15_boxes
+  links:
+  - https://oj.uz/problem/view/IOI15_boxes
+  - https://qoj.ac/problem/2785
 - name: Scales
   number: 2
-  link: https://oj.uz/problem/view/IOI15_scales
+  links:
+  - https://oj.uz/problem/view/IOI15_scales
+  - https://qoj.ac/problem/2786
 - name: Teams
   number: 3
-  link: https://oj.uz/problem/view/IOI15_teams
+  links:
+  - https://oj.uz/problem/view/IOI15_teams
+  - https://qoj.ac/problem/2787
 - name: Horses
   number: 4
-  link: https://oj.uz/problem/view/IOI15_horses
+  links:
+  - https://oj.uz/problem/view/IOI15_horses
+  - https://qoj.ac/problem/2788
 - name: Sorting
   number: 5
-  link: https://oj.uz/problem/view/IOI15_sorting
+  links:
+  - https://oj.uz/problem/view/IOI15_sorting
+  - https://qoj.ac/problem/2789
 - name: Towns
   number: 6
-  link: https://oj.uz/problem/view/IOI15_towns
+  links:
+  - https://oj.uz/problem/view/IOI15_towns
+  - https://qoj.ac/problem/2790

@@ -1,18 +1,30 @@
 - name: Nowruz
   number: 1
-  link: https://oj.uz/problem/view/IOI17_nowruz
+  links:
+  - https://oj.uz/problem/view/IOI17_nowruz
+  - https://qoj.ac/problem/2756
 - name: Wiring
   number: 2
-  link: https://oj.uz/problem/view/IOI17_wiring
+  links:
+  - https://oj.uz/problem/view/IOI17_wiring
+  - https://qoj.ac/problem/2757
 - name: Toy Train
   number: 3
-  link: https://oj.uz/problem/view/IOI17_train
+  links:
+  - https://oj.uz/problem/view/IOI17_train
+  - https://qoj.ac/problem/2758
 - name: The Big Prize
   number: 4
-  link: https://oj.uz/problem/view/IOI17_prize
+  links:
+  - https://oj.uz/problem/view/IOI17_prize
+  - https://qoj.ac/problem/2759
 - name: Simurgh
   number: 5
-  link: https://oj.uz/problem/view/IOI17_simurgh
+  links:
+  - https://oj.uz/problem/view/IOI17_simurgh
+  - https://qoj.ac/problem/2760
 - name: Ancient Books
   number: 6
-  link: https://oj.uz/problem/view/IOI17_books
+  links:
+  - https://oj.uz/problem/view/IOI17_books
+  - https://qoj.ac/problem/2761

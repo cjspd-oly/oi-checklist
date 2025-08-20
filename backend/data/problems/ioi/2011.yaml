@@ -1,18 +1,30 @@
 - name: Garden
   number: 1
-  link: https://oj.uz/problem/view/IOI11_garden
+  links:
+  - https://oj.uz/problem/view/IOI11_garden
+  - https://qoj.ac/problem/2001
 - name: Race
   number: 2
-  link: https://oj.uz/problem/view/IOI11_race
+  links:
+  - https://oj.uz/problem/view/IOI11_race
+  - https://qoj.ac/problem/2002
 - name: Rice Hub
   number: 3
-  link: https://oj.uz/problem/view/IOI11_ricehub
+  links:
+  - https://oj.uz/problem/view/IOI11_ricehub
+  - https://qoj.ac/problem/2003
 - name: Crocodile
   number: 4
-  link: https://oj.uz/problem/view/IOI11_crocodile
+  links:
+  - https://oj.uz/problem/view/IOI11_crocodile
+  - https://qoj.ac/problem/2004
 - name: Elephants
   number: 5
-  link: https://oj.uz/problem/view/IOI11_elephants
+  links:
+  - https://oj.uz/problem/view/IOI11_elephants
+  - https://qoj.ac/problem/2005
 - name: Parrots
   number: 6
-  link: https://oj.uz/problem/view/IOI11_parrots
+  links:
+  - https://oj.uz/problem/view/IOI11_parrots
+  - https://qoj.ac/problem/2006
