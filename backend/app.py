@@ -128,27 +128,27 @@ def update_user_settings():
 
 import ast
 
-def choose_link(links, preferred_platform=None):
+def choose_link(links, platform_pref=None):
     """links is a list of {platform, url} dicts."""
     if not links:
         return None
 
     show = len(links) > 1
 
-    # Normalize preferred_platform to a list
-    if preferred_platform:
-        if isinstance(preferred_platform, str):
+    # Normalize platform_pref to a list
+    if platform_pref:
+        if isinstance(platform_pref, str):
             try:
                 # Try to interpret it as a list-like string
-                parsed = ast.literal_eval(preferred_platform)
+                parsed = ast.literal_eval(platform_pref)
                 if isinstance(parsed, list):
-                    preferred_platform = parsed
+                    platform_pref = parsed
                 else:
-                    preferred_platform = [preferred_platform]
+                    platform_pref = [platform_pref]
             except (ValueError, SyntaxError):
-                preferred_platform = [preferred_platform]
+                platform_pref = [platform_pref]
 
-        for plat in preferred_platform:
+        for plat in platform_pref:
             for l in links:
                 if l['platform'] == plat:
                     return l['url']
@@ -179,7 +179,7 @@ def get_problems():
         "SELECT platform_pref FROM user_settings WHERE user_id = ?",
         (user_id,)
     ).fetchone()
-    preferred_platform = pref_row['platform_pref'] if pref_row and pref_row['platform_pref'] else None
+    platform_pref = pref_row['platform_pref'] if pref_row and pref_row['platform_pref'] else None
 
     placeholders = ', '.join(['?'] * len(from_names))
     problems_raw = db.execute(
@@ -225,7 +225,7 @@ def get_problems():
         problem.pop("id", None)
 
         links = links_by_pid.get(pid, [])
-        problem['link'] = choose_link(links, preferred_platform)
+        problem['link'] = choose_link(links, platform_pref)
         # to expose all links, add problem['links'] = links
 
         if 'extra' in row.keys() and row['extra'] is not None:
@@ -270,10 +270,10 @@ def get_user():
 
     # ---- get their platform setting ----
     pref_row = db.execute(
-        "SELECT preferred_platform FROM user_settings WHERE user_id = ?",
+        "SELECT platform_pref FROM user_settings WHERE user_id = ?",
         (user_id,)
     ).fetchone()
-    preferred_platform = pref_row['preferred_platform'] if pref_row and pref_row['preferred_platform'] else None
+    platform_pref = pref_row['platform_pref'] if pref_row and pref_row['platform_pref'] else None
 
     problems_by_category = {}
     if problems_list:
@@ -325,7 +325,7 @@ def get_user():
 
             # ---- attach chosen link ----
             links = links_by_pid.get(pid, [])
-            problem['link'] = choose_link(links, preferred_platform)
+            problem['link'] = choose_link(links, platform_pref)
 
             key = (problem['name'], problem['source'], problem['year'])
             if key in progress:
