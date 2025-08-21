@@ -1,12 +1,12 @@
-- name: Addition without Carry
-  number: 1
-  link: https://codeforces.com/gym/102154/problem/A
 - name: Decryption
-  number: 2
+  number: 1
   link: https://codeforces.com/gym/102154/problem/B
 - name: Quick Sort
-  number: 3
+  number: 2
   link: https://codeforces.com/gym/102154/problem/C
 - name: Robomaration
-  number: 4
+  number: 3
   link: https://codeforces.com/gym/102154/problem/D
+- name: Addition without Carry
+  number: 4
+  link: https://codeforces.com/gym/102154/problem/A

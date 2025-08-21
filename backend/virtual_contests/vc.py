@@ -47,6 +47,7 @@ def get_virtual_contests():
             cp.problem_source,
             cp.problem_year,
             cp.problem_number,
+            cp.problem_extra,
             cp.problem_index
         FROM contest_problems cp
         ORDER BY cp.contest_name, cp.contest_stage, cp.problem_index
@@ -93,12 +94,15 @@ def get_virtual_contests():
         contest_dict['problems'] = []
         for cp in contest_problems:
             if cp['contest_name'] == c['name'] and (cp['contest_stage'] == c['stage'] or (cp['contest_stage'] is None and c['stage'] is None)):
-                contest_dict['problems'].append({
+                p = {
                     'source': cp['problem_source'],
                     'year': cp['problem_year'],
                     'number': cp['problem_number'],
                     'index': cp['problem_index']
-                })
+                }
+                if cp['problem_extra'] is not None and cp['problem_extra'] != '':
+                    p['extra'] = cp['problem_extra']
+                contest_dict['problems'].append(p)
         
         contests_dict[source][year].append(contest_dict)
 

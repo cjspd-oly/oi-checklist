@@ -1630,6 +1630,18 @@
     box-shadow: 0 1px 3px rgba(205, 127, 50, 0.15);
 }
 
+.vc-history-item.medal-prizer {
+    border-left: 4px solid #007bff;
+    background-color: #eaf4ff;
+    transition: all 0.1s ease-out;
+}
+
+.vc-history-item.medal-prizer:hover {
+    background-color: #dbe9ff;
+    border-left-color: #3399ff;
+    box-shadow: 0 1px 3px rgba(0, 123, 255, 0.15);
+}
+
 /* Dark mode medal colors */
 .dark-mode .vc-history-item.medal-gold {
     background-color: #2a2618;
@@ -1662,6 +1674,17 @@
     background-color: #2f251a;
     border-left-color: #e49652;
     box-shadow: 0 1px 3px rgba(205, 127, 50, 0.1);
+}
+
+.dark-mode .vc-history-item.medal-prizer {
+    background-color: #1f2a3a;
+    border-left-color: #4ea1f3;
+}
+
+.dark-mode .vc-history-item.medal-prizer:hover {
+    background-color: #233040;
+    border-left-color: #6bb6ff;
+    box-shadow: 0 1px 3px rgba(78, 161, 243, 0.1);
 }
 
 .vc-history-item-header {
@@ -2038,6 +2061,11 @@
     background-color: #fdf9f0;
 }
 
+.vc-detail-main.medal-prizer {
+    border-left: 4px solid #007bff;
+    background-color: #eaf4ff;
+}
+
 .vc-detail-header-section {
     display: flex;
     justify-content: space-between;
@@ -2092,6 +2120,10 @@
 
 .vc-detail-medal-ribbon.medal-bronze {
     background-color: #8B4513;
+}
+
+.vc-detail-medal-ribbon.medal-prizer {
+    background-color: #007bff;
 }
 
 .vc-detail-summary {
@@ -2482,6 +2514,11 @@
 .dark-mode .vc-detail-main.medal-bronze {
     background-color: #2a2018;
     border-left-color: #cd7f32;
+}
+
+.dark-mode .vc-detail-main.medal-prizer {
+    background-color: #1f2a3a;
+    border-left-color: #4ea1f3;
 }
 
 .dark-mode .vc-detail-summary,
