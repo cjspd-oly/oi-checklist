@@ -399,7 +399,7 @@ def update_ojuz_scores():
     # Step 1: Fetch all oj.uz problems + current progress
     sources = [
         'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
-        'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO'
+        'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL', 'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO', 'ROI'
     ]
     placeholders = ', '.join(['?'] * len(sources))
 
