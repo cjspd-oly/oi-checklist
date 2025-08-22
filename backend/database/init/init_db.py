@@ -8,6 +8,9 @@ db_path = os.getenv("DATABASE_PATH", "database.db")  # fallback to "database.db"
 conn = sqlite3.connect(db_path)
 c = conn.cursor()
 
+# Always enforce FKs
+c.execute('PRAGMA foreign_keys = ON;')
+
 c.execute('''CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
@@ -106,7 +109,8 @@ CREATE TABLE contests (
     website TEXT,
     link TEXT,
     notes TEXT,
-    PRIMARY KEY(name, stage)
+    PRIMARY KEY(name, stage),
+    CHECK (stage IS NULL OR TRIM(stage) <> '')
 )''')
 
 c.execute('''CREATE TABLE contest_scores (
@@ -177,6 +181,13 @@ CREATE TABLE active_virtual_contests (
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(contest_name, contest_stage) REFERENCES contests(name, stage) ON DELETE CASCADE
 )''')
+
+# Make sure (name, null) contest is treated as unique (NULL != NULL in sql)
+c.execute('''
+CREATE UNIQUE INDEX uq_contests_name_nullstage
+ON contests(name)
+WHERE stage IS NULL;
+''')
 
 conn.commit()
 conn.close()

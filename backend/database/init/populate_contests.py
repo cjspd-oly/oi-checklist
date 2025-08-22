@@ -40,7 +40,8 @@ cur = conn.cursor()
 
 # Enforce FKs
 cur.execute("PRAGMA foreign_keys = ON;")
-conn.isolation_level = None  # manual transactions
+# Manual transactions
+conn.isolation_level = None
 
 def normalize_extra(val):
     if val is None:
@@ -49,14 +50,31 @@ def normalize_extra(val):
         return None
     return val
 
+def normalize_stage(val):
+    if val is None:
+        return None
+    s = str(val).strip()
+    return None if s == "" else s
+
 def delete_children_for_contest(name, stage):
-    # Delete problems & scores ONLY for this (name, stage)
     if stage is None:
-        cur.execute("DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage IS NULL", (name,))
-        cur.execute("DELETE FROM contest_scores   WHERE contest_name = ? AND contest_stage IS NULL", (name,))
+        cur.execute(
+            "DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage IS NULL",
+            (name,),
+        )
+        cur.execute(
+            "DELETE FROM contest_scores WHERE contest_name = ? AND contest_stage IS NULL",
+            (name,),
+        )
     else:
-        cur.execute("DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage = ?", (name, stage))
-        cur.execute("DELETE FROM contest_scores   WHERE contest_name = ? AND contest_stage = ?", (name, stage))
+        cur.execute(
+            "DELETE FROM contest_problems WHERE contest_name = ? AND contest_stage = ?",
+            (name, stage),
+        )
+        cur.execute(
+            "DELETE FROM contest_scores WHERE contest_name = ? AND contest_stage = ?",
+            (name, stage),
+        )
 
 try:
     cur.execute("BEGIN;")
@@ -65,40 +83,71 @@ try:
         name   = contest["name"]
         source = contest["source"]
         year   = contest["year"]
-        stage  = contest.get("stage")  # may be None
+        stage  = normalize_stage(contest.get("stage"))  # None or trimmed string
 
-        # 1) Upsert the contests row (do NOT delete the table!)
-        cur.execute(
-            """
-            INSERT INTO contests (
-                name, stage, location, duration_minutes, source, year,
-                date, website, link, notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(name, stage) DO UPDATE SET
-                location         = excluded.location,
-                duration_minutes = excluded.duration_minutes,
-                source           = excluded.source,
-                year             = excluded.year,
-                date             = excluded.date,
-                website          = excluded.website,
-                link             = excluded.link,
-                notes            = excluded.notes
-            """,
-            (
-                name,
-                stage,
-                contest.get("location"),
-                contest.get("duration_minutes"),
-                source,
-                year,
-                contest.get("date"),
-                contest.get("website"),
-                contest.get("link"),
-                contest.get("notes"),
-            ),
-        )
+        # 1) Upsert contests
+        if stage is None:
+            # Uses partial unique index uq_contests_name_nullstage
+            cur.execute(
+                """
+                INSERT INTO contests (
+                    name, stage, location, duration_minutes, source, year,
+                    date, website, link, notes
+                ) VALUES (?, NULL, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(name) WHERE stage IS NULL DO UPDATE SET
+                    location         = excluded.location,
+                    duration_minutes = excluded.duration_minutes,
+                    source           = excluded.source,
+                    year             = excluded.year,
+                    date             = excluded.date,
+                    website          = excluded.website,
+                    link             = excluded.link,
+                    notes            = excluded.notes
+                """,
+                (
+                    name,
+                    contest.get("location"),
+                    contest.get("duration_minutes"),
+                    source,
+                    year,
+                    contest.get("date"),
+                    contest.get("website"),
+                    contest.get("link"),
+                    contest.get("notes"),
+                ),
+            )
+        else:
+            cur.execute(
+                """
+                INSERT INTO contests (
+                    name, stage, location, duration_minutes, source, year,
+                    date, website, link, notes
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(name, stage) DO UPDATE SET
+                    location         = excluded.location,
+                    duration_minutes = excluded.duration_minutes,
+                    source           = excluded.source,
+                    year             = excluded.year,
+                    date             = excluded.date,
+                    website          = excluded.website,
+                    link             = excluded.link,
+                    notes            = excluded.notes
+                """,
+                (
+                    name,
+                    stage,
+                    contest.get("location"),
+                    contest.get("duration_minutes"),
+                    source,
+                    year,
+                    contest.get("date"),
+                    contest.get("website"),
+                    contest.get("link"),
+                    contest.get("notes"),
+                ),
+            )
 
-        # 2) Replace the children rows for THIS contest only
+        # 2) Replace children rows for THIS contest only
         delete_children_for_contest(name, stage)
 
         # 3) Insert problems for the contest
@@ -114,26 +163,18 @@ try:
                 """,
                 (
                     name,
-                    stage,
+                    stage,  # may be None; FK matches NULL correctly
                     p["source"],
                     p["year"],
                     p["number"],
-                    problem_extra,  # may be NULL
+                    problem_extra,
                     i,
                 ),
             )
 
-        # (Pretty-print/debug: which file this came from)
-        if stage is None:
-            rel_path = Path("data") / "contests" / source.lower() / f"{year}.yaml"
-        else:
-            rel_path = Path("data") / "contests" / source.lower() / str(year) / f"{stage.replace(' ', '_')}.yaml"
-        yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
-
         # 4) Insert contest_scores (if present)
         scores_data = contest.get("scores")
         if scores_data:
-            # order by numeric key
             problem_keys = sorted(scores_data.keys(), key=int)
             problem_scores = [scores_data[k] for k in problem_keys]
 
@@ -158,8 +199,18 @@ try:
                         json.dumps(problem_scores),
                     ),
                 )
-    cur.execute("COMMIT;")
 
+        # (Pretty-print/debug: record YAML origin)
+        if stage is None:
+            rel_path = Path("data") / "contests" / source.lower() / f"{year}.yaml"
+        else:
+            rel_path = Path("data") / "contests" / source.lower() / str(year) / f"{stage.replace(' ', '_')}.yaml"
+        yaml_files_by_dir[str(rel_path.parent)].add(rel_path.name)
+
+    cur.execute("COMMIT;")
+except Exception:
+    cur.execute("ROLLBACK;")
+    raise
 finally:
     conn.close()
 
