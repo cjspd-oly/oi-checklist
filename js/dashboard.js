@@ -1070,10 +1070,9 @@ async function loadProblems(from) {
   table.appendChild(tbody);
 }
 
-function loadProblemsWithDay(source, numDays) {
+function loadProblemsWithDay(source, numDays, problemsPerDay = 3) {
   const yearMap = cachedProblemsData[source] || {};
-  const container =
-    document.getElementById(`${source.toLowerCase()}-container`);
+  const container = document.getElementById(`${source.toLowerCase()}-container`);
   const table = container.querySelector('table');
   table.innerHTML = '';
 
@@ -1104,8 +1103,9 @@ function loadProblemsWithDay(source, numDays) {
       dayCell.textContent = `Day ${day + 1}`;
       dayRow.appendChild(dayCell);
 
-      for (let i = 1; i <= 3; i++) {
-        const problem = problemMap[day * 3 + i];
+      for (let i = 1; i <= problemsPerDay; i++) {
+        const problemIndex = day * problemsPerDay + i;
+        const problem = problemMap[problemIndex];
         const cell = document.createElement('td');
         cell.className = 'problem-cell';
 
@@ -1116,8 +1116,7 @@ function loadProblemsWithDay(source, numDays) {
             count.update(status.className, 1);
             count.updateSection(source.toLowerCase(), status.className, 1);
 
-            // Also update the parent USACO container if this is a USACO
-            // division
+            // Also update the parent USACO container if this is a USACO division
             if (source.startsWith('USACO')) {
               count.updateSection('usaco', status.className, 1);
             }
@@ -1156,8 +1155,8 @@ function loadProblemsWithDay(source, numDays) {
       }
 
       const hasProblem = [...dayRow.children].some(
-        td =>
-          td.classList.contains('problem-cell') && td.children.length > 0);
+        td => td.classList.contains('problem-cell') && td.children.length > 0
+      );
       if (hasProblem) {
         tbody.appendChild(dayRow);
       }
@@ -1358,6 +1357,8 @@ window.onload = async () => {
           loadProblemsWithDay('JOISC', 4);
         else if (src === 'IOITC')
           loadProblemsWithDay('IOITC', 3);
+        else if (src === 'EGOI')
+          loadProblemsWithDay('EGOI', 2, 4);
         else
           loadProblems(src);
       }
