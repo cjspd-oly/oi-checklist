@@ -84,6 +84,7 @@ The checklist supports a wide range of Olympiads in Informatics:
   * Open Contest
 * European Girls' Olympiad in Informatics (EGOI)
 * European Junior Olympiad in Informatics (EJOI)
+* International Zhautykov Olympiad (IZHO)
 * Polish Olympiad in Informatics (POI)
 * Baltic Olympiad in Informatics (BOI)
 
