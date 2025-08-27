@@ -1414,6 +1414,8 @@ window.onload = async () => {
           loadProblemsWithDay('JOISC', 4);
         else if (src === 'IOITC')
           loadProblemsWithDay('IOITC', 3);
+        else if (src === 'EGOI')
+          loadProblemsWithDay('EGOI', 2, 4);
         else
           loadProblems(src);
       }

@@ -85,6 +85,7 @@ CREATE TABLE user_settings (
     platform_pref TEXT,
     hidden TEXT DEFAULT NULL,
     local_storage TEXT DEFAULT NULL,
+    platform_usernames TEXT DEFAULT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 ''')
@@ -175,11 +176,17 @@ CREATE TABLE active_virtual_contests (
     contest_stage TEXT,
     start_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP,
-    ojuz_synced BOOLEAN NOT NULL DEFAULT 0,
+    autosynced BOOLEAN NOT NULL DEFAULT 0,
     score REAL,
     per_problem_scores TEXT,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY(contest_name, contest_stage) REFERENCES contests(name, stage) ON DELETE CASCADE
+)''')
+
+c.execute('''
+CREATE TABLE scraper_auth_tokens (
+    platform TEXT NOT NULL,
+    token TEXT NOT NULL       
 )''')
 
 # Make sure (name, null) contest is treated as unique (NULL != NULL in sql)

@@ -3,28 +3,34 @@ window.onload = async () => {
   let res = await fetch(`${apiUrl}/api/whoami`, {
     method: 'GET',
     credentials: 'include',
-    headers: {'Authorization': `Bearer ${sessionToken}`}
+    headers: { 'Authorization': `Bearer ${sessionToken}` }
   });
 
   if (!res.ok) return window.location.href = 'home';
 
-  const {username} = await res.json();
+  const { username } = await res.json();
+  // Store username globally
+  window.currentUsername = username;
   document.getElementById('welcome-message').textContent =
-      `Welcome, ${username}`;
+    `Welcome, ${username}`;
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const connectButtons = document.querySelectorAll('.connect-button');
   connectButtons.forEach(button => {
     const card = button.closest('.connection-card');
-    const providerName = card?.querySelector('.connection-name')
-                             ?.textContent?.trim()
-                             ?.toLowerCase();
+    const rawName =
+      (card?.dataset?.provider) ||
+      (card?.querySelector('.connection-name')?.textContent) ||
+      '';
+    const providerName = rawName.trim().toLowerCase();
 
     if (providerName === 'github') {
       button.addEventListener('click', () => handleGithubClick());
     } else if (providerName === 'oj.uz') {
       button.addEventListener('click', () => showOjuzPopup());
+    } else if (providerName === 'qoj.ac') {
+      button.addEventListener('click', () => showQojPopup());
     } else if (providerName === 'discord') {
       button.addEventListener('click', () => handleDiscordClick());
     } else if (providerName === 'google') {
@@ -33,17 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById('submit-cookie-button')
-      ?.addEventListener('click', onSubmitOjuzCookie);
+    ?.addEventListener('click', onSubmitOjuzCookie);
 });
 
 function closeProviderPopup() {
   const popup = document.getElementById('provider-popup');
   popup.classList.remove('active');
-  popup.addEventListener('transitionend', function() {
+  popup.addEventListener('transitionend', function () {
     if (!popup.classList.contains('active')) {
       popup.style.display = 'none';
     }
-  }, {once: true});
+  }, { once: true });
 }
 
 function showProviderPopup(title, contentHTML) {
@@ -58,28 +64,103 @@ function showProviderPopup(title, contentHTML) {
   setTimeout(() => popup.classList.add('active'), 10);
 }
 
+// Fetch user settings helper for username
+async function fetchUserSettings(username) {
+  try {
+    const res = await fetch(`${apiUrl}/api/user-settings?username=${encodeURIComponent(username)}`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    console.error('Failed to fetch user settings:', e);
+    return null;
+  }
+}
+
 function showOjuzPopup() {
   showProviderPopup('Connect to oj.uz', `
-      <p>
-        Connect your <strong>oj.uz</strong> account to automatically update your OI checklist.
-      </p>
-      <p>
-        This performs a <strong>one-time fetch</strong> of your solved problems to sync them with your checklist.
-      </p>
-      <p>
-        Please log in to oj.uz in your browser, and paste the following cookie value here:
-      </p>
-      <div class="cookie-instruction">
-        <code>Type: COOKIE &nbsp;&nbsp; Domain: oj.uz &nbsp;&nbsp; Name: oidc-auth</code>
+      <div class="tab-switcher">
+        <button id="ojuz-tab-cookie" class="tab active">Link via cookie</button>
+        <button id="ojuz-tab-username" class="tab">Username only</button>
       </div>
-      <input type="text" class="cookie-input" id="oidc-input"
-        placeholder="Paste your 'oidc-auth' cookie value here" required>
-      <div id="popup-message"></div>
-      <button class="primary-button" id="submit-cookie-button">Submit</button>
+      <div id="ojuz-cookie-pane">
+        <p>
+          Connect your <strong>oj.uz</strong> account to automatically update your OI checklist.
+        </p>
+        <p>
+          This performs a <strong>one-time fetch</strong> of your solved problems to sync them with your checklist.
+        </p>
+        <p>
+          Please log in to oj.uz in your browser, and paste the following cookie value here:
+        </p>
+        <div class="cookie-instruction">
+          <code>Type: COOKIE &nbsp;&nbsp; Domain: oj.uz &nbsp;&nbsp; Name: oidc-auth</code>
+        </div>
+        <input type="text" class="cookie-input" id="oidc-input"
+          placeholder="Paste your 'oidc-auth' cookie value here" required>
+        <div id="popup-message-cookie" class="popup-inline-message"></div>
+        <button class="primary-button" id="submit-cookie-button">Submit</button>
+      </div>
+      <div id="ojuz-username-pane" style="display:none;">
+        <p>Optionally, just set your oj.uz username.</p>
+        <div class="ojuz-section" id="ojuz-section" style="display: block;">
+          <div class="form-row">
+            <label for="ojuz-username">oj.uz Username</label>
+            <input type="text" id="ojuz-username" class="vc-input" placeholder="Enter your oj.uz username">
+          </div>
+          <div class="form-note" id="ojuz-username-note">Not set yet.</div>
+        </div>
+        <div id="popup-message-username" class="popup-inline-message"></div>
+        <button class="primary-button" id="submit-ojuz-username-button">Submit</button>
+      </div>
     `);
 
+  const tabCookie = document.getElementById('ojuz-tab-cookie');
+  const tabUsername = document.getElementById('ojuz-tab-username');
+  const paneCookie = document.getElementById('ojuz-cookie-pane');
+  const paneUsername = document.getElementById('ojuz-username-pane');
+
+  function activate(tab) {
+    if (tab === 'cookie') {
+      tabCookie.classList.add('active');
+      tabUsername.classList.remove('active');
+      paneCookie.style.display = '';
+      paneUsername.style.display = 'none';
+    } else {
+      tabUsername.classList.add('active');
+      tabCookie.classList.remove('active');
+      paneUsername.style.display = '';
+      paneCookie.style.display = 'none';
+    }
+  }
+
+  tabCookie.addEventListener('click', () => activate('cookie'));
+  tabUsername.addEventListener('click', () => activate('username'));
+
   document.getElementById('submit-cookie-button')
-      .addEventListener('click', onSubmitOjuzCookie);
+    .addEventListener('click', onSubmitOjuzCookie);
+
+  document.getElementById('submit-ojuz-username-button')
+    .addEventListener('click', onSubmitOjuzUsername);
+
+  // Load and display any saved oj.uz username for the current user
+  (async () => {
+    try {
+      const uname = window.currentUsername;
+      if (!uname) return;
+      const settings = await fetchUserSettings(uname);
+      const existing = settings && settings.platform_usernames && settings.platform_usernames['oj.uz'];
+      const input = document.getElementById('ojuz-username');
+      const note = document.getElementById('ojuz-username-note');
+      if (existing) {
+        if (input) input.value = existing;
+        if (note) note.textContent = `Currently set to @${existing}`;
+      } else {
+        if (note) note.textContent = 'Not set yet.';
+      }
+    } catch (e) {
+      console.error('Failed to load saved oj.uz username', e);
+    }
+  })();
 }
 
 async function handleGithubClick() {
@@ -353,7 +434,7 @@ function showGithubError(message) {
   messageBox.style.display = 'block';
   messageBox.textContent = message;
   messageBox.style.color =
-      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
       'black' :
       'white';
 }
@@ -364,7 +445,7 @@ function showDiscordError(message) {
   messageBox.style.display = 'block';
   messageBox.textContent = message;
   messageBox.style.color =
-      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
       'black' :
       'white';
 }
@@ -375,7 +456,7 @@ function showGoogleError(message) {
   messageBox.style.display = 'block';
   messageBox.textContent = message;
   messageBox.style.color =
-      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
       'black' :
       'white';
 }
@@ -384,11 +465,11 @@ async function onSubmitOjuzCookie(e) {
   e.preventDefault();
 
   const oidcAuth = document.getElementById('oidc-input').value.trim();
-  const messageBox = document.getElementById('popup-message');
+  const messageBox = document.getElementById('popup-message-cookie');
   messageBox.style.display = 'block';
   messageBox.textContent = 'Validating cookie...';
   messageBox.style.color =
-      (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
       'black' :
       'white';
 
@@ -413,7 +494,7 @@ async function onSubmitOjuzCookie(e) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${sessionToken}`
       },
-      body: JSON.stringify({cookie: oidcAuth})
+      body: JSON.stringify({ cookie: oidcAuth })
     });
 
     if (!verifyRes.ok) {
@@ -425,8 +506,7 @@ async function onSubmitOjuzCookie(e) {
 
     const verifyResult = await verifyRes.json();
     if (verifyResult.valid) {
-      messageBox.textContent = `Cookie is valid. Username: ${
-          verifyResult.username}. Your problems will be updated shortly.`;
+      messageBox.textContent = `Cookie is valid. Username: ${verifyResult.username}. Your problems will be updated shortly.`;
       messageBox.style.color = 'green';
 
       fetch(`${apiUrl}/api/update-ojuz`, {
@@ -436,15 +516,15 @@ async function onSubmitOjuzCookie(e) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${sessionToken}`
         },
-        body: JSON.stringify({cookie: oidcAuth})
+        body: JSON.stringify({ cookie: oidcAuth })
       })
-          .then(res => res.json())
-          .then(result => {
-            console.log('Problems updated in the background.');
-          })
-          .catch(err => {
-            console.error('Error updating problems in the background:', err);
-          });
+        .then(res => res.json())
+        .then(result => {
+          console.log('Problems updated in the background.');
+        })
+        .catch(err => {
+          console.error('Error updating problems in the background:', err);
+        });
     } else {
       messageBox.textContent = `Invalid cookie. Please check and try again.`;
       messageBox.style.color = 'red';
@@ -452,7 +532,297 @@ async function onSubmitOjuzCookie(e) {
   } catch (err) {
     console.error(err);
     messageBox.textContent =
-        'Something went wrong while validating the cookie.';
+      'Something went wrong while validating the cookie.';
+    messageBox.style.color = 'red';
+  }
+}
+
+// Handler for saving oj.uz username only (merge-based update)
+async function onSubmitOjuzUsername(e) {
+  e.preventDefault();
+  const username = document.getElementById('ojuz-username').value.trim();
+  const messageBox = document.getElementById('popup-message-username');
+  messageBox.style.display = 'block';
+  messageBox.textContent = 'Saving username...';
+  messageBox.style.color =
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ?
+      'black' :
+      'white';
+
+  if (!username) {
+    messageBox.textContent = 'Please enter your oj.uz username.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  const sessionToken = localStorage.getItem('sessionToken');
+  if (!sessionToken) {
+    messageBox.textContent = 'You are not logged in.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  try {
+    // 1) Read current platform_usernames via GET /api/user-settings?username=...
+    const uname = window.currentUsername;
+    let current = {};
+    if (uname) {
+      const settings = await fetchUserSettings(uname);
+      if (settings && settings.platform_usernames && typeof settings.platform_usernames === 'object') {
+        current = { ...settings.platform_usernames };
+      }
+    }
+
+    // 2) Modify only the oj.uz field
+    current['oj.uz'] = username;
+
+    // 3) Send back the merged object as a JSON string in platform_usernames
+    const res = await fetch(`${apiUrl}/api/user-settings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
+      },
+      body: JSON.stringify({ platform_usernames: JSON.stringify(current) })
+    });
+
+    const body = await res.json();
+    if (!res.ok || body.success !== true) {
+      messageBox.textContent = (body && (body.error || body.message)) || 'Failed to save username.';
+      messageBox.style.color = 'red';
+      return;
+    }
+
+    messageBox.textContent = 'oj.uz username saved.';
+    messageBox.style.color = 'green';
+    setTimeout(closeProviderPopup, 800);
+  } catch (err) {
+    console.error(err);
+    messageBox.textContent = 'Unexpected error saving username.';
+    messageBox.style.color = 'red';
+  }
+}
+
+// QOJ connection popup and handlers
+function showQojPopup() {
+  showProviderPopup('Connect to qoj.ac', `
+      <div class="tab-switcher">
+        <button id="qoj-tab-cookie" class="tab active">Link via cookie</button>
+        <button id="qoj-tab-username" class="tab">Username only</button>
+      </div>
+      <div id="qoj-cookie-pane">
+        <p>
+          Connect your <strong>qoj.ac</strong> account to automatically update your OI checklist.
+        </p>
+        <p>
+          This performs a <strong>one-time fetch</strong> of your solved problems to sync them with your checklist.
+        </p>
+        <p>
+          Please log in to qoj.ac in your browser, and paste the following cookie value here:
+        </p>
+        <div class="cookie-instruction">
+          <code>Type: COOKIE &nbsp;&nbsp; Domain: qoj.ac &nbsp;&nbsp; Name: UOJSESSID</code>
+        </div>
+        <input type="text" class="cookie-input" id="qoj-cookie-input"
+          placeholder="Paste your 'UOJSESSID' cookie value here" required>
+        <div id="popup-message-qoj-cookie" class="popup-inline-message"></div>
+        <button class="primary-button" id="submit-qoj-cookie-button">Submit</button>
+      </div>
+      <div id="qoj-username-pane" style="display:none;">
+        <p>Optionally, just set your qoj.ac username.</p>
+        <div class="qoj-section" id="qoj-section" style="display: block;">
+          <div class="form-row">
+            <label for="qoj-username">qoj.ac Username</label>
+            <input type="text" id="qoj-username" class="vc-input" placeholder="Enter your qoj.ac username">
+          </div>
+          <div class="form-note" id="qoj-username-note">Not set yet.</div>
+        </div>
+        <div id="popup-message-qoj-username" class="popup-inline-message"></div>
+        <button class="primary-button" id="submit-qoj-username-button">Submit</button>
+      </div>
+    `);
+
+  const tabCookie = document.getElementById('qoj-tab-cookie');
+  const tabUsername = document.getElementById('qoj-tab-username');
+  const paneCookie = document.getElementById('qoj-cookie-pane');
+  const paneUsername = document.getElementById('qoj-username-pane');
+
+  function activate(tab) {
+    if (tab === 'cookie') {
+      tabCookie.classList.add('active');
+      tabUsername.classList.remove('active');
+      paneCookie.style.display = '';
+      paneUsername.style.display = 'none';
+    } else {
+      tabUsername.classList.add('active');
+      tabCookie.classList.remove('active');
+      paneUsername.style.display = '';
+      paneCookie.style.display = 'none';
+    }
+  }
+
+  tabCookie.addEventListener('click', () => activate('cookie'));
+  tabUsername.addEventListener('click', () => activate('username'));
+
+  document.getElementById('submit-qoj-cookie-button')
+    .addEventListener('click', onSubmitQojCookie);
+
+  document.getElementById('submit-qoj-username-button')
+    .addEventListener('click', onSubmitQojUsername);
+
+  // Load and display any saved QOJ username for the current user
+  (async () => {
+    try {
+      const uname = window.currentUsername;
+      if (!uname) return;
+      const settings = await fetchUserSettings(uname);
+      const existing = settings && settings.platform_usernames && settings.platform_usernames['qoj.ac'];
+      const input = document.getElementById('qoj-username');
+      const note = document.getElementById('qoj-username-note');
+      if (existing) {
+        if (input) input.value = existing;
+        if (note) note.textContent = `Currently set to @${existing}`;
+      } else {
+        if (note) note.textContent = 'Not set yet.';
+      }
+    } catch (e) {
+      console.error('Failed to load saved qoj username', e);
+    }
+  })();
+}
+
+async function onSubmitQojCookie(e) {
+  e.preventDefault();
+
+  const cookieVal = document.getElementById('qoj-cookie-input').value.trim();
+  const messageBox = document.getElementById('popup-message-qoj-cookie');
+  messageBox.style.display = 'block';
+  messageBox.textContent = 'Validating cookie...';
+  messageBox.style.color =
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ? 'black' : 'white';
+
+  if (!cookieVal) {
+    messageBox.textContent = 'Please paste your qoj.ac session cookie value.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  const sessionToken = localStorage.getItem('sessionToken');
+  if (!sessionToken) {
+    messageBox.textContent = 'You are not logged in.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  try {
+    const verifyRes = await fetch(`${apiUrl}/api/verify-qoj`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
+      },
+      body: JSON.stringify({ cookie: cookieVal })
+    });
+
+    if (!verifyRes.ok) {
+      const text = await verifyRes.text();
+      messageBox.textContent = `Cookie validation failed: ${text}`;
+      messageBox.style.color = 'red';
+      return;
+    }
+
+    const verifyResult = await verifyRes.json();
+    if (verifyResult.valid) {
+      messageBox.textContent = `Cookie is valid. Username: ${verifyResult.username}. Your problems will be updated shortly.`;
+      messageBox.style.color = 'green';
+
+      fetch(`${apiUrl}/api/update-qoj`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify({ cookie: cookieVal })
+      })
+        .then(res => res.json())
+        .then(result => {
+          console.log('QOJ problems update triggered.');
+        })
+        .catch(err => {
+          console.error('Error updating QOJ problems:', err);
+        });
+    } else {
+      messageBox.textContent = `Invalid cookie. Please check and try again.`;
+      messageBox.style.color = 'red';
+    }
+  } catch (err) {
+    console.error(err);
+    messageBox.textContent = 'Something went wrong while validating the cookie.';
+    messageBox.style.color = 'red';
+  }
+}
+
+async function onSubmitQojUsername(e) {
+  e.preventDefault();
+  const username = document.getElementById('qoj-username').value.trim();
+  const messageBox = document.getElementById('popup-message-qoj-username');
+  messageBox.style.display = 'block';
+  messageBox.textContent = 'Saving username...';
+  messageBox.style.color =
+    (localStorage.getItem('theme') || 'light-mode') === 'light-mode' ? 'black' : 'white';
+
+  if (!username) {
+    messageBox.textContent = 'Please enter your qoj.ac username.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  const sessionToken = localStorage.getItem('sessionToken');
+  if (!sessionToken) {
+    messageBox.textContent = 'You are not logged in.';
+    messageBox.style.color = 'red';
+    return;
+  }
+
+  try {
+    // 1) Read current platform_usernames via GET /api/user-settings?username=...
+    const uname = window.currentUsername;
+    let current = {};
+    if (uname) {
+      const settings = await fetchUserSettings(uname);
+      if (settings && settings.platform_usernames && typeof settings.platform_usernames === 'object') {
+        current = { ...settings.platform_usernames };
+      }
+    }
+
+    // 2) Modify only the qoj.ac field
+    current['qoj.ac'] = username;
+
+    // 3) Send back the merged object as a JSON string in platform_usernames
+    const res = await fetch(`${apiUrl}/api/user-settings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`
+      },
+      body: JSON.stringify({ platform_usernames: JSON.stringify(current) })
+    });
+
+    const body = await res.json();
+    if (!res.ok || body.success !== true) {
+      messageBox.textContent = (body && (body.error || body.message)) || 'Failed to save username.';
+      messageBox.style.color = 'red';
+      return;
+    }
+
+    messageBox.textContent = 'qoj.ac username saved.';
+    messageBox.style.color = 'green';
+    setTimeout(closeProviderPopup, 800);
+  } catch (err) {
+    console.error(err);
+    messageBox.textContent = 'Unexpected error saving username.';
     messageBox.style.color = 'red';
   }
 }

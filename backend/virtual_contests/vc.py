@@ -4,6 +4,8 @@ from flask import request, jsonify
 from datetime import timedelta, datetime
 from database.db import get_db
 from scrape.ojuz import sync_ojuz_submissions
+from scrape.qoj import sync_qoj_submissions
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def get_virtual_contests():
     user_id = request.user_id
@@ -16,7 +18,7 @@ def get_virtual_contests():
             avc.contest_stage,
             avc.start_time,
             avc.end_time,
-            avc.ojuz_synced,
+            avc.autosynced,
             c.duration_minutes,
             c.location,
             c.website,
@@ -156,6 +158,7 @@ def get_virtual_contest_history():
 def start_virtual_contest():
     user_id = request.user_id
     data = request.get_json()
+    autosynced_flag = 1 if bool(data.get('autosynced')) else 0
     
     contest_name = data.get('contest_name')
     contest_stage = data.get('contest_stage')  # This can be None/null now
@@ -210,19 +213,35 @@ def start_virtual_contest():
     utc_now = datetime.now(pytz.UTC).isoformat()
     db.execute('''
         INSERT INTO active_virtual_contests 
-        (user_id, contest_name, contest_stage, start_time)
-        VALUES (?, ?, ?, ?)
-    ''', (user_id, contest_name, contest_stage, utc_now))
+        (user_id, contest_name, contest_stage, start_time, autosynced)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (user_id, contest_name, contest_stage, utc_now, autosynced_flag))
     
     db.commit()
     return jsonify({'success': True})
 
 def end_virtual_contest():
     user_id = request.user_id
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     
-    # Get optional oj.uz username for auto-sync
-    ojuz_username = data.get('ojuz_username')
+    # Determine oj.uz username from database settings instead of request
+    ojuz_username = None
+    try:
+        db_for_username = get_db()
+        row = db_for_username.execute(
+            "SELECT platform_usernames FROM user_settings WHERE user_id = ?",
+            (user_id,)
+        ).fetchone()
+        if row and row['platform_usernames']:
+            try:
+                usernames = json.loads(row['platform_usernames'])
+                if isinstance(usernames, dict):
+                    ojuz_username = usernames.get('oj.uz') or usernames.get('ojuz') or None
+            except Exception:
+                pass
+    except Exception:
+        # If any issue occurs, fall back to no username (no sync)
+        ojuz_username = None
     
     db = get_db()
     
@@ -232,11 +251,15 @@ def end_virtual_contest():
             avc.contest_name, 
             avc.contest_stage, 
             avc.start_time,
+            avc.autosynced,
             c.duration_minutes
         FROM active_virtual_contests avc
         JOIN contests c ON avc.contest_name = c.name AND (avc.contest_stage = c.stage OR (avc.contest_stage IS NULL AND c.stage IS NULL))
         WHERE avc.user_id = ?
     ''', (user_id,)).fetchone()
+
+    if active_contest:
+        active_contest = dict(active_contest)
     
     if not active_contest:
         return jsonify({'error': 'No active contest found'}), 404
@@ -270,33 +293,129 @@ def end_virtual_contest():
         'end_time': capped_end_time_iso
     }
     
-    # Handle oj.uz sync if username provided (after contest is officially ended)
+    # Handle autosync across multiple platforms (oj.uz, qoj.ac) if autosynced is true
     submissions = []
     final_scores = []
-    if ojuz_username:
+
+    if active_contest.get('autosynced', False):
+        # Resolve usernames from user_settings
+        platform_usernames = {}
         try:
-            submissions = sync_ojuz_submissions(active_contest_with_end, ojuz_username)
-            # Extract just the scores for the final scores array
-            final_scores = [sub['score'] for sub in sorted(submissions, key=lambda x: x['problem_index'])]
-            total_score = sum(final_scores)
-            
-            # Mark this contest as oj.uz synced and save scores to prevent manual score manipulation
-            if submissions is not None:
-                db.execute('''
-                    UPDATE active_virtual_contests 
-                    SET ojuz_synced = 1, score = ?, per_problem_scores = ?
-                    WHERE user_id = ?
-                ''', (total_score, json.dumps(final_scores), user_id))
-                db.commit()
-        except Exception as e:
-            print(f"Error syncing oj.uz submissions: {e}")
-            # Continue anyway - contest is already ended
-    
+            db_for_username = get_db()
+            row = db_for_username.execute(
+                "SELECT platform_usernames FROM user_settings WHERE user_id = ?",
+                (user_id,)
+            ).fetchone()
+            if row and row['platform_usernames']:
+                try:
+                    platform_usernames = json.loads(row['platform_usernames'])
+                    if not isinstance(platform_usernames, dict):
+                        platform_usernames = {}
+                except Exception:
+                    platform_usernames = {}
+        except Exception:
+            platform_usernames = {}
+
+        # Map of supported platforms to their sync functions
+        sync_funcs = {
+            'oj.uz': (sync_ojuz_submissions, platform_usernames.get('oj.uz')),
+            'qoj.ac': (sync_qoj_submissions, platform_usernames.get('qoj.ac')),
+        }
+
+        # Kick off parallel syncs for platforms that have a username configured
+        futures = []
+        with ThreadPoolExecutor(max_workers=len(sync_funcs)) as executor:
+            for plat, (fn, uname) in sync_funcs.items():
+                if uname:
+                    futures.append(executor.submit(fn, active_contest_with_end, uname))
+
+            # Collect results as they complete
+            for fut in as_completed(futures):
+                try:
+                    res = fut.result() or []
+                    if isinstance(res, list):
+                        submissions.extend(res)
+                except Exception as e:
+                    print(f"Error syncing submissions: {e}")
+
+        # Compute per-problem final scores by maxing **per-subtask** across all platforms
+        try:
+            # Get declared problems for this contest to shape the score array deterministically
+            contest_problems = db.execute('''
+                SELECT cp.problem_index
+                FROM contest_problems cp
+                WHERE cp.contest_name = ? AND (cp.contest_stage = ? OR (cp.contest_stage IS NULL AND ? IS NULL))
+                ORDER BY cp.problem_index
+            ''', (active_contest['contest_name'], active_contest['contest_stage'], active_contest['contest_stage'])).fetchall()
+            indices = [row['problem_index'] for row in contest_problems]
+        except Exception:
+            indices = []
+
+        if submissions and indices:
+            # For each problem index, keep the **element-wise max** of subtask scores
+            # If a submission has no subtask breakdown, treat it as a single subtask with the total score
+            from math import isfinite
+
+            def _normalize_scores(x):
+                # Return a list of floats for subtask scores
+                if isinstance(x, (list, tuple)):
+                    out = []
+                    for v in x:
+                        try:
+                            fv = float(v)
+                        except Exception:
+                            fv = 0.0
+                        out.append(fv if isfinite(fv) else 0.0)
+                    return out
+                # Fallback: single total score as one subtask
+                try:
+                    s = float(x)
+                except Exception:
+                    s = 0.0
+                return [s if isfinite(s) else 0.0]
+
+            best_subtasks = {idx: [] for idx in indices}
+
+            for sub in submissions:
+                try:
+                    idx = int(sub.get('problem_index'))
+                except Exception:
+                    continue
+                if idx not in best_subtasks:
+                    # Ignore submissions for indices not declared in this contest
+                    continue
+
+                # Prefer explicit subtask_scores; fallback to the total score
+                sts = sub.get('subtask_scores')
+                if sts is None:
+                    sts = sub.get('score', 0)
+                cur = _normalize_scores(sts)
+
+                # Element-wise max into accumulator (pad with zeros as needed)
+                acc = best_subtasks[idx]
+                if len(cur) > len(acc):
+                    acc.extend([0.0] * (len(cur) - len(acc)))
+                for i in range(len(cur)):
+                    acc[i] = max(acc[i] if i < len(acc) else 0.0, cur[i])
+                best_subtasks[idx] = acc
+
+            # Final scores are the sum of best subtasks per problem, ordered by official indices
+            final_scores = [float(sum(best_subtasks[idx])) for idx in indices]
+            total_score = float(sum(final_scores))
+
+            # Persist aggregated scores on the active contest
+            db.execute('''
+                UPDATE active_virtual_contests 
+                SET score = ?, per_problem_scores = ?
+                WHERE user_id = ?
+            ''', (total_score, json.dumps(final_scores), user_id))
+            db.commit()
+
     response_data = {'success': True}
-    if ojuz_username and submissions is not None:  # Return if oj.uz sync was attempted and succeeded
+    if active_contest.get('autosynced', False) and submissions:
         response_data['submissions'] = submissions
         response_data['final_scores'] = final_scores
-    
+
     return jsonify(response_data)
 
 def confirm_virtual_contest():
@@ -310,9 +429,9 @@ def confirm_virtual_contest():
     
     # Get the ended active contest with oj.uz sync
     active_contest = db.execute('''
-        SELECT contest_name, contest_stage, start_time, end_time, score, per_problem_scores, ojuz_synced
+        SELECT contest_name, contest_stage, start_time, end_time, score, per_problem_scores, autosynced
         FROM active_virtual_contests 
-        WHERE user_id = ? AND end_time IS NOT NULL AND ojuz_synced = 1
+        WHERE user_id = ? AND end_time IS NOT NULL AND autosynced = 1
     ''', (user_id,)).fetchone()
     
     if not active_contest:
@@ -397,7 +516,7 @@ def submit_virtual_contest():
     
     # Get the ended active contest
     active_contest = db.execute('''
-        SELECT contest_name, contest_stage, start_time, end_time, ojuz_synced
+        SELECT contest_name, contest_stage, start_time, end_time, autosynced
         FROM active_virtual_contests 
         WHERE user_id = ? AND end_time IS NOT NULL
     ''', (user_id,)).fetchone()
@@ -405,9 +524,9 @@ def submit_virtual_contest():
     if not active_contest:
         return jsonify({'error': 'No ended contest found'}), 404
     
-    # Security check: Prevent manual score submission for oj.uz synced contests
-    if active_contest['ojuz_synced']:
-        return jsonify({'error': 'Cannot manually modify scores for oj.uz synced contests!'}), 403
+    # Security check: Prevent manual score submission for synced contests
+    if active_contest['autosynced']:
+        return jsonify({'error': 'Cannot manually modify scores for autosynced contests!'}), 403
     
     contest_name = active_contest['contest_name']
     contest_stage = active_contest['contest_stage']

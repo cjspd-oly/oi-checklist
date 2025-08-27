@@ -1,0 +1,34 @@
+/* --- qoj.ac username-only section styles --- */
+.qoj-section {
+  background-color: #e3f2fd;   /* light blue background */
+  border: 1px solid #1e88e5;   /* blue accent border */
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.dark-mode .qoj-section {
+  background-color: #0d2746;  /* deep but not dull navy blue */
+  border-color: #2196f3;      /* bright accent blue */
+}
+
+/* Better spacing between label and input */
+.qoj-section .form-row label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.qoj-section .vc-input {
+  width: 100%;
+  max-width: 520px;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.dark-mode .qoj-section .vc-input {
+  background: #222;
+  color: #eee;
+  border-color: #555;
+}

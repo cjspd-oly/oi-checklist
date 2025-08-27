@@ -106,13 +106,18 @@
                 </div>
 
                 <div class="ojuz-section" id="ojuz-section" style="display: none;">
-                    <div class="form-row">
-                        <label for="ojuz-username">oj.uz Username</label>
-                        <input type="text" id="ojuz-username" class="vc-input" placeholder="Enter your oj.uz username">
+                    <label class="checkbox-row" style="display:flex; align-items:center; gap:8px;">
+                        <input type="checkbox" id="ojuz-autotrack" class="vc-checkbox">
+                        <span>Auto track submissions?</span>
+                    </label>
+                    <div class="form-note" id="ojuz-autotrack-note">
+                        This requires setting your username(s) in Settings → Connections. Enabling auto-tracking will
+                        disable manual score entry for this contest.
                     </div>
-                    <div class="form-note">
-                        Scores will be automatically tracked from your submissions during the contest period.
-                    </div>
+                </div>
+                <!-- Platform sync preview (only when auto-track is enabled) -->
+                <div class="platform-sync-card" id="platform-sync-card">
+                    <div id="platform-sync-rows"></div>
                 </div>
 
                 <div class="info-warning" id="completion-warning" style="display: none;">
@@ -249,7 +254,7 @@
         </div>
     </div>
 
-    <!-- oj.uz Sync Loading Overlay -->
+    <!-- Sync Loading Overlay -->
     <div class="vc-detail-loading" id="ojuz-sync-loading" style="display: none;">
         <div class="loading-spinner">
             <div class="spinner-ring"></div>
@@ -257,7 +262,7 @@
             <div class="spinner-ring"></div>
         </div>
         <div class="loading-text">
-            <span>Syncing submission data from oj.uz</span>
+            <span>Syncing submission data</span>
             <span class="loading-dots"></span>
         </div>
     </div>

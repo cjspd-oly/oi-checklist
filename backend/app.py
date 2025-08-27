@@ -18,7 +18,8 @@ from requests_oauthlib import OAuth2Session
 
 # our functions
 from database.db import get_db
-from scrape.ojuz import sync_ojuz_submissions, verify_ojuz, update_ojuz_scores
+from scrape.ojuz import verify_ojuz, update_ojuz_scores
+from scrape.qoj import verify_qoj, update_qoj_scores
 from auth.session import session_required
 from auth.github import *
 from auth.discord import *
@@ -73,9 +74,11 @@ app.add_url_rule("/api/login", view_func=api_login, methods=["POST"])
 app.add_url_rule("/api/whoami", view_func=session_required(whoami), methods=["GET"])
 app.add_url_rule("/api/logout", view_func=session_required(api_logout), methods=["POST"])
 
-# oj.uz sync stuff (out of contest)
+# platform sync stuff (out of contest)
 app.add_url_rule("/api/verify-ojuz", view_func=session_required(verify_ojuz), methods=["POST"])
 app.add_url_rule("/api/update-ojuz", view_func=session_required(update_ojuz_scores), methods=["POST"])
+app.add_url_rule("/api/verify-qoj", view_func=session_required(verify_qoj), methods=["POST"])
+app.add_url_rule("/api/update-qoj", view_func=session_required(update_qoj_scores), methods=["POST"])
 
 # virtual contest stuff
 app.add_url_rule("/api/virtual-contests", view_func=session_required(get_virtual_contests), methods=["GET"])
@@ -177,6 +180,8 @@ def get_problems():
     ).fetchone()
     platform_pref = pref_row['platform_pref'] if pref_row and pref_row['platform_pref'] else None
 
+    want_all_links = request.headers.get("X-All-Problem-Links", "").lower() == "true"
+
     placeholders = ', '.join(['?'] * len(from_names))
     problems_raw = db.execute(
         f'SELECT *, COALESCE(number, 0) as number FROM problems WHERE source IN ({placeholders}) ORDER BY source, year, number',
@@ -221,8 +226,10 @@ def get_problems():
         problem.pop("id", None)
 
         links = links_by_pid.get(pid, [])
-        problem['link'] = choose_link(links, platform_pref)
-        # to expose all links, add problem['links'] = links
+        if want_all_links:
+            problem['links'] = {l['platform']: l['url'] for l in links}
+        else:
+            problem['link'] = choose_link(links, platform_pref)
 
         if 'extra' in row.keys() and row['extra'] is not None:
             problem['extra'] = row['extra']
@@ -429,6 +436,20 @@ def upd_user_settings():
     if has_pref:
         if not (isinstance(platform_pref, list) and all(isinstance(x, str) for x in platform_pref)):
             return jsonify({"error": "Invalid 'platform_pref' (must be list of strings)"}), 400
+        
+    has_puser = 'platform_usernames' in data
+    platform_usernames = data.get('platform_usernames')
+    if has_puser:
+        if isinstance(platform_usernames, str):
+            try:
+                parsed = json.loads(platform_usernames)
+            except Exception:
+                return jsonify({"error": "Invalid 'platform_usernames' (must be JSON string of object)"}), 400
+        else:
+            parsed = platform_usernames
+        if not isinstance(parsed, dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in parsed.items()):
+            return jsonify({"error": "Invalid 'platform_usernames' (must be object mapping platform->username strings)"}), 400
+        platform_usernames = json.dumps(parsed)
 
     db = get_db()
 
@@ -443,10 +464,11 @@ def upd_user_settings():
         """
         UPDATE user_settings
         SET
-          olympiad_order = COALESCE(?, olympiad_order),
-          hidden         = COALESCE(?, hidden),
-          asc_sort       = COALESCE(?, asc_sort),
-          platform_pref  = COALESCE(?, platform_pref)
+          olympiad_order     = COALESCE(?, olympiad_order),
+          hidden             = COALESCE(?, hidden),
+          asc_sort           = COALESCE(?, asc_sort),
+          platform_pref      = COALESCE(?, platform_pref),
+          platform_usernames = COALESCE(?, platform_usernames)
         WHERE user_id = ?
         """,
         (
@@ -455,6 +477,7 @@ def upd_user_settings():
             json.dumps(hidden)         if has_hidden else None,
             (1 if asc_sort else 0)     if has_asc    else None,
             json.dumps(platform_pref)  if has_pref   else None,
+            platform_usernames         if has_puser  else None,
             user_id,
         )
     )
@@ -476,12 +499,13 @@ def gget_user_settings():
 
     user_id = user['id']
     row = db.execute(
-        "SELECT olympiad_order, hidden, asc_sort, platform_pref FROM user_settings WHERE user_id = ?",
+        "SELECT olympiad_order, hidden, asc_sort, platform_pref, platform_usernames FROM user_settings WHERE user_id = ?",
         (user_id,)
     ).fetchone()
     db.close()
 
     olympiad_order = hidden = platform_pref = None
+    platform_usernames = None
     asc_sort = None
 
     if row:
@@ -492,9 +516,10 @@ def gget_user_settings():
                 return json.loads(text)
             except Exception:
                 return None
-        olympiad_order = parse_json(row['olympiad_order'])
-        hidden         = parse_json(row['hidden'])
-        platform_pref  = parse_json(row['platform_pref'])
+        olympiad_order     = parse_json(row['olympiad_order'])
+        hidden             = parse_json(row['hidden'])
+        platform_pref      = parse_json(row['platform_pref'])
+        platform_usernames = parse_json(row['platform_usernames'])
         v = row['asc_sort']
         if v is not None:
             if isinstance(v, (int, float)):
@@ -506,7 +531,8 @@ def gget_user_settings():
         olympiad_order=olympiad_order,
         hidden=hidden,
         asc_sort=asc_sort,
-        platform_pref=platform_pref
+        platform_pref=platform_pref,
+        platform_usernames=platform_usernames
     )
 
 @app.route('/api/demo-login', methods=["POST"])

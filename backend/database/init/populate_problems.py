@@ -4,7 +4,7 @@ import json
 import sqlite3
 import subprocess
 import re
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlsplit, urlunsplit
 from pathlib import Path
 from collections import defaultdict
 from dotenv import load_dotenv, find_dotenv
@@ -60,49 +60,80 @@ DEFAULT_HOSTNAME_MAP = {
     "usaco.org": "usaco",
 }
 
-def _hostname(url: str) -> str | None:
+def _force_https(url: str | None) -> str | None:
+    """
+    Normalize any URL to use https scheme.
+    - If URL is protocol-relative ("//host/..."), prefix https://
+    - If URL has no scheme, assume https://
+    - If URL uses http, upgrade to https
+    - Preserve path/query/fragment
+    """
     if not url:
         return None
-    if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://", url):
-        url = "http://" + url
+    s = url.strip()
+    if not s:
+        return None
+
+    # Handle protocol-relative URLs
+    if s.startswith("//"):
+        s = "https:" + s
+
+    # If there's no scheme, prepend https://
+    if not re.match(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://", s):
+        s = "https://" + s
+
+    parts = urlsplit(s)
+    scheme = "https"  # force https
+    # Rebuild with https scheme, keep everything else
+    return urlunsplit((scheme, parts.netloc, parts.path, parts.query, parts.fragment))
+
+def _hostname(url: str | None) -> str | None:
+    url = _force_https(url)
+    if not url:
+        return None
     try:
         h = (urlparse(url).hostname or "").lower()
         return h[4:] if h.startswith("www.") else h
     except Exception:
         return None
 
-def _infer_platform(url: str) -> str:
+def _infer_platform(url: str | None) -> str:
     h = _hostname(url)
     if not h:
         return "unknown"
     return DEFAULT_HOSTNAME_MAP.get(h, h)
 
 def normalize_links(entry: dict) -> list[dict]:
+    """
+    Build a normalized list of link dicts: [{platform, url}], deduped,
+    and with every URL forced to https.
+    """
     out = []
     if "links" in entry and entry["links"] is not None:
         links = entry["links"]
         if isinstance(links, list):
             for item in links:
                 if isinstance(item, str):
-                    url = item
+                    url = _force_https(item)
                     out.append({"platform": _infer_platform(url), "url": url})
                 elif isinstance(item, dict):
-                    url = item.get("url")
-                    plat = item.get("platform") or _infer_platform(url or "")
+                    url = _force_https(item.get("url"))
+                    plat = item.get("platform") or _infer_platform(url)
                     out.append({"platform": plat, "url": url})
         elif isinstance(links, dict):
             for plat, url in links.items():
-                out.append({"platform": str(plat), "url": str(url)})
+                nurl = _force_https(str(url))
+                out.append({"platform": str(plat), "url": nurl})
     if "link" in entry and entry["link"]:
-        url = entry["link"]
+        url = _force_https(entry["link"])
         out.append({"platform": _infer_platform(url), "url": url})
 
-    # de-dup
+    # de-dup (platform, url)
     seen = set()
     deduped = []
     for d in out:
-        key = (d["platform"], d["url"])
-        if key not in seen:
+        key = (d.get("platform"), d.get("url"))
+        if key not in seen and d.get("url"):
             seen.add(key)
             deduped.append(d)
     return deduped
@@ -158,7 +189,7 @@ try:
             )
         problem_id = cur.lastrowid
 
-        # Insert problem_links
+        # Insert problem_links (URLs already normalized to https)
         for link in links:
             plat = link.get("platform")
             url = link.get("url")

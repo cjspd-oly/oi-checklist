@@ -1,7 +1,7 @@
 - name: Infinite Race
   number: 1
   links:
-  - http://oj.uz/problem/view/EGOI24_infiniterace2
+  - https://oj.uz/problem/view/EGOI24_infiniterace2
   - https://qoj.ac/problem/9182
 - name: Bouquet
   number: 2

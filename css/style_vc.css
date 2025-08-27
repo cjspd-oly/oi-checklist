@@ -1,3 +1,127 @@
+/* minimalist checkbox styling to match UI */
+.checkbox-row .vc-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #bdbdbd;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    background: #fff;
+}
+
+.checkbox-row .vc-checkbox:checked {
+    background: #0177CC;
+    /* light primary */
+    border-color: #0177CC;
+}
+
+body.dark-mode .checkbox-row .vc-checkbox {
+    background: #1f1f1f;
+    border-color: #555;
+}
+
+body.dark-mode .checkbox-row .vc-checkbox:checked {
+    background: #3399ff;
+    /* dark primary */
+    border-color: #3399ff;
+}
+
+.checkbox-row .vc-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Platform sync preview (card style) */
+.platform-sync-card {
+    display: none; /* shown by JS when ready */
+    margin: 12px 0 16px 0;
+    padding: 10px 12px;
+    border: 1px solid #e6e6e6;
+    background: #fafafa;
+}
+
+body.dark-mode .platform-sync-card {
+    border-color: #3a3a3a;
+    background: #2B2B2B;
+}
+
+/* Minimal row separation via hairline divider */
+.platform-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.platform-row + .platform-row {
+    border-top: 1px solid #ececec;
+    margin-top: 6px;
+    padding-top: 14px; /* slightly more on top to breathe after divider */
+}
+
+body.dark-mode .platform-row + .platform-row {
+    border-top-color: #3f3f3f;
+}
+
+/* Left: platform + username (subtle type hierarchy) */
+.platform-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.platform-badge {
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.platform-username {
+    font-size: 0.92rem;
+    color: #6b7280; /* neutral-500 */
+}
+
+body.dark-mode .platform-username {
+    color: #aeb4bd; /* neutral-350/400 */
+}
+
+/* Right: compact segments with subtle borders */
+.segments {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 6px;
+}
+
+.segment {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #d7d7d7;
+    background: #ffffff;
+}
+
+body.dark-mode .segment {
+    border-color: #555;
+    background: #1e1e1e;
+}
+
+.segment.active {
+    background: #0177CC; /* light primary */
+    border-color: #0177CC;
+}
+
+body.dark-mode .segment.active {
+    background: #3399ff; /* dark primary */
+    border-color: #3399ff;
+}
+
 /* Virtual Contests Styles */
 .vc-container {
     max-width: 80%;

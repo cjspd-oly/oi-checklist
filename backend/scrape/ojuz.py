@@ -362,12 +362,9 @@ def sync_ojuz_submissions(active_contest, ojuz_username):
 def verify_ojuz():
     data = request.get_json()
     oidc_auth_cookie = data.get('cookie')
-
     if not oidc_auth_cookie:
         return jsonify({"error": "Missing cookie"}), 400
-    # URL of the homepage
     homepage_url = 'https://oj.uz'
-    # Send a GET request to the homepage with the OIDC cookie
     headers = {
         'Cookie': f'oidc-auth={oidc_auth_cookie}',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
@@ -376,14 +373,40 @@ def verify_ojuz():
         response = requests.get(homepage_url, headers=headers, timeout=5)
         if response.status_code != 200:
             return jsonify({"error": "Failed to fetch homepage"}), 500
-        # Check if the username appears on the homepage by looking for the specific span element
+        # Look for logged-in username
         match = re.search(r'<span><a href="/profile/([^"]+)">([^<]+)</a></span>', response.text)
-        if match:
-            username = match.group(2)  # Extract the username
-            return jsonify({"valid": True, "username": username})
-        else:
-            # If no match found, the user is not logged in
+        if not match:
             return jsonify({"valid": False}), 400
+        username = match.group(2).strip()
+        # Persist into DB, creating the row if needed
+        with get_db() as db:
+            row = db.execute(
+                "SELECT platform_usernames FROM user_settings WHERE user_id = ?",
+                (request.user_id,)
+            ).fetchone()
+            if row is None:
+                initial = {"oj.uz": username}
+                db.execute(
+                    "INSERT INTO user_settings (user_id, platform_usernames) VALUES (?, ?)",
+                    (request.user_id, json.dumps(initial, ensure_ascii=False))
+                )
+                db.commit()
+                return jsonify({"valid": True, "username": username})
+            # Load existing JSON or start fresh
+            current = {}
+            if row["platform_usernames"]:
+                try:
+                    current = json.loads(row["platform_usernames"])
+                except Exception:
+                    current = {}
+            # Update with oj.uz username
+            current["oj.uz"] = username
+            db.execute(
+                "UPDATE user_settings SET platform_usernames = ? WHERE user_id = ?",
+                (json.dumps(current, ensure_ascii=False), request.user_id)
+            )
+            db.commit()
+        return jsonify({"valid": True, "username": username})
     except Exception as e:
         return jsonify({"error": f"Error fetching homepage: {str(e)}"}), 500
     
@@ -450,6 +473,46 @@ def update_ojuz_scores():
         }
         for row in oj_rows
     ]
+
+    # Pre-filter via profile page to skip irrelevant problems
+    # Only keep problems that appear on the user's profile
+    # (either solved or submitted but unsolved).
+    try:
+        prof_row = db.execute(
+            "SELECT platform_usernames FROM user_settings WHERE user_id = ?",
+            (user_id,)
+        ).fetchone()
+        oj_username = None
+        if prof_row and prof_row["platform_usernames"]:
+            try:
+                _pu = json.loads(prof_row["platform_usernames"]) or {}
+                oj_username = _pu.get("oj.uz")
+            except Exception:
+                oj_username = None
+
+        if oj_username:
+            profile_url = f"https://oj.uz/profile/{oj_username}"
+            print(f"[OJUZ FULLSYNC] Fetching profile: {profile_url}")
+            prof_res = requests.get(profile_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}, timeout=10)
+            if prof_res.status_code == 200:
+                prof_soup = BeautifulSoup(prof_res.text, 'html.parser')
+                # Collect all problem links that appear on the profile
+                profile_links = set()
+                for a in prof_soup.find_all('a', href=True):
+                    href = a['href']
+                    if href.startswith('/problem/view/'):
+                        profile_links.add('https://oj.uz' + href)
+                if profile_links:
+                    before = len(oj_problems)
+                    oj_problems = [p for p in oj_problems if p['link'] in profile_links]
+                    after = len(oj_problems)
+                    print(f"[OJUZ FULLSYNC] Profile pre-filter kept {after}/{before} problems.")
+            else:
+                print(f"[OJUZ FULLSYNC] Profile fetch failed with status {prof_res.status_code}, skipping pre-filter.")
+        else:
+            print("[OJUZ FULLSYNC] No oj.uz username stored; skipping profile pre-filter.")
+    except Exception as e:
+        print(f"[OJUZ FULLSYNC] Profile pre-filter error: {e}")
 
     # Step 2: Fetch scores using threads
     headers = {

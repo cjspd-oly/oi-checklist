@@ -1,5 +1,9 @@
 // Virtual Contest JavaScript
 document.addEventListener('DOMContentLoaded', async () => {
+  // --- Platform sync preview state holders ---
+  let lastRenderedContest = null;
+  let lastRenderedOlympiad = null;
+  let lastProblemCount = 0;
   // Set virtual contest mode flag
   window.isVirtualContestMode = true;
 
@@ -14,6 +18,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   const scoreEntry = document.getElementById('score-entry');
   const pastVcList = document.querySelector('.past-vc-list');
   const sessionToken = localStorage.getItem('sessionToken');
+
+  // Normalize truthy/falsey flags from backend (0/1, "0"/"1", "true"/"false", etc.)
+  function asBool(v) {
+    if (typeof v === 'boolean') return v;
+    if (typeof v === 'number') return v !== 0;
+    if (typeof v === 'string') {
+      const s = v.trim().toLowerCase();
+      return s === '1' || s === 'true' || s === 'yes' || s === 'on';
+    }
+    return false;
+  }
 
   // Show loading skeleton initially
   document.getElementById('past-vc-loading').style.display = 'block';
@@ -50,6 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { username } = await whooamires.json();
   // Also show the welcome message
   document.getElementById('welcome-message').innerHTML = `Welcome, ${username}`;
+  const currentUserName = username;
 
   // Fetch contest data from API
   const response = await fetch(`${apiUrl}/api/virtual-contests`, {
@@ -67,6 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await response.json();
   const contestData = data.contests;
+  const completedContestKeys = new Set((data.completed_contests || []).map(String));
   let currentActiveContest = null; // Store active contest data
 
   // Define functions first so they're available when needed
@@ -104,6 +121,36 @@ document.addEventListener('DOMContentLoaded', async () => {
       hideMessage();
     }
   });
+
+  // ---- Prefer platform link helper (uses localStorage platformPref) ----
+  function getPlatformPrefList() {
+    try {
+      const s = localStorage.getItem('platformPref');
+      if (!s) return null;
+      const arr = JSON.parse(s);
+      return Array.isArray(arr) ? arr : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function chooseUrlFromLinksDict(linksDict) {
+    if (!linksDict || typeof linksDict !== 'object') return null;
+    const pref = getPlatformPrefList();
+    if (pref && pref.length) {
+      for (const plat of pref) {
+        if (linksDict[plat]) return linksDict[plat];
+      }
+    }
+    const first = Object.values(linksDict)[0];
+    return first || null;
+  }
+
+  function chooseProblemUrl(problem) {
+    if (!problem) return null;
+    if (problem.links) return chooseUrlFromLinksDict(problem.links);
+    return problem.link || null; // backward-compat
+  }
 
   function showScoreEntry(isReadOnly = false) {
     if (!currentActiveContest) {
@@ -221,7 +268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (problem) {
             problemData.push({
               name: problem.name,
-              link: problem.link,
+              link: chooseProblemUrl(problem) || '#',
               source: prob.source,
               year: prob.year,
               score: 0,
@@ -310,7 +357,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       cellContent.className = 'problem-cell-content';
 
       const link = document.createElement('a');
-      link.href = problem.link;
+      link.href = problem.link || '#';
       link.target = '_blank';
       link.textContent = problem.name;
       cellContent.appendChild(link);
@@ -365,7 +412,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const problemsResponse = await fetch(`${apiUrl}/api/problems?names=${contestSources.join(',')}`, {
     method: 'GET',
     credentials: 'include',
-    headers: { 'Authorization': `Bearer ${sessionToken}` }
+    headers: {
+      'Authorization': `Bearer ${sessionToken}`,
+      'X-All-Problem-Links': 'true'
+    }
   });
 
   if (problemsResponse.ok) {
@@ -376,6 +426,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (data.active_contest) {
     // User has an ongoing contest
     currentActiveContest = data.active_contest;
+    // Coerce autosynced to a proper boolean (backend may return 0/1)
+    currentActiveContest.autosynced = asBool(currentActiveContest.autosynced);
 
     // Set localStorage flag for future loads
     localStorage.setItem('contest_ongoing', 'true');
@@ -531,6 +583,198 @@ document.addEventListener('DOMContentLoaded', async () => {
     viewAllLink.style.display = 'block';
   }
 
+  // --- Platform sync preview helpers ---
+  function buildPlatformIndexMap(contest, selectedOlympiad) {
+    // Returns: { platform: Set(problemIndexNumber) }
+    const map = {};
+    if (!contest || !contest.problems || !problemsData[selectedOlympiad]) return map;
+    contest.problems.forEach((prob) => {
+      const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
+      const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
+      if (problem) {
+        if (problem && problem.links && typeof problem.links === 'object') {
+          Object.keys(problem.links).forEach(plat => {
+            if (!map[plat]) map[plat] = new Set();
+            const idx = (typeof prob.index === 'number' && prob.index > 0) ? prob.index : (map[plat].size + 1);
+            map[plat].add(idx);
+          });
+        } else if (problem) {
+          // fallback to single link
+          const url = problem.link || chooseProblemUrl(problem);
+          if (url) {
+            const platform = getPlatformFromLink(url);
+            if (!map[platform]) map[platform] = new Set();
+            const idx = (typeof prob.index === 'number' && prob.index > 0) ? prob.index : (map[platform].size + 1);
+            map[platform].add(idx);
+          }
+        }
+      }
+    });
+    return map;
+  }
+
+  async function fetchActiveUsernamesForSync(username, token) {
+    try {
+      const settingsRes = await fetch(`${apiUrl}/api/user-settings?username=${encodeURIComponent(username)}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!settingsRes.ok) return {};
+      const settings = await settingsRes.json();
+      return (settings && typeof settings.platform_usernames === 'object') ? settings.platform_usernames : {};
+    } catch (e) {
+      console.error('Failed to fetch active platform usernames', e);
+      return {};
+    }
+  }
+
+  // Pre-check coverage (used on contest/day selection and when toggling auto-track)
+  async function precheckCoverageAfterSelection(contest, selectedOlympiad) {
+    const completionWarning = document.getElementById('completion-warning');
+    const autoTrackEl = document.getElementById('ojuz-autotrack');
+    if (!autoTrackEl || !autoTrackEl.checked) return;
+
+    // Recompute completion state robustly for the given contest
+    const contestKey = contest ? `${contest.name}|${contest.stage || ''}` : null;
+    const isCompleted = contestKey ? (completedContestKeys.has(contestKey) || (completionWarning?.dataset?.reason === 'completed')) : false;
+    if (isCompleted) return;
+
+    const _active = await fetchActiveUsernamesForSync(currentUserName, sessionToken);
+    const activeUsernames = (_active && typeof _active === 'object') ? _active : {};
+    // If no auto-synced usernames are set, do not show inline warning; popup will be shown on Start
+    const hasAnyUsername = Array.isArray(auto_synced_platforms) && auto_synced_platforms.some(p => activeUsernames && activeUsernames[p]);
+
+    let missingCoverage = false;
+    if (contest?.problems && problemsData[selectedOlympiad]) {
+      for (const prob of contest.problems) {
+        const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
+        const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
+        if (problem) {
+          let availablePlats = [];
+          if (problem.links && typeof problem.links === 'object') {
+            availablePlats = Object.keys(problem.links);
+          } else if (problem.link) {
+            availablePlats = [getPlatformFromLink(problem.link)];
+          }
+          const ok = availablePlats.some(plat => auto_synced_platforms.includes(plat) && activeUsernames[plat]);
+          if (!ok) { missingCoverage = true; break; }
+        }
+      }
+    }
+
+    // Guard if user unchecked during async
+    if (!autoTrackEl.checked) return;
+
+    if (!isCompleted && hasAnyUsername && missingCoverage) {
+      completionWarning.textContent = 'At least one problem has no coverage for your connected usernames.';
+      completionWarning.dataset.reason = 'coverage';
+      completionWarning.style.display = 'block';
+      startBtn.disabled = true;
+    } else if (completionWarning.dataset.reason === 'coverage') {
+      // Only clear our own coverage warning; keep completed warning if present
+      completionWarning.dataset.reason = '';
+      completionWarning.style.display = 'none';
+      startBtn.disabled = false;
+    }
+  }
+
+  function renderPlatformSyncCard(problemCount, platformIndexMap, activeUsernames) {
+    const card = document.getElementById('platform-sync-card');
+    const rows = document.getElementById('platform-sync-rows');
+    if (!card || !rows) return;
+
+    // Platforms to show: those for which a username exists AND at least one problem is mapped
+    const platforms = Object.keys(activeUsernames || {}).filter(p => platformIndexMap[p] && platformIndexMap[p].size > 0);
+
+    rows.innerHTML = '';
+
+    if (platforms.length === 0) {
+      // Nothing to show
+      card.style.display = 'none';
+      return;
+    }
+
+    platforms.forEach((platform) => {
+      const uname = activeUsernames[platform];
+      const set = platformIndexMap[platform] || new Set();
+
+      const row = document.createElement('div');
+      row.className = 'platform-row';
+
+      const left = document.createElement('div');
+      left.className = 'platform-left';
+
+      const badge = document.createElement('div');
+      badge.className = 'platform-badge';
+      badge.textContent = platform;
+
+      const usernameSpan = document.createElement('div');
+      usernameSpan.className = 'platform-username';
+      usernameSpan.textContent = `@${uname}`;
+
+      left.appendChild(badge);
+      left.appendChild(usernameSpan);
+
+      const segs = document.createElement('div');
+      segs.className = 'segments';
+      for (let i = 1; i <= problemCount; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'segment' + (set.has(i) ? ' active' : '');
+        segs.appendChild(seg);
+      }
+
+      row.appendChild(left);
+      row.appendChild(segs);
+      rows.appendChild(row);
+    });
+
+    card.style.display = 'block';
+  }
+
+  // --- Platform sync preview: update logic ---
+  async function updatePlatformSyncPreview() {
+    const card = document.getElementById('platform-sync-card');
+    const autoTrackEl = document.getElementById('ojuz-autotrack');
+    if (!card || !autoTrackEl) return;
+
+    if (!autoTrackEl.checked || !lastRenderedContest || !lastRenderedOlympiad) {
+      card.style.display = 'none';
+      return;
+    }
+
+    const platformIndexMap = buildPlatformIndexMap(lastRenderedContest, lastRenderedOlympiad);
+    const activeUsernames = await fetchActiveUsernamesForSync(currentUserName, sessionToken);
+    renderPlatformSyncCard(lastProblemCount, platformIndexMap, activeUsernames);
+  }
+
+  // Add change listener for ojuz-autotrack checkbox (after DOM elements exist)
+  const autoTrackToggle = document.getElementById('ojuz-autotrack');
+  autoTrackToggle?.addEventListener('change', () => {
+    updatePlatformSyncPreview();
+
+    const completionWarning = document.getElementById('completion-warning');
+    let isCompleted = false;
+    if (lastRenderedContest) {
+      const key = `${lastRenderedContest.name}|${lastRenderedContest.stage || ''}`;
+      isCompleted = completedContestKeys.has(key) || (completionWarning?.dataset?.reason === 'completed');
+    }
+
+    if (autoTrackToggle.checked) {
+      // Run coverage pre-check immediately if a contest is currently rendered and not completed
+      if (lastRenderedContest && lastRenderedOlympiad && !isCompleted) {
+        precheckCoverageAfterSelection(lastRenderedContest, lastRenderedOlympiad);
+      }
+    } else {
+      // If user turned OFF auto-track, hide any coverage-only warning and re-enable Start
+      if (completionWarning && completionWarning.dataset && completionWarning.dataset.reason === 'coverage') {
+        completionWarning.style.display = 'none';
+        completionWarning.dataset.reason = '';
+        startBtn.disabled = false;
+      }
+    }
+  });
+
   // Handle olympiad selection
   olympiadSelect.addEventListener('change', (e) => {
     const selectedOlympiad = e.target.value;
@@ -544,6 +788,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     contestDetails.style.display = 'none';
     ojuzSection.style.display = 'none';
     startBtn.disabled = true;
+    document.getElementById('platform-sync-card').style.display = 'none';
 
     // Hide completion warning when olympiad changes
     const completionWarning = document.getElementById('completion-warning');
@@ -587,6 +832,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     contestDetails.style.display = 'none';
     ojuzSection.style.display = 'none';
     startBtn.disabled = true;
+    document.getElementById('platform-sync-card').style.display = 'none';
 
     // Hide completion warning when contest changes
     const completionWarning = document.getElementById('completion-warning');
@@ -622,33 +868,50 @@ document.addEventListener('DOMContentLoaded', async () => {
           contest.problems.forEach(prob => {
             const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
             const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
-            if (problem && problem.link) {
-              platformSet.add(getPlatformFromLink(problem.link));
+            if (problem) {
+              if (problem.links && typeof problem.links === 'object') {
+                Object.keys(problem.links).forEach(plat => platformSet.add(plat));
+              } else {
+                const url = problem.link || chooseProblemUrl(problem);
+                if (url) platformSet.add(getPlatformFromLink(url));
+              }
             }
           });
-          platforms = Array.from(platformSet).filter(p => p !== 'Unknown');
+          platforms = Array.from(platformSet).filter(p => p && p !== 'Unknown');
           if (platforms.length === 0) platforms = ['Unknown'];
         }
 
         // Show contest details with accurate info
         document.getElementById('contest-duration').textContent = formatDuration(contest.duration_minutes);
         document.getElementById('contest-problems').textContent = problemCount;
-        document.getElementById('contest-platform').textContent = platforms.join(', ');
+        document.getElementById('contest-platform').textContent = platforms.join('/');
 
         contestDetails.style.display = 'block';
+
+        // Set state for platform sync preview and update
+        lastRenderedContest = contest;
+        lastRenderedOlympiad = selectedOlympiad;
+        lastProblemCount = problemCount;
+        updatePlatformSyncPreview();
 
         // Show/hide completion warning
         const completionWarning = document.getElementById('completion-warning');
         if (isCompleted) {
+          completionWarning.dataset.reason = 'completed';
           completionWarning.style.display = 'block';
           startBtn.disabled = true;
         } else {
+          completionWarning.dataset.reason = '';
           completionWarning.style.display = 'none';
           startBtn.disabled = false;
         }
 
-        const hasOjuz = platforms && platforms.length > 0 && platforms.every(p => p === 'oj.uz');
-        if (hasOjuz) {
+        // If auto-track is enabled and not completed, pre-check coverage and disable start if missing
+        precheckCoverageAfterSelection(contest, selectedOlympiad);
+
+        // Show/hide ojuzSection if at least one platform is in auto_synced_platforms
+        const hasAutoSynced = platforms && platforms.some(p => auto_synced_platforms.includes(p));
+        if (hasAutoSynced) {
           ojuzSection.style.display = 'block';
         } else {
           ojuzSection.style.display = 'none';
@@ -683,6 +946,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Handle day selection
   daySelect.addEventListener('change', (e) => {
+    document.getElementById('platform-sync-card').style.display = 'none';
     const selectedStage = e.target.value;
     const selectedOlympiad = olympiadSelect.value;
     const selectedContest = contestSelect.value;
@@ -708,33 +972,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         contest.problems.forEach(prob => {
           const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
           const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
-          if (problem && problem.link) {
-            platformSet.add(getPlatformFromLink(problem.link));
+          if (problem) {
+            if (problem.links && typeof problem.links === 'object') {
+              Object.keys(problem.links).forEach(plat => platformSet.add(plat));
+            } else {
+              const url = problem.link || chooseProblemUrl(problem);
+              if (url) platformSet.add(getPlatformFromLink(url));
+            }
           }
         });
-        platforms = Array.from(platformSet).filter(p => p !== 'Unknown');
+        platforms = Array.from(platformSet).filter(p => p && p !== 'Unknown');
         if (platforms.length === 0) platforms = ['Unknown'];
       }
 
       // Show contest details with accurate info
       document.getElementById('contest-duration').textContent = formatDuration(contest.duration_minutes);
       document.getElementById('contest-problems').textContent = problemCount;
-      document.getElementById('contest-platform').textContent = platforms.join(', ');
+      document.getElementById('contest-platform').textContent = platforms.join('/');
 
       contestDetails.style.display = 'block';
+
+      // Set state for platform sync preview and update
+      lastRenderedContest = contest;
+      lastRenderedOlympiad = selectedOlympiad;
+      lastProblemCount = problemCount;
+      updatePlatformSyncPreview();
 
       // Show/hide completion warning
       const completionWarning = document.getElementById('completion-warning');
       if (isCompleted) {
+        completionWarning.dataset.reason = 'completed';
         completionWarning.style.display = 'block';
         startBtn.disabled = true;
       } else {
+        completionWarning.dataset.reason = '';
         completionWarning.style.display = 'none';
         startBtn.disabled = false;
       }
 
-      const hasOjuz = platforms && platforms.length > 0 && platforms.every(p => p === 'oj.uz');
-      if (hasOjuz) {
+      // If auto-track is enabled and not completed, pre-check coverage and disable start if missing
+      precheckCoverageAfterSelection(contest, selectedOlympiad);
+
+      // Show/hide ojuzSection if at least one platform is in auto_synced_platforms
+      const hasAutoSynced = platforms && platforms.some(p => auto_synced_platforms.includes(p));
+      if (hasAutoSynced) {
         ojuzSection.style.display = 'block';
       } else {
         ojuzSection.style.display = 'none';
@@ -781,8 +1062,59 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Get the oj.uz username if provided
-    const ojuzUsername = document.getElementById('ojuz-username')?.value?.trim() || null;
+    // Determine if user wants auto-tracking via checkbox
+    const wantsAutoTrack = document.getElementById('ojuz-autotrack')?.checked || false;
+
+    // If auto-track is requested, ensure a username exists in user settings
+    let platformUsernames = {};
+    if (wantsAutoTrack) {
+      try {
+        const settingsRes = await fetch(`${apiUrl}/api/user-settings?username=${encodeURIComponent(currentUserName)}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        if (settingsRes.ok) {
+          const settings = await settingsRes.json();
+          platformUsernames = settings && settings.platform_usernames ? settings.platform_usernames : {};
+        }
+      } catch (e) {
+        console.error('Failed to fetch user settings for platform usernames', e);
+      }
+
+      // Check if at least one auto_synced_platforms username exists
+      const hasAnyUsername = auto_synced_platforms.some(p => platformUsernames[p]);
+      if (!hasAnyUsername) {
+        // Popup error if no usernames at all
+        showMessage('To auto track submissions, set your username in Settings → Connections.', 'warning');
+        return;
+      }
+
+      // Now verify that every problem has at least one platform with a username
+      let missingCoverage = false;
+      if (contest.problems && problemsData[selectedOlympiad]) {
+        for (const prob of contest.problems) {
+          const yearProblems = problemsData[selectedOlympiad][prob.year] || [];
+          const problem = yearProblems.find(p => p.source === prob.source && p.year === prob.year && p.number === prob.number);
+          if (problem) {
+            // Collect platforms available for this problem
+            let availablePlats = [];
+            if (problem.links && typeof problem.links === 'object') {
+              availablePlats = Object.keys(problem.links);
+            } else if (problem.link) {
+              availablePlats = [getPlatformFromLink(problem.link)];
+            }
+
+            // See if any of the available platforms is in auto_synced_platforms and has a username
+            const ok = availablePlats.some(plat => auto_synced_platforms.includes(plat) && platformUsernames[plat]);
+            if (!ok) {
+              missingCoverage = true;
+              break;
+            }
+          }
+        }
+      }
+    }
 
     // Start the virtual contest in the database
     try {
@@ -795,7 +1127,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
         body: JSON.stringify({
           contest_name: contestName,
-          contest_stage: finalStage
+          contest_stage: finalStage,
+          autosynced: !!wantsAutoTrack
         })
       });
 
@@ -812,13 +1145,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Set localStorage flag for active contest
       localStorage.setItem('contest_ongoing', 'true');
       localStorage.removeItem('is_synced'); // Clear any previous sync flag
-
-      // Store oj.uz username if provided
-      if (ojuzUsername) {
-        localStorage.setItem('ojuz_username', ojuzUsername);
-      } else {
-        localStorage.removeItem('ojuz_username');
-      }
+      // Remove any previous ojuz_username storage
+      localStorage.removeItem('ojuz_username');
     } catch (error) {
       showMessage('Failed to start contest: ' + error.message);
       return;
@@ -833,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       location: contest.location || '',
       website: contest.website || '',
       link: contest.link || '',
-      ojuz_username: ojuzUsername // Store the oj.uz username
+      autosynced: !!wantsAutoTrack
     };
 
     // Hide form and show active contest
@@ -871,12 +1199,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Handle end contest button
   document.getElementById('end-contest-btn').addEventListener('click', async () => {
-    // Get oj.uz username from localStorage (stored when contest started) or from currentActiveContest
-    const ojuzUsername = localStorage.getItem('ojuz_username') || currentActiveContest?.ojuz_username || null;
+    // Use autosynced flag for determining sync mode
+    const isAutosynced = asBool(currentActiveContest?.autosynced);
 
     try {
-      // Hide entire UI and show loading spinner if oj.uz username is provided
-      if (ojuzUsername) {
+      // Hide entire UI and show loading spinner if autosynced
+      if (isAutosynced) {
         activeContest.style.display = 'none';
         document.getElementById('ojuz-sync-loading').style.display = 'flex';
       }
@@ -888,23 +1216,18 @@ document.addEventListener('DOMContentLoaded', async () => {
           'Authorization': `Bearer ${sessionToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          ojuz_username: ojuzUsername
-        })
+        body: JSON.stringify({})
       });
 
       // Hide loading spinner and restore UI
-      if (ojuzUsername) {
+      if (isAutosynced) {
         document.getElementById('ojuz-sync-loading').style.display = 'none';
       }
 
       if (response.ok) {
         const result = await response.json();
 
-        console.log(ojuzUsername);
-        console.log(result);
-        console.log(result.submissions);
-        if (ojuzUsername && result.submissions) {
+        if (isAutosynced && result.submissions) {
           // Show score entry with oj.uz data in read-only mode
           localStorage.setItem('contest_ongoing', 'false');
           localStorage.setItem('is_synced', 'true');
@@ -945,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     } catch (error) {
       // Hide loading spinner and restore UI on error
-      if (ojuzUsername) {
+      if (isAutosynced) {
         document.getElementById('ojuz-sync-loading').style.display = 'none';
         activeContest.style.display = 'block';
       }
@@ -1127,11 +1450,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Check if we're in read-only mode (with oj.uz data)
-    const isReadOnly = currentActiveContest.ojuz_data;
+    // Check if we're in autosynced mode (with oj.uz data)
+    const isAutosynced = !!currentActiveContest.autosynced && currentActiveContest.ojuz_data;
 
-    if (isReadOnly) {
-      // oj.uz mode - just confirm the contest completion
+    if (isAutosynced) {
+      // autosynced mode - just confirm the contest completion
       try {
         const confirmResponse = await fetch(`${apiUrl}/api/virtual-contests/confirm`, {
           method: 'POST',
@@ -1160,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         showMessage('Failed to confirm contest: ' + error.message);
       }
 
-      return; // Exit early for oj.uz mode
+      return; // Exit early for autosynced mode
     }
 
     // Manual entry mode - collect and validate scores

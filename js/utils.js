@@ -11,6 +11,10 @@ const olympiadIds = [
   'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO', 'GKS', 'EJOI', 'IZHO', 'ROI'
 ];
 
+const auto_synced_platforms = [
+  'oj.uz', 'qoj.ac'
+];
+
 let yearSortOrder = 'asc';
 
 function getFullOlympiadName(id) {
