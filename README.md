@@ -121,23 +121,17 @@ In the `backend/` directory, create a `.env` file with the following values:
 
 ---
 
-### 1. Install Python dependencies
+### 1. Initialize the database
 
 ```bash
-pip install -r backend/requirements.txt
-```
-
-### 2. Initialize the database
-
-```bash
-python3 backend/init_db.py
+python3 backend/database/init/init_db.py
 ```
 
 ### 3. Populate Olympiad problems and contests
 
 ```bash
-python3 backend/populate_problems.py
-python3 backend/populate_contests.py
+python3 backend/database/init/populate_problems.py
+python3 backend/database/init/populate_contests.py
 ```
 
 ### 4. Start the Flask backend
@@ -148,9 +142,9 @@ python3 backend/app.py
 
 ### 5. Launch the frontend
 
-Use Live Server (or a simple HTTP server) from the root directory (where `index.html` is located).
-
-> Make sure to update the `apiUrl` in `js/config.js` to match your Flask server’s URL if it differs.
+```bash
+python3 custom_server.py
+```
 
 ---
 
