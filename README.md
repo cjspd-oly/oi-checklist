@@ -116,6 +116,8 @@ In the `backend/` directory, create a `.env` file with the following values:
 | `DISCORD_CLIENT_SECRET` | Discord OAuth client secret                                      |
 | `GOOGLE_CLIENT_ID`      | Google OAuth client ID                                           |
 | `GOOGLE_CLIENT_SECRET`  | Google OAuth client secret                                       |
+| `QOJ_USER`              | Username for an account that will be used to scrape qoj.ac (VCs) |
+| `QOJ_PASS`              | Corresponding password for that account (to refresh sessions)    |
 
 ---
 
