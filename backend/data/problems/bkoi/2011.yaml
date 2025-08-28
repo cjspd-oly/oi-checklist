@@ -14,11 +14,11 @@
   number: 4
   links: 
     - https://www.acmicpc.net/problem/16477
-  - name: timeismoney
+- name: timeismoney
   number: 5
   links: 
     - https://www.acmicpc.net/problem/5257
-  - name: trapezoid
+- name: trapezoid
   number: 6
   links: 
     - https://www.acmicpc.net/problem/5258
