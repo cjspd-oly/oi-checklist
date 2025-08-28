@@ -1,0 +1,36 @@
+name: Checks
+
+on:
+  pull_request:
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
+      - 'backend/**'
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Run yamllint
+        uses: ibiqlik/action-yamllint@v3
+  db-init:
+    runs-on: ubuntu-latest
+    needs: yaml-lint 
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install python-dotenv
+      - name: Run init_db.py
+        run: python3 backend/database/init/init_db.py
+      - name: Run populate_problems.py
+        run: python3 backend/database/init/populate_problems.py
+      - name: Run populate_contests.py
+        run: python3 backend/database/init/populate_contests.py
