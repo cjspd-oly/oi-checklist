@@ -882,7 +882,8 @@ async function loadProblems(from) {
         prefix = 'Platinum';
       }
     }
-    const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc || prefix === 'EJOI' || prefix === 'IZHO' || prefix === 'ROI';
+    const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc || prefix === 'EJOI'
+                          || prefix === 'IZHO' || prefix === 'ROI' || prefix === 'BKOI';
 
     if (isGroupedByExtra) {
       // --- Year header row ---
