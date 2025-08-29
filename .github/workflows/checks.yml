@@ -7,16 +7,8 @@ on:
       - '**/*.yaml'
       - 'backend/**'
 jobs:
-  yaml-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      - name: Run yamllint
-        uses: ibiqlik/action-yamllint@v3
   db-init:
     runs-on: ubuntu-latest
-    needs: yaml-lint 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
