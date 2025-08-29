@@ -8,7 +8,8 @@ const apiUrl = isLocalDev ? 'http://127.0.0.1:5001' : 'https://api.checklist.spo
 
 const olympiadIds = [
   'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOISC', 'JOIOC', 'IOITC', 'NOISEL',
-  'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO', 'GKS', 'EJOI', 'IZHO', 'ROI'
+  'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO',
+  'GKS', 'EJOI', 'IZHO', 'ROI', 'BKOI'
 ];
 
 const auto_synced_platforms = [
@@ -40,7 +41,8 @@ function getFullOlympiadName(id) {
     USACO: 'USA Computing Olympiad',
     EJOI: 'European Junior Olympiad in Informatics',
     IZHO: 'International Zhautykov Olympiad',
-    ROI: 'Russian Olympiad in Informatics'
+    ROI: 'Russian Olympiad in Informatics',
+    BKOI: 'Balkan Olympiad in Informatics'
   };
   return names[id] || id;
 }

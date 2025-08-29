@@ -663,7 +663,7 @@ def verify_qoj():
 SOURCES_FOR_SYNC = [
     'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL',
-    'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO', 'ROI'
+    'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO', 'ROI', 'BKOI'
 ]
 
 def update_qoj_scores():

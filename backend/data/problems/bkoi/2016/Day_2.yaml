@@ -1,0 +1,12 @@
+- name: LEFKARITIKA
+  number: 1
+  links: 
+    - https://www.acmicpc.net/problem/13971
+- name: Cruise
+  number: 2
+  links: 
+    - https://www.acmicpc.net/problem/13972
+- name: Acrobat
+  number: 3
+  links: 
+    - https://www.acmicpc.net/problem/13973

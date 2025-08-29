@@ -1,0 +1,14 @@
+- name: 2circles
+  number: 1
+  links:
+    - https://oj.uz/problem/view/balkan11_2circles
+    - https://www.acmicpc.net/problem/5255
+- name: decrypt
+  number: 2
+  links: 
+    - https://www.acmicpc.net/problem/16476
+- name: medians
+  number: 3
+  links: 
+    - https://oj.uz/problem/view/balkan11_medians
+    - https://www.acmicpc.net/problem/5256

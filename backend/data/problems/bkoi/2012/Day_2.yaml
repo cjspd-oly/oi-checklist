@@ -1,0 +1,12 @@
+- name: The Best Teams
+  number: 1
+  links: 
+    - https://www.acmicpc.net/problem/5252
+- name: Fan Groups
+  number: 2
+  links: 
+    - https://www.acmicpc.net/problem/5253
+- name: Balls
+  number: 3
+  links: 
+    - https://www.acmicpc.net/problem/5254
