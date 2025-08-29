@@ -87,6 +87,7 @@ The checklist supports a wide range of Olympiads in Informatics:
 * International Zhautykov Olympiad (IZHO)
 * Polish Olympiad in Informatics (POI)
 * Baltic Olympiad in Informatics (BOI)
+* Balkan Olympiad in Informatics (BKOI)
 
 ### Miscellaneous
 
