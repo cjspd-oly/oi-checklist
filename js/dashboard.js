@@ -883,7 +883,7 @@ async function loadProblems(from) {
       }
     }
     const isGroupedByExtra = prefix === 'GKS' || isUsaco || was_joioc || prefix === 'EJOI'
-                          || prefix === 'IZHO' || prefix === 'ROI' || prefix === 'BKOI';
+      || prefix === 'IZHO' || prefix === 'ROI' || prefix === 'BKOI';
 
     if (isGroupedByExtra) {
       // --- Year header row ---
@@ -1245,8 +1245,7 @@ window.onload = async () => {
     // Set title
     if (isProfilePage) {
       const uname = relativePath.split('/')[1];
-      document.getElementById('page-title').textContent =
-        `${uname}'s OI Checklist`;
+      document.getElementById('page-title').textContent = document.title = `${uname}'s OI Checklist`;
     } else {
       document.getElementById('page-title').textContent = `OI Checklist`;
       document.getElementById('welcome-message').textContent =
