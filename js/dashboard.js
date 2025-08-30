@@ -1248,8 +1248,7 @@ window.onload = async () => {
       document.getElementById('page-title').textContent = document.title = `${uname}'s OI Checklist`;
     } else {
       document.getElementById('page-title').textContent = `OI Checklist`;
-      document.getElementById('welcome-message').textContent =
-        `Welcome, ${username}`;
+      document.getElementById('welcome-message').textContent = `Welcome, ${username}`;
     }
 
     // Initialize counts to zero
@@ -1278,8 +1277,7 @@ window.onload = async () => {
   // Set title
   if (isProfilePage) {
     const uname = relativePath.split('/')[1];
-    document.getElementById('page-title').textContent =
-      `${uname}'s OI Checklist`;
+    document.getElementById('page-title').textContent = document.title = `${uname}'s OI Checklist`;
   } else {
     document.getElementById('page-title').textContent = `OI Checklist`;
   }
