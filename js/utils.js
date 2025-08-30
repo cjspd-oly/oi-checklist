@@ -1,8 +1,8 @@
 // Shared utility functions and configuration
 // Auto-detect environment based on hostname
-const isLocalDev = window.location.hostname === 'localhost' || 
-                   window.location.hostname === '127.0.0.1' || 
-                   window.location.hostname.startsWith('192.168.');
+const isLocalDev = window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1' ||
+  window.location.hostname.startsWith('192.168.');
 const apiUrl = isLocalDev ? 'http://127.0.0.1:5001' : 'https://api.checklist.spoi.org.in';
 // const apiUrl = 'https://avighna.pythonanywhere.com';
 
@@ -105,10 +105,10 @@ function getPlatformFromLink(link) {
 
 function formatDuration(minutes) {
   if (!minutes) return 'Unknown';
-  
+
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  
+
   if (hours === 0) {
     return `${remainingMinutes} minutes`;
   } else if (remainingMinutes === 0) {
@@ -120,10 +120,10 @@ function formatDuration(minutes) {
 
 // Virtual Contest and Problem Cell functionality
 const statuses = [
-  {label: 'Unattempted', className: 'white', value: 0},
-  {label: 'In progress', className: 'yellow', value: 1},
-  {label: 'Solved', className: 'green', value: 2},
-  {label: 'Failed', className: 'red', value: 3}
+  { label: 'Unattempted', className: 'white', value: 0 },
+  { label: 'In progress', className: 'yellow', value: 1 },
+  { label: 'Solved', className: 'green', value: 2 },
+  { label: 'Failed', className: 'red', value: 3 }
 ];
 
 const next = [1, 3, 0, 2];
@@ -136,11 +136,11 @@ let documentClickHandlerAdded = false;
 // Add global click handler once
 function addGlobalClickHandler() {
   if (documentClickHandlerAdded) return;
-  
+
   document.addEventListener('click', (e) => {
     const popup = document.getElementById('status-popup');
     if (!popup) return;
-    
+
     const isInsidePopup = popup.contains(e.target);
     const isSameCell = currentCell && currentCell.contains(e.target);
 
@@ -153,7 +153,7 @@ function addGlobalClickHandler() {
       }
     }
   });
-  
+
   documentClickHandlerAdded = true;
 }
 
@@ -176,7 +176,7 @@ function triggerFullConfettiFall() {
       ticks: 1000,
       scalar: 1.5,
       zIndex: 1000,
-      origin: {x: Math.random(), y: 0},
+      origin: { x: Math.random(), y: 0 },
     });
   }
 }
@@ -247,7 +247,7 @@ function handleCellClick(cell, name, source, year, e) {
     let raw = popupScore.textContent.trim();
     let score = parseFloat(raw);
     if (isNaN(score)) score = 0;
-    
+
     // Round to 2 decimal places and clamp between 0 and 100
     score = Math.round(score * 100) / 100;
     score = Math.max(0, Math.min(score, 100));
@@ -326,7 +326,7 @@ function updateStatus(status, cell, name, source, year) {
 
   const popup = document.getElementById('status-popup');
   const popupStatus = document.getElementById('popup-status');
-  
+
   if (popup && popupStatus) {
     popupStatus.textContent = statusObj.label;
     popupStatus.dataset.status = statusObj.label;
@@ -348,7 +348,7 @@ function updateStatus(status, cell, name, source, year) {
         'Authorization': `Bearer ${sessionToken}`
       },
       body: JSON.stringify(
-          {problem_name: name, source: source, year: year, status: status})
+        { problem_name: name, source: source, year: year, status: status })
     });
   }
 }
@@ -368,7 +368,7 @@ function handlePopupClose(cell) {
       return;
     }
     cell.dataset.score = finalScore;
-    
+
     const popupScore = document.getElementById('popup-score');
     if (popupScore) {
       popupScore.textContent = finalScore;
@@ -385,7 +385,7 @@ function handlePopupClose(cell) {
           'Authorization': `Bearer ${sessionToken}`
         },
         body: JSON.stringify(
-            {problem_name: name, source: source, year: year, score: finalScore})
+          { problem_name: name, source: source, year: year, score: finalScore })
       });
     }
   }
@@ -427,12 +427,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Dark mode
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const toggleSwitch = document.getElementById('dark-mode-switch');
   if (!toggleSwitch) {
     let currentTheme = localStorage.getItem('theme') || 'light-mode';
     if (currentTheme === 'dark-mode') {
       document.body.classList.add('dark-mode');
+      document.documentElement.classList.add('dark-mode');
     }
     return;
   }
@@ -440,15 +441,18 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentTheme = localStorage.getItem('theme') || 'light-mode';
   if (currentTheme === 'dark-mode') {
     document.body.classList.add('dark-mode');
+    document.documentElement.classList.add('dark-mode');
     toggleSwitch.checked = true;
   }
 
-  toggleSwitch.addEventListener('change', function(e) {
+  toggleSwitch.addEventListener('change', function (e) {
     if (e.target.checked) {
       document.body.classList.add('dark-mode');
+      document.documentElement.classList.add('dark-mode');
       localStorage.setItem('theme', 'dark-mode');
     } else {
       document.body.classList.remove('dark-mode');
+      document.documentElement.classList.remove('dark-mode');
       localStorage.setItem('theme', 'light-mode');
     }
   });
