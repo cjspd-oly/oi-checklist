@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip install python-dotenv
+          pip install python-dotenv psycopg2-binary
       - name: Run init_db.py
         run: python3 backend/database/init/init_db.py
       - name: Run populate_problems.py
