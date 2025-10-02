@@ -4,3 +4,6 @@ flask-cors
 pyjwt
 requests-oauthlib
 pyyaml
+pytz
+bs4
+cloudscraper
