@@ -183,22 +183,25 @@ try:
                 cutoffs = medal_cutoffs_block[0]
                 medal_names   = list(cutoffs.keys())
                 medal_cutoffs = [cutoffs[m] for m in medal_names]
+            else:
+                medal_names   = []
+                medal_cutoffs = []
 
-                cur.execute(
-                    """
-                    INSERT INTO contest_scores (
-                        contest_name, contest_stage,
-                        medal_names, medal_cutoffs, problem_scores
-                    ) VALUES (?, ?, ?, ?, ?)
-                    """,
-                    (
-                        name,
-                        stage,
-                        json.dumps(medal_names),
-                        json.dumps(medal_cutoffs),
-                        json.dumps(problem_scores),
-                    ),
-                )
+            cur.execute(
+                """
+                INSERT INTO contest_scores (
+                    contest_name, contest_stage,
+                    medal_names, medal_cutoffs, problem_scores
+                ) VALUES (?, ?, ?, ?, ?)
+                """,
+                (
+                    name,
+                    stage,
+                    json.dumps(medal_names),
+                    json.dumps(medal_cutoffs),
+                    json.dumps(problem_scores),
+                ),
+            )
 
         # (Pretty-print/debug: record YAML origin)
         if stage is None:
