@@ -184,7 +184,7 @@ function displayContestDetails(
     }
   }
 
-  // Rank/participants are based on problem_scores distribution if available
+  // Rank/participants calculation (independent of medal cutoffs)
   if (scoreData && Array.isArray(scoreData.problem_scores) && scoreData.problem_scores.length > 0) {
     const allTotalScores = [];
     const numParticipants = scoreData.problem_scores[0].length;
@@ -199,10 +199,11 @@ function displayContestDetails(
 
     allTotalScores.sort((a, b) => b - a);
 
+    // Fix: Count people who scored strictly higher, then add 1 for rank
     let currentRank = 1;
     for (let i = 0; i < allTotalScores.length; i++) {
       if (allTotalScores[i] > totalScore) {
-        currentRank = i + 1;
+        currentRank++;
       } else {
         break;
       }
@@ -1356,11 +1357,11 @@ function generateProblemsHTML(
         if (problemScoresList.length > 0) {
           const sortedScores = [...problemScoresList].sort((a, b) => b - a);
 
-          // Find rank (handle ties by using the highest possible rank)
+          // Fix: Count people who scored strictly higher, then add 1 for rank
           let currentRank = 1;
           for (let i = 0; i < sortedScores.length; i++) {
             if (sortedScores[i] > score) {
-              currentRank = i + 1;
+              currentRank++;
             } else {
               break;
             }
