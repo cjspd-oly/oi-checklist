@@ -1,3 +1,24 @@
 - name: Growing Trees
   number: 1
   link: https://oj.uz/problem/view/BOI11_grow
+- name: Ice Cream
+  number: 2
+  link: https://cses.fi/100/list/
+- name: Switch the Lamp On
+  number: 3
+  link: https://cses.fi/100/list/
+- name: Treasures and Vikings
+  number: 4
+  link: https://cses.fi/100/list/
+- name: Meetings
+  number: 5
+  link: https://cses.fi/101/list/
+- name: Plagiarism
+  number: 6
+  link: https://cses.fi/101/list/
+- name: Polygon
+  number: 7
+  link: https://cses.fi/101/list/
+- name: Tree Mirroring
+  number: 8
+  link: https://cses.fi/101/list/
