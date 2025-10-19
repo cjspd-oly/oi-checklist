@@ -16,6 +16,16 @@ echo "[INFO] Activating virtual environment..."
 source venv/bin/activate
 
 # ------------------------------
+# Update database
+# ------------------------------
+
+echo "[INFO] Populating problems..."
+python3 backend/database/init/populate_problems.py
+
+echo "[INFO] Populating contests..."
+python3 backend/database/init/populate_contests.py
+
+# ------------------------------
 # Run backend
 # ------------------------------
 echo "[INFO] Starting Flask backend..."
