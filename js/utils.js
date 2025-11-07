@@ -7,7 +7,7 @@ const apiUrl = isLocalDev ? 'http://127.0.0.1:5001' : 'https://api.checklist.spo
 // const apiUrl = 'https://avighna.pythonanywhere.com';
 
 const olympiadIds = [
-  'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOISC', 'JOIOC', 'IOITC', 'NOISEL',
+  'APIO', 'EGOI', 'INOI', 'ZCO', `ZIO`, 'IOI', 'JOISC', 'JOIOC', 'IOITC', 'NOISEL',
   'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'JOIFR', 'POI', 'CEOI', 'COI', 'BOI', 'USACO',
   'GKS', 'EJOI', 'IZHO', 'ROI', 'BKOI'
 ];
@@ -24,6 +24,7 @@ function getFullOlympiadName(id) {
     EGOI: 'European Girls\' Olympiad in Informatics',
     INOI: 'Indian National Olympiad in Informatics',
     ZCO: 'Indian Zonal Computing Olympiad',
+    ZIO: 'Indian Zonal Informatics Olympiad',
     IOI: 'International Olympiad in Informatics',
     JOIFR: 'Japanese OI — Final Round',
     JOISC: 'Japanese OI — Spring Camp',

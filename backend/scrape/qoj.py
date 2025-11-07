@@ -661,7 +661,7 @@ def verify_qoj():
         return jsonify({"error": f"Error fetching homepage: {str(e)}"}), 500
 
 SOURCES_FOR_SYNC = [
-    'APIO', 'EGOI', 'INOI', 'ZCO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
+    'APIO', 'EGOI', 'INOI', 'ZCO', 'ZIO', 'IOI', 'JOIFR', 'JOISC', 'IOITC',
     'NOIPRELIM', 'NOIQUAL', 'NOIFINAL', 'POI', 'NOISEL',
     'CEOI', 'COI', 'BOI', 'JOIOC', 'EJOI', 'IZHO', 'ROI', 'BKOI'
 ]

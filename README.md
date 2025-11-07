@@ -69,6 +69,7 @@ The checklist supports a wide range of Olympiads in Informatics:
 * International Olympiad in Informatics (IOI)
 * Indian National Olympiad in Informatics (INOI)
 * Indian Zonal Computing Olympiad (ZCO)
+* Indian Zonal Informatics Olympiad (ZIO)
 * USA Computing Olympiad (USACO):
 
   * Bronze
